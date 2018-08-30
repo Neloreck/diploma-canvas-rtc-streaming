@@ -1,0 +1,21 @@
+@import url('reset.scss');
+
+html,
+body,
+#application-root {
+  font-size: 14px;
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  width: 100vw;
+}
+
+head,
+body {
+  overflow: hidden;
+}
+
+#application-root {
+  display: flex;
+  flex-direction: column;
+}
