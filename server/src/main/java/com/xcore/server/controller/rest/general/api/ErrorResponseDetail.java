@@ -1,4 +1,4 @@
-package com.xcore.server.controller.general.api;
+package com.xcore.server.controller.rest.general.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.xcore.server.controller.auth;
+package com.xcore.server.controller.rest.auth;
 
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;

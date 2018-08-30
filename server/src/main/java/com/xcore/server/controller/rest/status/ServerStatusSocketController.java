@@ -1,4 +1,4 @@
-package com.xcore.server.controller.status;
+package com.xcore.server.controller.rest.status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;

@@ -1,6 +1,6 @@
 package com.xcore.application.music.controller.album.api;
 
-import com.xcore.server.controller.general.api.Response;
+import com.xcore.server.controller.rest.general.api.Response;
 import lombok.Data;
 
 import java.util.ArrayList;

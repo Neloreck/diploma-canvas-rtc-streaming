@@ -1,6 +1,6 @@
-package com.xcore.server.controller.exception;
+package com.xcore.server.controller.rest.exception;
 
-import com.xcore.server.controller.general.api.ErrorResponse;
+import com.xcore.server.controller.rest.general.api.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

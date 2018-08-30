@@ -1,7 +1,7 @@
-package com.xcore.server.controller.general;
+package com.xcore.server.controller.rest.general;
 
-import com.xcore.server.controller.general.api.ApiInfoResponse;
-import com.xcore.server.controller.general.api.ErrorResponse;
+import com.xcore.server.controller.rest.general.api.ApiInfoResponse;
+import com.xcore.server.controller.rest.general.api.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GeneralController {
 
-  @RequestMapping({"{path:(?!.*public).*}/**", "/"})
+  @RequestMapping({"{path:(?!public|ws).*}/**", "/"})
   @ResponseStatus(value =  HttpStatus.ACCEPTED)
-  public ModelAndView handleFallback(@PathVariable final String path) {
-    return new ModelAndView("index");
+  public String handleFallback(@PathVariable final String path) {
+    return "redirect: public/spa";
   }
 
   @ResponseBody
