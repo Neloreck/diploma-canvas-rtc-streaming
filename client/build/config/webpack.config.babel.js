@@ -47,6 +47,7 @@ export class WebpackBuildConfig {
     ],
     alias: {
       '@App': path.resolve(projectRoot, './src/application/'),
+      '@Store': path.resolve(projectRoot, './src/application/data/store/'),
       '@Lib': path.resolve(projectRoot, './src/lib/'),
       '@Test': path.resolve(projectRoot, './src/test/')
     }
@@ -159,7 +160,7 @@ export class WebpackBuildConfig {
   /* eslint-enable camelcase */
 
   devServer = {
-    contentBase: path.join(projectRoot, 'target/'),
+    contentBase: 'target/',
     publicPath: backendPublicPath,
     historyApiFallback: true,
     compress: true,
@@ -171,7 +172,7 @@ export class WebpackBuildConfig {
         secure: false
       }
     }
-  };
+  }
 
 }
 

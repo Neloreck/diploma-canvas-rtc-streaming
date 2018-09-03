@@ -1,21 +1,27 @@
-import {createBrowserHistory} from "history";
 import * as React from "react";
 import {PureComponent} from "react";
-import {Route, Router as ReactRouter} from "react-router";
+import {Route} from "react-router";
 import {Switch} from "react-router-dom";
+import {ConnectedRouter} from "react-router-redux";
+
+import {reduxStoreManager} from "@App/data/redux";
+
+import {HomePage} from "@App/view/containers/HomePage";
 
 export class Router extends PureComponent {
 
   public render(): JSX.Element {
     return (
-      <ReactRouter history={createBrowserHistory()}>
+      <ConnectedRouter history={reduxStoreManager.getBrowserHistory()}>
+
         <Switch>
+          <Route exact={true} path={"/"} component={HomePage}/>
+          <Route exact={true} path={"/home"} component={HomePage}/>
 
-          <Route exact={true} path={"/temp"} component={null}/>
           <Route exact={true} path={"*"} component={null}/>
-
         </Switch>
-      </ReactRouter>
+
+      </ConnectedRouter>
     );
   }
 

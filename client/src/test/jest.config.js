@@ -3,16 +3,16 @@ const path = require('path');
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  // All imported modules in your tests should be mocked automatically
+  // All imported store in your tests should be mocked automatically
   // automock: false,
 
   // Stop running tests after the first failure
   // bail: false,
 
-  // Respect "browser" field in package.json when resolving modules
+  // Respect "browser" field in package.json when resolving store
   // browser: false,
 
-  // The directory where Jest should store its cached dependency information
+  // The directory where Jest should redux its cached dependency information
   // cacheDirectory: "/var/folders/nd/fmdkftmj11l8f2m9lnh_y70w0000gn/T/jest_dx",
 
   // Automatically clear mock calls and instances between every test
@@ -63,7 +63,7 @@ module.exports = {
   //   "node_modules"
   // ],
 
-  // An array of file extensions your modules use
+  // An array of file extensions your store use
   // moduleFileExtensions: [
   //   "js",
   //   "json",
@@ -111,7 +111,7 @@ module.exports = {
   // Automatically restore mock state between every test
   // restoreMocks: false,
 
-  // The root directory that Jest should scan for tests and modules within
+  // The root directory that Jest should scan for tests and store within
   rootDir: path.resolve('./'),
 
   // A list of paths to directories that Jest should use to search for files in
@@ -122,13 +122,13 @@ module.exports = {
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
 
-  // The paths to modules that run some code to configure or set up the testing environment before each test
+  // The paths to store that run some code to configure or set up the testing environment before each test
   // setupFiles: [],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
   // setupTestFrameworkScriptFile: null,
 
-  // A list of paths to snapshot serializer modules Jest should use for snapshot testing
+  // A list of paths to snapshot serializer store Jest should use for snapshot testing
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
@@ -177,7 +177,7 @@ module.exports = {
     '/node_modules/'
   ],
 
-  // An array of regexp pattern strings that are matched against all modules
+  // An array of regexp pattern strings that are matched against all store
   // before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
 

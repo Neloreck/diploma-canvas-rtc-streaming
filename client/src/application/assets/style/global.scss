@@ -18,4 +18,9 @@ body {
 #application-root {
   display: flex;
   flex-direction: column;
+
+  > div {
+    width: 100%;
+    height: 100%;
+  }
 }

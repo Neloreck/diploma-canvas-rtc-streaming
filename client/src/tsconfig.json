@@ -1,12 +1,7 @@
 {
-  "awesomeTypescriptLoaderOptions": {
-    "useWebpackText": true,
-    "useTranspileModule": true,
-    "doTypeCheck": true,
-    "forkChecker": true
-  },
   "compilerOptions": {
     "outDir": "../ts-target/",
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -24,9 +19,14 @@
     "baseUrl": "./",
     "paths": {
       "@App/*": [ "application/*" ],
+      "@Store/*": [ "application/data/store/*" ],
       "@Lib/*": [ "lib/*" ]
     }
   },
+  "types": [
+    "node",
+    "reflect-metadata"
+  ],
   "exclude": [
     "node_modules"
   ]

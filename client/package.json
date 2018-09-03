@@ -52,15 +52,20 @@
       "order/properties-alphabetical-order": true
     }
   },
-  "author": "Livestream",
+  "author": "Neloreck",
   "license": "ISC",
   "dependencies": {
     "history": "^4.7.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-thunk": "^2.3.0",
+    "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.54",
@@ -72,8 +77,10 @@
     "@types/history": "^4.7.0",
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",
+    "@types/react-redux": "^6.0.6",
     "@types/react-router": "^4.0.30",
     "@types/react-router-dom": "^4.3.0",
+    "@types/react-router-redux": "^5.0.15",
     "autoprefixer": "^9.0.2",
     "awesome-typescript-loader": "^5.2.0",
     "babel-core": "^7.0.0-bridge.0",
