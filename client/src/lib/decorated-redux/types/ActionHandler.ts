@@ -1,3 +1,3 @@
 export const ActionHandler = <T>(instance: T, method: string, descriptor: PropertyDescriptor) => {
-  const meta = Reflect.getMetadata("design:paramtypes", instance, method);
+  // Just to mark action. Also we can define metainfo there.
 };

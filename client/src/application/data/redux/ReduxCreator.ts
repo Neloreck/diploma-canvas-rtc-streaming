@@ -1,7 +1,7 @@
 import {routerReducer} from "react-router-redux";
 import {combineReducers} from "redux";
 
-import {createReflectiveReducer} from "@Lib/decorated-redux/init/createReflectiveReducer";
+import {createReflectiveReducer} from "@Lib/decorated-redux";
 
 import {Single} from "@App/data/utils/decorators";
 import {AuthState} from "@Store/auth/models/AuthState";
@@ -10,7 +10,7 @@ import {AuthReducer} from "@Store/auth/reducers/AuthReducer";
 @Single
 export class ReduxCreator {
 
-  public readonly reducers = {
+  private readonly reducers = {
     auth: createReflectiveReducer(AuthReducer, new AuthState(), { freeze: true }),
     routing: routerReducer
   };

@@ -1,7 +1,7 @@
 import {Action} from "redux";
 
-export const createReflectiveReducer  = <State>(Reducer: { new(): any }, defaultState: State,
-                                                options: IReducerOptions = defaults) => {
+export function createReflectiveReducer <State>(Reducer: { new(): any }, defaultState: State,
+                                                options: IReducerOptions = defaults) {
 
   const instance = Object.create(Reducer.prototype);
   const reducers = getReducerMethods(Reducer)(instance);
@@ -20,7 +20,7 @@ export const createReflectiveReducer  = <State>(Reducer: { new(): any }, default
 
     return nextState;
   };
-};
+}
 
 const getReducerMethods = <State>(Reducer: { new(): any }) => {
   const prototype = Reducer.prototype;

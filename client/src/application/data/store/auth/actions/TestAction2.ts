@@ -1,6 +1,6 @@
-import {ActionWired, SyncReduxAction} from "@Lib/decorated-redux/types";
+import {ActionType, SyncReduxAction} from "@Lib/decorated-redux/types";
 
-@ActionWired("TEST_ACTION_CONST2")
+@ActionType("TEST_ACTION_CONST2")
 export class TestAction2 extends SyncReduxAction {
 
   public readonly payload: {

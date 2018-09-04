@@ -4,8 +4,6 @@ import {
     connect as originalConnect, MapDispatchToPropsParam, MapStateToPropsParam, MergeProps, Options
 } from "react-redux";
 
-import {ReduxStoreState} from "@App/data/redux/type/ReduxStoreState";
-
 export type InferableComponentEnhancerWithProps<IInjectedProps, INeedsProps> =
     <IComponent extends React.ComponentType<IInjectedProps & INeedsProps>>(component: IComponent) => IComponent;
 
@@ -23,4 +21,7 @@ export interface IConnect<T> {
     ): InferableComponentEnhancerWithProps<IMergedProps, IOwnProps>;
 }
 
-export const Connect = originalConnect as IConnect<ReduxStoreState>;
+// Returns ReduxConnect type-linked to related store.
+export function linkConnectWithStore<T>() {
+  return originalConnect as IConnect<T>;
+}

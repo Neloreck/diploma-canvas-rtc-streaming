@@ -2,9 +2,9 @@ import * as React from "react";
 import {Component} from "react";
 import {bindActionCreators} from "redux";
 
-import {log} from "@App/data/utils";
-import {Connect} from "@App/data/utils/decorators";
 import {TestAction} from "@Store/auth/actions/TestAction";
+
+import {ReduxConnect} from "@App/data/redux";
 
 export interface IHomePageStoreProps {
   asm: number;
@@ -17,13 +17,12 @@ export interface IHomePageDispatchProps {
 export interface IHomePageProps extends IHomePageStoreProps, IHomePageDispatchProps {
 }
 
-@Connect<IHomePageStoreProps, IHomePageDispatchProps, IHomePageProps>(
+@ReduxConnect<IHomePageStoreProps, IHomePageDispatchProps, IHomePageProps>(
   (store) => {
-    log.error("GOT STORE:", store);
     return { asm: 1 };
   }, (dispatch): IHomePageDispatchProps => {
     return bindActionCreators({
-      sendTest: () => ( new TestAction(Math.random(), dispatch) )
+      sendTest: () => ( new TestAction(Math.random()) )
     }, dispatch);
   })
 export class HomePage extends Component<IHomePageProps> {

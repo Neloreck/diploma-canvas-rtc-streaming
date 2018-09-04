@@ -1,7 +1,7 @@
 import {SyncReduxAction} from "@Lib/decorated-redux/types";
-import {ActionWired} from "@Lib/decorated-redux/types/ActionWired";
+import {ActionType} from "@Lib/decorated-redux/types/ActionType";
 
-@ActionWired("TEST_ACTION_CONST")
+@ActionType("TEST_ACTION_CONST")
 export class TestAction extends SyncReduxAction {
 
   public readonly payload: {
@@ -16,3 +16,6 @@ export class TestAction extends SyncReduxAction {
   }
 
 }
+
+// @ts-ignore
+window.t = TestAction;

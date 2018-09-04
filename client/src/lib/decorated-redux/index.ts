@@ -1,6 +1,7 @@
-export {IReducerOptions} from "./init/createReflectiveReducer";
-export {createReflectiveReducer} from "./init/createReflectiveReducer";
+export {convertClassesToObjectsMiddleware} from "./init/convertClassesToObjectsMiddleware";
+export {createReflectiveReducer, IReducerOptions} from "./init/createReflectiveReducer";
+export {linkConnectWithStore} from "./init/linkConnectWithStore";
 
-export {ActionWired} from "./types/ActionWired";
+export {ActionType} from "./types/ActionType";
 export {ActionHandler} from "./types/ActionHandler";
 export {SyncReduxAction} from "./types/SyncReduxAction";
