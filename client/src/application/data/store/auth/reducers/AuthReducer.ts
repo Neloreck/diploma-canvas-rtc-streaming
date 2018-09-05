@@ -11,9 +11,4 @@ export class AuthReducer extends AbstractReducer<AuthState> {
     return { ...state, temp: action.payload.temp };
   }
 
-  @ActionHandler
-  public changeTesmp(state: AuthState, action: TestAction): AuthState {
-    return { ...state, temp: action.payload.temp };
-  }
-
 }

@@ -9,12 +9,10 @@ import {AuthReducer} from "@Store/auth/reducers/AuthReducer";
 @Single
 export class ReduxCreator {
 
-  private readonly reducers = {
+  private readonly rootReducer = combineReducers( {
     auth: new AuthReducer().asFunctional(new AuthState(), { freeze: true }),
     routing: routerReducer
-  };
-
-  private readonly rootReducer = combineReducers(this.reducers);
+  });
 
   public getRootReducer() {
     return this.rootReducer;
