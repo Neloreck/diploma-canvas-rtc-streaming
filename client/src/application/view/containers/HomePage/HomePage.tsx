@@ -1,9 +1,8 @@
 import * as React from "react";
 import {Component} from "react";
 
-import {TestAction} from "@Store/auth/actions/TestAction";
-
 import {ReduxConnect} from "@Redux";
+import {TestAction} from "@Store/auth/actions/TestAction";
 
 export interface IHomePageStoreProps {
   testValue: number;

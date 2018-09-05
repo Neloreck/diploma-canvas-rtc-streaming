@@ -1,5 +1,4 @@
-import {SyncReduxAction} from "@Lib/decorated-redux/types";
-import {ActionType} from "@Lib/decorated-redux/types/ActionType";
+import {ActionType, SyncReduxAction} from "redux-cbd";
 
 @ActionType("TEST_ACTION_CONST")
 export class TestAction extends SyncReduxAction {
