@@ -9,7 +9,7 @@ export function Single <T extends Constructor<{}>>(targetClass: T): any {
 
       if (!target.INSTANCE) {
         // @ts-ignore unknown target constructor
-        super(args);
+        super(...args);
 
         target.INSTANCE = this as any;
 

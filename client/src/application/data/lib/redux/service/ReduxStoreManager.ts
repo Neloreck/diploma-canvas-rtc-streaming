@@ -6,10 +6,10 @@ import {applyMiddleware, createStore, Middleware} from "redux";
 import {composeWithDevTools} from "redux-devtools-extension/logOnlyInProduction";
 import thunk from "redux-thunk";
 
-import {convertClassesToObjectsMiddleware} from "@Lib/decorated-redux";
+import {convertClassesToObjectsMiddleware} from "../../../../../lib/decorated-redux/index";
 
-import {IReduxStoreState, reduxCreator} from "@App/data/redux";
-import {Single} from "@App/data/utils/decorators";
+import {Single} from "../../../utils/decorators/index";
+import {IReduxStoreState, reduxCreator} from "@Redux";
 
 @Single
 export class ReduxStoreManager {

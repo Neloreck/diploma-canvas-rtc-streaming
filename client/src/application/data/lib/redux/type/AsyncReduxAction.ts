@@ -1,5 +1,5 @@
-import {reduxStoreManager} from "@App/data/redux";
-import {SyncReduxAction} from "@Lib/decorated-redux/types/SyncReduxAction";
+import {reduxStoreManager} from "../index";
+import {SyncReduxAction} from "../../../../../lib/decorated-redux/index";
 
 export abstract class AsyncReduxAction extends SyncReduxAction {
 

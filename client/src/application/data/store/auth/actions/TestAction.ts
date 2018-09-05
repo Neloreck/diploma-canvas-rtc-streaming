@@ -16,6 +16,3 @@ export class TestAction extends SyncReduxAction {
   }
 
 }
-
-// @ts-ignore
-window.t = TestAction;

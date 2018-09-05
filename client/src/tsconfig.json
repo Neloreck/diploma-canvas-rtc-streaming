@@ -20,6 +20,8 @@
     "paths": {
       "@App/*": [ "application/*" ],
       "@Store/*": [ "application/data/store/*" ],
+      "@Redux/*": [ "application/data/lib/redux/*" ],
+      "@Redux": [ "application/data/lib/redux/index" ],
       "@Lib/*": [ "lib/*" ]
     }
   },

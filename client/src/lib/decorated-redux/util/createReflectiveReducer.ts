@@ -1,10 +1,10 @@
 import {Action} from "redux";
+import {IReducerOptions} from "../";
 
-export function createReflectiveReducer <State>(Reducer: { new(): any }, defaultState: State,
-                                                options: IReducerOptions = defaults) {
+export function createReflectiveReducer <Reducer, State>(instance: Reducer, defaultState: State,
+                                                         options: IReducerOptions) {
 
-  const instance = Object.create(Reducer.prototype);
-  const reducers = getReducerMethods(Reducer)(instance);
+  const reducers = getReducerMethods(instance)(instance);
 
   return (prevState: State = defaultState, action: Action): State => {
 
@@ -22,34 +22,23 @@ export function createReflectiveReducer <State>(Reducer: { new(): any }, default
   };
 }
 
-const getReducerMethods = <State>(Reducer: { new(): any }) => {
-  const prototype = Reducer.prototype;
+const getReducerMethods = <Reducer, State>(reducerInstance: Reducer) => {
+  const prototype = Object.getPrototypeOf(reducerInstance);
   const methods = Object.getOwnPropertyNames(prototype);
 
   const getWithRequiredAction = (method: string) => {
     const meta = Reflect.getMetadata("design:paramtypes", prototype, method);
     const action = meta && meta[1];
-
-    return action ? prototype.type : undefined;
+    return action ? action.prototype.type : undefined;
   };
 
   return (instance: any): IMethods<State> => {
     return methods
       .filter(getWithRequiredAction)
       .map((method: string) => ({ [getWithRequiredAction(method)]: instance[method] }))
-      .filter((item) => {
-        return item;
-      })
+      .filter((item) => item)
       .reduce((acc: object, current: object) => ({...acc, ...current}), {});
   };
 };
 
-export interface IReducerOptions {
-  freeze: boolean;
-}
-
 interface IMethods<State> { [key: string]: (state: State, payload: any) => State; }
-
-const defaults: IReducerOptions = {
-  freeze: false,
-};

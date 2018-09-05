@@ -49,6 +49,7 @@ export class WebpackBuildConfig {
       '@App': path.resolve(projectRoot, './src/application/'),
       '@Store': path.resolve(projectRoot, './src/application/data/store/'),
       '@Lib': path.resolve(projectRoot, './src/lib/'),
+      '@Redux': path.resolve(projectRoot, './src/application/data/lib/redux'),
       '@Test': path.resolve(projectRoot, './src/test/')
     }
   };
