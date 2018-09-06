@@ -10,7 +10,7 @@ import {AuthReducer} from "@Store/auth/reducers/AuthReducer";
 export class ReduxCreator {
 
   private readonly rootReducer = combineReducers( {
-    auth: new AuthReducer().asFunctional(new AuthState(), { freeze: true }),
+    auth: new AuthReducer().asFunctional(new AuthState(), { freezeState: true }),
     routing: routerReducer
   });
 

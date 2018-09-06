@@ -4,11 +4,10 @@ import {routerMiddleware} from "react-router-redux";
 import {Action, Store} from "redux";
 import {applyMiddleware, createStore, Middleware} from "redux";
 import {composeWithDevTools} from "redux-devtools-extension/logOnlyInProduction";
-import thunk from "redux-thunk";
 
-import {convertClassesToObjectsMiddleware} from "../../../../../lib/decorated-redux/index";
+import {convertClassesToObjectsMiddleware} from "redux-cbd";
 
-import {Single} from "../../../utils/decorators/index";
+import {Single} from "@App/data/utils/decorators";
 import {IReduxStoreState, reduxCreator} from "@Redux";
 
 @Single
@@ -30,7 +29,7 @@ export class ReduxStoreManager {
   private createStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
     const composeEnhancers = composeWithDevTools(ReduxStoreManager.DEVTOOLS_OPTIONS);
     const reactRouterMiddleware: Middleware = routerMiddleware(this.HISTORY);
-    const middlewares: Array<Middleware> = [convertClassesToObjectsMiddleware, thunk, reactRouterMiddleware];
+    const middlewares: Array<Middleware> = [convertClassesToObjectsMiddleware, reactRouterMiddleware];
 
     return createStore(reduxCreator.getRootReducer(), composeEnhancers(applyMiddleware(...middlewares)));
   }
