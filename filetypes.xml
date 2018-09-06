@@ -2,6 +2,7 @@
   <component name="FileTypeManager" version="17">
     <extensionMap>
       <mapping pattern="globals" type="PLAIN_TEXT" />
+      <mapping ext="tmp" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
