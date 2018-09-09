@@ -1,6 +1,10 @@
 {
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true,
+    "doTypeCheck": true,
+    "forkChecker": true
+  },
   "compilerOptions": {
-    "outDir": "../ts-target/",
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -13,6 +17,7 @@
     "moduleResolution": "node",
     "jsx": "react",
     "lib": [
+      "es2015",
       "es2017",
       "dom"
     ],
@@ -20,8 +25,12 @@
     "paths": {
       "@App/*": [ "application/*" ],
       "@Store/*": [ "application/data/store/*" ],
+      "@Containers/*": [ "application/view/containers/*" ],
+      "@Components/*": [ "application/view/components/*" ],
+      "@Layouts/*": [ "application/view/layouts/*" ],
       "@Redux/*": [ "application/data/lib/redux/*" ],
       "@Redux": [ "application/data/lib/redux/index" ],
+      "@Annotate": [ "application/data/lib/annotate/index" ],
       "@Lib/*": [ "lib/*" ]
     }
   },

@@ -1,7 +1,7 @@
-import {ActionType, SyncReduxAction} from "redux-cbd";
+import {ActionWired, SimpleAction} from "redux-cbd";
 
-@ActionType("TEST_ACTION_CONST")
-export class TestAction extends SyncReduxAction {
+@ActionWired("TEST_ACTION_CONST")
+export class TestAction extends SimpleAction {
 
   public readonly payload: {
     temp: number;
