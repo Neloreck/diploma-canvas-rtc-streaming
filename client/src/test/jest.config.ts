@@ -72,11 +72,12 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    "@Annotate/(.*)$": "<rootDir>/src/application/data/lib/annotate/$1",
+    "@Annotate$": "<rootDir>/src/application/data/lib/annotate/index",
+    "@Redux": "<rootDir>/./src/application/data/lib/redux/index",
+
     "@Components/(.*)$": "<rootDir>/./src/application/view/components/$1",
     "@Containers/(.*)$": "<rootDir>/./src/application/view/containers/$1",
     "@Layouts/(.*)$": "<rootDir>/./src/application/view/layouts/$1",
-    "@Redux/(.*)$": "<rootDir>/./src/application/data/lib/redux/$1",
     "@Store/(.*)$": "<rootDir>/./src/application/data/store/$1",
 
     "@App/(.*)$": "<rootDir>/src/application/$1",
@@ -158,7 +159,7 @@ module.exports = {
   ],
 
   // The regexp pattern Jest uses to detect test files
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+  testRegex: "(/__tests__/.*|(\\.|/)(test|Spec))\\.tsx?$",
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: null,
