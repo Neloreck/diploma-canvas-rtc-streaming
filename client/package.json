@@ -9,17 +9,17 @@
     "clean": "rimraf ./target",
     "purge": "rimraf ./target  && rimraf ./node_modules",
     "===============================================================": "==============================================",
-    "start": "npx cross-env NODE_ENV=production npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.js",
-    "start:dev": "npx cross-env NODE_ENV=development npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.js --inline --inspect $NODE_DEBUG_OPTION",
+    "start": "npx cross-env NODE_ENV=production npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.ts",
+    "start:dev": "npx cross-env NODE_ENV=development npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.ts --inline --inspect $NODE_DEBUG_OPTION",
     "=================================================================": "============================================",
     "build": "npx cross-env NODE_ENV=production npm run build-client:webpack",
     "build:dev": "npx cross-env NODE_ENV=development npm run build-client:webpack",
-    "build-client:webpack": "npm run clean && npx babel-node ./cli/build/build.js",
+    "build-client:webpack": "npm run clean && ts-node ./cli/build/build.ts",
     "================================================================": "=============================================",
-    "generate": "node ./cli/generate/generate.js",
+    "generate": "ts-node ./cli/generate/generate.ts",
     "==============================================================": "===============================================",
     "lint": "npx tslint --project ./src/appplication/",
-    "test": "jest --all --config ./src/test/jest.config.js --detectOpenHandles"
+    "test": "jest --all --config ./src/test/jest.config.ts --detectOpenHandles"
   },
   "sideEffects": [
     "*.css",
@@ -42,6 +42,16 @@
       "@babel/preset-stage-3",
       "@babel/preset-react"
     ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "./src/tsconfig.json"
+      }
+    }
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
@@ -81,13 +91,19 @@
     "@babel/preset-env": "^7.0.0-beta.54",
     "@babel/preset-react": "^7.0.0-beta.54",
     "@babel/preset-stage-3": "^7.0.0-beta.54",
+    "@types/dotenv": "^4.0.3",
+    "@types/enzyme": "^3.1.13",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/history": "^4.7.0",
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.9.4",
     "@types/react": "^16.4.2",
     "@types/react-dom": "^16.0.7",
     "@types/react-redux": "^6.0.6",
     "@types/react-router": "^4.0.30",
     "@types/react-router-dom": "^4.3.0",
     "@types/react-router-redux": "^5.0.15",
+    "@types/webpack": "^4.4.11",
     "autoprefixer": "^9.0.2",
     "awesome-typescript-loader": "^5.2.0",
     "babel-core": "^7.0.0-bridge.0",
@@ -110,7 +126,7 @@
     "handlebars": "^4.0.11",
     "handlebars-loader": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
-    "jest": "^23.4.1",
+    "jest": "^23.5.0",
     "node-sass": "^4.9.2",
     "postcss-loader": "^2.1.6",
     "react-test-renderer": "^16.4.1",
@@ -122,7 +138,9 @@
     "stylelint-config-standard": "^18.2.0",
     "stylelint-order": "^0.8.1",
     "stylelint-scss": "^3.2.0",
+    "ts-jest": "^23.1.4",
     "ts-loader": "^4.5.0",
+    "ts-node": "^7.0.1",
     "typescript": "^3.0.3",
     "url-loader": "^1.0.1",
     "webpack": "4.16.1",

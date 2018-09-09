@@ -1,4 +1,4 @@
-const path = require('path');
+import * as path from "path";
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
@@ -25,7 +25,7 @@ module.exports = {
   // collectCoverageFrom: null,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: path.resolve('test/coverage'),
+  coverageDirectory: path.resolve("test/coverage"),
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -64,20 +64,22 @@ module.exports = {
   // ],
 
   // An array of file extensions your store use
-  // moduleFileExtensions: [
-  //   "js",
-  //   "json",
-  //   "jsx",
-  //   "node"
-  // ],
+  moduleFileExtensions: [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "node"
+  ],
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '\\.(css|scss|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/src/test/mocks/nonJSModule.js',
-    '@App/(.*)$': '<rootDir>/src/application/$1',
-    '@Lib/(.*)$': '<rootDir>/src/lib/$1',
-    '@Test/(.*)$': '<rootDir>/src/test/$1'
+    "@App/(.*)$": "<rootDir>/src/application/$1",
+    "@Lib/(.*)$": "<rootDir>/src/lib/$1",
+    "@Test/(.*)$": "<rootDir>/src/test/$1",
+    "\\.(css|scss|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+      "<rootDir>/src/test/mocks/nonJSModule.js",
   },
 
   // An array of regexp pattern strings, matched against all module paths
@@ -112,11 +114,11 @@ module.exports = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and store within
-  rootDir: path.resolve('./'),
+  rootDir: path.resolve("./"),
 
   // A list of paths to directories that Jest should use to search for files in
   roots: [
-    '<rootDir>'
+    "<rootDir>"
   ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
@@ -148,11 +150,11 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
-    '/node_modules/'
+    "/node_modules/"
   ],
 
   // The regexp pattern Jest uses to detect test files
-  // testRegex: "",
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: null,
@@ -167,14 +169,14 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  'transform': {
-    '^.+\\.(js|jsx)$': 'babel-jest'
+  transform: {
+      "^.+\\.tsx?$": "ts-jest"
   },
 
   // An array of regexp pattern strings that are matched against all source file paths,
   // matched files will skip transformation
   transformIgnorePatterns: [
-    '/node_modules/'
+    "/node_modules/"
   ],
 
   // An array of regexp pattern strings that are matched against all store

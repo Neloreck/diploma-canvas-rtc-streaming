@@ -1,4 +1,6 @@
-export const forSeconds = seconds => new Promise(resolve => setTimeout(() => resolve(), seconds * 1000));
+export const forSeconds = (seconds: number): Promise<void> => new Promise((resolve) => setTimeout(() => resolve(), seconds * 1000));
+
+/*
 
 export const forMethodToBeCalled = (targetClass, targetMethod, timeoutInSeconds = 1) =>
   new Promise((resolve, reject) => {
@@ -7,12 +9,12 @@ export const forMethodToBeCalled = (targetClass, targetMethod, timeoutInSeconds 
     targetClass[targetMethod] = (...args) => {
       oldFunc(...args);
       targetClass[targetMethod] = oldFunc;
-      resolve('Successfully called method.');
+      resolve("Successfully called method.");
     };
 
     setTimeout(() => {
       targetClass[targetMethod] = oldFunc;
-      reject(new Error('Failed to await for message handling @limitedTime.'));
+      reject(new Error("Failed to await for message handling @limitedTime."));
     }, timeoutInSeconds * 1000);
   });
 
@@ -20,7 +22,7 @@ export const forExpectedConditions = (expectCallback, timeoutInSeconds = 5, chec
   const timeoutInMillis = timeoutInSeconds * 1000;
   let interval = null;
 
-  const cleanExecute = resolve => {
+  const cleanExecute = (resolve) => {
     expectCallback();
     clearInterval(interval);
     interval = null;
@@ -49,3 +51,5 @@ export const forExpectedConditions = (expectCallback, timeoutInSeconds = 5, chec
     }, timeoutInMillis);
   });
 };
+
+*/
