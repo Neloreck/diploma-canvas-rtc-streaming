@@ -1,8 +1,14 @@
 @import url('reset.scss');
 
+head,
+body {
+  overflow: hidden;
+}
+
 html,
 body,
-#application-root {
+#application-root,
+#application-root > div {
   font-size: 14px;
   height: 100vh;
   min-height: 100vh;
@@ -10,17 +16,10 @@ body,
   width: 100vw;
 }
 
-head,
-body {
-  overflow: hidden;
-}
-
-#application-root {
+#application-root,
+#application-root > div {
+  align-items: center;
   display: flex;
   flex-direction: column;
-
-  > div {
-    width: 100%;
-    height: 100%;
-  }
+  justify-content: center;
 }

@@ -1,9 +1,9 @@
 import {TestAction} from "@Store/auth/actions/TestAction";
-import {AuthState} from "@Store/auth/models/AuthState";
+import {AuthState} from "@Store/auth/store/AuthState";
 
-import {AbstractReducer, ActionHandler} from "redux-cbd";
+import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 
-export class AuthReducer extends AbstractReducer<AuthState> {
+export class AuthReducer extends ReflectiveReducer<AuthState> {
 
   @ActionHandler
   public changeTemp(state: AuthState, action: TestAction): AuthState {

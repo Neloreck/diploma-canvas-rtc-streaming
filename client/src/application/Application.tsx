@@ -1,19 +1,21 @@
 import * as React from "react";
-import {PureComponent} from "react";
+import {render} from "react-dom";
 import {Provider} from "react-redux";
 
-import {Single} from "@App/data/utils/decorators";
-import {Router} from "@App/view/routing";
+import {Single} from "@Annotate";
 import {reduxStoreManager} from "@Redux";
 
-@Single
-export class Application extends PureComponent {
+import {Root} from "@App/view/Root";
 
-  public render(): JSX.Element {
-    return (
-      <Provider store={reduxStoreManager.getReduxStore()}>
-        <Router/>
-      </Provider>
+@Single
+export class Application {
+
+  // Directly combine view and data modules.
+  public render(): void {
+    render(<Provider store={reduxStoreManager.getGlobalStore()}>
+        <Root/>
+      </Provider>,
+      document.getElementById("application-root")
     );
   }
 
