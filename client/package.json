@@ -6,8 +6,8 @@
   "description": "cloud-studio-graphics-control.",
   "main": "./src/main.js",
   "scripts": {
-    "clean": "rimraf ./target",
-    "purge": "rimraf ./target  && rimraf ./node_modules",
+    "clean": "npx rimraf ./target",
+    "purge": "npx rimraf ./target  && rimraf ./node_modules",
     "===============================================================": "==============================================",
     "start": "npx cross-env NODE_ENV=production npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.ts",
     "start:dev": "npx cross-env NODE_ENV=development npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.ts --inline --inspect $NODE_DEBUG_OPTION",
@@ -19,7 +19,7 @@
     "generate": "ts-node ./cli/generate/generate.ts",
     "==============================================================": "===============================================",
     "lint": "npx tslint --project ./src/appplication/",
-    "test": "jest --all --config ./src/test/jest.config.ts --detectOpenHandles"
+    "test": "npx tsc -p ./src/test/jest.tsconfig.json && npx jest --all --config ./src/test/jest.config.js --detectOpenHandles && npx rimraf ./src/test/jest.config.js"
   },
   "sideEffects": [
     "*.css",
@@ -42,16 +42,6 @@
       "@babel/preset-stage-3",
       "@babel/preset-react"
     ]
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "./src/tsconfig.json"
-      }
-    }
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
@@ -95,6 +85,7 @@
     "@types/enzyme": "^3.1.13",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/history": "^4.7.0",
+    "@types/html-webpack-plugin": "^3.2.0",
     "@types/jest": "^23.3.2",
     "@types/node": "^10.9.4",
     "@types/react": "^16.4.2",

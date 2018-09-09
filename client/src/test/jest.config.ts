@@ -55,9 +55,6 @@ module.exports = {
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: null,
 
-  // A set of global variables that need to be available in all test environments
-  // globals: {},
-
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
   //   "node_modules"
@@ -75,6 +72,13 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
+    "@Annotate/(.*)$": "<rootDir>/src/application/data/lib/annotate/$1",
+    "@Components/(.*)$": "<rootDir>/./src/application/view/components/$1",
+    "@Containers/(.*)$": "<rootDir>/./src/application/view/containers/$1",
+    "@Layouts/(.*)$": "<rootDir>/./src/application/view/layouts/$1",
+    "@Redux/(.*)$": "<rootDir>/./src/application/data/lib/redux/$1",
+    "@Store/(.*)$": "<rootDir>/./src/application/data/store/$1",
+
     "@App/(.*)$": "<rootDir>/src/application/$1",
     "@Lib/(.*)$": "<rootDir>/src/lib/$1",
     "@Test/(.*)$": "<rootDir>/src/test/$1",
@@ -114,7 +118,7 @@ module.exports = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and store within
-  rootDir: path.resolve("./"),
+  rootDir: path.resolve(__dirname, "../../"),
 
   // A list of paths to directories that Jest should use to search for files in
   roots: [
@@ -184,11 +188,19 @@ module.exports = {
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  verbose: true
+  verbose: true,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],
 
   // Whether to use watchman for file crawling
   // watchman: true,
+
+    // A set of global variables that need to be available in all test environments
+    globals: {
+    "ts-jest": {
+      tsConfigFile: "<rootDir>/src/tsconfig.json",
+        useBabelrc: true
+      }
+  }
 };

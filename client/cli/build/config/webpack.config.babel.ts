@@ -168,7 +168,7 @@ export class WebpackBuildConfig implements Configuration {
           toplevel: true,
           warnings: false,
         }
-      })
+      }) as any
     ]
   };
   /* eslint-enable camelcase */

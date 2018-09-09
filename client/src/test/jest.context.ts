@@ -11,7 +11,7 @@ import * as path from "path";
 DotEnv.config({path: path.resolve(__dirname, "../build/.env")});
 enzyme.configure({adapter: new (Adapter as any)()});
 
-export {forSeconds, forExpectedConditions, forMethodToBeCalled} from "./jest.utility";
+export {forSeconds} from "./jest.utility";
 
 export const render = enzyme.render;
 export const shallow = enzyme.shallow;

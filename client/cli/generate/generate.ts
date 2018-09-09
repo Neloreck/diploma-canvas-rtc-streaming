@@ -1,5 +1,11 @@
+/* tslint:disable: no-console */
+
 import * as fs from "fs";
 import * as path from "path";
+
+import {ComponentGenerator} from "./ComponentGenerator";
+import {ContainerGenerator} from "./ContainerGenerator";
+import {AbstractGenerator} from "./AbstractGenerator";
 
 enum EGenerationType {
   CONTAINER = "container",
@@ -14,38 +20,37 @@ const GENERATION_NAME: string = process.argv[ARGS_OFFSET + 2];
 
 if (GENERATION_TYPE && GENERATION_PATH && GENERATION_NAME) {
 
-  const targetFolder: string = path.resolve(process.cwd(), 'src/application/view/',
-      GENERATION_TYPE === EGenerationType.CONTAINER ? 'containers' : 'components',
+  const targetFolder: string = path.resolve(process.cwd(), "src/application/view/",
+      GENERATION_TYPE === EGenerationType.CONTAINER ? "containers" : "components",
       GENERATION_PATH
   );
 
   const alreadyExists: boolean = fs.existsSync(path.resolve(targetFolder, GENERATION_NAME));
 
   if (alreadyExists) {
-    throw new Error(`Cannot generate component ${GENERATION_NAME}, seems like it already exists inside of ${targetFolder}.`)
+    throw new Error(`Cannot generate component ${GENERATION_NAME}, seems like it already exists inside of ${targetFolder}.`);
   } else {
 
-    let generate: any = null;
+    let generator: AbstractGenerator;
 
     switch (GENERATION_TYPE) {
 
       case EGenerationType.CONTAINER:
-        generate = require('./containerGenerator').generate;
+        generator = new ContainerGenerator();
         break;
 
       case EGenerationType.COMPONENT:
-        generate = require('./componentGenerator').generate;
+        generator = new ComponentGenerator();
         break;
 
       default:
-        throw new Error('Unknown type for generation: ' + GENERATION_TYPE);
+        throw new Error("Unknown type for generation: " + GENERATION_TYPE);
 
       }
 
-      generate(targetFolder, GENERATION_NAME);
-      console.log(`Generated x-core ${GENERATION_TYPE}. Path: ${targetFolder}. Item: ${GENERATION_NAME}.`);
+    generator.generate(targetFolder, GENERATION_NAME);
+    console.log(`Generated x-core ${GENERATION_TYPE}. Path: ${targetFolder}. Item: ${GENERATION_NAME}.`);
   }
 } else {
-  throw new Error('Bad kwargs supplied, you should provide type, path and name for proper generation.');
+  throw new Error("Bad kwargs supplied, you should provide type, path and name for proper generation.");
 }
-
