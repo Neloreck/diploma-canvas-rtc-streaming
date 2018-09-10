@@ -19,7 +19,7 @@ export class ReduxStoreManager {
 
   private readonly history: History = createHistory();
   private readonly rootReducer: Reducer<IGlobalStoreState, Action> = this.createGlobalReducer();
-  private readonly store: Store<IGlobalStoreState, Action<any>> & { dispatch: () => {} } = this.createGlobalStore();
+  private readonly store: Store<IGlobalStoreState, Action<any>> = this.createGlobalStore();
 
   public getRootReducer() {
     return this.rootReducer;
@@ -29,7 +29,7 @@ export class ReduxStoreManager {
     return this.history;
   }
 
-  public getGlobalStore(): Store<{}, Action<any>> & { dispatch: () => {} } {
+  public getGlobalStore(): Store<{}, Action<any>> {
     return this.store;
   }
 
@@ -41,7 +41,7 @@ export class ReduxStoreManager {
     });
   }
 
-  private createGlobalStore(): Store<IGlobalStoreState, Action<any>> & { dispatch: () => {} } {
+  private createGlobalStore(): Store<IGlobalStoreState, Action<any>> {
     const middlewares: Array<Middleware> = [cbdMiddleware, routerMiddleware(this.history)];
     const composeEnhancers = composeWithDevTools({});
 

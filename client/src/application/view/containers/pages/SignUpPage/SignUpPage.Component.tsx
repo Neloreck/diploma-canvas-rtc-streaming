@@ -8,10 +8,10 @@ import {IGlobalStoreState} from "@Redux";
 
 import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
 
-import {ISignUpPageDispatchProps, ISignUpPageOwnProps, ISignUpPageProps, ISignUpPageStoreProps} from "./SignUpPage.StateProps";
+import {ISignUpPageDispatchProps, ISignUpPageProps, ISignUpPageStoreProps} from "./SignUpPage.StateProps";
 import {signUpPageStyle} from "./SignUpPage.Style";
 
-@withConnection<ISignUpPageStoreProps, ISignUpPageDispatchProps, ISignUpPageOwnProps>(
+@withConnection<ISignUpPageStoreProps, ISignUpPageDispatchProps, ISignUpPageProps>(
   (store: IGlobalStoreState) => ({
   }), {
   })

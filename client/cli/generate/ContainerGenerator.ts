@@ -44,10 +44,10 @@ import {Component} from "react";
 import {withConnection, withStyle} from "@Annotate";
 import {_storeState_} from "@Redux";
 
-import {I${componentName}DispatchProps, I${componentName}OwnProps, I${componentName}Props, I${componentName}StoreProps} from "./${componentName}.StateProps";
+import {I${componentName}DispatchProps, I${componentName}Props, I${componentName}StoreProps} from "./${componentName}.StateProps";
 import {${this.deCapitalizeFirstLetter(componentName)}Style} from "./${componentName}.Style";
 
-@withConnection<I${componentName}StoreProps, I${componentName}DispatchProps, I${componentName}OwnProps>(
+@withConnection<I${componentName}StoreProps, I${componentName}DispatchProps, I${componentName}Props>(
   (store: _storeState_) => ({
   }), {
   })

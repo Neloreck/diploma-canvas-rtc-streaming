@@ -5,9 +5,4 @@ import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 
 export class AuthReducer extends ReflectiveReducer<AuthState> {
 
-  @ActionHandler
-  public changeTemp(state: AuthState, action: TestAction): AuthState {
-    return { ...state, temp: action.payload.temp };
-  }
-
 }

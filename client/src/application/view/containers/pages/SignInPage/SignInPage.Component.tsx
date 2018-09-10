@@ -5,24 +5,17 @@ import {Button} from "@material-ui/core";
 
 import {withConnection, withStyle} from "@Annotate";
 import {IGlobalStoreState} from "@Redux";
-import {TestAction} from "@Store/auth/actions";
 
-import {
-  ISignInPageDispatchProps,
-  ISignInPageOwnProps,
-  ISignInPageProps,
-  ISignInPageStoreProps
-} from "./SignInPage.StateProps";
+import {ISignInPageDispatchProps, ISignInPageProps, ISignInPageStoreProps} from "./SignInPage.StateProps";
 
 import {signInPageStyle} from "./SignInPage.Style";
 
 import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
 
-@withConnection<ISignInPageStoreProps, ISignInPageDispatchProps, ISignInPageOwnProps>(
-  (store: IGlobalStoreState) => {
-    return { testValue: store.auth.temp };
-  }, {
-    sendTest: (num: number) => new TestAction(num)
+@withConnection<ISignInPageStoreProps, ISignInPageDispatchProps, ISignInPageProps>(
+  (store: IGlobalStoreState) => ({
+    authorizing: store.auth.authorizing
+  }), {
   })
 @withStyle(signInPageStyle)
 export class SignInPage extends Component<ISignInPageProps> {
@@ -35,8 +28,6 @@ export class SignInPage extends Component<ISignInPageProps> {
 
         <div className={this.props.classes.content}>
           <Button variant="contained">Sign In</Button>
-          <button onClick={() => this.props.sendTest(Math.random() * 100 + 10)}> TEST </button>
-          {this.props.testValue}
         </div>
 
       </div>

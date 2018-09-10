@@ -2,11 +2,10 @@ import {WithStyles} from "@material-ui/core";
 import {homePageStyle} from "./HomePage.Style";
 
 export interface IHomePageStoreProps {
-  testValue: number;
+  authorizing: boolean;
 }
 
 export interface IHomePageDispatchProps {
-  sendTest: any;
 }
 
 export interface IHomePageOwnProps {
