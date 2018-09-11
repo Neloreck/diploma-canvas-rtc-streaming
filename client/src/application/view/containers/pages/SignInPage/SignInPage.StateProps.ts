@@ -3,15 +3,16 @@ import {WithStyles} from "@material-ui/core";
 import {signInPageStyle} from "./SignInPage.Style";
 
 export interface ISignInPageStoreProps {
-  testValue: number;
+  authorizing: boolean;
 }
 
 export interface ISignInPageDispatchProps {
-  sendTest: any;
 }
+
+export interface ISignInPageExternalProps extends ISignInPageDispatchProps, ISignInPageStoreProps,
+  WithStyles<typeof signInPageStyle> {}
 
 export interface ISignInPageOwnProps {
 }
 
-export interface ISignInPageProps extends ISignInPageDispatchProps, ISignInPageStoreProps, ISignInPageOwnProps,
-  WithStyles<typeof signInPageStyle> {}
+export interface ISignInPageProps extends ISignInPageOwnProps, ISignInPageExternalProps {}
