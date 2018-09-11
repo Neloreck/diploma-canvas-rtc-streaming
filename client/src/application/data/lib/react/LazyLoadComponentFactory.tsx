@@ -4,18 +4,19 @@ import {Component, ComponentType} from "react";
 import {log} from "@App/data/utils";
 import CircularProgress from "@material-ui/core/es/CircularProgress/CircularProgress";
 
+interface ILazyComponentState {
+  component: ComponentType;
+}
+
 export class LazyLoadComponentFactory {
 
   public getComponent(importFunc: () => Promise<any>, componentNamedExport?: string): ComponentType {
 
-    interface ILazyComponentState {
-      component: ComponentType;
-    }
-
     // tslint:disable-next-line
     class LazyComponent extends Component<any, ILazyComponentState> {
 
-      private static COMPONENT_INSTANCE: ComponentType = null;
+      private static COMPONENT_INSTANCE: ComponentType;
+
       public state: ILazyComponentState = {component: LazyComponent.COMPONENT_INSTANCE};
       private mounted: boolean = false;
 

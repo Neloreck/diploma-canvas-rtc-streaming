@@ -5,6 +5,7 @@
     "forkChecker": true
   },
   "compilerOptions": {
+    "strict": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -22,6 +23,7 @@
       "dom"
     ],
     "baseUrl": "./",
+    "outDir": "../target:ts",
     "paths": {
       "@App/*": [ "application/*" ],
       "@Store/*": [ "application/data/store/*" ],

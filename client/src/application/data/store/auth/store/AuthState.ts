@@ -1,5 +1,8 @@
+import {UserAuthData} from "./UserAuthData";
+
 export class AuthState {
 
-  public temp: number = -1;
+  public authorizing: boolean = false;
+  public authData: UserAuthData = new UserAuthData();
 
 }

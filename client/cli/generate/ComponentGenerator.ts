@@ -4,9 +4,9 @@ export class ComponentGenerator extends AbstractGenerator{
 
   protected generateStyleAsStr(componentName: string): string {
     return (
-`import {createStyles} from "@material-ui/core/styles";
+`import {createStyles, Theme} from "@material-ui/core/styles";
 
-export const ${this.deCapitalizeFirstLetter(componentName)}Style = createStyles({
+export const ${this.deCapitalizeFirstLetter(componentName)}Style = (theme: Theme) => createStyles({
   root: {
     height: "100%",
     width: "100%"
@@ -17,14 +17,16 @@ export const ${this.deCapitalizeFirstLetter(componentName)}Style = createStyles(
 
   protected generatePropAsStr(componentName: string): string {
     return (
-`<im></im>port {WithStyles} from "@material-ui/core";
+`import {WithStyles} from "@material-ui/core";
 import {${this.deCapitalizeFirstLetter(componentName)}Style} from "./${componentName}.Style";
+
+export interface I${componentName}ExternalProps extends WithStyles<typeof ${this.deCapitalizeFirstLetter(componentName)}Style> {
+}
 
 export interface I${componentName}OwnProps {
 }
 
-export interface I${componentName}Props extends I${componentName}OwnProps,
- WithStyles<typeof ${this.deCapitalizeFirstLetter(componentName)}Style> {
+export interface I${componentName}Props extends I${componentName}OwnProps, I${componentName}ExternalProps {
 }
 `);
   }
@@ -57,7 +59,7 @@ export class ${componentName} extends Component<I${componentName}Props> {
   protected generateIndexTemplateAsStr(componentName: string): string {
     return (
 `export {${componentName}} from "./${componentName}.Component";
-export {I${componentName}Props} from "./${componentName}.StateProps";
+export {I${componentName}Props, I${componentName}OwnProps, I${componentName}ExternalProps} from "./${componentName}.StateProps";
 `);
   }
 

@@ -1,2 +1,5 @@
-export {TestAction} from "@Store/auth/actions/TestAction";
-export {TestAction2} from "@Store/auth/actions/TestAction2";
+export {CheckAuthStatusErrorAction} from "./CheckAuthStatusErrorAction";
+export {CheckAuthStatusAction} from "./CheckAuthStatusAction";
+export {LocalAuthFailedAction} from "./LocalAuthFailedAction";
+export {RequestLocalAuthAction} from "./RequestLocalAuthAction";
+export {SetAuthDataAction} from "./SetAuthDataAction";

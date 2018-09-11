@@ -1,45 +1,44 @@
 import * as React from "react";
 import {Component} from "react";
 
-import {Button} from "@material-ui/core";
-
 import {withConnection, withStyle} from "@Annotate";
 import {IGlobalStoreState} from "@Redux";
-import {TestAction} from "@Store/auth/actions";
 
 import {
   ISignInPageDispatchProps,
-  ISignInPageOwnProps,
   ISignInPageProps,
   ISignInPageStoreProps
 } from "./SignInPage.StateProps";
 
 import {signInPageStyle} from "./SignInPage.Style";
 
+import {Grid} from "@material-ui/core";
+
+import {ISignInFormExternalProps, SignInForm} from "@Components/pages/signing/SignInForm";
+
 import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
 
-@withConnection<ISignInPageStoreProps, ISignInPageDispatchProps, ISignInPageOwnProps>(
-  (store: IGlobalStoreState) => {
-    return { testValue: store.auth.temp };
-  }, {
-    sendTest: (num: number) => new TestAction(num)
+@withConnection<ISignInPageStoreProps, ISignInPageDispatchProps, ISignInPageProps>(
+  (store: IGlobalStoreState) => ({
+    authorizing: store.auth.authorizing
+  }), {
   })
 @withStyle(signInPageStyle)
 export class SignInPage extends Component<ISignInPageProps> {
 
   public render(): JSX.Element {
     return (
-      <div className={this.props.classes.root}>
+      <Grid className={this.props.classes.root} container>
 
         <HeaderBar {...{} as IHeaderBarProps}> </HeaderBar>
 
-        <div className={this.props.classes.content}>
-          <Button variant="contained">Sign In</Button>
-          <button onClick={() => this.props.sendTest(Math.random() * 100 + 10)}> TEST </button>
-          {this.props.testValue}
-        </div>
+        <Grid container justify={"center"} alignItems={"center"} className={this.props.classes.content}>
 
-      </div>
+          <SignInForm {...{} as ISignInFormExternalProps}/>
+
+        </Grid>
+
+      </Grid>
     );
   }
 

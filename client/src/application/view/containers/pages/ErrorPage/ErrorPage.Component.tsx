@@ -7,10 +7,10 @@ import {IGlobalStoreState} from "@Redux";
 import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
 import Button from "@material-ui/core/Button/Button";
 
-import {IErrorPageDispatchProps, IErrorPageOwnProps, IErrorPageProps, IErrorPageStoreProps} from "./ErrorPage.StateProps";
+import {IErrorPageDispatchProps, IErrorPageProps, IErrorPageStoreProps} from "./ErrorPage.StateProps";
 import {errorPageStyle} from "./ErrorPage.Style";
 
-@withConnection<IErrorPageStoreProps, IErrorPageDispatchProps, IErrorPageOwnProps>(
+@withConnection<IErrorPageStoreProps, IErrorPageDispatchProps, IErrorPageProps>(
   (store: IGlobalStoreState) => ({
   }), {
   })

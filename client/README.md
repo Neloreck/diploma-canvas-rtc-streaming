@@ -1,1 +1,1 @@
-# cloud-studio-graphics-control
+# x-core
