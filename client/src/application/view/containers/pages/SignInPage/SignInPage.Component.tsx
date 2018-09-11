@@ -1,14 +1,20 @@
 import * as React from "react";
 import {Component} from "react";
 
-import {Button} from "@material-ui/core";
-
 import {withConnection, withStyle} from "@Annotate";
 import {IGlobalStoreState} from "@Redux";
 
-import {ISignInPageDispatchProps, ISignInPageProps, ISignInPageStoreProps} from "./SignInPage.StateProps";
+import {
+  ISignInPageDispatchProps,
+  ISignInPageProps,
+  ISignInPageStoreProps
+} from "./SignInPage.StateProps";
 
 import {signInPageStyle} from "./SignInPage.Style";
+
+import {Grid} from "@material-ui/core";
+
+import {ISignInFormExternalProps, SignInForm} from "@Components/pages/signing/SignInForm";
 
 import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
 
@@ -22,15 +28,17 @@ export class SignInPage extends Component<ISignInPageProps> {
 
   public render(): JSX.Element {
     return (
-      <div className={this.props.classes.root}>
+      <Grid className={this.props.classes.root} container>
 
         <HeaderBar {...{} as IHeaderBarProps}> </HeaderBar>
 
-        <div className={this.props.classes.content}>
-          <Button variant="contained">Sign In</Button>
-        </div>
+        <Grid container justify={"center"} alignItems={"center"} className={this.props.classes.content}>
 
-      </div>
+          <SignInForm {...{} as ISignInFormExternalProps}/>
+
+        </Grid>
+
+      </Grid>
     );
   }
 

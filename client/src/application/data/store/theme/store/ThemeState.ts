@@ -1,13 +1,22 @@
 import {ThemeOptions} from "@material-ui/core/styles/createMuiTheme";
-import {purple} from "@material-ui/core/colors";
 
 export class ThemeState {
 
   public readonly options: ThemeOptions = {
     palette: {
-      primary: {main: purple[500]},
-      secondary: {main: "#4f69cb"}
-    }
+      primary: {
+        contrastText: "#fff",
+        dark: "#102027",
+        light: "#62727b",
+        main: "#37474f",
+      },
+      secondary: {
+        contrastText: "#ffffff",
+        dark: "#004c57",
+        light: "#e0e9ee",
+        main: "#007884",
+      },
+    },
   };
 
 }

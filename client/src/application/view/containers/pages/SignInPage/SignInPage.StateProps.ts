@@ -9,8 +9,10 @@ export interface ISignInPageStoreProps {
 export interface ISignInPageDispatchProps {
 }
 
+export interface ISignInPageExternalProps extends ISignInPageDispatchProps, ISignInPageStoreProps,
+  WithStyles<typeof signInPageStyle> {}
+
 export interface ISignInPageOwnProps {
 }
 
-export interface ISignInPageProps extends ISignInPageDispatchProps, ISignInPageStoreProps, ISignInPageOwnProps,
-  WithStyles<typeof signInPageStyle> {}
+export interface ISignInPageProps extends ISignInPageOwnProps, ISignInPageExternalProps {}

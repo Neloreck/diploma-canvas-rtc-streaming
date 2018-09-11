@@ -1,12 +1,11 @@
-import {createStyles} from "@material-ui/core/styles";
+import {createStyles, Theme} from "@material-ui/core/styles";
 
-export const signInPageStyle = createStyles({
+export const signInPageStyle = (theme: Theme) => createStyles({
   content: {
     flexGrow: 24,
     width: "100%"
   },
   root: {
-    height: "100%",
-    width: "100%"
+    backgroundColor: theme.palette.secondary.light
   }
 });

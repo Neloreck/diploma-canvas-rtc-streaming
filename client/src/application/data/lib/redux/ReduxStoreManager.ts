@@ -21,7 +21,7 @@ export class ReduxStoreManager {
   private readonly rootReducer: Reducer<IGlobalStoreState, Action> = this.createGlobalReducer();
   private readonly store: Store<IGlobalStoreState, Action<any>> = this.createGlobalStore();
 
-  public getRootReducer() {
+  public getRootReducer(): Reducer<IGlobalStoreState, Action<any>> {
     return this.rootReducer;
   }
 

@@ -1,15 +1,17 @@
 import * as React from "react";
 import {Component} from "react";
 
-import Button from "@material-ui/core/es/Button";
+import {Grid} from "@material-ui/core";
 
 import {withConnection, withStyle} from "@Annotate";
 import {IGlobalStoreState} from "@Redux";
 
-import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
-
 import {ISignUpPageDispatchProps, ISignUpPageProps, ISignUpPageStoreProps} from "./SignUpPage.StateProps";
 import {signUpPageStyle} from "./SignUpPage.Style";
+
+import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
+
+import {ISignUpFormExternalProps, SignUpForm} from "@Components/pages/signing/SignUpForm";
 
 @withConnection<ISignUpPageStoreProps, ISignUpPageDispatchProps, ISignUpPageProps>(
   (store: IGlobalStoreState) => ({
@@ -20,15 +22,17 @@ export class SignUpPage extends Component<ISignUpPageProps> {
 
   public render(): JSX.Element {
     return (
-      <div className={this.props.classes.root}>
+      <Grid className={this.props.classes.root} container>
 
         <HeaderBar {...{} as IHeaderBarProps}> </HeaderBar>
 
-        <div className={this.props.classes.content}>
-          <Button variant="contained">Test</Button>
-        </div>
+        <Grid container justify={"center"} alignItems={"center"} className={this.props.classes.content}>
 
-      </div>
+          <SignUpForm {...{} as ISignUpFormExternalProps}/>
+
+        </Grid>
+
+      </Grid>
     );
   }
 
