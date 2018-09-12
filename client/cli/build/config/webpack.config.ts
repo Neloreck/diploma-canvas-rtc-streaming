@@ -8,7 +8,9 @@ import * as UglifyJSPlugin from "uglifyjs-webpack-plugin";
 
 import {Configuration, HotModuleReplacementPlugin} from "webpack";
 
-const environment: "development" | "production" = process.env.NODE_ENV as any;
+type EnvironmentType = "development" | "production";
+
+const environment: EnvironmentType = process.env.NODE_ENV as EnvironmentType;
 const isProduction: boolean = environment === "production";
 const projectRoot: string = path.resolve(__dirname, "../../../");
 const backendPublicPath: string = "";
@@ -17,7 +19,7 @@ export class WebpackBuildConfig implements Configuration {
 
   public target: "web" = "web";
 
-  public mode: "development" | "production" = environment;
+  public mode: EnvironmentType = environment;
 
   public stats = {
     assets: true,
@@ -38,7 +40,7 @@ export class WebpackBuildConfig implements Configuration {
   public output = {
     chunkFilename: "js/chunk:[name].js",
     filename: "js/[name].js",
-    path: path.resolve(projectRoot, "target/"),
+    path: path.resolve(projectRoot, "target/dist"),
     publicPath: backendPublicPath,
     sourceMapFilename: "js/map/[name].bundle.map"
   };
@@ -53,7 +55,7 @@ export class WebpackBuildConfig implements Configuration {
       "@Lib": path.resolve(projectRoot, "./src/lib/"),
       "@Redux": path.resolve(projectRoot, "./src/application/data/lib/redux"),
       "@Store": path.resolve(projectRoot, "./src/application/data/store/"),
-      "@Test": path.resolve(projectRoot, "./src/test/")
+      "@Test": path.resolve(projectRoot, "./src/__test__/")
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     modules: [
