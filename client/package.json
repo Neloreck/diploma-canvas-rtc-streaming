@@ -1,25 +1,19 @@
 {
-  "name": "cloud-studio-graphics-control",
+  "name": "x-core",
   "version": "1.0.0",
   "private": true,
   "repository": "https://github.com/Livestream/cloud-studio-graphics-control",
   "description": "cloud-studio-graphics-control.",
   "main": "./src/main.js",
   "scripts": {
-    "clean": "npx rimraf ./target",
-    "purge": "npx rimraf ./target  && rimraf ./node_modules",
-    "===============================================================": "==============================================",
     "start": "npx cross-env NODE_ENV=production npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.ts",
     "start:dev": "npx cross-env NODE_ENV=development npx webpack-dev-server --config ./cli/build/config/webpack.config.babel.ts --inline --inspect $NODE_DEBUG_OPTION",
     "=================================================================": "============================================",
-    "build": "npx cross-env NODE_ENV=production npm run build-client:webpack",
-    "build:dev": "npx cross-env NODE_ENV=development npm run build-client:webpack",
-    "build-client:webpack": "npm run clean && ts-node ./cli/build/build.ts",
+    "build": "npx cross-env NODE_ENV=production npm run cli build-client:webpack",
+    "build:dev": "npx cross-env NODE_ENV=development npm run cli build-client:webpack",
     "================================================================": "=============================================",
-    "generate": "ts-node ./cli/generate/generate.ts",
-    "==============================================================": "===============================================",
-    "lint": "npx tslint --project ./src/appplication/",
-    "test": "npx tsc -p ./src/test/jest.tsconfig.json && npx jest --all --config ./src/test/jest.config.js --detectOpenHandles && npx rimraf ./src/test/jest.config.js"
+    "cli": "npx ts-node -P ./cli/tsconfig.json ./cli/cli.ts",
+    "test": "npm run cli test"
   },
   "sideEffects": [
     "*.css",
@@ -102,6 +96,7 @@
     "babel-loader": "^8.0.0-beta.4",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-polyfill": "^6.26.0",
+    "colors": "^1.3.2",
     "css-loader": "^1.0.0",
     "dotenv": "^6.0.0",
     "dotenv-webpack": "^1.5.7",

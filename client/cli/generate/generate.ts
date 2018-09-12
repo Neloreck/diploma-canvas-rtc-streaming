@@ -3,9 +3,9 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import {ComponentGenerator} from "./ComponentGenerator";
-import {ContainerGenerator} from "./ContainerGenerator";
-import {AbstractGenerator} from "./AbstractGenerator";
+import {ComponentGenerator} from "./generators/ComponentGenerator";
+import {ContainerGenerator} from "./generators/ContainerGenerator";
+import {AbstractGenerator} from "./generators/AbstractGenerator";
 
 enum EGenerationType {
   CONTAINER = "container",
@@ -49,7 +49,7 @@ if (GENERATION_TYPE && GENERATION_PATH && GENERATION_NAME) {
       }
 
     generator.generate(targetFolder, GENERATION_NAME);
-    console.log(`Generated x-core ${GENERATION_TYPE}. Path: ${targetFolder}. Item: ${GENERATION_NAME}.`);
+    console.log(`Generated x-core ${GENERATION_TYPE}.\nPath: ${targetFolder}.\nItem: ${GENERATION_NAME}.`);
   }
 } else {
   throw new Error("Bad kwargs supplied, you should provide type, path and name for proper generation.");
