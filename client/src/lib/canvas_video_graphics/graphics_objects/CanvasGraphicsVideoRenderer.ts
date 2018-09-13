@@ -1,4 +1,3 @@
-import {CanvasGraphicsNoiseRenderer} from "./CanvasGraphicsNoiseRenderer";
 import {CanvasGraphicsRenderObject} from "./CanvasGraphicsRenderObject";
 
 export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
@@ -6,7 +5,6 @@ export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
   private static readonly ASPECT_RATIO: number = 16 / 9;
 
   private increment: number = 0;
-  private canvasGraphicsNoiseRenderer: CanvasGraphicsNoiseRenderer = new CanvasGraphicsNoiseRenderer();
 
   private isVideoRendering: boolean = false;
   private mediaStream: MediaStream = new MediaStream();
@@ -41,14 +39,7 @@ export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
   }
 
   private renderNoVideo(): void {
-    this.renderNoise();
     this.renderTextLabel();
-  }
-
-  private renderNoise(): void {
-    this.canvasGraphicsNoiseRenderer.setContext(this.getContext());
-    this.canvasGraphicsNoiseRenderer.setSizing(this.getSizing());
-    this.canvasGraphicsNoiseRenderer.renderSelf();
   }
 
   private renderTextLabel(): void {

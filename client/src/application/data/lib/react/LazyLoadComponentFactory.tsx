@@ -3,6 +3,7 @@ import {Component, ComponentType} from "react";
 
 import {log} from "@App/data/utils";
 import CircularProgress from "@material-ui/core/es/CircularProgress/CircularProgress";
+import {Grid} from "@material-ui/core";
 
 interface ILazyComponentState {
   component: ComponentType;
@@ -10,7 +11,7 @@ interface ILazyComponentState {
 
 export class LazyLoadComponentFactory {
 
-  public getComponent(importFunc: () => Promise<any>, componentNamedExport?: string): ComponentType {
+  public getComponent(importFunc: () => Promise<any>, componentNamedExport?: string) {
 
     // tslint:disable-next-line
     class LazyComponent extends Component<any, ILazyComponentState> {
@@ -55,7 +56,9 @@ export class LazyLoadComponentFactory {
         const RenderItem: ComponentType = this.state.component;
         return RenderItem
           ? <RenderItem {...this.props}/>
-          : <div id={"lazy-load-spinner"}> <CircularProgress size={250} /> </div>;
+          : <Grid id={"lazy-load-spinner"} alignContent={"center"} justify={"center"} container>
+            <CircularProgress size={250} />
+          </Grid>;
       }
 
     }

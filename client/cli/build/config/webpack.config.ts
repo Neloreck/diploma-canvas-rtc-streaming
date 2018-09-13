@@ -1,12 +1,14 @@
 import * as path from "path";
 
-import * as autoprefixer from "autoprefixer";
 import {TsConfigPathsPlugin} from "awesome-typescript-loader";
-import * as Dotenv from "dotenv-webpack";
-import * as HtmlWebpackPlugin from "html-webpack-plugin";
-import * as UglifyJSPlugin from "uglifyjs-webpack-plugin";
 
-import {Configuration, HotModuleReplacementPlugin} from "webpack";
+// tslint:disable: no-var-requires
+const Dotenv = require("dotenv-webpack");
+const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+
+import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin} from "webpack";
 
 type EnvironmentType = "development" | "production";
 
@@ -31,11 +33,16 @@ export class WebpackBuildConfig implements Configuration {
     timings: true,
   };
 
-  public entry = [
-    "webpack/hot/dev-server",
-    "babel-polyfill",
-    path.resolve(projectRoot, "src/application/main.ts")
-  ];
+  public entry = isProduction
+    ? [
+      "babel-polyfill",
+      path.resolve(projectRoot, "src/application/main.ts")
+    ]
+    : [
+      "webpack/hot/dev-server",
+      "babel-polyfill",
+      path.resolve(projectRoot, "src/application/main.ts")
+    ];
 
   public output = {
     chunkFilename: "js/chunk:[name].js",
@@ -117,8 +124,8 @@ export class WebpackBuildConfig implements Configuration {
           {
             loader: "url-loader",
             options: {
-              // include <10KB files in our bundle file
-              limit: 10000
+              // include <5KB files in our bundle file
+              limit: 5000
             }
           }
         ]
@@ -129,8 +136,7 @@ export class WebpackBuildConfig implements Configuration {
   public devtool: any = isProduction ? false : "source-map";
 
   public plugins = [
-    new TsConfigPathsPlugin({
-    }),
+    new TsConfigPathsPlugin({}),
     new HtmlWebpackPlugin({
       environment,
       filename: "index.html",
@@ -147,7 +153,7 @@ export class WebpackBuildConfig implements Configuration {
     new Dotenv({
       path: path.resolve(projectRoot, "cli/build/.env")
     }),
-    new HotModuleReplacementPlugin()
+    isProduction ? new NoEmitOnErrorsPlugin() : new HotModuleReplacementPlugin()
   ];
 
   /* eslint-disable camelcase */
@@ -170,7 +176,7 @@ export class WebpackBuildConfig implements Configuration {
           toplevel: true,
           warnings: false,
         }
-      }) as any
+      })
     ]
   };
   /* eslint-enable camelcase */

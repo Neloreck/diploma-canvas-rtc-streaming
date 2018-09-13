@@ -2,23 +2,30 @@ import {createStyles, Theme} from "@material-ui/core/styles";
 
 export const streamingPageStyle = (theme: Theme) => createStyles({
   content: {
-    flexGrow: 24,
+    flexDirection: "column",
+    flexGrow: 75,
+    flexWrap: "nowrap",
     width: "100%"
   },
   root: {
     width: "100%"
   },
   streamingComments: {
-    boxSizing: "border-box",
-    height: "100%",
-    width: "25%"
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
+    minWidth: 250,
   },
   streamingVideo: {
-    boxSizing: "border-box",
-    height: "100%",
-    width: "75%"
+    display: "flex",
+    flexBasis: "25rem",
+    flexDirection: "column",
+    flexGrow: 7,
+    minHeight: 250,
+    minWidth: "75%"
   },
   streamingVideoSection: {
+    flexBasis: "50rem",
     flexGrow: 4,
     width: "100%"
   },

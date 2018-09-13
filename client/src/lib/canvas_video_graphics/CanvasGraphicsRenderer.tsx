@@ -1,74 +1,79 @@
 import * as React from "react";
-import {createRef, PureComponent, RefObject} from "react";
+import {createRef, Fragment, PureComponent, RefObject} from "react";
+
+import ReactResizeDetector from "react-resize-detector";
 
 import {CanvasGraphicsRenderObject} from "./graphics_objects/CanvasGraphicsRenderObject";
-import {ICanvasGraphicsSizingContext} from "./graphics_objects/ICanvasGraphicsSizingContext";
+import {CanvasRenderingService} from "./services/CanvasRenderingService";
 
 export interface ICanvasGraphicsRendererProps {
   animate: boolean;
   renderObjects: Array<CanvasGraphicsRenderObject>;
-  sizing: {
-    height: number;
-    width: number;
-  };
 }
 
 export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendererProps> {
 
-  private shouldRender: boolean = false;
-  private canvasRef: RefObject<HTMLCanvasElement> = createRef();
+  private readonly canvasRef: RefObject<HTMLCanvasElement> = createRef();
+  private readonly renderingService: CanvasRenderingService = new CanvasRenderingService();
+
+  public getCanvasElement(): HTMLCanvasElement {
+    return (this.canvasRef.current as any);
+  }
 
   public componentWillMount(): void {
-    this.shouldRender = true;
+    this.renderingService.shouldRender = true;
   }
 
   public componentDidMount(): void {
-    this.renderContext();
+    this.renderingService.context = this.getCanvasElement().getContext("2d") as CanvasRenderingContext2D;
+    this.renderingService.render();
   }
 
   public componentWillUnmount(): void {
-    this.shouldRender = false;
+    this.renderingService.shouldRender = false;
+  }
+
+  public componentDidUpdate(): void {
+    this.renderingService.renderObjects = this.props.renderObjects;
   }
 
   public render(): JSX.Element {
     return (
-      <canvas ref={this.canvasRef} height={this.props.sizing.height} width={this.props.sizing.width}/>
+      <Fragment>
+
+        <canvas ref={this.canvasRef}/>
+
+          <ReactResizeDetector onResize={(width, height) => this.reCalculateSizing(width, height)}
+                               refreshMode={"throttle"} refreshRate={150}
+                               handleHeight handleWidth/>
+      </Fragment>
     );
   }
 
-  private renderContext(): void {
+  private reCalculateSizing(width: number, height: number) {
 
-    this.renderItems();
-
-    if (this.shouldRender) {
-      window.requestAnimationFrame(() => this.renderContext());
-    }
-
-  }
-
-  private renderItems(): void {
-
-    this.getCanvasContext().clearRect(0, 0, this.props.sizing.width, this.props.sizing.height);
-
-    for (const object of this.props.renderObjects) {
-      object.setContext(this.getCanvasContext());
-      object.setSizing(this.getCanvasSizing());
-      object.renderSelf();
-    }
-
-  }
-
-  private getCanvasElement(): HTMLCanvasElement {
-    return (this.canvasRef.current as any);
-  }
-
-  private getCanvasContext(): CanvasRenderingContext2D {
-    return this.getCanvasElement().getContext("2d") as CanvasRenderingContext2D;
-  }
-
-  private getCanvasSizing(): ICanvasGraphicsSizingContext {
     const canvas: HTMLCanvasElement = this.getCanvasElement();
-    return { width: canvas.width, height: canvas.height };
+
+    let canvasWidth: number;
+    let canvasHeight: number;
+
+    const aspectRatio = 16 / 9;
+
+    const maxHeight = width / aspectRatio;
+
+    if (maxHeight <= height) {
+      canvasHeight = maxHeight;
+      canvasWidth = width;
+    } else {
+      canvasHeight = height;
+      canvasWidth = height * aspectRatio;
+    }
+
+    canvas.height = Math.floor(canvasHeight);
+    canvas.width = Math.floor(canvasWidth);
+
+    this.renderingService.sizing.height = canvas.height;
+    this.renderingService.sizing.width = canvasWidth;
   }
 
 }

@@ -1,4 +1,4 @@
-import {ICanvasGraphicsSizingContext} from "@Lib/canvas_video_graphics/graphics_objects/ICanvasGraphicsSizingContext";
+import {ICanvasGraphicsSizingContext} from "@Lib/canvas_video_graphics/services/ICanvasGraphicsSizingContext";
 
 export abstract class CanvasGraphicsRenderObject {
 

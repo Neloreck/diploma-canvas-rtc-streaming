@@ -10,7 +10,8 @@ import {IInputSourcePreviewVideoProps} from "./InputSourcePreviewVideo.StateProp
 import {inputSourcePreviewVideoStyle} from "./InputSourcePreviewVideo.Style";
 
 import {LocalMediaService} from "@App/data/services/local_media";
-import {CanvasGraphicsStream} from "@Lib/canvas_video_graphics";
+
+import {CanvasGraphicsPreprocessor} from "@Lib/canvas_video_graphics";
 
 @withStyle(inputSourcePreviewVideoStyle)
 export class InputSourcePreviewVideo extends Component<IInputSourcePreviewVideoProps> {
@@ -49,9 +50,7 @@ export class InputSourcePreviewVideo extends Component<IInputSourcePreviewVideoP
   public render(): JSX.Element {
     return (
       <Grid className={this.props.classes.root} justify={"center"} alignItems={"center"} container>
-
-        <CanvasGraphicsStream animate={true} stream={this.state.previewStream}/>
-
+        <CanvasGraphicsPreprocessor animate={true} stream={this.state.previewStream}/>
       </Grid>
     );
   }

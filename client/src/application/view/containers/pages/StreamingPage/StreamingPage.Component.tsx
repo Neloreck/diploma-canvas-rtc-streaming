@@ -33,7 +33,7 @@ export class StreamingPage extends Component<IStreamingPageProps> {
 
   public render(): JSX.Element {
     return (
-      <Grid className={this.props.classes.root} direction={"column"} container>
+      <Grid className={this.props.classes.root} direction={"column"} wrap={"nowrap"} container>
 
         <HeaderBar {...{} as IHeaderBarExternalProps}> </HeaderBar>
 
@@ -46,6 +46,10 @@ export class StreamingPage extends Component<IStreamingPageProps> {
             </Grid>
 
             <Grid className={this.props.classes.streamingComments} item>
+              123 <br/>
+              123 <br/>
+              123 <br/>
+              123 <br/>
               123
             </Grid>
 

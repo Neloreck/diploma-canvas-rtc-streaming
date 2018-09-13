@@ -3,7 +3,7 @@ import {Component} from "react";
 
 import {withStyle} from "@Annotate";
 import {Button, FormControl, Grid, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
-import RefreshIcon from "@material-ui/icons/refresh";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 import {IInputSourcesSelectFormProps} from "./InputSourcesSelectForm.StateProps";
 import {inputSourcesSelectFormStyle} from "./InputSourcesSelectForm.Style";
