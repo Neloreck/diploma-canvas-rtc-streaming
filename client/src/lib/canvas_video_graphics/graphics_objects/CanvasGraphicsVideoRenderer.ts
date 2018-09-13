@@ -1,10 +1,12 @@
+import {CanvasGraphicsNoiseRenderer} from "./CanvasGraphicsNoiseRenderer";
 import {CanvasGraphicsRenderObject} from "./CanvasGraphicsRenderObject";
 
 export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
 
   private static readonly ASPECT_RATIO: number = 16 / 9;
 
-  public increment: number = 0;
+  private increment: number = 0;
+  private canvasGraphicsNoiseRenderer: CanvasGraphicsNoiseRenderer = new CanvasGraphicsNoiseRenderer();
 
   private isVideoRendering: boolean = false;
   private mediaStream: MediaStream = new MediaStream();
@@ -18,18 +20,24 @@ export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
   }
 
   public renderSelf(): void {
-    const context: CanvasRenderingContext2D = this.getContext();
 
     this.startVideo();
+
+    if (this.mediaStream.getTracks().length > 0) {
+      this.renderVideo();
+    } else {
+      this.renderNoVideo();
+    }
+  }
+
+  private renderVideo(): void {
+
+    const context: CanvasRenderingContext2D = this.getContext();
 
     this.hiddenVideoRenderer.width = this.getPercentagedWidth(100);
     this.hiddenVideoRenderer.height = this.getPercentagedWidth(100) * CanvasGraphicsVideoRenderer.ASPECT_RATIO;
 
-    if (this.mediaStream.getTracks().length) {
-      context.drawImage(this.hiddenVideoRenderer, 0, 0, this.getPercentagedWidth(100), this.getPercentagedHeight(100));
-    } else {
-      this.renderNoVideo();
-    }
+    context.drawImage(this.hiddenVideoRenderer, 0, 0, this.getPercentagedWidth(100), this.getPercentagedHeight(100));
   }
 
   private renderNoVideo(): void {
@@ -38,20 +46,9 @@ export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
   }
 
   private renderNoise(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-
-    const skipConst: number = 25;
-    const {height, width} = this.getSizing();
-
-    for (let x = 0; x < width; x += skipConst) {
-      for (let y = 0; y < height; y += skipConst) {
-        const number = Math.floor(Math.random() * 100);
-
-        context.fillStyle = "rgba(" + number + "," + number + "," + number + "," + 0.75 + ")";
-        context.fillRect(x, y, skipConst, skipConst);
-      }
-    }
+    this.canvasGraphicsNoiseRenderer.setContext(this.getContext());
+    this.canvasGraphicsNoiseRenderer.setSizing(this.getSizing());
+    this.canvasGraphicsNoiseRenderer.renderSelf();
   }
 
   private renderTextLabel(): void {
@@ -75,7 +72,8 @@ export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
     this.increment ++;
     this.increment = this.increment % 120;
 
-    context.fillText(text, this.getPercentagedWidth(50) - textWidth / 2, this.getPercentagedHeight(50));
+    context.fillText(text, Math.floor(this.getPercentagedWidth(50) - textWidth / 2),
+      Math.floor(this.getPercentagedHeight(50)));
   }
 
   private async startVideo(): Promise<void> {
