@@ -16,7 +16,7 @@ import {Grid} from "@material-ui/core";
 
 import {ISignInFormExternalProps, SignInForm} from "@Components/pages/signing/SignInForm";
 
-import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Containers/elements/HeaderBar";
 
 @withConnection<ISignInPageStoreProps, ISignInPageDispatchProps, ISignInPageProps>(
   (store: IGlobalStoreState) => ({
@@ -30,7 +30,7 @@ export class SignInPage extends Component<ISignInPageProps> {
     return (
       <Grid className={this.props.classes.root} container>
 
-        <HeaderBar {...{} as IHeaderBarProps}> </HeaderBar>
+        <HeaderBar {...{} as IHeaderBarExternalProps}> </HeaderBar>
 
         <Grid container justify={"center"} alignItems={"center"} className={this.props.classes.content}>
 

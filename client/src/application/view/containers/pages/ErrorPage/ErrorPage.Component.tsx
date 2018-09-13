@@ -4,7 +4,7 @@ import {Component} from "react";
 import {withConnection, withStyle} from "@Annotate";
 import {IGlobalStoreState} from "@Redux";
 
-import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Containers/elements/HeaderBar";
 import Button from "@material-ui/core/Button/Button";
 
 import {IErrorPageDispatchProps, IErrorPageProps, IErrorPageStoreProps} from "./ErrorPage.StateProps";
@@ -21,7 +21,7 @@ export class ErrorPage extends Component<IErrorPageProps> {
     return (
       <div className={this.props.classes.root}>
 
-        <HeaderBar {...{} as IHeaderBarProps}> </HeaderBar>
+        <HeaderBar {...{} as IHeaderBarExternalProps}> </HeaderBar>
 
         <div className={this.props.classes.content}>
           <Button variant="contained">Test</Button>

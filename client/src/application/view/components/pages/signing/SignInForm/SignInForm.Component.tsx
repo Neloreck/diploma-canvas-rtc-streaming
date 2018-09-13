@@ -52,7 +52,7 @@ export class SignInForm extends Component<ISignInFormProps> {
           <br/>
 
           <Grid justify={"flex-end"} container>
-            <Button className={classes.signInButton} variant="contained" color="primary">Submit</Button>
+            <Button className={classes.signInButton}>Submit</Button>
           </Grid>
 
         </Grid>

@@ -1,2 +1,3 @@
 export {HeaderBar} from "./HeaderBar.Component";
-export {IHeaderBarProps} from "./HeaderBar.StateProps";
+export {IHeaderBarOwnProps} from "./HeaderBar.StateProps";
+export {IHeaderBarExternalProps} from "./HeaderBar.StateProps";

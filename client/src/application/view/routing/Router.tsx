@@ -10,6 +10,7 @@ import {reduxStoreManager} from "@Redux";
 const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "home" */"@Containers/pages/HomePage"));
 const SignInPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "sign-in" */"@Containers/pages/SignInPage"));
 const SignUpPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "sign-up" */"@Containers/pages/SignUpPage"));
+const StreamingPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream-page" */"@Containers/pages/StreamingPage"));
 const ErrorPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "error-page" */"@Containers/pages/ErrorPage"));
 
 export class Router extends PureComponent {
@@ -23,6 +24,7 @@ export class Router extends PureComponent {
           <Route exact={true} path={"/home"} component={HomePage}/>
           <Route exact={true} path={"/signIn"} component={SignInPage}/>
           <Route exact={true} path={"/signUp"} component={SignUpPage}/>
+          <Route exact={true} path={"/stream"} component={StreamingPage}/>
           <Route exact={true} path={"*"} component={ErrorPage}/>
         </Switch>
 

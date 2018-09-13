@@ -9,7 +9,7 @@ import {IGlobalStoreState} from "@Redux";
 import {ISignUpPageDispatchProps, ISignUpPageProps, ISignUpPageStoreProps} from "./SignUpPage.StateProps";
 import {signUpPageStyle} from "./SignUpPage.Style";
 
-import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Containers/elements/HeaderBar";
 
 import {ISignUpFormExternalProps, SignUpForm} from "@Components/pages/signing/SignUpForm";
 
@@ -24,7 +24,7 @@ export class SignUpPage extends Component<ISignUpPageProps> {
     return (
       <Grid className={this.props.classes.root} container>
 
-        <HeaderBar {...{} as IHeaderBarProps}> </HeaderBar>
+        <HeaderBar {...{} as IHeaderBarExternalProps}> </HeaderBar>
 
         <Grid container justify={"center"} alignItems={"center"} className={this.props.classes.content}>
 

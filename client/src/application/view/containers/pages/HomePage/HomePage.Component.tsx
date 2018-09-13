@@ -1,15 +1,14 @@
 import * as React from "react";
 import {Component} from "react";
 
-import {Button} from "@material-ui/core";
-
 import {withConnection, withStyle} from "@Annotate";
 import {IGlobalStoreState} from "@Redux";
 
-import {HeaderBar, IHeaderBarProps} from "@Containers/elements/HeaderBar";
-
 import {IHomePageDispatchProps, IHomePageProps, IHomePageStoreProps} from "./HomePage.StateProps";
 import {homePageStyle} from "./HomePage.Style";
+
+import {HeaderBar, IHeaderBarExternalProps} from "@Containers/elements/HeaderBar";
+import {Grid} from "@material-ui/core";
 
 @withConnection<IHomePageStoreProps, IHomePageDispatchProps, IHomePageProps>(
   (store: IGlobalStoreState) => ({
@@ -21,15 +20,15 @@ export class HomePage extends Component<IHomePageProps> {
 
   public render(): JSX.Element {
     return (
-      <div className={this.props.classes.root}>
+      <Grid className={this.props.classes.root} container>
 
-        <HeaderBar {...{} as IHeaderBarProps}> </HeaderBar>
+        <HeaderBar {...{} as IHeaderBarExternalProps}> </HeaderBar>
 
         <div className={this.props.classes.content}>
-          <Button variant="contained">Test</Button>
+          Home page
         </div>
 
-      </div>
+      </Grid>
     );
   }
 
