@@ -15,7 +15,8 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
   public render(): JSX.Element {
     return (
-      <CanvasGraphicsRenderer animate={this.props.animate} renderObjects={this.getRenderingObjectsContext()}/>
+      <CanvasGraphicsRenderer animate={this.props.animate} renderingLayouts={this.getRenderingObjectsContext()}
+                              displayAdjustmentGrid={true} renderingGridObjects={[]} />
     );
   }
 

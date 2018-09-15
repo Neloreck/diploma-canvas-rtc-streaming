@@ -4,6 +4,7 @@ export const inputSourcePreviewVideoStyle = (theme: Theme) => createStyles({
   root: {
     backgroundColor: "#000",
     boxSizing: "border-box",
+    flexBasis: "20rem",
     flexGrow: 1,
     height: "100%",
     overflow: "hidden",

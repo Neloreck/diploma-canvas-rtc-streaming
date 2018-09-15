@@ -27,7 +27,7 @@ export class CanvasGraphicsNoiseRenderer extends CanvasGraphicsRenderObject {
 
   private getRenderedNoise(): string {
 
-    const [width, height] = [800, 450];
+    const [width, height] = [1000, 600];
 
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -35,7 +35,7 @@ export class CanvasGraphicsNoiseRenderer extends CanvasGraphicsRenderObject {
     canvas.width = width;
     canvas.height = height;
 
-    const skipConst: number = 5;
+    const skipConst: number = 4;
 
     for (let x = 0; x < width; x += skipConst) {
       for (let y = 0; y < height; y += skipConst) {

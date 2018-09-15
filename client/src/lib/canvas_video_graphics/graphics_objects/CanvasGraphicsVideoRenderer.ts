@@ -43,9 +43,13 @@ export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
   }
 
   private renderTextLabel(): void {
+
     let text: string = "No input source provided.";
 
-    const textSize: number = this.getPercentagedWidth(4);
+    const widthPercent: number = this.getPercentagedWidth(1);
+    const heightPercent: number = this.getPercentagedHeight(1);
+
+    const textSize: number = 4 * widthPercent;
     const textWidth: number = text.length * textSize / 2.2;
 
     const context: CanvasRenderingContext2D = this.getContext();
@@ -62,9 +66,8 @@ export class CanvasGraphicsVideoRenderer extends CanvasGraphicsRenderObject {
 
     this.increment ++;
     this.increment = this.increment % 120;
-
-    context.fillText(text, Math.floor(this.getPercentagedWidth(50) - textWidth / 2),
-      Math.floor(this.getPercentagedHeight(50)));
+    context.fillText(text, Math.floor(widthPercent * 50 - textWidth / 2),
+      Math.floor(heightPercent * 52));
   }
 
   private async startVideo(): Promise<void> {
