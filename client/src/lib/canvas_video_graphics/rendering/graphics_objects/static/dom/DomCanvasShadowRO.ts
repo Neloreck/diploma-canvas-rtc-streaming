@@ -1,12 +1,15 @@
-import {CanvasGraphicsRenderObject} from "./CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../../CanvasGraphicsRenderObject";
 
-export class CanvasGraphicsShadowRenderer extends CanvasGraphicsRenderObject {
+export class DomCanvasShadowRO extends CanvasGraphicsRenderObject {
 
   private readonly shadow: HTMLCanvasElement;
 
   public constructor(shadow: HTMLCanvasElement) {
+
     super();
+
     this.shadow = shadow;
+
   }
 
   public renderSelf(): void {

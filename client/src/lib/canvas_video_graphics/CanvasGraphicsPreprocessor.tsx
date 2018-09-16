@@ -3,25 +3,44 @@ import {PureComponent} from "react";
 
 import {CanvasGraphicsRenderer} from "./CanvasGraphicsRenderer";
 
-import {CanvasGraphicsRenderObject} from "./graphics_objects/CanvasGraphicsRenderObject";
-import {CanvasGraphicsVideoRenderer} from "./graphics_objects/CanvasGraphicsVideoRenderer";
+import {CanvasGraphicsRenderObject, DomVideoRO} from "./rendering/graphics_objects";
+import {GridLayoutRO} from "./rendering/graphics_objects";
+
+import {MovableRingMRO} from "./rendering/graphics_objects/movable/util/MovableRingMRO";
+import {MovableRectangleMRO} from "./rendering/graphics_objects/movable/util/MovableRectangleMRO";
 
 export interface ICanvasGraphicsStreamProps {
-  animate: boolean;
+  enableGridConfiguration: boolean;
+  gridConfigObjects: Array<any>;
   stream: MediaStream;
 }
 
 export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStreamProps> {
 
   public render(): JSX.Element {
+
     return (
-      <CanvasGraphicsRenderer animate={this.props.animate} renderingLayouts={this.getRenderingObjectsContext()}
-                              displayAdjustmentGrid={true} renderingGridObjects={[]} />
+      <CanvasGraphicsRenderer externalRenderingItems={this.getExternalRenderingObjectsContext()}
+                              internalRenderingItems={this.getInternalRenderingObjectsContext()} />
     );
+
   }
 
-  private getRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
-    return [new CanvasGraphicsVideoRenderer(this.props.stream)];
+  private getInternalRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
+    return this.props.enableGridConfiguration
+      ? [
+        new MovableRingMRO(5, { x: 50, y: 50 }),
+        new MovableRingMRO(8, { x: 25, y: 50 }),
+        new MovableRingMRO(4, { x: 88, y: 13 }),
+        new MovableRectangleMRO(25, 25, 25, 15),
+        new MovableRectangleMRO(77, 55, 33, 14),
+        // new GridLayoutRO(1, 1)
+      ]
+      : [];
+  }
+
+  private getExternalRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
+    return [new DomVideoRO(this.props.stream)];
   }
 
 }

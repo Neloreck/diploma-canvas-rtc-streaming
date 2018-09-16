@@ -183,7 +183,7 @@ export class WebpackBuildConfig implements Configuration {
 
   public devServer = {
     compress: true,
-    contentBase: "target/",
+    contentBase: "target/dist/",
     historyApiFallback: true,
     host: "0.0.0.0",
     hot: !isProduction,

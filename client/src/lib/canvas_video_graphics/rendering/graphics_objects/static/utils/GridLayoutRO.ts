@@ -1,11 +1,20 @@
-import {CanvasGraphicsRenderObject} from "./CanvasGraphicsRenderObject";
-import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
+import {ICanvasGraphicsSizingContext} from "../../../context/ICanvasGraphicsSizingContext";
+import {CanvasGraphicsRenderObject} from "../../CanvasGraphicsRenderObject";
 
-export class CanvasGraphicsGridLayoutRenderer extends CanvasGraphicsRenderObject {
+export class GridLayoutRO extends CanvasGraphicsRenderObject {
 
   private readonly lineWidth: number = 3;
   private readonly verticalLinesCount: number = 1;
   private readonly horizontalLinesCount: number = 1;
+
+  public constructor(verticalLinesCount: number = 1, horizontalLinesCount: number = 1) {
+
+    super();
+
+    this.verticalLinesCount = verticalLinesCount;
+    this.horizontalLinesCount = horizontalLinesCount;
+
+  }
 
   public renderSelf(): void {
 
