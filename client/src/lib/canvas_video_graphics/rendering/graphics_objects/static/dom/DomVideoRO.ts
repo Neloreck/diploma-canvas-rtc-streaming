@@ -1,6 +1,6 @@
 import {ICanvasGraphicsSizingContext} from "../../../context/ICanvasGraphicsSizingContext";
 
-import {CanvasGraphicsRenderObject} from "../../CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../../abstract/CanvasGraphicsRenderObject";
 import {CenteredTextRO} from "../text/CenteredTextRO";
 
 export class DomVideoRO extends CanvasGraphicsRenderObject {

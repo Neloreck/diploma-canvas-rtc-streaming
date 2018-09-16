@@ -1,13 +1,19 @@
+import {IBoundingRect} from "../../../context";
 import {IPoint} from "../../../context/IPoint";
-import {CanvasGraphicsMovableRectangleObject} from "../CanvasGraphicsMovableRectangleObject";
+import {CanvasGraphicsMovableRectangleObject} from "../../abstract/CanvasGraphicsMovableRectangleObject";
+import {MovableResizeControlMRO} from "./MovableResizeControlMRO";
 
 export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
   private left: number = 0;
   private top: number = 0;
+  private width: number = 5;
+  private height: number = 5;
 
-  private readonly width: number = 5;
-  private readonly height: number = 5;
+  private readonly resizeTopLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
+  private readonly resizeTopRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
+  private readonly resizeBotLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
+  private readonly resizeBotRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
 
   public constructor(left: number, top: number, width: number, height: number) {
 
@@ -18,6 +24,15 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
     this.width = width;
     this.height = height;
 
+    this.resizeTopLeft.setOwner(this);
+    this.resizeTopRight.setOwner(this);
+    this.resizeBotLeft.setOwner(this);
+    this.resizeBotRight.setOwner(this);
+
+    this.resizeTopLeft.setCorner(1);
+    this.resizeTopRight.setCorner(0);
+    this.resizeBotLeft.setCorner(2);
+    this.resizeBotRight.setCorner(3);
   }
 
   public renderSelf(): void {
@@ -31,12 +46,96 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
   }
 
-  protected setRoot(x: number, y: number): void {
-    this.left = x;
-    this.top = y;
+  public isInResizeBounds(x: number, y: number): boolean {
+    return this.resizeTopLeft.isInBounds(x, y) || this.resizeTopRight.isInBounds(x, y) ||
+      this.resizeBotLeft.isInBounds(x, y) || this.resizeBotRight.isInBounds(x, y);
   }
 
-  protected getBoundingRect(): { topLeft: IPoint, topRight: IPoint, botLeft: IPoint, botRight: IPoint } {
+  public afterResize(resizeControl: MovableResizeControlMRO, corner: 0 | 1 | 2 | 3): void {
+
+    const bounds: IBoundingRect = this.getBoundingRect();
+    let diffX: number = 0;
+    let diffY: number = 0;
+
+    switch (corner) {
+
+      case 0:
+
+        diffY = this.asPercentageHeight(resizeControl.absoluteTop - bounds.topRight.y);
+
+        this.top += diffY;
+        this.height -= diffY;
+
+        this.width += this.asPercentageWidth(resizeControl.absoluteLeft + resizeControl.absoluteWidth - bounds.topLeft.x - this.getPercentageWidth(this.width));
+
+        break;
+
+      case 1:
+
+        diffX = this.asPercentageWidth(resizeControl.absoluteLeft - bounds.topLeft.x);
+
+        this.left += diffX;
+        this.width -= diffX;
+
+        diffY = this.asPercentageHeight(resizeControl.absoluteTop - bounds.topRight.y);
+
+        this.top += diffY;
+        this.height -= diffY;
+
+        break;
+
+      case 2:
+        diffX = this.asPercentageWidth(resizeControl.absoluteLeft - bounds.topLeft.x);
+
+        this.left += diffX;
+        this.width -= diffX;
+
+        this.height += this.asPercentageHeight(resizeControl.absoluteTop + resizeControl.absoluteHeight - bounds.topLeft.y - this.getPercentageHeight(this.height));
+
+        break;
+
+      case 3:
+        this.width += this.asPercentageWidth(resizeControl.absoluteLeft + resizeControl.absoluteWidth - bounds.botLeft.x - this.getPercentageWidth(this.width));
+        this.height += this.asPercentageHeight(resizeControl.absoluteTop + resizeControl.absoluteHeight - bounds.topLeft.y - this.getPercentageHeight(this.height));
+        break;
+
+      default:
+        throw new Error("Unknown corner: " + corner);
+
+    }
+
+  }
+
+  protected onResize(x: number, y: number): void {
+
+    const boundingRect: IBoundingRect = this.getBoundingRect();
+
+    const halfWidth: number = (boundingRect.topRight.x - boundingRect.topLeft.x) / 2;
+    const halfHeight: number = (boundingRect.botLeft.y - boundingRect.topLeft.y) / 2;
+
+    const center: IPoint = {
+      x: (boundingRect.topRight.x - halfWidth),
+      y: (boundingRect.botRight.y - halfHeight)
+    };
+
+    if (x > center.x && y < center.y) {
+      this.resizeTopRight.move(x, y);
+    } else if (x < center.x && y < center.y) {
+      this.resizeTopLeft.move(x, y);
+    } else if (x < center.x && y > center.y) {
+      this.resizeBotLeft.move(x, y);
+    } else {
+      this.resizeBotRight.move(x, y);
+    }
+
+  }
+
+  protected setRoot(x: number, y: number): void {
+    this.left = x * 100 / this.getPercentageWidth(100);
+    this.top = y * 100 / this.getPercentageHeight(100);
+  }
+
+  protected getBoundingRect(): IBoundingRect {
 
     const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
 
@@ -66,25 +165,30 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
     const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
 
-    const resizeSize: number = 7;
+    const resizeSize: number = 12;
 
     const realHeight: number = this.height * pHeight;
     const realWidth: number = this.width * pWidth;
 
-    this.renderResizeControl(this.left * pWidth, this.top * pHeight, resizeSize, resizeSize);
-    this.renderResizeControl(this.left * pWidth, this.top * pHeight + realHeight - resizeSize, resizeSize, resizeSize);
-    this.renderResizeControl(this.left * pWidth + realWidth - resizeSize, this.top * pHeight, resizeSize, resizeSize);
-    this.renderResizeControl(this.left * pWidth + realWidth - resizeSize, this.top * pHeight + realHeight - resizeSize, resizeSize, resizeSize);
-  }
+    this.resizeTopLeft.setContext(this.getContext());
+    this.resizeTopRight.setContext(this.getContext());
+    this.resizeBotLeft.setContext(this.getContext());
+    this.resizeBotRight.setContext(this.getContext());
 
-  private renderResizeControl(left: number, top: number, width: number, height: number): void {
+    this.resizeTopLeft.setSizing(this.getSizing());
+    this.resizeTopRight.setSizing(this.getSizing());
+    this.resizeBotLeft.setSizing(this.getSizing());
+    this.resizeBotRight.setSizing(this.getSizing());
 
-    const context: CanvasRenderingContext2D = this.getContext();
+    this.resizeTopLeft.updateAbsoluteSizing(this.left * pWidth, this.top * pHeight, resizeSize, resizeSize);
+    this.resizeTopRight.updateAbsoluteSizing(this.left * pWidth, this.top * pHeight + realHeight - resizeSize, resizeSize, resizeSize);
+    this.resizeBotLeft.updateAbsoluteSizing(this.left * pWidth + realWidth - resizeSize, this.top * pHeight, resizeSize, resizeSize);
+    this.resizeBotRight.updateAbsoluteSizing(this.left * pWidth + realWidth - resizeSize, this.top * pHeight + realHeight - resizeSize, resizeSize, resizeSize);
 
-    context.beginPath();
-    context.rect(left, top, width, height);
-    context.stroke();
-    context.closePath();
+    this.resizeTopLeft.renderSelf();
+    this.resizeTopRight.renderSelf();
+    this.resizeBotLeft.renderSelf();
+    this.resizeBotRight.renderSelf();
   }
 
 }

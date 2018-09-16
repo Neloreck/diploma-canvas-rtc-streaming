@@ -32,9 +32,9 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
         new MovableRingMRO(5, { x: 50, y: 50 }),
         new MovableRingMRO(8, { x: 25, y: 50 }),
         new MovableRingMRO(4, { x: 88, y: 13 }),
-        new MovableRectangleMRO(25, 25, 25, 15),
-        new MovableRectangleMRO(77, 55, 33, 14),
-        // new GridLayoutRO(1, 1)
+        new MovableRectangleMRO(10, 25, 25, 15),
+        new MovableRectangleMRO(50, 65, 33, 25),
+         new GridLayoutRO(1, 1)
       ]
       : [];
   }

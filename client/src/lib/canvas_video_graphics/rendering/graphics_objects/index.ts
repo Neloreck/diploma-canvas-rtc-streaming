@@ -1,8 +1,8 @@
-export {CanvasGraphicsRenderObject} from "./CanvasGraphicsRenderObject";
+export {CanvasGraphicsRenderObject} from "./abstract/CanvasGraphicsRenderObject";
 
-export {CanvasGraphicsMovableObject} from "./movable/CanvasGraphicsMovableObject";
-export {CanvasGraphicsMovableCircleObject} from "./movable/CanvasGraphicsMovableCircleObject";
-export {CanvasGraphicsMovableRectangleObject} from "./movable/CanvasGraphicsMovableRectangleObject";
+export {CanvasGraphicsMovableObject} from "./abstract/CanvasGraphicsMovableObject";
+export {CanvasGraphicsMovableCircleObject} from "./abstract/CanvasGraphicsMovableCircleObject";
+export {CanvasGraphicsMovableRectangleObject} from "./abstract/CanvasGraphicsMovableRectangleObject";
 
 export {DomCanvasShadowRO} from "./static/dom/DomCanvasShadowRO";
 export {DomVideoRO} from "./static/dom/DomVideoRO";

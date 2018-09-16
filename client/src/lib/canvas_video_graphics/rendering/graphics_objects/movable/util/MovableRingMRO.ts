@@ -1,4 +1,4 @@
-import {CanvasGraphicsMovableCircleObject} from "../CanvasGraphicsMovableCircleObject";
+import {CanvasGraphicsMovableCircleObject} from "../../abstract/CanvasGraphicsMovableCircleObject";
 
 export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
 
@@ -23,6 +23,14 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
       this.renderResizeControls();
     }
 
+  }
+
+  public isInResizeBounds(x: number, y: number): boolean {
+    return false;
+  }
+
+  protected onResize(x: number, y: number): void {
+    console.error("RESIZE", x, y);
   }
 
   protected getBoundsRadius(): number {
@@ -75,6 +83,5 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
     context.stroke();
     context.closePath();
   }
-
 
 }

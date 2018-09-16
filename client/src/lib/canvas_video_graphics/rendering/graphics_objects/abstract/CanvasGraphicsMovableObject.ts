@@ -1,10 +1,12 @@
-import {CanvasGraphicsRenderObject} from "../CanvasGraphicsRenderObject";
+import {CanvasGraphicsResizableObject} from "./CanvasGraphicsResizableObject";
 
-export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsRenderObject {
+export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsResizableObject {
 
   protected readonly selectionPadding: number = 5;
 
   private selected: boolean = false;
+
+  public afterMove(...args: Array<any>) { /*nothing*/ }
 
   public isSelected(): boolean {
     return this.selected;
@@ -21,6 +23,7 @@ export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsRenderOb
   public move(x: number, y: number): void {
 
     this.onMove(x, y);
+    this.afterMove(x, y);
 
   }
 

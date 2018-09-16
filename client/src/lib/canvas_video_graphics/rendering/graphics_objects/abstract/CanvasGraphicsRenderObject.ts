@@ -1,4 +1,4 @@
-import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
+import {ICanvasGraphicsSizingContext} from "../../context/ICanvasGraphicsSizingContext";
 
 export abstract class CanvasGraphicsRenderObject {
 
@@ -37,16 +37,28 @@ export abstract class CanvasGraphicsRenderObject {
     return false;
   }
 
+  public isResizable(): boolean {
+    return false;
+  }
+
   public abstract renderSelf(): void;
 
   // Private implementation.
 
-  protected getPercentageWidth(percents: number) {
+  protected getPercentageWidth(percents: number): number {
     return this.sizing.width * percents / 100;
   }
 
-  protected getPercentageHeight(percents: number) {
+  protected getPercentageHeight(percents: number): number {
     return this.sizing.height * percents / 100;
+  }
+
+  protected asPercentageWidth(absolute: number): number {
+    return absolute * 100 / this.sizing.width;
+  }
+
+  protected asPercentageHeight(absolute: number): number {
+    return absolute * 100 / this.sizing.height;
   }
 
   protected getPercentageBaseSizing() {

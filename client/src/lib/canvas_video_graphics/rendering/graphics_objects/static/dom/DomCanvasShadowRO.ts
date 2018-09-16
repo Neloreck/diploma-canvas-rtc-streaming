@@ -1,4 +1,4 @@
-import {CanvasGraphicsRenderObject} from "../../CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../../abstract/CanvasGraphicsRenderObject";
 
 export class DomCanvasShadowRO extends CanvasGraphicsRenderObject {
 

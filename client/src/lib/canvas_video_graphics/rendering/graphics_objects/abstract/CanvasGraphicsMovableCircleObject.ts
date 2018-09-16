@@ -1,4 +1,4 @@
-import {ICanvasGraphicsSizingContext, IPoint} from "./../../context";
+import {ICanvasGraphicsSizingContext, IPoint} from "../../context/index";
 import {CanvasGraphicsMovableObject} from "./CanvasGraphicsMovableObject";
 
 export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMovableObject {

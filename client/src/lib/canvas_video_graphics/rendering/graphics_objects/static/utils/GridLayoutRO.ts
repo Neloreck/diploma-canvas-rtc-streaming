@@ -1,5 +1,5 @@
 import {ICanvasGraphicsSizingContext} from "../../../context/ICanvasGraphicsSizingContext";
-import {CanvasGraphicsRenderObject} from "../../CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../../abstract/CanvasGraphicsRenderObject";
 
 export class GridLayoutRO extends CanvasGraphicsRenderObject {
 

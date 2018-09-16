@@ -1,4 +1,4 @@
-import {IBoundingRect, IPoint} from "../../context";
+import {IBoundingRect, IPoint} from "../../context/index";
 import {CanvasGraphicsMovableObject} from "./CanvasGraphicsMovableObject";
 
 export abstract class CanvasGraphicsMovableRectangleObject extends CanvasGraphicsMovableObject {
@@ -7,6 +7,22 @@ export abstract class CanvasGraphicsMovableRectangleObject extends CanvasGraphic
 
     const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
     const realPoint: IPoint = {x, y};
+
+    // Additional radius for moving / selection.
+
+    topLeft.x -= this.selectionPadding;
+    topLeft.y -= this.selectionPadding;
+
+    topRight.x += this.selectionPadding;
+    topRight.y -= this.selectionPadding;
+
+    botLeft.x -= this.selectionPadding;
+    botLeft.y += this.selectionPadding;
+
+    botRight.x += this.selectionPadding;
+    botRight.y += this.selectionPadding;
+
+    // Check two triangles instead of rectangle.
 
     const isInFirstTriangle: boolean = this.checkPointInTriangle(realPoint, botLeft, topLeft, topRight);
     const isInSecondTriangle: boolean = this.checkPointInTriangle(realPoint, botLeft, botRight, topRight);
@@ -34,8 +50,7 @@ export abstract class CanvasGraphicsMovableRectangleObject extends CanvasGraphic
     const halfWidth: number = (boundingRect.topRight.x - boundingRect.topLeft.x) / 2;
     const halfHeight: number = (boundingRect.botLeft.y - boundingRect.topLeft.y) / 2;
 
-    this.setRoot((x - halfWidth) * 100 / this.getPercentageWidth(100),
-      (y - halfHeight) * 100 / this.getPercentageHeight(100));
+    this.setRoot((x - halfWidth), (y - halfHeight));
   }
 
   protected renderSelectionOverElement(): void {

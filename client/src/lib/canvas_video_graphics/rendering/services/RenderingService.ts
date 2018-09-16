@@ -1,6 +1,7 @@
 import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
 import {CanvasGraphicsMovableObject} from "../graphics_objects";
-import {CanvasGraphicsRenderObject} from "../graphics_objects/CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../graphics_objects/abstract/CanvasGraphicsRenderObject";
+import {IPoint} from "@Lib/canvas_video_graphics/rendering/context";
 
 export class RenderingService {
 
@@ -100,7 +101,15 @@ export class RenderingService {
     }
 
     if (this.selectedObject !== null) {
-      this.selectedObject.move(event.pageX - this.renderSizing.offsetX, event.pageY - this.renderSizing.offsetY);
+
+      const realPosition: IPoint = { x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY };
+
+      if (this.selectedObject.isInResizeBounds(realPosition.x, realPosition.y)) {
+        this.selectedObject.resize(realPosition.x, realPosition.y);
+      } else {
+        this.selectedObject.move(realPosition.x, realPosition.y);
+      }
+
     }
 
   }
