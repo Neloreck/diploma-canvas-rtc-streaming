@@ -20,6 +20,7 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
 
     if (this.isSelected()) {
       this.renderSelectionOverElement();
+      this.renderResizeControls();
     }
 
   }
@@ -50,5 +51,30 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
     context.stroke();
 
   }
+
+  private renderResizeControls(): void {
+
+    const {width: pWidth, height: pHeight} = this.getPercentageBaseSizing();
+
+    const resizeSize: number = 7;
+
+    const realDistance: number = this.radius * pWidth + this.selectionPadding;
+
+    this.renderResizeControl(this.center.x * pWidth - realDistance, this.center.y * pHeight - realDistance, resizeSize, resizeSize);
+    this.renderResizeControl(this.center.x * pWidth - realDistance, this.center.y * pHeight + realDistance, resizeSize, resizeSize);
+    this.renderResizeControl(this.center.x * pWidth + realDistance, this.center.y * pHeight - realDistance, resizeSize, resizeSize);
+    this.renderResizeControl(this.center.x * pWidth + realDistance, this.center.y * pHeight + realDistance, resizeSize, resizeSize);
+  }
+
+  private renderResizeControl(left: number, top: number, width: number, height: number): void {
+
+    const context: CanvasRenderingContext2D = this.getContext();
+
+    context.beginPath();
+    context.rect(left, top, width, height);
+    context.stroke();
+    context.closePath();
+  }
+
 
 }

@@ -26,6 +26,7 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
     if (this.isSelected()) {
       this.renderSelectionOverElement();
+      this.renderResizeControls();
     }
 
   }
@@ -59,7 +60,31 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
     context.rect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
     context.stroke();
     context.closePath();
+  }
 
+  private renderResizeControls(): void {
+
+    const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
+
+    const resizeSize: number = 7;
+
+    const realHeight: number = this.height * pHeight;
+    const realWidth: number = this.width * pWidth;
+
+    this.renderResizeControl(this.left * pWidth, this.top * pHeight, resizeSize, resizeSize);
+    this.renderResizeControl(this.left * pWidth, this.top * pHeight + realHeight - resizeSize, resizeSize, resizeSize);
+    this.renderResizeControl(this.left * pWidth + realWidth - resizeSize, this.top * pHeight, resizeSize, resizeSize);
+    this.renderResizeControl(this.left * pWidth + realWidth - resizeSize, this.top * pHeight + realHeight - resizeSize, resizeSize, resizeSize);
+  }
+
+  private renderResizeControl(left: number, top: number, width: number, height: number): void {
+
+    const context: CanvasRenderingContext2D = this.getContext();
+
+    context.beginPath();
+    context.rect(left, top, width, height);
+    context.stroke();
+    context.closePath();
   }
 
 }
