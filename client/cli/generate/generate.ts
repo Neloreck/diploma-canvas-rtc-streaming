@@ -3,9 +3,9 @@
 import * as fs from "fs";
 import * as path from "path";
 
+import {AbstractGenerator} from "./generators/AbstractGenerator";
 import {ComponentGenerator} from "./generators/ComponentGenerator";
 import {ContainerGenerator} from "./generators/ContainerGenerator";
-import {AbstractGenerator} from "./generators/AbstractGenerator";
 
 enum EGenerationType {
   CONTAINER = "container",
@@ -20,7 +20,8 @@ const GENERATION_NAME: string = process.argv[ARGS_OFFSET + 2];
 
 if (GENERATION_TYPE && GENERATION_PATH && GENERATION_NAME) {
 
-  const targetFolder: string = path.resolve(process.cwd(), "src/application/view/",
+  // todo: Separate modules argument.
+  const targetFolder: string = path.resolve(process.cwd(), "src/main/view/",
       GENERATION_TYPE === EGenerationType.CONTAINER ? "containers" : "components",
       GENERATION_PATH
   );

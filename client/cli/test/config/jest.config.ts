@@ -57,15 +57,15 @@ module.exports = {
   ],
 
   moduleNameMapper: {
-    "@Annotate$": "<rootDir>/src/application/data/lib/annotate/index",
-    "@Redux": "<rootDir>/./src/application/data/lib/redux/index",
+    "@Annotate$": "<rootDir>/src/main/data/lib/annotate/index",
+    "@Redux": "<rootDir>/./src/main/data/lib/redux/index",
 
-    "@Components/(.*)$": "<rootDir>/./src/application/view/components/$1",
-    "@Containers/(.*)$": "<rootDir>/./src/application/view/containers/$1",
-    "@Layouts/(.*)$": "<rootDir>/./src/application/view/layouts/$1",
-    "@Store/(.*)$": "<rootDir>/./src/application/data/store/$1",
+    "@Components/(.*)$": "<rootDir>/./src/main/view/components/$1",
+    "@Containers/(.*)$": "<rootDir>/./src/main/view/containers/$1",
+    "@Layouts/(.*)$": "<rootDir>/./src/main/view/layouts/$1",
+    "@Store/(.*)$": "<rootDir>/./src/main/data/store/$1",
 
-    "@App/(.*)$": "<rootDir>/src/application/$1",
+    "@App/(.*)$": "<rootDir>/src/main/$1",
     "@Lib/(.*)$": "<rootDir>/src/lib/$1",
     "@Test/(.*)$": "<rootDir>/src/__test__/$1",
     "\\.(css|scss|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":

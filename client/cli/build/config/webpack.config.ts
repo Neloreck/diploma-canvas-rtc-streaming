@@ -8,14 +8,14 @@ const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
-import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin} from "webpack";
+import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin, ProvidePlugin} from "webpack";
 
 type EnvironmentType = "development" | "production";
 
 const environment: EnvironmentType = process.env.NODE_ENV as EnvironmentType;
 const isProduction: boolean = environment === "production";
 const projectRoot: string = path.resolve(__dirname, "../../../");
-const backendPublicPath: string = "";
+const backendPublicPath: string = "/";
 
 export class WebpackBuildConfig implements Configuration {
 
@@ -36,16 +36,16 @@ export class WebpackBuildConfig implements Configuration {
   public entry = isProduction
     ? [
       "babel-polyfill",
-      path.resolve(projectRoot, "src/application/main.ts")
+      path.resolve(projectRoot, "src/main/index.ts")
     ]
     : [
       "webpack/hot/dev-server",
       "babel-polyfill",
-      path.resolve(projectRoot, "src/application/main.ts")
+      path.resolve(projectRoot, "src/main/index.ts")
     ];
 
   public output = {
-    chunkFilename: "js/chunk:[name].js",
+    chunkFilename: "js/ck:[name].js",
     filename: "js/[name].js",
     path: path.resolve(projectRoot, "target/dist"),
     publicPath: backendPublicPath,
@@ -54,19 +54,14 @@ export class WebpackBuildConfig implements Configuration {
 
   public resolve = {
     alias: {
-      "@Annotate": path.resolve(projectRoot, "./src/application/data/lib/annotate"),
-      "@App": path.resolve(projectRoot, "./src/application/"),
-      "@Components": path.resolve(projectRoot, "./src/application/view/components/"),
-      "@Containers": path.resolve(projectRoot, "./src/application/view/containers/"),
-      "@Layouts": path.resolve(projectRoot, "./src/application/view/layouts/"),
       "@Lib": path.resolve(projectRoot, "./src/lib/"),
-      "@Redux": path.resolve(projectRoot, "./src/application/data/lib/redux"),
-      "@Store": path.resolve(projectRoot, "./src/application/data/store/"),
-      "@Test": path.resolve(projectRoot, "./src/__test__/")
+      "@Main": path.resolve(projectRoot, "./src/main/"),
+      "@Module": path.resolve(projectRoot, "./src/modules/")
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     modules: [
-      path.resolve(projectRoot, "src/application"),
+      path.resolve(projectRoot, "src/main"),
+      path.resolve(projectRoot, "src/modules"),
       path.resolve(projectRoot, "src/lib"),
       path.resolve(projectRoot, "node_modules")
     ],
@@ -148,7 +143,7 @@ export class WebpackBuildConfig implements Configuration {
         removeTagWhitespace: true,
         trimCustomFragments: true
       },
-      template: path.resolve(projectRoot, "src/application/index.hbs")
+      template: path.resolve(projectRoot, "src/main/index.hbs")
     }),
     new Dotenv({
       path: path.resolve(projectRoot, "cli/build/.env")

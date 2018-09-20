@@ -26,14 +26,9 @@
     "baseUrl": "./",
     "outDir": "../target/dist:raw",
     "paths": {
-      "@App/*": [ "application/*" ],
-      "@Store/*": [ "application/data/store/*" ],
-      "@Containers/*": [ "application/view/containers/*" ],
-      "@Components/*": [ "application/view/components/*" ],
-      "@Layouts/*": [ "application/view/layouts/*" ],
-      "@Redux/*": [ "application/data/lib/redux/*" ],
-      "@Redux": [ "application/data/lib/redux/index" ],
-      "@Annotate": [ "application/data/lib/annotate/index" ],
+      "@Main/*": [ "main/*" ],
+      "@Module/*": [ "modules/*" ],
+      "@Module": [ "modules/index" ],
       "@Lib/*": [ "lib/*" ]
     }
   },
