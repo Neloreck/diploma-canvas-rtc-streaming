@@ -12,7 +12,7 @@ export class LazyLoadComponentFactory {
   public getComponent(importFunc: () => Promise<any>, componentNamedExport?: string) {
 
     // tslint:disable-next-line
-    class LazyComponent extends Component<any, ILazyComponentState> {
+    class LazyComponent extends Component<any, ILazyComponentState, any> {
 
       private static COMPONENT_INSTANCE: ComponentType;
 
