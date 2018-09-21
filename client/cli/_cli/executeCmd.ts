@@ -1,4 +1,4 @@
-import {blue, green, red} from "colors";
+import {green, red} from "colors";
 import {runProcess} from "./runProcess";
 
 export async function executeCmd(cmd: string, cmdArgs: Array<string>, script: string | Array<string>) {

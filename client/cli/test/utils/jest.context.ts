@@ -1,5 +1,5 @@
 // https://jestjs.io/docs/en/api -> Jest.
-// https://airbnb.io/enzyme/docs/api/ -> Shallow. Rendering of react etc.
+// https://airbnb.io/enzyme/docs/api/ -> Shallow. Rendering of lazy_load etc.
 
 import * as Adapter from "enzyme-adapter-react-16";
 

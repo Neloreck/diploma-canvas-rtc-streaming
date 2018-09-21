@@ -1,19 +1,21 @@
 import * as path from "path";
 
-import * as autoprefixer from "autoprefixer";
 import {TsConfigPathsPlugin} from "awesome-typescript-loader";
-import * as Dotenv from "dotenv-webpack";
-import * as HtmlWebpackPlugin from "html-webpack-plugin";
-import * as UglifyJSPlugin from "uglifyjs-webpack-plugin";
 
-import {Configuration, HotModuleReplacementPlugin} from "webpack";
+// tslint:disable: no-var-requires
+const Dotenv = require("dotenv-webpack");
+const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+
+import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin, ProvidePlugin} from "webpack";
 
 type EnvironmentType = "development" | "production";
 
 const environment: EnvironmentType = process.env.NODE_ENV as EnvironmentType;
 const isProduction: boolean = environment === "production";
 const projectRoot: string = path.resolve(__dirname, "../../../");
-const backendPublicPath: string = "";
+const backendPublicPath: string = "/";
 
 export class WebpackBuildConfig implements Configuration {
 
@@ -31,14 +33,19 @@ export class WebpackBuildConfig implements Configuration {
     timings: true,
   };
 
-  public entry = [
-    "webpack/hot/dev-server",
-    "babel-polyfill",
-    path.resolve(projectRoot, "src/application/main.ts")
-  ];
+  public entry = isProduction
+    ? [
+      "babel-polyfill",
+      path.resolve(projectRoot, "src/main/index.ts")
+    ]
+    : [
+      "webpack/hot/dev-server",
+      "babel-polyfill",
+      path.resolve(projectRoot, "src/main/index.ts")
+    ];
 
   public output = {
-    chunkFilename: "js/chunk:[name].js",
+    chunkFilename: "js/ck:[name].js",
     filename: "js/[name].js",
     path: path.resolve(projectRoot, "target/dist"),
     publicPath: backendPublicPath,
@@ -47,19 +54,14 @@ export class WebpackBuildConfig implements Configuration {
 
   public resolve = {
     alias: {
-      "@Annotate": path.resolve(projectRoot, "./src/application/data/lib/annotate"),
-      "@App": path.resolve(projectRoot, "./src/application/"),
-      "@Components": path.resolve(projectRoot, "./src/application/view/components/"),
-      "@Containers": path.resolve(projectRoot, "./src/application/view/containers/"),
-      "@Layouts": path.resolve(projectRoot, "./src/application/view/layouts/"),
       "@Lib": path.resolve(projectRoot, "./src/lib/"),
-      "@Redux": path.resolve(projectRoot, "./src/application/data/lib/redux"),
-      "@Store": path.resolve(projectRoot, "./src/application/data/store/"),
-      "@Test": path.resolve(projectRoot, "./src/__test__/")
+      "@Main": path.resolve(projectRoot, "./src/main/"),
+      "@Module": path.resolve(projectRoot, "./src/modules/")
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     modules: [
-      path.resolve(projectRoot, "src/application"),
+      path.resolve(projectRoot, "src/main"),
+      path.resolve(projectRoot, "src/modules"),
       path.resolve(projectRoot, "src/lib"),
       path.resolve(projectRoot, "node_modules")
     ],
@@ -117,8 +119,8 @@ export class WebpackBuildConfig implements Configuration {
           {
             loader: "url-loader",
             options: {
-              // include <10KB files in our bundle file
-              limit: 10000
+              // include <5KB files in our bundle file
+              limit: 5000
             }
           }
         ]
@@ -129,8 +131,7 @@ export class WebpackBuildConfig implements Configuration {
   public devtool: any = isProduction ? false : "source-map";
 
   public plugins = [
-    new TsConfigPathsPlugin({
-    }),
+    new TsConfigPathsPlugin({}),
     new HtmlWebpackPlugin({
       environment,
       filename: "index.html",
@@ -142,12 +143,12 @@ export class WebpackBuildConfig implements Configuration {
         removeTagWhitespace: true,
         trimCustomFragments: true
       },
-      template: path.resolve(projectRoot, "src/application/index.hbs")
+      template: path.resolve(projectRoot, "src/main/index.hbs")
     }),
     new Dotenv({
       path: path.resolve(projectRoot, "cli/build/.env")
     }),
-    new HotModuleReplacementPlugin()
+    isProduction ? new NoEmitOnErrorsPlugin() : new HotModuleReplacementPlugin()
   ];
 
   /* eslint-disable camelcase */
@@ -170,14 +171,14 @@ export class WebpackBuildConfig implements Configuration {
           toplevel: true,
           warnings: false,
         }
-      }) as any
+      })
     ]
   };
   /* eslint-enable camelcase */
 
   public devServer = {
     compress: true,
-    contentBase: "target/",
+    contentBase: "target/dist/",
     historyApiFallback: true,
     host: "0.0.0.0",
     hot: !isProduction,
