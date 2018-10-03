@@ -6,8 +6,8 @@ import {CanvasGraphicsRenderer} from "./CanvasGraphicsRenderer";
 import {CanvasGraphicsRenderObject, DomVideoRO} from "./rendering/graphics_objects/index";
 import {GridLayoutRO} from "./rendering/graphics_objects/index";
 
-import {MovableRingMRO} from "./rendering/graphics_objects/movable/util/MovableRingMRO";
 import {MovableRectangleMRO} from "./rendering/graphics_objects/movable/util/MovableRectangleMRO";
+import {MovableRingMRO} from "./rendering/graphics_objects/movable/util/MovableRingMRO";
 
 export interface ICanvasGraphicsStreamProps {
   enableGridConfiguration: boolean;

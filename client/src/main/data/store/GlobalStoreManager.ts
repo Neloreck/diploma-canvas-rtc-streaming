@@ -8,7 +8,7 @@ import createHistory from "history/createBrowserHistory";
 
 import {Single} from "@Lib/annotate";
 
-// Reducers.
+/* State and reducers declaration. */
 
 import {IGlobalStoreState} from "@Main/data/store/IGlobalStoreState";
 
@@ -18,6 +18,8 @@ import {AuthState} from "@Main/data/store/auth/store/AuthState";
 import {ThemeReducer} from "@Main/data/store/theme/reducers/ThemeReducer";
 import {ThemeState} from "@Main/data/store/theme/store/ThemeState";
 
+/* Declaration end. */
+
 @Single
 export class GlobalStoreManager extends CBDStoreManager {
 
@@ -26,6 +28,10 @@ export class GlobalStoreManager extends CBDStoreManager {
   private readonly history: History = createHistory();
   private readonly rootReducer: Reducer<IGlobalStoreState, Action> = this.createGlobalReducer();
   private readonly store: Store<IGlobalStoreState, Action<any>> = this.createGlobalStore();
+
+  /*
+   * Store getters:
+   */
 
   public getBrowserHistory(): History {
     return this.history;
@@ -38,6 +44,10 @@ export class GlobalStoreManager extends CBDStoreManager {
   public getStore(): Store<{}, Action<any>> {
     return this.store;
   }
+
+  /*
+   * Store init methods:
+   */
 
   private createGlobalStore(): Store<IGlobalStoreState, Action<any>> {
     const middlewares: Array<Middleware> = [cbdMiddleware, routerMiddleware(this.history)];

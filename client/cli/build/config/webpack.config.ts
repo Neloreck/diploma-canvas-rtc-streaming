@@ -10,10 +10,10 @@ const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin, ProvidePlugin} from "webpack";
 
-type EnvironmentType = "development" | "production";
+type EnvironmentType = ("development" | "production");
 
 const environment: EnvironmentType = process.env.NODE_ENV as EnvironmentType;
-const isProduction: boolean = environment === "production";
+const isProduction: boolean = (environment === "production");
 const projectRoot: string = path.resolve(__dirname, "../../../");
 const backendPublicPath: string = "/";
 
@@ -45,7 +45,7 @@ export class WebpackBuildConfig implements Configuration {
     ];
 
   public output = {
-    chunkFilename: "js/ck:[name].js",
+    chunkFilename: "js/chunk:[name].js",
     filename: "js/[name].js",
     path: path.resolve(projectRoot, "target/dist"),
     publicPath: backendPublicPath,

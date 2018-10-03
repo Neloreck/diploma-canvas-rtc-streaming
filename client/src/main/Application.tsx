@@ -6,15 +6,24 @@ import {Single} from "@Lib/annotate";
 import {globalStoreManager, GlobalStoreProvider} from "@Main/data/store";
 import {Root} from "@Main/view/Root";
 
+/*
+ * Application instance that combines data and view.
+ */
+
 @Single
 export class Application {
 
-  // Directly combine view and data modules.
-  public render(): void {
-    render(<GlobalStoreProvider store={globalStoreManager.getStore()}>
+  public injectIntoDOM(): void {
+    render(this.render(), document.getElementById("application-root"));
+  }
+
+  public render(): JSX.Element {
+    return (
+      <GlobalStoreProvider store={globalStoreManager.getStore()}>
+
         <Root/>
-      </GlobalStoreProvider>,
-      document.getElementById("application-root")
+
+      </GlobalStoreProvider>
     );
   }
 

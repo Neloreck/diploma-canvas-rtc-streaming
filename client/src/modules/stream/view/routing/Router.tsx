@@ -4,8 +4,9 @@ import {Route, Switch} from "react-router";
 
 import {lazyLoadComponentFactory} from "@Lib/lazy_load";
 
+import {ErrorPage} from "@Main/view/containers/pages/ErrorPage";
+
 const StreamingPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream-streaming-page" */"@Module/stream/view/containers/pages/StreamingPage"));
-const ErrorPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main-error-page" */"@Main/view/containers/pages/ErrorPage"));
 
 export class Router extends PureComponent {
 

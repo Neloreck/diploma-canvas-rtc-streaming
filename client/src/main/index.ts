@@ -5,4 +5,4 @@ import "@Main/assets/style/global.scss";
 
 import {Application} from "@Main/Application";
 
-new Application().render();
+new Application().injectIntoDOM();

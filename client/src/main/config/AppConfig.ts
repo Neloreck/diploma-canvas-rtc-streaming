@@ -1,3 +1,6 @@
+import {Single} from "@Lib/annotate";
+
+@Single
 export class AppConfig {
 
   public readonly env = process.env.NODE_ENV;

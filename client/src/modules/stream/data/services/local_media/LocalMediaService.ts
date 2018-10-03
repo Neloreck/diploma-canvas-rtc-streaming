@@ -34,7 +34,9 @@ export class LocalMediaService {
     };
 
     const stream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+
     this.log.info("Got media stream from devices:", constraints, stream);
+
     return stream;
   }
 

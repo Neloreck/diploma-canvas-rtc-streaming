@@ -9,6 +9,11 @@ export interface IGlobalThemeProviderStoreProps {
   theme: Theme;
 }
 
+/*
+ * Application theme provider.
+ * Same colors and sizing for whole application.
+ */
+
 @GlobalConnect<IGlobalThemeProviderStoreProps>(
   (state: IGlobalStoreState) => ({
     theme: createMuiTheme(state.theme.options)

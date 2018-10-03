@@ -3,9 +3,11 @@ import {cbdMiddleware, CBDStoreManager} from "redux-cbd";
 
 import {Single} from "@Lib/annotate";
 
-import {IStreamStoreState} from "@Module/stream/data/store/IStreamStoreState";
+/*
+ * Stream store reducers.
+ */
 
-// Reducers.
+import {IStreamStoreState} from "@Module/stream/data/store/IStreamStoreState";
 
 import {InputSourceReducer} from "@Module/stream/data/store/input_source/reducers/InputSourceReducer";
 import {InputSourceState} from "@Module/stream/data/store/input_source/store/InputSourceState";
@@ -18,6 +20,10 @@ export class StreamStoreManager extends CBDStoreManager {
   private readonly rootReducer: Reducer<IStreamStoreState, Action> = this.createGlobalReducer();
   private readonly store: Store<IStreamStoreState, Action<any>> = this.createGlobalStore();
 
+  /*
+   * Store getters:
+   */
+
   public getStoreKey(): string {
     return StreamStoreManager.STORE_KEY;
   }
@@ -25,6 +31,10 @@ export class StreamStoreManager extends CBDStoreManager {
   public getStore(): Store<{}, Action<any>> {
     return this.store;
   }
+
+  /*
+   * Store init methods:
+   */
 
   private createGlobalStore(): Store<IStreamStoreState, Action<any>> {
     const middlewares: Array<Middleware> = [cbdMiddleware];
