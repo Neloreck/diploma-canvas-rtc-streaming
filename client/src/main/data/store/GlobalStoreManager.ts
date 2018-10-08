@@ -1,12 +1,10 @@
 import {routerMiddleware, routerReducer} from "react-router-redux";
 import {Action, applyMiddleware, combineReducers,  createStore, Middleware, Reducer, Store} from "redux";
-import {cbdMiddleware, CBDStoreManager} from "redux-cbd";
+import {cbdMiddleware, CBDStoreManager, StoreManaged} from "redux-cbd";
 import {composeWithDevTools} from "redux-devtools-extension/logOnlyInProduction";
 
 import {History} from "history";
 import createHistory from "history/createBrowserHistory";
-
-import {Single} from "@Lib/annotate";
 
 /* State and reducers declaration. */
 
@@ -18,45 +16,23 @@ import {AuthState} from "@Main/data/store/auth/store/AuthState";
 import {ThemeReducer} from "@Main/data/store/theme/reducers/ThemeReducer";
 import {ThemeState} from "@Main/data/store/theme/store/ThemeState";
 
-/* Declaration end. */
-
-@Single
-export class GlobalStoreManager extends CBDStoreManager {
-
-  private static readonly STORE_KEY = "GLOBAL_STORE";
+@StoreManaged("GLOBAL_STORE")
+export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 
   private readonly history: History = createHistory();
-  private readonly rootReducer: Reducer<IGlobalStoreState, Action> = this.createGlobalReducer();
-  private readonly store: Store<IGlobalStoreState, Action<any>> = this.createGlobalStore();
-
-  /*
-   * Store getters:
-   */
 
   public getBrowserHistory(): History {
     return this.history;
   }
 
-  public getStoreKey(): string {
-    return GlobalStoreManager.STORE_KEY;
-  }
-
-  public getStore(): Store<{}, Action<any>> {
-    return this.store;
-  }
-
-  /*
-   * Store init methods:
-   */
-
-  private createGlobalStore(): Store<IGlobalStoreState, Action<any>> {
+  protected createStore(): Store<IGlobalStoreState, Action<any>> {
     const middlewares: Array<Middleware> = [cbdMiddleware, routerMiddleware(this.history)];
     const composeEnhancers = composeWithDevTools({});
 
-    return createStore(this.rootReducer, composeEnhancers(applyMiddleware(...middlewares)));
+    return createStore(this.createGlobalRootReducer(), composeEnhancers(applyMiddleware(...middlewares)));
   }
 
-  private createGlobalReducer(): Reducer<IGlobalStoreState, Action> {
+  private createGlobalRootReducer(): Reducer<IGlobalStoreState, Action> {
     return combineReducers( {
       auth: new AuthReducer().asFunctional(new AuthState(), { freezeState: true }),
       routing: routerReducer,

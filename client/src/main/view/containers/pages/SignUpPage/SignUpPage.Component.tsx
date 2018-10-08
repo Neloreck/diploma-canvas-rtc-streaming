@@ -8,12 +8,12 @@ import {withStyle} from "@Lib/annotate";
 import {ISignUpPageDispatchProps, ISignUpPageProps, ISignUpPageStoreProps} from "./SignUpPage.StateProps";
 import {signUpPageStyle} from "./SignUpPage.Style";
 
-import {GlobalConnect, IGlobalStoreState} from "@Main/data/store";
+import {GlobalStoreConnect, IGlobalStoreState} from "@Main/data/store";
 
 import {ISignUpFormExternalProps, SignUpForm} from "@Main/view/components/pages/signing/SignUpForm";
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/elements/HeaderBar";
 
-@GlobalConnect<ISignUpPageStoreProps, ISignUpPageDispatchProps, ISignUpPageProps>(
+@GlobalStoreConnect<ISignUpPageStoreProps, ISignUpPageDispatchProps, ISignUpPageProps>(
   (store: IGlobalStoreState) => ({
   }), {
   })

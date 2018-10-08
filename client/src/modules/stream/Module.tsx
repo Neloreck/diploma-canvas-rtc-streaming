@@ -1,9 +1,10 @@
 import * as React from "react";
 import {PureComponent} from "react";
 
+import {StreamStoreProvider} from "@Module/stream/data/store";
+
 import {Logger} from "@Main/data/utils";
 
-import {streamStoreManager, StreamStoreProvider} from "@Module/stream/data/store";
 import {Root} from "@Module/stream/view/Root";
 
 export class Module extends PureComponent {
@@ -16,10 +17,8 @@ export class Module extends PureComponent {
 
   public render(): JSX.Element {
     return (
-      <StreamStoreProvider store={streamStoreManager.getStore()}>
-
+      <StreamStoreProvider>
         <Root/>
-
       </StreamStoreProvider>
     );
   }

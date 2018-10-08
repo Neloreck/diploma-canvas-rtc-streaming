@@ -1,4 +1,5 @@
-import {Single} from "@Lib/annotate";
+import {Single} from "redux-cbd";
+
 import {Optional} from "@Lib/type";
 
 import {Logger} from "@Main/data/utils";

@@ -8,11 +8,11 @@ import {homePageStyle} from "./HomePage.Style";
 
 import {Grid} from "@material-ui/core";
 
-import {GlobalConnect, IGlobalStoreState} from "@Main/data/store";
+import {GlobalStoreConnect, IGlobalStoreState} from "@Main/data/store";
 
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/elements/HeaderBar";
 
-@GlobalConnect<IHomePageStoreProps, IHomePageDispatchProps, IHomePageProps>(
+@GlobalStoreConnect<IHomePageStoreProps, IHomePageDispatchProps, IHomePageProps>(
   (store: IGlobalStoreState) => ({
     authorizing: store.auth.authorizing
   }), {

@@ -10,7 +10,7 @@ import {Grid} from "@material-ui/core";
 
 import {IStreamStoreState} from "@Module/stream/data/store/IStreamStoreState";
 
-import {StreamConnect} from "@Module/stream/data/store";
+import {StreamStoreConnect} from "@Module/stream/data/store";
 import {IInputSourceDevices} from "@Module/stream/data/store/input_source/store/IInputSourceDevices";
 
 import {ChangeSelectedMediaDevicesAction} from "@Module/stream/data/store/input_source/actions";
@@ -27,7 +27,7 @@ import {
   InputSourcesSelectForm
 } from "@Module/stream/view/components/elements/input_source/InputSourcesSelectForm";
 
-@StreamConnect<IStreamingPageStoreProps, IStreamingPageDispatchProps, IStreamingPageProps>(
+@StreamStoreConnect<IStreamingPageStoreProps, IStreamingPageDispatchProps, IStreamingPageProps>(
   (store: IStreamStoreState) => ({
     selectedDevices: store.inputSource.selectedDevices
   }), {

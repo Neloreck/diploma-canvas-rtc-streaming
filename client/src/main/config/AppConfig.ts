@@ -1,4 +1,4 @@
-import {Single} from "@Lib/annotate";
+import {Single} from "redux-cbd";
 
 @Single
 export class AppConfig {

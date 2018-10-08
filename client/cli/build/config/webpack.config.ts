@@ -36,12 +36,12 @@ export class WebpackBuildConfig implements Configuration {
   public entry = isProduction
     ? [
       "babel-polyfill",
-      path.resolve(projectRoot, "src/main/index.ts")
+      path.resolve(projectRoot, "src/main/Application.tsx")
     ]
     : [
       "webpack/hot/dev-server",
       "babel-polyfill",
-      path.resolve(projectRoot, "src/main/index.ts")
+      path.resolve(projectRoot, "src/main/Application.tsx")
     ];
 
   public output = {

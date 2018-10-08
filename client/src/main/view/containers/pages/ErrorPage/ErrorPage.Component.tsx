@@ -8,11 +8,11 @@ import Button from "@material-ui/core/Button/Button";
 import {IErrorPageDispatchProps, IErrorPageProps, IErrorPageStoreProps} from "./ErrorPage.StateProps";
 import {errorPageStyle} from "./ErrorPage.Style";
 
-import {GlobalConnect, IGlobalStoreState} from "@Main/data/store";
+import {GlobalStoreConnect, IGlobalStoreState} from "@Main/data/store";
 
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/elements/HeaderBar";
 
-@GlobalConnect<IErrorPageStoreProps, IErrorPageDispatchProps, IErrorPageProps>(
+@GlobalStoreConnect<IErrorPageStoreProps, IErrorPageDispatchProps, IErrorPageProps>(
   (store: IGlobalStoreState) => ({
   }), {
   })

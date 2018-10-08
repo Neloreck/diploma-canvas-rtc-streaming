@@ -3,7 +3,7 @@ import {PureComponent} from "react";
 
 import {createMuiTheme, MuiThemeProvider, Theme} from "@material-ui/core";
 
-import {GlobalConnect, IGlobalStoreState} from "@Main/data/store";
+import {GlobalStoreConnect, IGlobalStoreState} from "@Main/data/store";
 
 export interface IGlobalThemeProviderStoreProps {
   theme: Theme;
@@ -14,7 +14,7 @@ export interface IGlobalThemeProviderStoreProps {
  * Same colors and sizing for whole application.
  */
 
-@GlobalConnect<IGlobalThemeProviderStoreProps>(
+@GlobalStoreConnect<IGlobalThemeProviderStoreProps>(
   (state: IGlobalStoreState) => ({
     theme: createMuiTheme(state.theme.options)
   })

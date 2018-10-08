@@ -13,12 +13,12 @@ import {
 
 import {signInPageStyle} from "./SignInPage.Style";
 
-import {GlobalConnect, IGlobalStoreState} from "@Main/data/store";
+import {GlobalStoreConnect, IGlobalStoreState} from "@Main/data/store";
 
 import {ISignInFormExternalProps, SignInForm} from "@Main/view/components/pages/signing/SignInForm";
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/elements/HeaderBar";
 
-@GlobalConnect<ISignInPageStoreProps, ISignInPageDispatchProps, ISignInPageProps>(
+@GlobalStoreConnect<ISignInPageStoreProps, ISignInPageDispatchProps, ISignInPageProps>(
   (store: IGlobalStoreState) => ({
     authorizing: store.auth.authorizing
   }), {
