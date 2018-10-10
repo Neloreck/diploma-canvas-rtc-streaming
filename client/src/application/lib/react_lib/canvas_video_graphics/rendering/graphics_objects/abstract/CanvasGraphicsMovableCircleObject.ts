@@ -1,4 +1,4 @@
-import {ICanvasGraphicsSizingContext, IPoint} from "../../context/index";
+import {IPoint} from "../../context/index";
 import {CanvasGraphicsMovableObject} from "./CanvasGraphicsMovableObject";
 
 export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMovableObject {
@@ -12,10 +12,13 @@ export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMo
 
   protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
 
-    const sizing: ICanvasGraphicsSizingContext = this.getSizing();
-    const center = { x: moveTo.x * 100 / sizing.width, y: moveTo.y * 100 / sizing.height };
+    const center: IPoint = this.getBoundsCenter();
+    const newPosition: IPoint = { x: 0, y: 0};
 
-    this.setBoundsCenter(center.x, center.y);
+    newPosition.x = center.x + (moveTo.x - moveFrom.x);
+    newPosition.y = center.y + (moveTo.y - moveFrom.y);
+
+    this.setBoundsCenter(this.asPercentageWidth(newPosition.x), this.asPercentageHeight(newPosition.y));
   }
 
   protected renderSelectionOverElement(): void {
@@ -48,9 +51,7 @@ export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMo
         offset + piOffset, offset + segmentLengthOffset + piOffset);
       context.stroke();
       context.closePath();
-
     }
-
   }
 
   protected abstract setBoundsCenter(x: number, y: number): void;
