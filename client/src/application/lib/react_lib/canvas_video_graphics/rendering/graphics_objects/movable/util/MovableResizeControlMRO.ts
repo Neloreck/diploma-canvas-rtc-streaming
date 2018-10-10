@@ -11,7 +11,7 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
   public absoluteWidth: number = 15;
   public absoluteHeight: number = 15;
 
-  protected selectionPadding: number = 20;
+  protected selectionPadding: number = 15;
 
   private corner: 0 | 1 | 2 | 3 = 0;
 

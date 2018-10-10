@@ -1,10 +1,14 @@
 import {IPoint} from "../../../context/IPoint";
 import {CanvasGraphicsMovableCircleObject} from "../../abstract/CanvasGraphicsMovableCircleObject";
+import {MovableResizeControlMRO} from "./MovableResizeControlMRO";
 
 export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
 
-  private readonly radius: number = 150;
+  private radius: number = 150;
   private center: { x: number, y: number } = { x: 100, y: 100 };
+  private resizeControlsSize: number = 10;
+
+  private readonly resizeControl: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
 
   public constructor(radius: number, center: { x: number, y: number }) {
 
@@ -12,7 +16,6 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
 
     this.radius = radius;
     this.center = center;
-
   }
 
   public renderSelf(): void {
@@ -23,15 +26,16 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
       this.renderSelectionOverElement();
       this.renderResizeControls();
     }
-
   }
 
   public isInResizeBounds(x: number, y: number): boolean {
-    return false;
+    return this.resizeControl.isInBounds(x, y);
   }
 
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
-    console.error("RESIZE", resizeTo, resizeFrom);
+
+    const distance: number = Math.sqrt(Math.pow(resizeTo.x - this.getPercentageWidth(this.center.x), 2) + Math.pow(resizeTo.y - this.getPercentageHeight(this.center.y), 2));
+    this.radius = this.asPercentageWidth(distance);
   }
 
   protected getBoundsRadius(): number {
@@ -58,31 +62,18 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
     context.beginPath();
     context.arc(this.center.x * pWidth, this.center.y * pHeight, this.radius * pWidth, 0, 2 * Math.PI);
     context.stroke();
-
   }
 
   private renderResizeControls(): void {
 
-    const {width: pWidth, height: pHeight} = this.getPercentageBaseSizing();
+    const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
 
-    const resizeSize: number = 7;
+    const resizeSize: number = this.resizeControlsSize;
 
-    const realDistance: number = this.radius * pWidth + this.selectionPadding;
-
-    this.renderResizeControl(this.center.x * pWidth - realDistance, this.center.y * pHeight - realDistance, resizeSize, resizeSize);
-    this.renderResizeControl(this.center.x * pWidth - realDistance, this.center.y * pHeight + realDistance, resizeSize, resizeSize);
-    this.renderResizeControl(this.center.x * pWidth + realDistance, this.center.y * pHeight - realDistance, resizeSize, resizeSize);
-    this.renderResizeControl(this.center.x * pWidth + realDistance, this.center.y * pHeight + realDistance, resizeSize, resizeSize);
-  }
-
-  private renderResizeControl(left: number, top: number, width: number, height: number): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-
-    context.beginPath();
-    context.rect(left, top, width, height);
-    context.stroke();
-    context.closePath();
+    this.resizeControl.setContext(this.getContext());
+    this.resizeControl.setSizing(this.getSizing());
+    this.resizeControl.updateAbsoluteSizing((this.center.x) * pWidth - resizeSize / 2, (this.center.y * pHeight - this.radius * pWidth) , resizeSize, resizeSize);
+    this.resizeControl.renderSelf();
   }
 
 }
