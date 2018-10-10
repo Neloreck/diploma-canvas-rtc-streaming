@@ -1,5 +1,7 @@
 import {CanvasGraphicsRenderObject} from "./CanvasGraphicsRenderObject";
 
+import {IPoint} from "../../../rendering/context";
+
 export abstract class CanvasGraphicsResizableObject extends CanvasGraphicsRenderObject {
 
   public afterResize(...args: Array<any>): void { /*nothing*/ }
@@ -8,16 +10,16 @@ export abstract class CanvasGraphicsResizableObject extends CanvasGraphicsRender
     return true;
   }
 
-  public resize(x: number, y: number): void {
-    this.onResize(x, y);
+  public resize(resizeTo: IPoint, resizeFrom: IPoint): void {
+    this.onResize(resizeTo, resizeFrom);
   }
 
   public abstract isInResizeBounds(x: number, y: number): boolean;
 
   public abstract isInBounds(x: number, y: number): boolean;
 
-  protected abstract onMove(x: number, y: number): void;
+  protected abstract onMove(resizeTo: IPoint, resizeFrom: IPoint): void;
 
-  protected abstract onResize(x: number, y: number): void;
+  protected abstract onResize(resizeTo: IPoint, resizeFrom: IPoint): void;
 
 }

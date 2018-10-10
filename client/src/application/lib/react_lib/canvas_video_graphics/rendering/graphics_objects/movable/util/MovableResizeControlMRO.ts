@@ -8,10 +8,10 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
 
   public absoluteLeft: number = 0;
   public absoluteTop: number = 0;
-  public absoluteWidth: number = 10;
-  public absoluteHeight: number = 10;
+  public absoluteWidth: number = 15;
+  public absoluteHeight: number = 15;
 
-  protected selectionPadding: number = 15;
+  protected selectionPadding: number = 20;
 
   private corner: 0 | 1 | 2 | 3 = 0;
 
@@ -23,7 +23,6 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
     this.absoluteTop = absoluteTop;
     this.absoluteWidth = absoluteWidth;
     this.absoluteHeight = absoluteHeight;
-
   }
 
   public renderSelf(): void {
@@ -42,7 +41,6 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
     this.absoluteTop = absoluteTop;
     this.absoluteWidth = absoluteWidth;
     this.absoluteHeight = absoluteHeight;
-
   }
 
   public setOwner(owner: CanvasGraphicsResizableObject): void {
@@ -53,7 +51,7 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
     this.corner = corner;
   }
 
-  protected onResize(x: number, y: number): void { /**/ }
+  protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void { /**/ }
 
   protected setRoot(x: number, y: number): void {
     this.absoluteLeft = x;
@@ -78,7 +76,6 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
     context.rect(this.absoluteLeft, this.absoluteTop, this.absoluteWidth, this.absoluteHeight);
     context.stroke();
     context.closePath();
-
   }
 
 }

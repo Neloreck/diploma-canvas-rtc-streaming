@@ -1,4 +1,4 @@
-import {IBoundingRect, IPoint} from "../../context/index";
+import {IBoundingRect, IPoint} from "../../context";
 import {CanvasGraphicsMovableObject} from "./CanvasGraphicsMovableObject";
 
 export abstract class CanvasGraphicsMovableRectangleObject extends CanvasGraphicsMovableObject {
@@ -43,14 +43,15 @@ export abstract class CanvasGraphicsMovableRectangleObject extends CanvasGraphic
     return ((b1 === b2) && (b2 === b3));
   }
 
-  protected onMove(x: number, y: number): void {
+  protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
 
-    const boundingRect: { topLeft: IPoint, topRight: IPoint, botLeft: IPoint, botRight: IPoint } = this.getBoundingRect();
+    const boundingRect: IBoundingRect = this.getBoundingRect();
+    const newPosition: IPoint = { x: 0, y: 0};
 
-    const halfWidth: number = (boundingRect.topRight.x - boundingRect.topLeft.x) / 2;
-    const halfHeight: number = (boundingRect.botLeft.y - boundingRect.topLeft.y) / 2;
+    newPosition.x = boundingRect.topLeft.x + (moveTo.x - moveFrom.x);
+    newPosition.y = boundingRect.topLeft.y + (moveTo.y - moveFrom.y);
 
-    this.setRoot((x - halfWidth), (y - halfHeight));
+    this.setRoot(newPosition.x, newPosition.y);
   }
 
   protected renderSelectionOverElement(): void {

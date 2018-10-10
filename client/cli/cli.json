@@ -1,4 +1,6 @@
 {
+  "config": {
+  },
   "scripts": {
     "clean": "npx rimraf ./target | echo 'Target cleaned up.'",
     "clean:build": "npx rimraf ./target/dist | echo 'Dist cleaned up.'",

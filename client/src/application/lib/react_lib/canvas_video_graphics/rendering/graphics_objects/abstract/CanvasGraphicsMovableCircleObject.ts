@@ -10,10 +10,10 @@ export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMo
     return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) < this.getBoundsRadius();
   }
 
-  protected onMove(x: number, y: number): void {
+  protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
 
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
-    const center = { x: x * 100 / sizing.width, y: y * 100 / sizing.height };
+    const center = { x: moveTo.x * 100 / sizing.width, y: moveTo.y * 100 / sizing.height };
 
     this.setBoundsCenter(center.x, center.y);
   }

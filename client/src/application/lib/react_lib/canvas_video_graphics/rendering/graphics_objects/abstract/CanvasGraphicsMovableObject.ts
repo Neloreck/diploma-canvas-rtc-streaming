@@ -1,5 +1,7 @@
 import {CanvasGraphicsResizableObject} from "./CanvasGraphicsResizableObject";
 
+import {IPoint} from "../../context";
+
 export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsResizableObject {
 
   protected readonly selectionPadding: number = 5;
@@ -20,15 +22,13 @@ export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsResizabl
     return true;
   }
 
-  public move(x: number, y: number): void {
-
-    this.onMove(x, y);
-    this.afterMove(x, y);
-
+  public move(moveTo: IPoint, moveFrom: IPoint): void {
+    this.onMove(moveTo, moveFrom);
+    this.afterMove(moveTo, moveFrom);
   }
 
   public abstract isInBounds(x: number, y: number): boolean;
 
-  protected abstract onMove(x: number, y: number): void;
+  protected abstract onMove(moveTo: IPoint, moveFrom: IPoint): void;
 
 }

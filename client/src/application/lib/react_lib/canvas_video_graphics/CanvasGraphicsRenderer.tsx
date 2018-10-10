@@ -28,7 +28,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.shouldRender = true;
     this.externalRenderingService.shouldRender = true;
     this.composedRenderingService.shouldRender = true;
-
   }
 
   public componentDidMount(): void {
@@ -53,14 +52,12 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.render();
     this.externalRenderingService.render();
     this.composedRenderingService.render();
-
   }
 
   public componentDidUpdate(): void {
 
     this.internalRenderingService.setRenderObjects(this.props.internalRenderingItems);
     this.externalRenderingService.setRenderObjects(this.props.externalRenderingItems);
-
   }
 
   public componentWillUnmount(): void {
@@ -68,7 +65,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.shouldRender = false;
     this.externalRenderingService.shouldRender = false;
     this.composedRenderingService.shouldRender = false;
-
   }
 
   public render(): JSX.Element {
@@ -120,7 +116,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.handleMouseDown(event);
     this.externalRenderingService.handleMouseDown(event);
     this.composedRenderingService.handleMouseDown(event);
-
   }
 
   private handleLayoutMouseUp(event: MouseEvent): void {
@@ -128,7 +123,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.handleMouseUp(event);
     this.externalRenderingService.handleMouseUp(event);
     this.composedRenderingService.handleMouseUp(event);
-
   }
 
   private handleLayoutMouseMove(event: MouseEvent): void {
@@ -144,7 +138,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.handleMouseEnter(event);
     this.externalRenderingService.handleMouseEnter(event);
     this.composedRenderingService.handleMouseEnter(event);
-
   }
 
   private handleLayoutMouseLeave(event: MouseEvent): void {
@@ -152,7 +145,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.handleMouseLeave(event);
     this.externalRenderingService.handleMouseLeave(event);
     this.composedRenderingService.handleMouseLeave(event);
-
   }
 
   /* Sizing related */
@@ -174,7 +166,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     }
 
     this.resize(Math.floor(canvasWidth), Math.floor(canvasHeight));
-
   }
 
   private resize(width: number, height: number): void {
@@ -207,7 +198,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.internalRenderingService.setSizing(sizingContext);
     this.externalRenderingService.setSizing(sizingContext);
     this.composedRenderingService.setSizing(sizingContext);
-
   }
 
 }

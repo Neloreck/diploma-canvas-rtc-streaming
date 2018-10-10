@@ -1,7 +1,7 @@
 import {green, red} from "colors";
 import {runProcess} from "./runProcess";
 
-export async function executeCmd(cmd: string, cmdArgs: Array<string>, script: string | Array<string>) {
+export async function executeCmd(cmd: string, cmdArgs: Array<string>, script: string | Array<string>, config: any) {
 
   if (script) {
 
@@ -62,9 +62,11 @@ function logStart(cmd: string) {
 }
 
 function handlePartialScripts(scripts: Array<string>) {
- /* process.stdout.write("Partial scripts were found:\n\n");
+ /*
+  process.stdout.write("Partial scripts were found:\n\n");
   scripts.forEach((script: string) => process.stdout.write(script + "\n"));
-  process.stdout.write("\n=================================================================================\n\n");*/
+  process.stdout.write("\n=================================================================================\n\n");
+  */
 }
 
 function handlePartialSuccess(cmd: string) {

@@ -1,3 +1,4 @@
+import {IPoint} from "../../../context/IPoint";
 import {CanvasGraphicsMovableCircleObject} from "../../abstract/CanvasGraphicsMovableCircleObject";
 
 export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
@@ -29,8 +30,8 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
     return false;
   }
 
-  protected onResize(x: number, y: number): void {
-    console.error("RESIZE", x, y);
+  protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
+    console.error("RESIZE", resizeTo, resizeFrom);
   }
 
   protected getBoundsRadius(): number {

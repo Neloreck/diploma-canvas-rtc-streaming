@@ -1,7 +1,9 @@
 import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
-import {CanvasGraphicsMovableObject} from "../graphics_objects/index";
 import {CanvasGraphicsRenderObject} from "../graphics_objects/abstract/CanvasGraphicsRenderObject";
-import {IPoint} from "../context/index";
+
+import {CanvasGraphicsMovableObject} from "../graphics_objects";
+
+import {IPoint} from "../context";
 
 export class RenderingService {
 
@@ -13,10 +15,16 @@ export class RenderingService {
   private renderSizing: ICanvasGraphicsSizingContext = { width: 160, height: 90, offsetX: 0, offsetY: 0 };
 
   private isMouseDown: boolean = false;
+  private mouseTouchCoordinates: IPoint | null = { x: 0, y: 0 };
   private selectedObject: CanvasGraphicsMovableObject | null = null;
 
-  public seMouseDown(isMouseDown: boolean): void {
+  public setMouseDown(isMouseDown: boolean, mouseTouch: IPoint | null = null): void {
     this.isMouseDown = isMouseDown;
+    this.mouseTouchCoordinates = mouseTouch;
+  }
+
+  public setMouseTouch(mouseTouch: IPoint): void {
+    this.mouseTouchCoordinates = mouseTouch;
   }
 
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
@@ -50,7 +58,7 @@ export class RenderingService {
       return;
     }
 
-    this.seMouseDown(true);
+    this.setMouseDown(true, { x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY });
 
     // Remove selection.
 
@@ -77,11 +85,8 @@ export class RenderingService {
           this.selectedObject = movableRenderObject;
           break;
         }
-
       }
-
     }
-
   }
 
   public handleMouseUp(event: MouseEvent): void {
@@ -90,8 +95,7 @@ export class RenderingService {
       return;
     }
 
-    this.seMouseDown(false);
-
+    this.setMouseDown(false);
   }
 
   public handleMouseMove(event: MouseEvent): void {
@@ -100,18 +104,20 @@ export class RenderingService {
       return;
     }
 
+    const realPosition: IPoint = { x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY };
+    const oldPosition: IPoint = this.mouseTouchCoordinates || realPosition;
+
     if (this.selectedObject !== null) {
 
-      const realPosition: IPoint = { x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY };
-
       if (this.selectedObject.isInResizeBounds(realPosition.x, realPosition.y)) {
-        this.selectedObject.resize(realPosition.x, realPosition.y);
+        this.selectedObject.resize(realPosition, oldPosition);
       } else {
-        this.selectedObject.move(realPosition.x, realPosition.y);
+        this.selectedObject.move(realPosition, oldPosition);
       }
 
-    }
+      this.setMouseTouch(realPosition);
 
+    }
   }
 
   public handleMouseEnter(event: MouseEvent): void {
@@ -120,8 +126,7 @@ export class RenderingService {
       return;
     }
 
-    this.seMouseDown(false);
-
+    this.setMouseDown(false);
   }
 
   public handleMouseLeave(event: MouseEvent): void {
@@ -130,8 +135,7 @@ export class RenderingService {
       return;
     }
 
-    this.seMouseDown(false);
-
+    this.setMouseDown(false);
   }
 
   /* Rendering implementation. */
@@ -150,9 +154,7 @@ export class RenderingService {
       if (!object.isDisabled()) {
         object.renderSelf();
       }
-
     }
-
   }
 
 }

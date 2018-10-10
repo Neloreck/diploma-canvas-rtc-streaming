@@ -1,4 +1,4 @@
-import {IBoundingRect} from "../../../context/index";
+import {IBoundingRect} from "../../../context";
 import {IPoint} from "../../../context/IPoint";
 import {CanvasGraphicsMovableRectangleObject} from "../../abstract/CanvasGraphicsMovableRectangleObject";
 import {MovableResizeControlMRO} from "./MovableResizeControlMRO";
@@ -10,10 +10,12 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
   private width: number = 5;
   private height: number = 5;
 
-  private readonly resizeTopLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
-  private readonly resizeTopRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
-  private readonly resizeBotLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
-  private readonly resizeBotRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 0, 0);
+  private resizeControlsSize: number = 15;
+
+  private readonly resizeTopLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
+  private readonly resizeTopRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
+  private readonly resizeBotLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
+  private readonly resizeBotRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
 
   public constructor(left: number, top: number, width: number, height: number) {
 
@@ -51,9 +53,11 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
       this.resizeBotLeft.isInBounds(x, y) || this.resizeBotRight.isInBounds(x, y);
   }
 
+  /* Change size or coordinate depending or corner: */
   public afterResize(resizeControl: MovableResizeControlMRO, corner: 0 | 1 | 2 | 3): void {
 
     const bounds: IBoundingRect = this.getBoundingRect();
+
     let diffX: number = 0;
     let diffY: number = 0;
 
@@ -61,12 +65,12 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
       case 0:
 
-        diffY = this.asPercentageHeight(resizeControl.absoluteTop - bounds.topRight.y);
+        diffY = this.asPercentageHeight(resizeControl.absoluteTop + resizeControl.absoluteHeight - bounds.topLeft.y - this.getPercentageHeight(this.height));
 
         this.top += diffY;
         this.height -= diffY;
 
-        this.width += this.asPercentageWidth(resizeControl.absoluteLeft + resizeControl.absoluteWidth - bounds.topLeft.x - this.getPercentageWidth(this.width));
+        this.width += this.asPercentageWidth(resizeControl.absoluteLeft - bounds.topLeft.x);
 
         break;
 
@@ -85,12 +89,13 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
         break;
 
       case 2:
-        diffX = this.asPercentageWidth(resizeControl.absoluteLeft - bounds.topLeft.x);
+
+        diffX = this.asPercentageWidth(resizeControl.absoluteLeft + resizeControl.absoluteWidth - bounds.botLeft.x - this.getPercentageWidth(this.width));
 
         this.left += diffX;
         this.width -= diffX;
 
-        this.height += this.asPercentageHeight(resizeControl.absoluteTop + resizeControl.absoluteHeight - bounds.topLeft.y - this.getPercentageHeight(this.height));
+        this.height += this.asPercentageHeight(resizeControl.absoluteTop - bounds.topRight.y);
 
         break;
 
@@ -106,7 +111,7 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
   }
 
-  protected onResize(x: number, y: number): void {
+  protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
 
     const boundingRect: IBoundingRect = this.getBoundingRect();
 
@@ -118,14 +123,14 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
       y: (boundingRect.botRight.y - halfHeight)
     };
 
-    if (x > center.x && y < center.y) {
-      this.resizeTopRight.move(x, y);
-    } else if (x < center.x && y < center.y) {
-      this.resizeTopLeft.move(x, y);
-    } else if (x < center.x && y > center.y) {
-      this.resizeBotLeft.move(x, y);
+    if (resizeTo.x > center.x && resizeTo.y < center.y) {
+      this.resizeTopRight.move(resizeTo, resizeFrom);
+    } else if (resizeTo.x < center.x && resizeTo.y < center.y) {
+      this.resizeTopLeft.move(resizeTo, resizeFrom);
+    } else if (resizeTo.x < center.x && resizeTo.y > center.y) {
+      this.resizeBotLeft.move(resizeTo, resizeFrom);
     } else {
-      this.resizeBotRight.move(x, y);
+      this.resizeBotRight.move(resizeTo, resizeFrom);
     }
 
   }
@@ -165,7 +170,7 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
     const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
 
-    const resizeSize: number = 12;
+    const resizeSize: number = this.resizeControlsSize;
 
     const realHeight: number = this.height * pHeight;
     const realWidth: number = this.width * pWidth;
