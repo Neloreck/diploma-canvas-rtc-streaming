@@ -4,7 +4,7 @@ import {Component} from "react";
 import {Button, FormControl, Grid, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
-import {withStyle} from "@Lib/ts/annotate";
+import {Styled} from "@Lib/react_lib/@material_ui";
 import {Optional} from "@Lib/ts/type";
 
 import {LocalMediaService} from "@Module/stream/data/services/local_media";
@@ -12,7 +12,7 @@ import {LocalMediaService} from "@Module/stream/data/services/local_media";
 import {IInputSourcesSelectFormProps} from "./InputSourcesSelectForm.StateProps";
 import {inputSourcesSelectFormStyle} from "./InputSourcesSelectForm.Style";
 
-@withStyle(inputSourcesSelectFormStyle)
+@Styled(inputSourcesSelectFormStyle)
 export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormProps> {
 
   public readonly state = {

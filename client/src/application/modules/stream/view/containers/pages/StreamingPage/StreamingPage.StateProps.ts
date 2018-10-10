@@ -1,8 +1,9 @@
 import {WithStyles} from "@material-ui/core";
-import {streamingPageStyle} from "./StreamingPage.Style";
 
 import {ChangeSelectedMediaDevicesAction} from "@Module/stream/data/store/input_source/actions";
 import {IInputSourceDevices} from "@Module/stream/data/store/input_source/models/IInputSourceDevices";
+
+import {streamingPageStyle} from "./StreamingPage.Style";
 
 export interface IStreamingPageStoreProps {
   selectedDevices: IInputSourceDevices;

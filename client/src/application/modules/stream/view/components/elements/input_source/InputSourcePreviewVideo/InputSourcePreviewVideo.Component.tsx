@@ -3,8 +3,8 @@ import {Component} from "react";
 
 import {Grid} from "@material-ui/core";
 
+import {Styled} from "@Lib/react_lib/@material_ui";
 import {CanvasGraphicsPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
-import {withStyle} from "@Lib/ts/annotate";
 import {Optional} from "@Lib/ts/type";
 
 import {LocalMediaService} from "@Module/stream/data/services/local_media";
@@ -12,7 +12,7 @@ import {LocalMediaService} from "@Module/stream/data/services/local_media";
 import {IInputSourcePreviewVideoProps} from "./InputSourcePreviewVideo.StateProps";
 import {inputSourcePreviewVideoStyle} from "./InputSourcePreviewVideo.Style";
 
-@withStyle(inputSourcePreviewVideoStyle)
+@Styled(inputSourcePreviewVideoStyle)
 export class InputSourcePreviewVideo extends Component<IInputSourcePreviewVideoProps> {
 
   public readonly state = {

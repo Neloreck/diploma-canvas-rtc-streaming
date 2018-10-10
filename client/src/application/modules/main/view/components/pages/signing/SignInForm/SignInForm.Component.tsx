@@ -3,12 +3,12 @@ import {Component} from "react";
 
 import {Button, Card, Grid, LinearProgress, TextField} from "@material-ui/core";
 
-import {withStyle} from "../../../../../../../lib/ts/annotate/index";
+import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {ISignInFormProps} from "./SignInForm.StateProps";
 import {signInFormStyle} from "./SignInForm.Style";
 
-@withStyle(signInFormStyle)
+@Styled(signInFormStyle)
 export class SignInForm extends Component<ISignInFormProps> {
 
   public state = {

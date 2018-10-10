@@ -1,31 +1,26 @@
 import * as React from "react";
 import {Component} from "react";
 
-import {withStyle} from "@Lib/ts/annotate";
-
-import {IStreamingPageDispatchProps, IStreamingPageProps, IStreamingPageStoreProps} from "./StreamingPage.StateProps";
-import {streamingPageStyle} from "./StreamingPage.Style";
-
 import {Grid} from "@material-ui/core";
 
-import {IStreamStoreState} from "@Module/stream/data/store/IStreamStoreState";
+import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {StreamStoreConnect} from "@Module/stream/data/store";
+import {IStreamStoreState, StreamStoreConnect} from "@Module/stream/data/store";
+import {ChangeSelectedMediaDevicesAction} from "@Module/stream/data/store/input_source/actions";
 import {IInputSourceDevices} from "@Module/stream/data/store/input_source/models/IInputSourceDevices";
 
-import {ChangeSelectedMediaDevicesAction} from "@Module/stream/data/store/input_source/actions";
-
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/elements/HeaderBar";
-
 import {
   IInputSourcePreviewVideoExternalProps,
   InputSourcePreviewVideo
 } from "@Module/stream/view/components/elements/input_source/InputSourcePreviewVideo";
-
 import {
   IInputSourcesSelectFormExternalProps,
   InputSourcesSelectForm
 } from "@Module/stream/view/components/elements/input_source/InputSourcesSelectForm";
+
+import {IStreamingPageDispatchProps, IStreamingPageProps, IStreamingPageStoreProps} from "./StreamingPage.StateProps";
+import {streamingPageStyle} from "./StreamingPage.Style";
 
 @StreamStoreConnect<IStreamingPageStoreProps, IStreamingPageDispatchProps, IStreamingPageProps>(
   (store: IStreamStoreState) => ({
@@ -33,7 +28,7 @@ import {
   }), {
     changeInputSources: (devices: IInputSourceDevices) => new ChangeSelectedMediaDevicesAction(devices)
   })
-@withStyle(streamingPageStyle)
+@Styled(streamingPageStyle)
 export class StreamingPage extends Component<IStreamingPageProps> {
 
   public render(): JSX.Element {

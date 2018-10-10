@@ -3,7 +3,7 @@ import {PureComponent} from "react";
 
 import {createMuiTheme, MuiThemeProvider, Theme} from "@material-ui/core";
 
-import {GlobalStoreConnect, IGlobalStoreState} from "../../../data/store/index";
+import {GlobalStoreConnect, IGlobalStoreState} from "@Main/data/store";
 
 export interface IGlobalThemeProviderStoreProps {
   theme: Theme;

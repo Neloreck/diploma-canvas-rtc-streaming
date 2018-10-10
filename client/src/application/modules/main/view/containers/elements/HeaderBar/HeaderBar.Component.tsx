@@ -3,12 +3,12 @@ import {PureComponent} from "react";
 
 import {AppBar, Button, Grid, Toolbar, Typography} from "@material-ui/core";
 
-import {withStyle} from "@Lib/ts/annotate";
+import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {IHeaderBarProps} from "./HeaderBar.StateProps";
 import {headerBarStyle} from "./HeaderBar.Style";
 
-@withStyle(headerBarStyle)
+@Styled(headerBarStyle)
 export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
   public render(): JSX.Element {
