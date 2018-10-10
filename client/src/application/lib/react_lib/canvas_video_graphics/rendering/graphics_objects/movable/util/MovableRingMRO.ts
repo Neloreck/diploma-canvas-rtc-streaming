@@ -5,7 +5,7 @@ import {MovableResizeControlMRO} from "./MovableResizeControlMRO";
 export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
 
   private radius: number = 150;
-  private center: { x: number, y: number } = { x: 100, y: 100 };
+  private center: IPoint = { x: 100, y: 100 };
   private resizeControlsSize: number = 10;
 
   private readonly resizeControl: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
@@ -47,7 +47,7 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
     this.center.y = y;
   }
 
-  protected getBoundsCenter(): { x: number, y: number } {
+  protected getBoundsCenter(): IPoint {
     return { x: this.getPercentageWidth(this.center.x), y: this.getPercentageHeight(this.center.y) };
   }
 
