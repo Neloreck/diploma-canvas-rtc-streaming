@@ -1,6 +1,6 @@
-import {AbstractGenerator} from "./AbstractGenerator";
+import {AbstractComponentGenerator} from "./AbstractComponentGenerator";
 
-export class ContainerGenerator extends AbstractGenerator {
+export class ContainerGenerator extends AbstractComponentGenerator {
 
   protected generateStyleAsStr(componentName: string): string {
     return (
@@ -44,13 +44,13 @@ export interface I${componentName}Props extends I${componentName}OwnProps, I${co
 `import * as React from "react";
 import {Component} from "react";
 
-import {withConnection, withStyle} from "@Annotate";
-import {_storeState_} from "@Redux";
+import {_withStyle_} from "_libPath_";
+import {_storeState_, _withConnection_} from "_storeManagerPath_";
 
 import {I${componentName}DispatchProps, I${componentName}Props, I${componentName}StoreProps} from "./${componentName}.StateProps";
 import {${this.deCapitalizeFirstLetter(componentName)}Style} from "./${componentName}.Style";
 
-@withConnection<I${componentName}StoreProps, I${componentName}DispatchProps, I${componentName}Props>(
+@_withConnection_<I${componentName}StoreProps, I${componentName}DispatchProps, I${componentName}Props>(
   (store: _storeState_) => ({
   }), {
   })

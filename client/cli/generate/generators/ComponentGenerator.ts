@@ -1,6 +1,6 @@
-import {AbstractGenerator} from "./AbstractGenerator";
+import {AbstractComponentGenerator} from "./AbstractComponentGenerator";
 
-export class ComponentGenerator extends AbstractGenerator{
+export class ComponentGenerator extends AbstractComponentGenerator {
 
   protected generateStyleAsStr(componentName: string): string {
     return (

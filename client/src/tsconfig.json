@@ -23,10 +23,11 @@
       "es2018",
       "dom"
     ],
-    "baseUrl": "./",
+    "baseUrl": "./application",
     "outDir": "../target/dist:raw",
     "paths": {
-      "@Main/*": [ "main/*" ],
+      "@Main": [ "modules/main/index" ],
+      "@Main/*": [ "modules/main/*" ],
       "@Module/*": [ "modules/*" ],
       "@Module": [ "modules/index" ],
       "@Lib/*": [ "lib/*" ]

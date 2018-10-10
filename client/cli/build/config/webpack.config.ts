@@ -36,12 +36,12 @@ export class WebpackBuildConfig implements Configuration {
   public entry = isProduction
     ? [
       "babel-polyfill",
-      path.resolve(projectRoot, "src/main/Application.tsx")
+      path.resolve(projectRoot, "src/application/Application.tsx")
     ]
     : [
       "webpack/hot/dev-server",
       "babel-polyfill",
-      path.resolve(projectRoot, "src/main/Application.tsx")
+      path.resolve(projectRoot, "src/application/Application.tsx")
     ];
 
   public output = {
@@ -54,15 +54,13 @@ export class WebpackBuildConfig implements Configuration {
 
   public resolve = {
     alias: {
-      "@Lib": path.resolve(projectRoot, "./src/lib/"),
-      "@Main": path.resolve(projectRoot, "./src/main/"),
-      "@Module": path.resolve(projectRoot, "./src/modules/")
+      "@Lib": path.resolve(projectRoot, "./src/application/lib/"),
+      "@Main": path.resolve(projectRoot, "./src/application/modules/main/"),
+      "@Module": path.resolve(projectRoot, "./src/application/modules/")
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     modules: [
-      path.resolve(projectRoot, "src/main"),
-      path.resolve(projectRoot, "src/modules"),
-      path.resolve(projectRoot, "src/lib"),
+      path.resolve(projectRoot, "src/application"),
       path.resolve(projectRoot, "node_modules")
     ],
   };
@@ -143,7 +141,7 @@ export class WebpackBuildConfig implements Configuration {
         removeTagWhitespace: true,
         trimCustomFragments: true
       },
-      template: path.resolve(projectRoot, "src/main/index.hbs")
+      template: path.resolve(projectRoot, "src/application/index.hbs")
     }),
     new Dotenv({
       path: path.resolve(projectRoot, "cli/build/.env")
