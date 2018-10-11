@@ -1,10 +1,11 @@
 import * as React from "react";
-import {createRef, Fragment, PureComponent, RefObject} from "react";
+import {createRef, Fragment, MouseEvent, PureComponent, RefObject} from "react";
 import ReactResizeDetector from "react-resize-detector";
+import {AutoBind} from "redux-cbd";
 
 import {ICanvasGraphicsSizingContext} from "./rendering/context/index";
-import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./rendering/graphics_objects/index";
-import {RenderingService} from "./rendering/services/index";
+import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./rendering/graphics_objects";
+import {AbstractRenderingService, RenderingService} from "./rendering/services";
 
 export interface ICanvasGraphicsRendererProps {
   internalRenderingItems: Array<CanvasGraphicsRenderObject>;
@@ -19,15 +20,17 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
   private readonly externalPreRendererCanvas: RefObject<HTMLCanvasElement> = createRef();
   private readonly composedRendererCanvas: RefObject<HTMLCanvasElement> = createRef();
 
-  private readonly internalRenderingService: RenderingService = new RenderingService();
-  private readonly externalRenderingService: RenderingService = new RenderingService();
-  private readonly composedRenderingService: RenderingService = new RenderingService();
+  private readonly internalRenderingService: AbstractRenderingService = new RenderingService();
+  private readonly externalRenderingService: AbstractRenderingService = new RenderingService();
+  private readonly composedRenderingService: AbstractRenderingService = new RenderingService();
+
+  /* Lifecycle: */
 
   public componentWillMount(): void {
 
-    this.internalRenderingService.shouldRender = true;
-    this.externalRenderingService.shouldRender = true;
-    this.composedRenderingService.shouldRender = true;
+    this.internalRenderingService.enableRendering();
+    this.externalRenderingService.enableRendering();
+    this.composedRenderingService.enableRendering();
   }
 
   public componentDidMount(): void {
@@ -47,7 +50,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
       new DomCanvasShadowRO(internalPreRendererCanvas)
     ]);
 
-    this.internalRenderingService.shouldHandleInteraction = true;
+    this.internalRenderingService.enableInteraction();
 
     this.internalRenderingService.render();
     this.externalRenderingService.render();
@@ -62,22 +65,42 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
 
   public componentWillUnmount(): void {
 
-    this.internalRenderingService.shouldRender = false;
-    this.externalRenderingService.shouldRender = false;
-    this.composedRenderingService.shouldRender = false;
+    this.internalRenderingService.disableRendering();
+    this.externalRenderingService.disableRendering();
+    this.composedRenderingService.disableRendering();
+  }
+
+  /* Stream getters for referal: */
+
+  public getInternalStream(): MediaStream {
+    // @ts-ignore
+    return this.getInternalPreRenderer().captureStream();
+  }
+
+  public getExternalStream(): MediaStream {
+    // @ts-ignore
+    return this.getExternalPreRenderer().captureStream();
+  }
+
+  public getComposedStream(): MediaStream {
+    // @ts-ignore
+    return this.getComposedRenderer().captureStream();
   }
 
   public render(): JSX.Element {
+
+    // @ts-ignore
+    window.t = this;
 
     return (
       <Fragment>
 
         <div className={"canvas-renderer-layout"}
-             onMouseMove={(e) => this.handleLayoutMouseMove(e as any)}
-             onMouseEnter={(e) => this.handleLayoutMouseEnter(e as any)}
-             onMouseLeave={(e) => this.handleLayoutMouseLeave(e as any)}
-             onMouseDown={(e) => this.handleLayoutMouseDown(e as any)}
-             onMouseUp={(e) => this.handleLayoutMouseUp(e as any)}
+             onMouseMove={this.handleLayoutMouseMove}
+             onMouseEnter={this.handleLayoutMouseEnter}
+             onMouseLeave={this.handleLayoutMouseLeave}
+             onMouseDown={this.handleLayoutMouseDown}
+             onMouseUp={this.handleLayoutMouseUp}
         >
 
           <canvas ref={this.internalPreRendererCanvas} className={"canvas-prerenderer-internal"} hidden/>
@@ -95,7 +118,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
 
   }
 
-  /* Getters */
+  /* Getters for pre-renderer: */
 
   private getInternalPreRenderer(): HTMLCanvasElement {
     return (this.internalPreRendererCanvas.current as any);
@@ -109,50 +132,39 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     return (this.composedRendererCanvas.current as any);
   }
 
-  /* Events related */
+  /* Events related methods: */
 
+  @AutoBind
   private handleLayoutMouseDown(event: MouseEvent): void {
-
     this.internalRenderingService.handleMouseDown(event);
-    this.externalRenderingService.handleMouseDown(event);
-    this.composedRenderingService.handleMouseDown(event);
   }
 
+  @AutoBind
   private handleLayoutMouseUp(event: MouseEvent): void {
-
     this.internalRenderingService.handleMouseUp(event);
-    this.externalRenderingService.handleMouseUp(event);
-    this.composedRenderingService.handleMouseUp(event);
   }
 
+  @AutoBind
   private handleLayoutMouseMove(event: MouseEvent): void {
-
     this.internalRenderingService.handleMouseMove(event);
-    this.externalRenderingService.handleMouseMove(event);
-    this.composedRenderingService.handleMouseMove(event);
-
   }
 
+  @AutoBind
   private handleLayoutMouseEnter(event: MouseEvent): void {
-
     this.internalRenderingService.handleMouseEnter(event);
-    this.externalRenderingService.handleMouseEnter(event);
-    this.composedRenderingService.handleMouseEnter(event);
   }
 
+  @AutoBind
   private handleLayoutMouseLeave(event: MouseEvent): void {
-
     this.internalRenderingService.handleMouseLeave(event);
-    this.externalRenderingService.handleMouseLeave(event);
-    this.composedRenderingService.handleMouseLeave(event);
   }
 
-  /* Sizing related */
+  /* Sizing related methods: */
 
   private reCalculateSizing(width: number, height: number): void {
 
-    let canvasWidth: number;
-    let canvasHeight: number;
+    let canvasWidth: number = 0;
+    let canvasHeight: number = 0;
 
     const aspectRatio: number = CanvasGraphicsRenderer.DEFAULT_ASPECT_RATIO;
     const maxHeight = width / aspectRatio;
@@ -170,7 +182,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
 
   private resize(width: number, height: number): void {
 
-    // Update sizing.
+    // Update sizing for layouts.
 
     const internalPreRenderer: HTMLCanvasElement = this.getInternalPreRenderer();
     const externalPreRenderer: HTMLCanvasElement = this.getExternalPreRenderer();
@@ -185,7 +197,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     composedRenderer.width = width;
     composedRenderer.height = height;
 
-    // Update sizing context.
+    // Update sizing context for renderer.
 
     const boundingRect: ClientRect = composedRenderer.getBoundingClientRect();
     const sizingContext: ICanvasGraphicsSizingContext = {

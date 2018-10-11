@@ -29,6 +29,10 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
     this.renderElement();
   }
 
+  public renderInteraction(): void {
+    // Do nothing there.
+  }
+
   public afterMove(): void {
     this.owner.afterResize(this, this.corner);
   }

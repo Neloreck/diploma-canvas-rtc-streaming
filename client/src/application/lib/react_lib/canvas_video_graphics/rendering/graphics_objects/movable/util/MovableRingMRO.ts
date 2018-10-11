@@ -21,11 +21,11 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
   public renderSelf(): void {
 
     this.renderElement();
+  }
 
-    if (this.isSelected()) {
-      this.renderSelectionOverElement();
-      this.renderResizeControls();
-    }
+  public renderInteraction(): void {
+    this.renderSelectionOverElement();
+    this.renderResizeControls();
   }
 
   public isInResizeBounds(x: number, y: number): boolean {

@@ -6,17 +6,7 @@ export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsResizabl
 
   protected readonly selectionPadding: number = 5;
 
-  private selected: boolean = false;
-
   public afterMove(...args: Array<any>) { /*nothing*/ }
-
-  public isSelected(): boolean {
-    return this.selected;
-  }
-
-  public setSelected(selected: boolean): void {
-    this.selected = selected;
-  }
 
   public isMovable(): boolean {
     return true;

@@ -1,11 +1,15 @@
+import {MouseEvent} from "react";
+import {AutoBind} from "redux-cbd";
+
 import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
 import {CanvasGraphicsRenderObject} from "../graphics_objects/abstract/CanvasGraphicsRenderObject";
+import {AbstractRenderingService} from "./AbstractRenderingService";
 
-import {CanvasGraphicsMovableObject} from "../graphics_objects";
+import {CanvasGraphicsInteractiveObject, CanvasGraphicsMovableObject} from "../graphics_objects";
 
 import {IPoint} from "../context";
 
-export class RenderingService {
+export class RenderingService extends AbstractRenderingService {
 
   public shouldRender: boolean = false;
   public shouldHandleInteraction: boolean = false;
@@ -17,6 +21,8 @@ export class RenderingService {
   private isMouseDown: boolean = false;
   private mouseTouchCoordinates: IPoint | null = { x: 0, y: 0 };
   private selectedObject: CanvasGraphicsMovableObject | null = null;
+
+  /* Setters: */
 
   public setMouseDown(isMouseDown: boolean, mouseTouch: IPoint | null = null): void {
     this.isMouseDown = isMouseDown;
@@ -39,18 +45,23 @@ export class RenderingService {
     this.renderObjects = objects;
   }
 
-  public render(): void {
-
-    this.clear();
-    this.renderItems();
-
-    if (this.shouldRender) {
-      window.requestAnimationFrame(() => this.render());
-    }
-
+  public enableRendering(): void {
+    this.shouldRender = true;
   }
 
-  /* Events */
+  public disableRendering(): void {
+    this.shouldRender = false;
+  }
+
+  public enableInteraction(): void {
+    this.shouldHandleInteraction = true;
+  }
+
+  public disableInteraction(): void {
+    this.shouldHandleInteraction = false;
+  }
+
+  /* Events: */
 
   public handleMouseDown(event: MouseEvent): void {
 
@@ -65,7 +76,7 @@ export class RenderingService {
     this.selectedObject = null;
 
     this.renderObjects.forEach((it) => {
-      if (it.isMovable()) {
+      if (it.isInteractive()) {
         (it as CanvasGraphicsMovableObject).setSelected(false);
       }
     });
@@ -100,47 +111,52 @@ export class RenderingService {
 
   public handleMouseMove(event: MouseEvent): void {
 
-    if (!this.shouldHandleInteraction || !this.isMouseDown) {
-      return;
-    }
+    if (this.shouldHandleInteraction && this.isMouseDown) {
 
-    const realPosition: IPoint = { x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY };
-    const oldPosition: IPoint = this.mouseTouchCoordinates || realPosition;
+      const realPosition: IPoint = { x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY };
+      const oldPosition: IPoint = this.mouseTouchCoordinates || realPosition;
 
-    if (this.selectedObject !== null) {
+      if (this.selectedObject !== null) {
 
-      if (this.selectedObject.isInResizeBounds(realPosition.x, realPosition.y)) {
-        this.selectedObject.resize(realPosition, oldPosition);
-      } else {
-        this.selectedObject.move(realPosition, oldPosition);
+        if (this.selectedObject.isInResizeBounds(realPosition.x, realPosition.y)) {
+          this.selectedObject.resize(realPosition, oldPosition);
+        } else {
+          this.selectedObject.move(realPosition, oldPosition);
+        }
+
+        this.setMouseTouch(realPosition);
       }
-
-      this.setMouseTouch(realPosition);
-
     }
   }
 
   public handleMouseEnter(event: MouseEvent): void {
 
-    if (!this.shouldHandleInteraction) {
-      return;
+    if (this.shouldHandleInteraction) {
+      this.setMouseDown(false);
     }
-
-    this.setMouseDown(false);
   }
 
   public handleMouseLeave(event: MouseEvent): void {
 
-    if (!this.shouldHandleInteraction) {
-      return;
+    if (this.shouldHandleInteraction) {
+      this.setMouseDown(false);
     }
-
-    this.setMouseDown(false);
   }
 
-  /* Rendering implementation. */
+  /* Rendering: */
 
-  private clear(): void {
+  @AutoBind
+  public render(): void {
+
+    this.clear();
+    this.renderItems();
+
+    if (this.shouldRender) {
+      window.requestAnimationFrame(this.render);
+    }
+  }
+
+  public clear(): void {
     this.renderContext.clearRect(0, 0, this.renderSizing.width, this.renderSizing.height);
   }
 
@@ -152,7 +168,13 @@ export class RenderingService {
       object.setSizing(this.renderSizing);
 
       if (!object.isDisabled()) {
+
         object.renderSelf();
+
+        if (this.shouldHandleInteraction &&
+          object.isInteractive() && (object as CanvasGraphicsInteractiveObject).isSelected()) {
+          (object as CanvasGraphicsInteractiveObject).renderInteraction();
+        }
       }
     }
   }

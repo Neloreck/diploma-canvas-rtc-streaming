@@ -41,6 +41,10 @@ export abstract class CanvasGraphicsRenderObject {
     return false;
   }
 
+  public isInteractive(): boolean {
+    return false;
+  }
+
   public abstract renderSelf(): void;
 
   // Private implementation.

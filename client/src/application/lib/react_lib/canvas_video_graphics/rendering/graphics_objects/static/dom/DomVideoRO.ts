@@ -1,15 +1,12 @@
 import {ICanvasGraphicsSizingContext} from "../../../context/ICanvasGraphicsSizingContext";
 
 import {CanvasGraphicsRenderObject} from "../../abstract/CanvasGraphicsRenderObject";
-import {CenteredTextRO} from "../text/CenteredTextRO";
 
 export class DomVideoRO extends CanvasGraphicsRenderObject {
 
   private isVideoRendering: boolean = false;
   private mediaStream: MediaStream = new MediaStream();
   private hiddenVideoRenderer: HTMLVideoElement = document.createElement("video");
-
-  private readonly centeredTextRenderer: CenteredTextRO  = new CenteredTextRO("No input source.", 7, "#FFF");
 
   public constructor(mediaStream: MediaStream) {
 
@@ -24,17 +21,6 @@ export class DomVideoRO extends CanvasGraphicsRenderObject {
   }
 
   public renderSelf(): void {
-
-    if (this.mediaStream.getTracks().length > 0) {
-      this.renderVideo();
-    } else {
-      this.renderNoVideo();
-    }
-
-  }
-
-  private renderVideo(): void {
-
     const context: CanvasRenderingContext2D = this.getContext();
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
 
@@ -42,15 +28,6 @@ export class DomVideoRO extends CanvasGraphicsRenderObject {
     this.hiddenVideoRenderer.height = sizing.height;
 
     context.drawImage(this.hiddenVideoRenderer, 0, 0, sizing.width, sizing.height);
-
-  }
-
-  private renderNoVideo(): void {
-
-    this.centeredTextRenderer.setSizing(this.getSizing());
-    this.centeredTextRenderer.setContext(this.getContext());
-    this.centeredTextRenderer.renderSelf();
-
   }
 
   private async startVideo(): Promise<void> {
@@ -59,7 +36,6 @@ export class DomVideoRO extends CanvasGraphicsRenderObject {
       await this.hiddenVideoRenderer.play();
       this.isVideoRendering = true;
     }
-
   }
 
 }

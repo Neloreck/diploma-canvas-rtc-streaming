@@ -1,5 +1,5 @@
 export {CanvasGraphicsRenderObject} from "./abstract/CanvasGraphicsRenderObject";
-
+export {CanvasGraphicsInteractiveObject} from "./abstract/CanvasGraphicsInteractiveObject";
 export {CanvasGraphicsMovableObject} from "./abstract/CanvasGraphicsMovableObject";
 export {CanvasGraphicsMovableCircleObject} from "./abstract/CanvasGraphicsMovableCircleObject";
 export {CanvasGraphicsMovableRectangleObject} from "./abstract/CanvasGraphicsMovableRectangleObject";

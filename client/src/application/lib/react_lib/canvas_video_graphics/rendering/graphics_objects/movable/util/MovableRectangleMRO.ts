@@ -39,13 +39,21 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
 
   public renderSelf(): void {
 
-    this.renderElement();
+    const context: CanvasRenderingContext2D = this.getContext();
+    const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
 
-    if (this.isSelected()) {
-      this.renderSelectionOverElement();
-      this.renderResizeControls();
-    }
+    context.strokeStyle = "#ff6664";
+    context.lineWidth = 3;
 
+    context.beginPath();
+    context.rect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
+    context.stroke();
+    context.closePath();
+  }
+
+  public renderInteraction(): void {
+    this.renderSelectionOverElement();
+    this.renderResizeControls();
   }
 
   public isInResizeBounds(x: number, y: number): boolean {
@@ -150,20 +158,6 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
     const botLeft: IPoint = { x: this.left * pWidth , y: this.top * pHeight + this.height * pHeight };
 
     return { topLeft, topRight, botLeft, botRight};
-  }
-
-  private renderElement(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-    const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
-
-    context.strokeStyle = "#ff6664";
-    context.lineWidth = 3;
-
-    context.beginPath();
-    context.rect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
-    context.stroke();
-    context.closePath();
   }
 
   private renderResizeControls(): void {

@@ -1,8 +1,7 @@
-import {CanvasGraphicsRenderObject} from "./CanvasGraphicsRenderObject";
-
 import {IPoint} from "../../../rendering/context";
+import {CanvasGraphicsInteractiveObject} from "./CanvasGraphicsInteractiveObject";
 
-export abstract class CanvasGraphicsResizableObject extends CanvasGraphicsRenderObject {
+export abstract class CanvasGraphicsResizableObject extends CanvasGraphicsInteractiveObject {
 
   public afterResize(...args: Array<any>): void { /*nothing*/ }
 
