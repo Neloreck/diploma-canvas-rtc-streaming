@@ -1,4 +1,4 @@
-import {CanvasGraphicsRenderObject} from "../../abstract/CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../../base/CanvasGraphicsRenderObject";
 
 export class CenteredTextRO extends CanvasGraphicsRenderObject {
 

@@ -1,12 +1,12 @@
-import {IPoint} from "../../../context/IPoint";
-import {CanvasGraphicsMovableCircleObject} from "../../abstract/CanvasGraphicsMovableCircleObject";
+import {IPoint} from "../../context/IPoint";
+import {CanvasGraphicsMovableCircleObject} from "../base/CanvasGraphicsMovableCircleObject";
 import {MovableResizeControlMRO} from "./MovableResizeControlMRO";
 
-export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
+export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableCircleObject {
 
-  private radius: number = 150;
-  private center: IPoint = { x: 100, y: 100 };
-  private resizeControlsSize: number = 10;
+  protected radius: number = 150;
+  protected center: IPoint = { x: 100, y: 100 };
+  protected resizeControlsSize: number = 10;
 
   private readonly resizeControl: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
 
@@ -18,10 +18,7 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
     this.center = center;
   }
 
-  public renderSelf(): void {
-
-    this.renderElement();
-  }
+  public abstract renderSelf(): void;
 
   public renderInteraction(): void {
     this.renderSelectionOverElement();
@@ -49,19 +46,6 @@ export class MovableRingMRO extends CanvasGraphicsMovableCircleObject {
 
   protected getBoundsCenter(): IPoint {
     return { x: this.getPercentageWidth(this.center.x), y: this.getPercentageHeight(this.center.y) };
-  }
-
-  private renderElement(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-    const {width: pWidth, height: pHeight}: { width: number, height: number} = this.getPercentageBaseSizing();
-
-    context.strokeStyle = "#ff0033";
-    context.lineWidth = 3;
-
-    context.beginPath();
-    context.arc(this.center.x * pWidth, this.center.y * pHeight, this.radius * pWidth, 0, 2 * Math.PI);
-    context.stroke();
   }
 
   private renderResizeControls(): void {

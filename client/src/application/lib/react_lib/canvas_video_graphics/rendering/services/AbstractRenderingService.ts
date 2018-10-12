@@ -1,7 +1,7 @@
 import {MouseEvent} from "react";
 
 import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
-import {CanvasGraphicsRenderObject} from "../graphics_objects/abstract/CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../graphics_objects/base/CanvasGraphicsRenderObject";
 
 import {IPoint} from "../context";
 

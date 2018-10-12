@@ -1,6 +1,6 @@
 import {ICanvasGraphicsSizingContext} from "../../../context/ICanvasGraphicsSizingContext";
 
-import {CanvasGraphicsRenderObject} from "../../abstract/CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../../base/CanvasGraphicsRenderObject";
 
 export class DomVideoRO extends CanvasGraphicsRenderObject {
 

@@ -1,6 +1,6 @@
-import {IPoint} from "../../../context/IPoint";
-import {CanvasGraphicsMovableRectangleObject} from "../../abstract/CanvasGraphicsMovableRectangleObject";
-import {CanvasGraphicsResizableObject} from "../../abstract/CanvasGraphicsResizableObject";
+import {IPoint} from "../../context/IPoint";
+import {CanvasGraphicsMovableRectangleObject} from "../base/CanvasGraphicsMovableRectangleObject";
+import {CanvasGraphicsResizableObject} from "../base/CanvasGraphicsResizableObject";
 
 export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObject {
 

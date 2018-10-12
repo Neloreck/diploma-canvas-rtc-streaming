@@ -36,12 +36,12 @@ export interface I${componentName}Props extends I${componentName}OwnProps, I${co
 `import * as React from "react";
 import {Component} from "react";
 
-import {withStyle} from "@Annotate";
+import {_Styled} from "@_StyledPath";
 
 import {I${componentName}Props} from "./${componentName}.StateProps";
 import {${this.deCapitalizeFirstLetter(componentName)}Style} from "./${componentName}.Style";
 
-@withStyle(${this.deCapitalizeFirstLetter(componentName)}Style)
+@_Styled(${this.deCapitalizeFirstLetter(componentName)}Style)
 export class ${componentName} extends Component<I${componentName}Props> {
 
   public render(): JSX.Element {

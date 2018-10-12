@@ -1,16 +1,16 @@
-import {IBoundingRect} from "../../../context";
-import {IPoint} from "../../../context/IPoint";
-import {CanvasGraphicsMovableRectangleObject} from "../../abstract/CanvasGraphicsMovableRectangleObject";
-import {MovableResizeControlMRO} from "./MovableResizeControlMRO";
+import {IBoundingRect} from "../../context";
+import {IPoint} from "../../context/IPoint";
+import {CanvasGraphicsMovableRectangleObject} from "../base/CanvasGraphicsMovableRectangleObject";
+import {MovableResizeControlMRO} from "../movable/MovableResizeControlMRO";
 
-export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
+export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovableRectangleObject {
 
-  private left: number = 0;
-  private top: number = 0;
-  private width: number = 5;
-  private height: number = 5;
+  protected left: number = 0;
+  protected top: number = 0;
+  protected width: number = 5;
+  protected height: number = 5;
 
-  private resizeControlsSize: number = 15;
+  protected resizeControlsSize: number = 15;
 
   private readonly resizeTopLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
   private readonly resizeTopRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
@@ -37,19 +37,7 @@ export class MovableRectangleMRO extends CanvasGraphicsMovableRectangleObject {
     this.resizeBotRight.setCorner(3);
   }
 
-  public renderSelf(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-    const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
-
-    context.strokeStyle = "#ff6664";
-    context.lineWidth = 3;
-
-    context.beginPath();
-    context.rect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
-    context.stroke();
-    context.closePath();
-  }
+  public abstract renderSelf(): void;
 
   public renderInteraction(): void {
     this.renderSelectionOverElement();

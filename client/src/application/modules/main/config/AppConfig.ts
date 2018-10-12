@@ -3,7 +3,7 @@ import {Single} from "redux-cbd";
 @Single
 export class AppConfig {
 
-  public readonly env = process.env.NODE_ENV;
-  public readonly isDev = process.env.NODE_ENV === "development";
+  public readonly env: string = (process.env.NODE_ENV as string);
+  public readonly isDev: boolean = (process.env.NODE_ENV === "development");
 
 }

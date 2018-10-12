@@ -4,14 +4,14 @@ import {Component} from "react";
 import {Grid} from "@material-ui/core";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
+import {CanvasGraphicsPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
 import {Optional} from "@Lib/ts/type";
 
-import {CanvasGraphicsPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics/rendering/graphics_objects";
-import {MovableRectangleMRO} from "@Lib/react_lib/canvas_video_graphics/rendering/graphics_objects/movable/util/MovableRectangleMRO";
-import {MovableRingMRO} from "@Lib/react_lib/canvas_video_graphics/rendering/graphics_objects/movable/util/MovableRingMRO";
-
 import {LocalMediaService} from "@Module/stream/data/services/local_media";
+import {
+  CanvasObjectAdditionManager,
+  ICanvasObjectAdditionManagerExternalProps
+} from "@Module/stream/view/containers/elements/CanvasObjectAdditionManager";
 
 import {IInputSourcePreviewVideoProps} from "./InputSourcePreviewVideo.StateProps";
 import {inputSourcePreviewVideoStyle} from "./InputSourcePreviewVideo.Style";
@@ -52,19 +52,15 @@ export class InputSourcePreviewVideo extends Component<IInputSourcePreviewVideoP
 
   public render(): JSX.Element {
 
-    const renderObjects: Array<CanvasGraphicsRenderObject> = [
-      new MovableRingMRO(5, { x: 50, y: 50 }),
-      new MovableRingMRO(8, { x: 25, y: 50 }),
-      new MovableRingMRO(4, { x: 88, y: 13 }),
-      new MovableRectangleMRO(10, 25, 25, 15),
-      new MovableRectangleMRO(50, 65, 33, 25)
-    ];
-
     return (
       <Grid className={this.props.classes.root} justify={"center"} alignItems={"center"} container>
+
         <CanvasGraphicsPreprocessor stream={this.state.previewStream}
                                     enableGridConfiguration={true}
-                                    gridConfigObjects={renderObjects}/>
+                                    gridConfigObjects={this.props.renderObjects}/>
+
+        <CanvasObjectAdditionManager {...{} as ICanvasObjectAdditionManagerExternalProps}/>
+
       </Grid>
     );
   }

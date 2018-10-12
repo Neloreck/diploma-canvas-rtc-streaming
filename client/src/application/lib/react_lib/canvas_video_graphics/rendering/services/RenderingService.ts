@@ -2,7 +2,7 @@ import {MouseEvent} from "react";
 import {AutoBind} from "redux-cbd";
 
 import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
-import {CanvasGraphicsRenderObject} from "../graphics_objects/abstract/CanvasGraphicsRenderObject";
+import {CanvasGraphicsRenderObject} from "../graphics_objects/base/CanvasGraphicsRenderObject";
 import {AbstractRenderingService} from "./AbstractRenderingService";
 
 import {CanvasGraphicsInteractiveObject, CanvasGraphicsMovableObject} from "../graphics_objects";

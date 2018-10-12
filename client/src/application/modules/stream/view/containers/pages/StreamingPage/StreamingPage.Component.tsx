@@ -24,6 +24,7 @@ import {streamingPageStyle} from "./StreamingPage.Style";
 
 @StreamStoreConnect<IStreamingPageStoreProps, IStreamingPageDispatchProps, IStreamingPageProps>(
   (store: IStreamStoreState) => ({
+    renderObjects: store.graphics.objects,
     selectedDevices: store.inputSource.selectedDevices
   }), {
     changeInputSources: (devices: IInputSourceDevices) => new ChangeSelectedMediaDevicesAction(devices)
@@ -42,7 +43,9 @@ export class StreamingPage extends Component<IStreamingPageProps> {
           <Grid className={this.props.classes.streamingVideoSection} direction={"row"} container>
 
             <Grid className={this.props.classes.streamingVideo} item>
-              <InputSourcePreviewVideo {...{} as IInputSourcePreviewVideoExternalProps} sources={this.props.selectedDevices}/>
+              <InputSourcePreviewVideo renderObjects={this.props.renderObjects}
+                                       sources={this.props.selectedDevices}
+                                       {...{} as IInputSourcePreviewVideoExternalProps}/>
             </Grid>
 
             <Grid className={this.props.classes.streamingComments} item>
@@ -56,7 +59,8 @@ export class StreamingPage extends Component<IStreamingPageProps> {
           </Grid>
 
           <Grid className={this.props.classes.under}>
-            <InputSourcesSelectForm {...{} as IInputSourcesSelectFormExternalProps} onInputSourcesChange={this.props.changeInputSources}/>
+            <InputSourcesSelectForm onInputSourcesChange={this.props.changeInputSources}
+                                    {...{} as IInputSourcesSelectFormExternalProps} />
           </Grid>
 
         </Grid>

@@ -4,10 +4,18 @@ export abstract class CanvasGraphicsRenderObject {
 
   protected readonly createdAt: number = Date.now();
 
+  private id: string = "0";
   private disabled: boolean = false;
-
   private context: CanvasRenderingContext2D = null as any;
   private sizing: ICanvasGraphicsSizingContext = null as any;
+
+  public setId(id: string): void {
+    this.id = id;
+  }
+
+  public getId(): string {
+    return this.id;
+  }
 
   public setContext(context: CanvasRenderingContext2D): void {
     this.context = context;
