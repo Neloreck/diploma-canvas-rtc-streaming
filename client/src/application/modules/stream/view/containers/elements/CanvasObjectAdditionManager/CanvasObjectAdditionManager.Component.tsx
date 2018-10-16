@@ -41,11 +41,11 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
   private readonly contentRef: RefObject<any> = createRef();
 
   public componentDidMount(): void {
-    window.addEventListener("click", this.handleWindowClick);
+    window.addEventListener("mousedown", this.handleWindowClick);
   }
 
   public componentWillUnmount(): void {
-    window.removeEventListener("click", this.handleWindowClick);
+    window.removeEventListener("mousedown", this.handleWindowClick);
   }
 
   public render(): JSX.Element {
