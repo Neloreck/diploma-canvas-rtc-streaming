@@ -15,9 +15,9 @@ export interface ICanvasObjectAdditionManagerStoreProps {
 }
 
 export interface ICanvasObjectAdditionManagerDispatchProps {
-  onObjectAdded: (object: ICanvasObjectDescriptor) => void;
-  onObjectChanged: (object: ICanvasObjectDescriptor) => void;
-  onObjectRemoved: (object: ICanvasObjectDescriptor) => void;
+  onObjectAdded: (object: ICanvasObjectDescriptor<any>) => void;
+  onObjectChanged: (object: ICanvasObjectDescriptor<any>) => void;
+  onObjectRemoved: (object: ICanvasObjectDescriptor<any>) => void;
 }
 
 export interface ICanvasObjectAdditionManagerExternalProps extends ICanvasObjectAdditionManagerStoreProps,

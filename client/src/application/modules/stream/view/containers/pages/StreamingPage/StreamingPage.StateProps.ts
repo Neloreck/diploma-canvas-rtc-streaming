@@ -2,7 +2,11 @@ import {WithStyles} from "@material-ui/core";
 
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
-import {SetGridDisplayAction, SetPreviewModeAction} from "@Module/stream/data/store/graphics/actions";
+import {
+  SetGraphicsDisplayAction,
+  SetGridDisplayAction,
+  SetPreviewModeAction
+} from "@Module/stream/data/store/graphics/actions";
 import {IInputSourceDevices} from "@Module/stream/data/store/input_source/models/IInputSourceDevices";
 
 import {streamingPageStyle} from "./StreamingPage.Style";
@@ -14,12 +18,14 @@ export interface IStreamPageState {
 export interface IStreamingPageStoreProps {
   renderObjects: Array<CanvasGraphicsRenderObject>;
   selectedDevices: IInputSourceDevices;
+  showGraphics: boolean;
   showGrid: boolean;
   showPreview: boolean;
 }
 
 export interface IStreamingPageDispatchProps {
   setGridDisplay: (show: boolean) => SetGridDisplayAction;
+  setGraphicsDisplay: (show: boolean) => SetGraphicsDisplayAction;
   setPreviewMode: (show: boolean) => SetPreviewModeAction;
 }
 

@@ -4,6 +4,7 @@ export class GraphicsState {
 
   public objects: Array<CanvasGraphicsRenderObject> = [];
 
+  public showGraphics: boolean = true;
   public showGrid: boolean = false;
   public showPreview: boolean = false;
 

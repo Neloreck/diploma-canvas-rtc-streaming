@@ -14,7 +14,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
   public render(): JSX.Element {
 
-    const {classes, showGrid, showPreview} = this.props;
+    const {classes, showGrid, showPreview, showGraphics} = this.props;
 
     return (
       <Grid className={classes.root} direction={"column"} container>
@@ -23,6 +23,11 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
         <FormControlLabel
           label={"Preview mode"}
           control={<Switch checked={showPreview} onChange={this.onPreviewToggle}/>}
+        />
+
+        <FormControlLabel
+          label={"Show graphics"}
+          control={<Switch checked={showGraphics} onChange={this.onGraphicsToggle}/>}
         />
 
         <FormControlLabel
@@ -37,6 +42,11 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
   @AutoBind
   private onPreviewToggle(event: ChangeEvent): void {
     this.props.onPreviewToggle((event.target as any).checked);
+  }
+
+  @AutoBind
+  private onGraphicsToggle(event: ChangeEvent): void {
+    this.props.onGraphicsToggle((event.target as any).checked);
   }
 
   @AutoBind

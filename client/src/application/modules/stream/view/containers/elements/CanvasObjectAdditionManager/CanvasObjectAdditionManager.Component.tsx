@@ -42,7 +42,7 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
     const {showAdditionWindow} = this.state;
 
     return (
-      <Grid className={classes.root}>
+      <Grid className={showAdditionWindow ? classes.root : classes.rootEmpty}>
 
         <Tooltip title={"Add object."} placement={"right"}>
           <Button className={classes.addObjectTooltip} variant={"fab"} onClick={this.onToggleShowAdditionWindow}>

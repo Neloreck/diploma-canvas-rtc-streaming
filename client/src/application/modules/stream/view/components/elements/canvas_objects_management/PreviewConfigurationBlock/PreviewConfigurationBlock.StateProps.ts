@@ -6,8 +6,10 @@ export interface IPreviewConfigurationBlockExternalProps extends WithStyles<type
 
 export interface IPreviewConfigurationBlockOwnProps {
   showGrid: boolean;
+  showGraphics: boolean;
   showPreview: boolean;
   onPreviewToggle: (show: boolean) => void;
+  onGraphicsToggle: (show: boolean) => void;
   onGridToggle: (show: boolean) => void;
 }
 

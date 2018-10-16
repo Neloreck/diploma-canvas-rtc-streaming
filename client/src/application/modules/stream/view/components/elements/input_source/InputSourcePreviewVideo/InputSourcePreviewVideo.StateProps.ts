@@ -12,6 +12,7 @@ export interface IInputSourcePreviewVideoExternalProps extends WithStyles<typeof
 export interface IInputSourcePreviewVideoOwnProps {
   sources: IInputSourceDevices;
   renderObjects: Array<CanvasGraphicsRenderObject>;
+  showGraphics: boolean;
   showGrid: boolean;
   showPreview: boolean;
 }

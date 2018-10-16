@@ -12,6 +12,7 @@ export const inputSourceManagerStyle = (theme: Theme) => createStyles({
   root: {
     alignSelf: "flex-start",
     left: 0,
-    position: "absolute"
+    position: "absolute",
+    width: 0
   }
 });

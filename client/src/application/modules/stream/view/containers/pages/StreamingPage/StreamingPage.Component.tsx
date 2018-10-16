@@ -7,7 +7,7 @@ import {AppBar, Grid, Tab, Tabs} from "@material-ui/core";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {IStreamStoreState, StreamStoreConnect} from "@Module/stream/data/store";
-import {SetGridDisplayAction, SetPreviewModeAction} from "@Module/stream/data/store/graphics";
+import {SetGraphicsDisplayAction, SetGridDisplayAction, SetPreviewModeAction} from "@Module/stream/data/store/graphics";
 
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/elements/HeaderBar";
 import {IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock} from "@Module/stream/view/components/elements/canvas_objects_management/PreviewConfigurationBlock";
@@ -28,9 +28,11 @@ import {streamingPageStyle} from "./StreamingPage.Style";
   (store: IStreamStoreState) => ({
     renderObjects: store.graphics.objects,
     selectedDevices: store.inputSource.selectedDevices,
+    showGraphics: store.graphics.showGraphics,
     showGrid: store.graphics.showGrid,
     showPreview: store.graphics.showPreview
   }), {
+    setGraphicsDisplay: (show: boolean) => new SetGraphicsDisplayAction({ show }),
     setGridDisplay: (show: boolean) => new SetGridDisplayAction({ show }),
     setPreviewMode: (show: boolean) => new SetPreviewModeAction({ show })
   })
@@ -43,7 +45,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamPageSta
 
   public render(): JSX.Element {
 
-    const {classes, showPreview, showGrid} = this.props;
+    const {classes, showPreview, showGraphics, showGrid} = this.props;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
@@ -58,6 +60,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamPageSta
               <InputSourcePreviewVideo renderObjects={this.props.renderObjects}
                                        sources={this.props.selectedDevices}
                                        showGrid={showGrid}
+                                       showGraphics={showGraphics}
                                        showPreview={showPreview}
                                        {...{} as IInputSourcePreviewVideoExternalProps}/>
             </Grid>
@@ -65,8 +68,10 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamPageSta
             <Grid className={classes.configSidebar} item>
               <PreviewConfigurationBlock
                 showGrid={showGrid}
+                showGraphics={showGraphics}
                 showPreview={showPreview}
                 onPreviewToggle={this.onTogglePreviewMode}
+                onGraphicsToggle={this.onToggleGraphics}
                 onGridToggle={this.onToggleGridDisplay}
                 {...{} as IPreviewConfigurationBlockExternalProps}/>
             </Grid>
@@ -110,6 +115,11 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamPageSta
   @AutoBind
   private onToggleGridDisplay(show: boolean): void {
     this.props.setGridDisplay(show);
+  }
+
+  @AutoBind
+  private onToggleGraphics(show: boolean): void {
+    this.props.setGraphicsDisplay(show);
   }
 
   @AutoBind

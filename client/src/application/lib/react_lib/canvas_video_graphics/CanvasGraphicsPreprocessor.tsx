@@ -10,6 +10,7 @@ import {CenteredTextRO} from "./rendering/graphics_objects/static/text/CenteredT
 
 export interface ICanvasGraphicsStreamProps {
   showGrid: boolean;
+  showGraphics: boolean;
   showPreview: boolean;
   renderingObjects: Array<CanvasGraphicsRenderObject>;
   stream: MediaStream;
@@ -29,6 +30,10 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
   private getPreviewRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
     const previewItems: Array<CanvasGraphicsRenderObject> = [];
+
+    if (this.props.showGraphics === false) {
+      return previewItems;
+    }
 
     if (this.props.showGrid === true && this.props.showPreview === false) {
       previewItems.push(new GridLayoutRO(1, 1));
@@ -51,10 +56,17 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
       ];
     }
 
-    return [
-      new DomVideoRO(this.props.stream),
-      ...this.props.renderingObjects
+    // Passed 'error' conditions.
+
+    const outputItems: Array<CanvasGraphicsRenderObject> = [
+      new DomVideoRO(this.props.stream)
     ];
+
+    if (this.props.showGraphics === true) {
+      outputItems.concat(this.props.renderingObjects);
+    }
+
+    return outputItems;
   }
 
 }
