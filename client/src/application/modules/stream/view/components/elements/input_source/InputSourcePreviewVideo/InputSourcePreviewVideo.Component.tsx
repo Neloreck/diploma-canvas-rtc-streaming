@@ -8,6 +8,10 @@ import {CanvasGraphicsPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
 import {Optional} from "@Lib/ts/type";
 
 import {LocalMediaService} from "@Module/stream/data/services/local_media";
+
+import {
+  IStreamingHelpManagerExternalProps, StreamingHelpManager
+} from "@Module/stream/view/components/elements/canvas_objects_management/StreamingHelpManager";
 import {
   IInputSourceManagerExternalProps, InputSourceManager
 } from "@Module/stream/view/components/elements/input_source/InputSourceManager";
@@ -67,6 +71,7 @@ export class InputSourcePreviewVideo extends Component<IInputSourcePreviewVideoP
 
         <CanvasObjectAdditionManager {...{} as ICanvasObjectAdditionManagerExternalProps}/>
         <InputSourceManager {...{} as IInputSourceManagerExternalProps}/>
+        <StreamingHelpManager {...{} as IStreamingHelpManagerExternalProps}/>
 
       </Grid>
     );

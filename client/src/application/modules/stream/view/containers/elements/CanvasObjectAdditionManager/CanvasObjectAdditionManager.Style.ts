@@ -8,13 +8,15 @@ export const canvasObjectAdditionManagerStyle = (theme: Theme) => createStyles({
   },
   root: {
     alignSelf: "flex-start",
-    left: theme.spacing.unit * 6,
-    position: "absolute"
+    left: 0,
+    position: "absolute",
+    top: theme.spacing.unit * 13
   },
   rootEmpty: {
     alignSelf: "flex-start",
-    left: theme.spacing.unit * 6,
+    left: 0,
     position: "absolute",
+    top: theme.spacing.unit * 13,
     width: 0
   }
 });

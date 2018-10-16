@@ -1,8 +1,8 @@
 import * as React from "react";
-import {Component} from "react";
+import {Component, createRef, RefObject} from "react";
 import {AutoBind} from "redux-cbd";
 
-import {Button, Collapse, Grid, Tooltip} from "@material-ui/core";
+import {Button, Collapse, Tooltip} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -34,7 +34,19 @@ import {canvasObjectAdditionManagerStyle} from "./CanvasObjectAdditionManager.St
 )
 export class CanvasObjectAdditionManager extends Component<ICanvasObjectAdditionManagerProps, ICanvasObjectAdditionManagerState> {
 
-  public readonly state: ICanvasObjectAdditionManagerState = { showAdditionWindow: false };
+  public readonly state: ICanvasObjectAdditionManagerState = {
+    showAdditionWindow: false
+  };
+
+  private readonly contentRef: RefObject<any> = createRef();
+
+  public componentDidMount(): void {
+    window.addEventListener("click", this.handleWindowClick);
+  }
+
+  public componentWillUnmount(): void {
+    window.removeEventListener("click", this.handleWindowClick);
+  }
 
   public render(): JSX.Element {
 
@@ -42,23 +54,34 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
     const {showAdditionWindow} = this.state;
 
     return (
-      <Grid className={showAdditionWindow ? classes.root : classes.rootEmpty}>
+        <div className={showAdditionWindow ? classes.root : classes.rootEmpty} ref={this.contentRef}>
 
-        <Tooltip title={"Add object."} placement={"right"}>
-          <Button className={classes.addObjectTooltip} variant={"fab"} onClick={this.onToggleShowAdditionWindow}>
-            { showAdditionWindow ? <Remove/> : <Add/> }
-          </Button>
-        </Tooltip>
+          <Tooltip title={"Add object."} placement={"right"}>
+            <Button className={classes.addObjectTooltip} variant={"fab"} onClick={this.onToggleShowAdditionWindow}>
+              { showAdditionWindow ? <Remove/> : <Add/> }
+            </Button>
+          </Tooltip>
 
-        <Collapse in={showAdditionWindow}>
-         <CanvasObjectsAdditionList
-           onObjectAdded={onObjectAdded}
-           {...{} as ICanvasObjectsAdditionListExternalProps}
-         />
-        </Collapse>
+          <Collapse in={showAdditionWindow}>
+           <CanvasObjectsAdditionList
+             onObjectAdded={onObjectAdded}
+             {...{} as ICanvasObjectsAdditionListExternalProps}
+           />
+          </Collapse>
 
-      </Grid>
+        </div>
     );
+  }
+
+  @AutoBind
+  private handleWindowClick(event: MouseEvent): void {
+
+    const target: HTMLUListElement = this.contentRef.current && this.contentRef.current.querySelector("ul");
+    const isAnotherComponentClicked: boolean = (target && !target.contains(event.target as Node));
+
+    if (this.state.showAdditionWindow === true && isAnotherComponentClicked === true) {
+      this.setState({ showAdditionWindow: false });
+    }
   }
 
   @AutoBind
@@ -77,7 +100,8 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
   }
 
   @AutoBind
-  private onToggleShowAdditionWindow(): void {
+  private onToggleShowAdditionWindow(event: React.MouseEvent<any>): void {
+    event.stopPropagation();
     this.setState({ showAdditionWindow: !this.state.showAdditionWindow });
   }
 
