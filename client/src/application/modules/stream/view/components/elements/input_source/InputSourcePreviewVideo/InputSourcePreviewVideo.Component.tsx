@@ -9,8 +9,10 @@ import {Optional} from "@Lib/ts/type";
 
 import {LocalMediaService} from "@Module/stream/data/services/local_media";
 import {
-  CanvasObjectAdditionManager,
-  ICanvasObjectAdditionManagerExternalProps
+  IInputSourceManagerExternalProps, InputSourceManager
+} from "@Module/stream/view/components/elements/input_source/InputSourceManager";
+import {
+  CanvasObjectAdditionManager, ICanvasObjectAdditionManagerExternalProps
 } from "@Module/stream/view/containers/elements/CanvasObjectAdditionManager";
 
 import {IInputSourcePreviewVideoProps} from "./InputSourcePreviewVideo.StateProps";
@@ -63,6 +65,7 @@ export class InputSourcePreviewVideo extends Component<IInputSourcePreviewVideoP
                                     renderingObjects={this.props.renderObjects}/>
 
         <CanvasObjectAdditionManager {...{} as ICanvasObjectAdditionManagerExternalProps}/>
+        <InputSourceManager {...{} as IInputSourceManagerExternalProps}/>
 
       </Grid>
     );

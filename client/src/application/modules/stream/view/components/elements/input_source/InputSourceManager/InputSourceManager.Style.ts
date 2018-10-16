@@ -1,14 +1,17 @@
 import {createStyles, Theme} from "@material-ui/core/styles";
 
-export const canvasObjectAdditionManagerStyle = (theme: Theme) => createStyles({
-  addObjectTooltip: {
+export const inputSourceManagerStyle = (theme: Theme) => createStyles({
+  configureSourceTooltip: {
     height: theme.spacing.unit * 5,
     margin: theme.spacing.unit * 2,
     width: theme.spacing.unit * 5,
   },
+  drawerMenu: {
+    width: 350
+  },
   root: {
     alignSelf: "flex-start",
-    left: theme.spacing.unit * 6,
+    left: 0,
     position: "absolute"
   }
 });

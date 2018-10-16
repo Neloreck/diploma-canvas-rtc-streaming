@@ -6,7 +6,6 @@ export class InputSourceState {
 
   public selectedDevices: IInputSourceDevices = {
     audioInput: null,
-    audioOutput: null,
     videoInput: null
   };
 

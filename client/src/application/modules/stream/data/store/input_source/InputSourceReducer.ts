@@ -11,7 +11,6 @@ export class InputSourceReducer extends ReflectiveReducer<InputSourceState> {
 
     newState.selectedDevices = {
       audioInput: action.payload.audioInput,
-      audioOutput: action.payload.audioOutput,
       videoInput: action.payload.videoInput
     };
 

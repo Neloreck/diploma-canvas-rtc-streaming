@@ -18,12 +18,10 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
   public readonly state = {
     selectedInputSources: {
       audioInput: null as Optional<MediaDeviceInfo>,
-      audioOutput: null as Optional<MediaDeviceInfo>,
       videoInput: null as Optional<MediaDeviceInfo>
     },
 
     audioInputSources: [] as Array<MediaDeviceInfo>,
-    audioOutputSources: [] as Array<MediaDeviceInfo>,
     videoInputSources: [] as Array<MediaDeviceInfo>,
   };
 
@@ -40,7 +38,6 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
       <Grid className={props.classes.root} direction={"column"} container>
 
         {this.renderDevicesSelection(state.audioInputSources, state.selectedInputSources.audioInput, "Audio Input")}
-        {this.renderDevicesSelection(state.audioOutputSources, state.selectedInputSources.audioOutput, "Audio Output")}
         {this.renderDevicesSelection(state.videoInputSources, state.selectedInputSources.videoInput, "Video Input")}
 
         <Button>
@@ -79,7 +76,6 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     const inputSources: Array<MediaDeviceInfo> = await this.localMediaService.getDevices();
 
     newState.audioInputSources = inputSources.filter((source) => source.kind === "audioinput");
-    newState.audioOutputSources = inputSources.filter((source) => source.kind === "audiooutput");
     newState.videoInputSources = inputSources.filter((source) => source.kind === "videoinput");
 
     this.setState(newState);
@@ -97,10 +93,6 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
 
       case "audioinput":
         newState.selectedInputSources.audioInput = device;
-        break;
-
-      case "audiooutput":
-        newState.selectedInputSources.audioOutput = device;
         break;
 
       case "videoinput":
