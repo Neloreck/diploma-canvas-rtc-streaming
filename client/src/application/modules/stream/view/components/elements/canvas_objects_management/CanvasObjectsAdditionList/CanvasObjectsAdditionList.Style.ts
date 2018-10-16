@@ -6,8 +6,7 @@ export const canvasObjectsAdditionListStyle = (theme: Theme) => createStyles({
   descriptorItemSecondary: {
   },
   root: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: "inset 1px 0px 25px 2px black",
+    backgroundColor: theme.palette.primary.light,
     flexGrow: 1,
     margin: `0 ${theme.spacing.unit * 4}px`,
     minWidth: "300px"

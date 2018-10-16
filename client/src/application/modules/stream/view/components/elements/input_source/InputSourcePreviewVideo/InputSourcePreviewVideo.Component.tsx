@@ -51,11 +51,15 @@ export class InputSourcePreviewVideo extends Component<IInputSourcePreviewVideoP
   }
 
   public render(): JSX.Element {
+
+    const {showPreview, showGrid} = this.props;
+
     return (
       <Grid className={this.props.classes.root} justify={"center"} alignItems={"center"} container>
 
-        <CanvasGraphicsPreprocessor stream={this.state.previewStream}
-                                    enableGridConfiguration={true}
+        <CanvasGraphicsPreprocessor showGrid={showGrid}
+                                    showPreview={showPreview}
+                                    stream={this.state.previewStream}
                                     renderingObjects={this.props.renderObjects}/>
 
         <CanvasObjectAdditionManager {...{} as ICanvasObjectAdditionManagerExternalProps}/>

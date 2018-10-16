@@ -8,6 +8,7 @@ import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./rendering/graphic
 import {AbstractRenderingService, RenderingService} from "./rendering/services";
 
 export interface ICanvasGraphicsRendererProps {
+  previewMode: boolean;
   internalRenderingItems: Array<CanvasGraphicsRenderObject>;
   externalRenderingItems: Array<CanvasGraphicsRenderObject>;
 }
@@ -50,7 +51,11 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
       new DomCanvasShadowRO(internalPreRendererCanvas)
     ]);
 
-    this.internalRenderingService.enableInteraction();
+    if (this.props.previewMode) {
+      this.internalRenderingService.disableInteraction();
+    } else {
+      this.internalRenderingService.enableInteraction();
+    }
 
     this.internalRenderingService.render();
     this.externalRenderingService.render();
@@ -58,6 +63,12 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
   }
 
   public componentDidUpdate(): void {
+
+    if (this.props.previewMode) {
+      this.internalRenderingService.disableInteraction();
+    } else {
+      this.internalRenderingService.enableInteraction();
+    }
 
     this.internalRenderingService.setRenderObjects(this.props.internalRenderingItems);
     this.externalRenderingService.setRenderObjects(this.props.externalRenderingItems);

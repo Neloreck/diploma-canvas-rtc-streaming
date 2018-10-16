@@ -11,7 +11,7 @@ export interface ICanvasObjectsAdditionListExternalProps extends WithStyles<type
 }
 
 export interface ICanvasObjectsAdditionListOwnProps {
-  onObjectAdded: (object: ICanvasObjectDescriptor) => void;
+  onObjectAdded: (object: ICanvasObjectDescriptor<any>) => void;
 }
 
 export interface ICanvasObjectsAdditionListProps extends ICanvasObjectsAdditionListOwnProps, ICanvasObjectsAdditionListExternalProps {

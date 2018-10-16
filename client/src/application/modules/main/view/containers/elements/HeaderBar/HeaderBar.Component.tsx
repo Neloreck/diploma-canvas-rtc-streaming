@@ -12,21 +12,19 @@ import {headerBarStyle} from "./HeaderBar.Style";
 export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
   public render(): JSX.Element {
-    const classes = this.props.classes;
+    const {classes} = this.props;
 
     return (
-      <AppBar className={this.props.classes.root} position="static">
+      <AppBar className={classes.root} position="static">
         <Toolbar>
 
-          <Typography variant="title" color="inherit" noWrap>
-            X-Core
+          <Typography className={classes.logo} variant="title" color="inherit" noWrap>
+            X-CORE
           </Typography>
 
-          <div className={classes.grow} />
-
-          <Grid container>
-            <Button variant="raised" color="default">1</Button>
-            <Button variant="raised" color="default">2</Button>
+          <Grid container className={classes.rightBar}>
+            <Button variant="raised" color="default">Placeholder</Button>
+            <Button variant="raised" color="default">Placeholder</Button>
           </Grid>
 
         </Toolbar>

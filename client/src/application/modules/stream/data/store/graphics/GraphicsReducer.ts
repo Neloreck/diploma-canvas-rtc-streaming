@@ -2,7 +2,10 @@ import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
-import {AddGraphicsObjectAction, RemoveGraphicsObjectAction, UpdateGraphicsObjectAction} from "./actions";
+import {
+  AddGraphicsObjectAction, RemoveGraphicsObjectAction, SetGridDisplayAction, SetPreviewModeAction,
+  UpdateGraphicsObjectAction
+} from "./actions";
 import {GraphicsState} from "./GraphicsState";
 
 export class GraphicsReducer extends ReflectiveReducer<GraphicsState>  {
@@ -16,6 +19,18 @@ export class GraphicsReducer extends ReflectiveReducer<GraphicsState>  {
 
     return { ...state, objects };
   }
+
+  @ActionHandler
+  public handleToggleGrid(state: GraphicsState, action: SetGridDisplayAction): GraphicsState {
+    return { ...state, showGrid: action.payload.show };
+  }
+
+  @ActionHandler
+  public handleTogglePreviewMode(state: GraphicsState, action: SetPreviewModeAction): GraphicsState {
+    return { ...state, showPreview: action.payload.show };
+  }
+
+  // Todo:
 
   @ActionHandler
   public removeGraphicsObject(state: GraphicsState, action: RemoveGraphicsObjectAction): GraphicsState {

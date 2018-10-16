@@ -37,7 +37,7 @@ export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableC
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
 
     const distance: number = Math.sqrt(Math.pow(resizeTo.x - this.getPercentageWidth(this.center.x), 2) + Math.pow(resizeTo.y - this.getPercentageHeight(this.center.y), 2));
-    this.radius = this.asPercentageWidth(distance);
+    this.radius = this.asPercentageWidth(Math.max(this.resizeControlsSize + 2, distance));
   }
 
   protected getBoundsRadius(): number {

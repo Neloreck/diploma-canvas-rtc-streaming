@@ -9,7 +9,8 @@ import {GridLayoutRO} from "./rendering/graphics_objects/index";
 import {CenteredTextRO} from "./rendering/graphics_objects/static/text/CenteredTextRO";
 
 export interface ICanvasGraphicsStreamProps {
-  enableGridConfiguration: boolean;
+  showGrid: boolean;
+  showPreview: boolean;
   renderingObjects: Array<CanvasGraphicsRenderObject>;
   stream: MediaStream;
 }
@@ -18,24 +19,25 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
   public render(): JSX.Element {
     return (
-      <CanvasGraphicsRenderer externalRenderingItems={this.getExternalRenderingObjectsContext()}
-                              internalRenderingItems={this.getInternalRenderingObjectsContext()} />
+      <CanvasGraphicsRenderer previewMode={this.props.showPreview}
+                              externalRenderingItems={this.getOutputRenderingObjectsContext()}
+                              internalRenderingItems={this.getPreviewRenderingObjectsContext()}
+      />
     );
   }
 
-  private getInternalRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
+  private getPreviewRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
-    if (this.props.enableGridConfiguration === false) {
-      return [];
+    const previewItems: Array<CanvasGraphicsRenderObject> = [];
+
+    if (this.props.showGrid === true && this.props.showPreview === false) {
+      previewItems.push(new GridLayoutRO(1, 1));
     }
 
-    return [
-      new GridLayoutRO(1, 1),
-      ...this.props.renderingObjects
-    ];
+    return previewItems.concat(this.props.renderingObjects);
   }
 
-  private getExternalRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
+  private getOutputRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
     if (this.props.stream === null) {
       return [

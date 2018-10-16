@@ -38,11 +38,6 @@ export class CanvasObjectsAdditionList extends Component<ICanvasObjectsAdditionL
 
     return (
       <ListItem key={"RI-" + descriptor.prototype.constructor.name} className={classes.descriptionItem}>
-        <ListItemAvatar>
-          <Avatar>
-            <MoreVert/>
-          </Avatar>
-        </ListItemAvatar>
         <ListItemText primary={descriptor.name}/>
         <ListItemSecondaryAction className={classes.descriptorItemSecondary}>
           <IconButton aria-label="Add" onClick={() => onObjectAdded(descriptor)}>
