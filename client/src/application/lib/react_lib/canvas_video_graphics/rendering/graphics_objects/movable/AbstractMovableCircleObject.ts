@@ -1,6 +1,6 @@
 import {IPoint} from "../../context/IPoint";
 import {CanvasGraphicsMovableCircleObject} from "../base/CanvasGraphicsMovableCircleObject";
-import {MovableResizeControlMRO} from "./MovableResizeControlMRO";
+import {ResizeControl} from "./ResizeControl";
 
 export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableCircleObject {
 
@@ -8,14 +8,15 @@ export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableC
   protected center: IPoint = { x: 100, y: 100 };
   protected resizeControlsSize: number = 10;
 
-  private readonly resizeControl: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
+  private readonly resizeControl: ResizeControl = new ResizeControl(0, 0, 15, 15);
 
-  public constructor(radius: number, center: { x: number, y: number }) {
+  public constructor();
+  public constructor(radius?: number, center?: { x: number, y: number }) {
 
     super();
 
-    this.radius = radius;
-    this.center = center;
+    this.radius = radius || 10;
+    this.center = center || { x: 50, y: 50 };
   }
 
   public abstract renderSelf(): void;
@@ -25,8 +26,12 @@ export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableC
     this.renderResizeControls();
   }
 
-  public isInResizeBounds(x: number, y: number): boolean {
-    return this.resizeControl.isInBounds(x, y);
+  public isInResizeBounds(target: IPoint): boolean {
+
+    const distance: number = Math.sqrt(Math.pow(target.x - this.getPercentageWidth(this.center.x), 2) + Math.pow(target.y - this.getPercentageHeight(this.center.y), 2));
+    const isResizingOverBorder: boolean = (this.selected && Math.abs(this.getPercentageWidth(this.radius) - distance) < 4);
+
+    return (isResizingOverBorder || this.resizeControl.isInBounds(target));
   }
 
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
@@ -39,9 +44,9 @@ export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableC
     return this.getPercentageWidth(this.radius);
   }
 
-  protected setBoundsCenter(x: number, y: number): void {
-    this.center.x = x;
-    this.center.y = y;
+  protected setBoundsCenter(target: IPoint): void {
+    this.center.x = target.x;
+    this.center.y = target.y;
   }
 
   protected getBoundsCenter(): IPoint {

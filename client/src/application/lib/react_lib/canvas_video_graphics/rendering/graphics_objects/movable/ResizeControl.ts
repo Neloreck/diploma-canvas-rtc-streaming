@@ -2,7 +2,7 @@ import {IPoint} from "../../context/IPoint";
 import {CanvasGraphicsMovableRectangleObject} from "../base/CanvasGraphicsMovableRectangleObject";
 import {CanvasGraphicsResizableObject} from "../base/CanvasGraphicsResizableObject";
 
-export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObject {
+export class ResizeControl extends CanvasGraphicsMovableRectangleObject {
 
   public owner: CanvasGraphicsResizableObject = null as any;
 
@@ -11,7 +11,7 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
   public absoluteWidth: number = 15;
   public absoluteHeight: number = 15;
 
-  protected selectionPadding: number = 15;
+  protected selectionPadding: number = 0;
 
   private corner: 0 | 1 | 2 | 3 = 0;
 
@@ -37,7 +37,7 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
     this.owner.afterResize(this, this.corner);
   }
 
-  public isInResizeBounds(x: number, y: number): boolean { return false; }
+  public isInResizeBounds(target: IPoint): boolean { return false; }
 
   public updateAbsoluteSizing(absoluteLeft: number, absoluteTop: number, absoluteWidth: number, absoluteHeight: number): void {
 
@@ -57,6 +57,16 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
 
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void { /**/ }
 
+  protected onMove(moveFrom: IPoint, moveTo: IPoint): void {
+
+    const boundingRect: { topLeft: IPoint, topRight: IPoint, botLeft: IPoint, botRight: IPoint } = this.getBoundingRect();
+
+    const halfWidth: number = (boundingRect.topRight.x - boundingRect.topLeft.x) / 2;
+    const halfHeight: number = (boundingRect.botLeft.y - boundingRect.topLeft.y) / 2;
+
+    this.setRoot((moveFrom.x - halfWidth), (moveFrom.y - halfHeight));
+  }
+
   protected setRoot(x: number, y: number): void {
     this.absoluteLeft = x;
     this.absoluteTop = y;
@@ -75,6 +85,8 @@ export class MovableResizeControlMRO extends CanvasGraphicsMovableRectangleObjec
   private renderElement(): void {
 
     const context: CanvasRenderingContext2D = this.getContext();
+
+    context.lineWidth = 2;
 
     context.beginPath();
     context.rect(this.absoluteLeft, this.absoluteTop, this.absoluteWidth, this.absoluteHeight);

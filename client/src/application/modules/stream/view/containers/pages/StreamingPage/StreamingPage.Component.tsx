@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Component} from "react";
+import {PureComponent} from "react";
 
 import {Grid} from "@material-ui/core";
 
@@ -14,10 +14,6 @@ import {
   IInputSourcePreviewVideoExternalProps,
   InputSourcePreviewVideo
 } from "@Module/stream/view/components/elements/input_source/InputSourcePreviewVideo";
-import {
-  IInputSourcesSelectFormExternalProps,
-  InputSourcesSelectForm
-} from "@Module/stream/view/components/elements/input_source/InputSourcesSelectForm";
 
 import {IStreamingPageDispatchProps, IStreamingPageProps, IStreamingPageStoreProps} from "./StreamingPage.StateProps";
 import {streamingPageStyle} from "./StreamingPage.Style";
@@ -30,7 +26,7 @@ import {streamingPageStyle} from "./StreamingPage.Style";
     changeInputSources: (devices: IInputSourceDevices) => new ChangeSelectedMediaDevicesAction(devices)
   })
 @Styled(streamingPageStyle)
-export class StreamingPage extends Component<IStreamingPageProps> {
+export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
   public render(): JSX.Element {
     return (
@@ -59,8 +55,7 @@ export class StreamingPage extends Component<IStreamingPageProps> {
           </Grid>
 
           <Grid className={this.props.classes.under}>
-            <InputSourcesSelectForm onInputSourcesChange={this.props.changeInputSources}
-                                    {...{} as IInputSourcesSelectFormExternalProps} />
+            Under...
           </Grid>
 
         </Grid>

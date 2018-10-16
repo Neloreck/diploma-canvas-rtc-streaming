@@ -10,15 +10,13 @@ import {CenteredTextRO} from "./rendering/graphics_objects/static/text/CenteredT
 
 export interface ICanvasGraphicsStreamProps {
   enableGridConfiguration: boolean;
-  gridConfigObjects: Array<any>;
+  renderingObjects: Array<CanvasGraphicsRenderObject>;
   stream: MediaStream;
 }
 
 export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStreamProps> {
 
   public render(): JSX.Element {
-    // @ts-ignore
-    window.t2 = this;
     return (
       <CanvasGraphicsRenderer externalRenderingItems={this.getExternalRenderingObjectsContext()}
                               internalRenderingItems={this.getInternalRenderingObjectsContext()} />
@@ -33,7 +31,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
     return [
       new GridLayoutRO(1, 1),
-      ...this.props.gridConfigObjects
+      ...this.props.renderingObjects
     ];
   }
 
@@ -53,7 +51,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
     return [
       new DomVideoRO(this.props.stream),
-      ...this.props.gridConfigObjects
+      ...this.props.renderingObjects
     ];
   }
 

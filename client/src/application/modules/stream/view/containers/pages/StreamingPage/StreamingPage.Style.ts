@@ -25,6 +25,7 @@ export const streamingPageStyle = (theme: Theme) => createStyles({
     minWidth: "75%"
   },
   streamingVideoSection: {
+    borderBottom: "2px black solid",
     flexBasis: "50rem",
     flexGrow: 4,
     width: "100%"

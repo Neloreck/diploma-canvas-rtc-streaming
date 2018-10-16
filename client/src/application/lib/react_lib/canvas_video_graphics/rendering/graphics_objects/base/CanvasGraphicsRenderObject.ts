@@ -1,3 +1,4 @@
+import {generateUUID} from "../../../util/uuid";
 import {ICanvasGraphicsSizingContext} from "../../context/ICanvasGraphicsSizingContext";
 
 export abstract class CanvasGraphicsRenderObject {
@@ -8,6 +9,10 @@ export abstract class CanvasGraphicsRenderObject {
   private disabled: boolean = false;
   private context: CanvasRenderingContext2D = null as any;
   private sizing: ICanvasGraphicsSizingContext = null as any;
+
+  public constructor() {
+    this.id = generateUUID();
+  }
 
   public setId(id: string): void {
     this.id = id;

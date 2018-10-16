@@ -3,11 +3,11 @@ import {CanvasGraphicsMovableObject} from "./CanvasGraphicsMovableObject";
 
 export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMovableObject {
 
-  public isInBounds(x: number, y: number): boolean {
+  public isInBounds(target: IPoint): boolean {
 
-    const {x: centerX, y: centerY} = this.getBoundsCenter();
+    const { x: centerX, y: centerY } = this.getBoundsCenter();
 
-    return Math.sqrt(Math.pow((x - centerX), 2) + Math.pow((y - centerY), 2)) < this.getBoundsRadius();
+    return Math.sqrt(Math.pow((target.x - centerX), 2) + Math.pow((target.y - centerY), 2)) < this.getBoundsRadius();
   }
 
   protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
@@ -18,7 +18,7 @@ export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMo
     newPosition.x = center.x + (moveTo.x - moveFrom.x);
     newPosition.y = center.y + (moveTo.y - moveFrom.y);
 
-    this.setBoundsCenter(this.asPercentageWidth(newPosition.x), this.asPercentageHeight(newPosition.y));
+    this.setBoundsCenter({ x: this.asPercentageWidth(newPosition.x), y: this.asPercentageHeight(newPosition.y) });
   }
 
   protected renderSelectionOverElement(): void {
@@ -54,7 +54,7 @@ export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMo
     }
   }
 
-  protected abstract setBoundsCenter(x: number, y: number): void;
+  protected abstract setBoundsCenter(center: IPoint): void;
 
   protected abstract getBoundsCenter(): IPoint;
 

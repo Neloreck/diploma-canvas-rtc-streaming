@@ -3,10 +3,10 @@ import {CanvasGraphicsMovableObject} from "./CanvasGraphicsMovableObject";
 
 export abstract class CanvasGraphicsMovableRectangleObject extends CanvasGraphicsMovableObject {
 
-  public isInBounds(x: number, y: number): boolean {
+  public isInBounds(target: IPoint): boolean {
 
     const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
-    const realPoint: IPoint = {x, y};
+    const realPoint: IPoint = { x: target.x, y: target.y };
 
     // Additional radius for moving / selection.
 

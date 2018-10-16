@@ -13,9 +13,9 @@ export abstract class CanvasGraphicsResizableObject extends CanvasGraphicsIntera
     this.onResize(resizeTo, resizeFrom);
   }
 
-  public abstract isInResizeBounds(x: number, y: number): boolean;
+  public abstract isInResizeBounds(target: IPoint): boolean;
 
-  public abstract isInBounds(x: number, y: number): boolean;
+  public abstract isInBounds(target: IPoint): boolean;
 
   protected abstract onMove(resizeTo: IPoint, resizeFrom: IPoint): void;
 

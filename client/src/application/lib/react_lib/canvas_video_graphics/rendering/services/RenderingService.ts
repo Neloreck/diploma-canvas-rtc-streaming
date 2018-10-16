@@ -19,6 +19,7 @@ export class RenderingService extends AbstractRenderingService {
   private renderSizing: ICanvasGraphicsSizingContext = { width: 160, height: 90, offsetX: 0, offsetY: 0 };
 
   private isMouseDown: boolean = false;
+  private isResizing: boolean | null = null;
   private mouseTouchCoordinates: IPoint | null = { x: 0, y: 0 };
   private selectedObject: CanvasGraphicsMovableObject | null = null;
 
@@ -35,6 +36,10 @@ export class RenderingService extends AbstractRenderingService {
 
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
     this.renderSizing = sizing;
+  }
+
+  public setResizing(isResizing: boolean | null): void {
+    this.isResizing = isResizing;
   }
 
   public setRenderContext(context: CanvasRenderingContext2D): void {
@@ -91,7 +96,7 @@ export class RenderingService extends AbstractRenderingService {
 
         const movableRenderObject: CanvasGraphicsMovableObject = renderObject as CanvasGraphicsMovableObject;
 
-        if (movableRenderObject.isInBounds(event.pageX - this.renderSizing.offsetX, event.pageY - this.renderSizing.offsetY)) {
+        if (movableRenderObject.isInBounds({ x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY })) {
           movableRenderObject.setSelected(true);
           this.selectedObject = movableRenderObject;
           break;
@@ -102,11 +107,10 @@ export class RenderingService extends AbstractRenderingService {
 
   public handleMouseUp(event: MouseEvent): void {
 
-    if (!this.shouldHandleInteraction) {
-      return;
+    if (this.shouldHandleInteraction) {
+      this.setResizing(null);
+      this.setMouseDown(false);
     }
-
-    this.setMouseDown(false);
   }
 
   public handleMouseMove(event: MouseEvent): void {
@@ -118,7 +122,13 @@ export class RenderingService extends AbstractRenderingService {
 
       if (this.selectedObject !== null) {
 
-        if (this.selectedObject.isInResizeBounds(realPosition.x, realPosition.y)) {
+        const isInResizeBounds: boolean = this.selectedObject.isInResizeBounds(realPosition);
+
+        if (this.isResizing === null) {
+          this.setResizing(isInResizeBounds);
+        }
+
+        if (this.isResizing === true) {
           this.selectedObject.resize(realPosition, oldPosition);
         } else {
           this.selectedObject.move(realPosition, oldPosition);
@@ -132,6 +142,7 @@ export class RenderingService extends AbstractRenderingService {
   public handleMouseEnter(event: MouseEvent): void {
 
     if (this.shouldHandleInteraction) {
+      this.setResizing(null);
       this.setMouseDown(false);
     }
   }
@@ -139,6 +150,7 @@ export class RenderingService extends AbstractRenderingService {
   public handleMouseLeave(event: MouseEvent): void {
 
     if (this.shouldHandleInteraction) {
+      this.setResizing(null);
       this.setMouseDown(false);
     }
   }

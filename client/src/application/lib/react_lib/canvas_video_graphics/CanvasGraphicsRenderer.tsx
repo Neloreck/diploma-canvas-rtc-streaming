@@ -88,10 +88,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
   }
 
   public render(): JSX.Element {
-
-    // @ts-ignore
-    window.t = this;
-
     return (
       <Fragment>
 
@@ -115,7 +111,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
 
       </Fragment>
     );
-
   }
 
   /* Getters for pre-renderer: */

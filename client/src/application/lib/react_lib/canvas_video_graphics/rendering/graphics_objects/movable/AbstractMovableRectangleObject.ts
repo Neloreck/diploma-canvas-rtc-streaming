@@ -1,7 +1,7 @@
 import {IBoundingRect} from "../../context";
 import {IPoint} from "../../context/IPoint";
 import {CanvasGraphicsMovableRectangleObject} from "../base/CanvasGraphicsMovableRectangleObject";
-import {MovableResizeControlMRO} from "../movable/MovableResizeControlMRO";
+import {ResizeControl} from "../movable/ResizeControl";
 
 export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovableRectangleObject {
 
@@ -12,14 +12,21 @@ export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovab
 
   protected resizeControlsSize: number = 15;
 
-  private readonly resizeTopLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
-  private readonly resizeTopRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
-  private readonly resizeBotLeft: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
-  private readonly resizeBotRight: MovableResizeControlMRO = new MovableResizeControlMRO(0, 0, 15, 15);
+  private readonly resizeTopLeft: ResizeControl = new ResizeControl(0, 0, 15, 15);
+  private readonly resizeTopRight: ResizeControl = new ResizeControl(0, 0, 15, 15);
+  private readonly resizeBotLeft: ResizeControl = new ResizeControl(0, 0, 15, 15);
+  private readonly resizeBotRight: ResizeControl = new ResizeControl(0, 0, 15, 15);
 
-  public constructor(left: number, top: number, width: number, height: number) {
+  public constructor();
+  public constructor(left: number, top: number, width: number, height: number);
+  public constructor(leftParam?: number, topParam?: number, widthParam?: number, heightParam?: number) {
 
     super();
+
+    const left: number = leftParam || 40;
+    const top: number = topParam || 40;
+    const width: number = widthParam || 20;
+    const height: number = heightParam || 20;
 
     this.left = left;
     this.top = top;
@@ -44,16 +51,16 @@ export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovab
     this.renderResizeControls();
   }
 
-  public isInResizeBounds(x: number, y: number): boolean {
-    return this.resizeTopLeft.isInBounds(x, y) || this.resizeTopRight.isInBounds(x, y) ||
-      this.resizeBotLeft.isInBounds(x, y) || this.resizeBotRight.isInBounds(x, y);
+  public isInResizeBounds(target: IPoint): boolean {
+
+    return this.resizeTopLeft.isInBounds(target) || this.resizeTopRight.isInBounds(target) ||
+      this.resizeBotLeft.isInBounds(target) || this.resizeBotRight.isInBounds(target);
   }
 
   /* Change size or coordinate depending or corner: */
-  public afterResize(resizeControl: MovableResizeControlMRO, corner: 0 | 1 | 2 | 3): void {
+  public afterResize(resizeControl: ResizeControl, corner: 0 | 1 | 2 | 3): void {
 
     const bounds: IBoundingRect = this.getBoundingRect();
-
     let diffX: number = 0;
     let diffY: number = 0;
 
@@ -61,12 +68,12 @@ export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovab
 
       case 0:
 
-        diffY = this.asPercentageHeight(resizeControl.absoluteTop + resizeControl.absoluteHeight - bounds.topLeft.y - this.getPercentageHeight(this.height));
+        diffY = this.asPercentageHeight(resizeControl.absoluteTop - bounds.topRight.y);
 
         this.top += diffY;
         this.height -= diffY;
 
-        this.width += this.asPercentageWidth(resizeControl.absoluteLeft - bounds.topLeft.x);
+        this.width += this.asPercentageWidth(resizeControl.absoluteLeft + resizeControl.absoluteWidth - bounds.topLeft.x - this.getPercentageWidth(this.width));
 
         break;
 
@@ -85,13 +92,12 @@ export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovab
         break;
 
       case 2:
-
-        diffX = this.asPercentageWidth(resizeControl.absoluteLeft + resizeControl.absoluteWidth - bounds.botLeft.x - this.getPercentageWidth(this.width));
+        diffX = this.asPercentageWidth(resizeControl.absoluteLeft - bounds.topLeft.x);
 
         this.left += diffX;
         this.width -= diffX;
 
-        this.height += this.asPercentageHeight(resizeControl.absoluteTop - bounds.topRight.y);
+        this.height += this.asPercentageHeight(resizeControl.absoluteTop + resizeControl.absoluteHeight - bounds.topLeft.y - this.getPercentageHeight(this.height));
 
         break;
 

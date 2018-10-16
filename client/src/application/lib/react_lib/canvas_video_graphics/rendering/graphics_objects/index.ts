@@ -8,6 +8,6 @@ export {DomVideoRO} from "./static/dom/DomVideoRO";
 export {CenteredTextRO} from "./static/text/CenteredTextRO";
 export {GridLayoutRO} from "./static/utils/GridLayoutRO";
 
-export {MovableResizeControlMRO} from "./movable/MovableResizeControlMRO";
+export {ResizeControl} from "./movable/ResizeControl";
 export {AbstractMovableCircleObject} from "./movable/AbstractMovableCircleObject";
 export {AbstractMovableRectangleObject} from "./movable/AbstractMovableRectangleObject";

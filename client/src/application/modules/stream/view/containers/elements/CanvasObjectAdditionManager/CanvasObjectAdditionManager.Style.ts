@@ -5,7 +5,7 @@ const tooltipSize: string = "40px";
 export const canvasObjectAdditionManagerStyle = (theme: Theme) => createStyles({
   addObjectTooltip: {
     height: tooltipSize,
-    margin: "15px",
+    margin: "16px",
     width: tooltipSize
   },
   root: {

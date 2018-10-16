@@ -4,7 +4,7 @@ import {IPoint} from "../../context";
 
 export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsResizableObject {
 
-  protected readonly selectionPadding: number = 5;
+  protected readonly selectionPadding: number = 0;
 
   public afterMove(...args: Array<any>) { /*nothing*/ }
 
@@ -17,7 +17,7 @@ export abstract class CanvasGraphicsMovableObject extends CanvasGraphicsResizabl
     this.afterMove(moveTo, moveFrom);
   }
 
-  public abstract isInBounds(x: number, y: number): boolean;
+  public abstract isInBounds(target: IPoint): boolean;
 
   protected abstract onMove(moveTo: IPoint, moveFrom: IPoint): void;
 
