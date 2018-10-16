@@ -35,11 +35,12 @@ export abstract class CanvasGraphicsMovableCircleObject extends CanvasGraphicsMo
     const segmentLengthOffset: number = 0.1 * Math.PI;
 
     context.strokeStyle = "#5dff71";
+    context.fillStyle = "#5dff71";
     context.lineWidth = 3;
 
     context.beginPath();
     context.arc(center.x, center.y, pWidth * 0.25, 0, 2 * Math.PI);
-    context.stroke();
+    context.fill();
     context.closePath();
 
     for (let it: number = 0; it < segmentCount; it ++) {

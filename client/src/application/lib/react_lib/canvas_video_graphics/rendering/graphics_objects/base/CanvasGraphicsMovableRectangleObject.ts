@@ -69,11 +69,12 @@ export abstract class CanvasGraphicsMovableRectangleObject extends CanvasGraphic
     };
 
     context.strokeStyle = "#5dff71";
+    context.fillStyle = "#5dff71";
     context.lineWidth = 3;
 
     context.beginPath();
     context.arc(center.x, center.y, pWidth * 0.2, 0, 2 * Math.PI);
-    context.stroke();
+    context.fill();
     context.closePath();
 
     // Over rect.
