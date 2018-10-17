@@ -19,8 +19,8 @@ export const inputSourcesSelectFormStyle = (theme: Theme) => createStyles({
   },
   videoPreview: {
     backgroundColor: "black",
-    height: 179,
+    height: 180,
     marginBottom: theme.spacing.unit * 3,
-    width: 318
+    width: 300
   }
 });

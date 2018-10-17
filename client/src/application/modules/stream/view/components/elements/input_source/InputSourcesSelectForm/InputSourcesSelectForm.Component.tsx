@@ -9,9 +9,7 @@ import {localMediaService} from "@Module/stream/data/services/local_media";
 import {EDeviceKind} from "@Module/stream/data/services/local_media/EDeviceKind";
 import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
 
-import {
-  Button, FormControl, Grid, Input, InputLabel, MenuItem, Select
-} from "@material-ui/core";
+import {Button, FormControl, Grid, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
 import {Check, Refresh} from "@material-ui/icons";
 
 import {VideoPreview} from "@Module/stream/view/components/elements/video_rendering/VideoPreview";
@@ -63,8 +61,8 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
             <Refresh color="primary" style={{ fontSize: "1.2rem" }}/>
           </Button>
 
-          <Button className={classes.actionButton} variant={"outlined"}>
-            <Check color="primary" style={{ fontSize: "1.2rem" }} onClick={this.onChangesAccept}/>
+          <Button className={classes.actionButton} onClick={this.onChangesAccept} variant={"outlined"}>
+            <Check color="primary" style={{ fontSize: "1.2rem" }}/>
           </Button>
         </Grid>
 
@@ -99,20 +97,36 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
   private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
     const inputSources: IInputDevicesBundle = await localMediaService.getInputDevicesBundled();
+    const {selectedInputSources: {videoInput, audioInput}} = this.state;
 
-    this.setState({
+    const newState = {
+      ...this.state,
       audioInputSources: inputSources.audio,
       videoInputSources: inputSources.video,
-    });
+    };
+
+    if (videoInput === null ||
+      !inputSources.video.find((videoDevice) => videoDevice.deviceId === videoInput.deviceId)) {
+      newState.selectedInputSources.videoInput = inputSources.video[0] || null;
+    }
+
+    if (audioInput === null ||
+      !inputSources.audio.find((audioDevice) => audioDevice.deviceId === audioInput.deviceId)) {
+      newState.selectedInputSources.audioInput = inputSources.audio[0] || null;
+    }
+
+    const {selectedInputSources} = newState;
+
+    if (this.shouldPreviewStreamUpdate(this.state, newState)) {
+      this.updatePreviewStream(selectedInputSources.videoInput, selectedInputSources.audioInput);
+    }
+
+    this.setState(newState);
 
     return inputSources;
   }
 
   @AutoBind
-  private onChangesAccept(): void {
-    this.props.onInputSourcesChange(this.state.selectedInputSources);
-  }
-
   private handleDeviceSelection(device: MediaDeviceInfo | undefined): void {
 
     if (!device) {
@@ -133,14 +147,24 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
 
     }
 
-    const {selectedInputSources} = newState;
-
-    if (this.state.selectedInputSources.audioInput !== selectedInputSources.audioInput ||
-      this.state.selectedInputSources.videoInput !== selectedInputSources.videoInput) {
-      this.updatePreviewStream(selectedInputSources.videoInput, selectedInputSources.audioInput);
+    if (this.shouldPreviewStreamUpdate(this.state, newState)) {
+      this.updatePreviewStream(newState.selectedInputSources.videoInput, newState.selectedInputSources.audioInput);
     }
 
     this.setState(newState);
+  }
+
+  @AutoBind
+  private onChangesAccept(): void {
+    this.props.onInputSourcesChange(this.state.selectedInputSources);
+  }
+
+  private shouldPreviewStreamUpdate(oldState: IInputSourcesSelectFormState, newState: IInputSourcesSelectFormState): boolean {
+
+    const {selectedInputSources: oldSources} = oldState;
+    const {selectedInputSources: newSources} = newState;
+
+    return (oldSources.audioInput !== newSources.audioInput || oldSources.videoInput !== newSources.videoInput);
   }
 
   private async updatePreviewStream(videoDevice: Optional<MediaDeviceInfo>, audioDevice: Optional<MediaDeviceInfo>): Promise<void> {

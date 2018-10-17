@@ -13,6 +13,7 @@ export class RenderingService extends AbstractRenderingService {
 
   public shouldRender: boolean = false;
   public shouldHandleInteraction: boolean = false;
+  public shouldCleanupConext: boolean = true;
 
   private renderContext: CanvasRenderingContext2D = null as any;
   private renderObjects: Array<CanvasGraphicsRenderObject> = [];
@@ -64,6 +65,10 @@ export class RenderingService extends AbstractRenderingService {
 
   public disableInteraction(): void {
     this.shouldHandleInteraction = false;
+  }
+
+  public disableContextCleanup(): void {
+    this.shouldCleanupConext = false;
   }
 
   /* Events: */
@@ -160,10 +165,12 @@ export class RenderingService extends AbstractRenderingService {
   @AutoBind
   public render(): void {
 
-    this.clear();
-    this.renderItems();
+    if (this.shouldCleanupConext) {
+      this.clear();
+    }
 
     if (this.shouldRender) {
+      this.renderItems();
       window.requestAnimationFrame(this.render);
     }
   }

@@ -63,7 +63,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
     ];
 
     if (this.props.showGraphics === true) {
-      outputItems.concat(this.props.renderingObjects);
+      return outputItems.concat(this.props.renderingObjects);
     }
 
     return outputItems;

@@ -9,6 +9,14 @@ import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInp
 @Single
 export class LocalMediaService {
 
+  public static readonly DEFAULT_VIDEO_CONSTRAINTS = {
+    advanced: [
+      { aspectRatio: { min: 1.7777, ideal: 1.7777, max: 1.7778 } }
+    ],
+    frameRate: { min: 27, ideal: 30, max: 60 },
+    height: { min: 720, ideal: 720, max: 1080 },
+  };
+
   private log: Logger = new Logger("[🕳️LMS]");
 
   public async getDevices(): Promise<Array<MediaDeviceInfo>>  {
@@ -61,10 +69,11 @@ export class LocalMediaService {
 
   public async getUserMedia(videoInput: Optional<MediaDeviceInfo>, audioInput: Optional<MediaDeviceInfo>) {
 
-    // todo: 16 x 9 resolution for media stream
     const constraints = {
       audio: { deviceId: audioInput ? {exact: audioInput.deviceId} : undefined },
-      video: { deviceId: videoInput ? {exact: videoInput.deviceId} : undefined }
+      video: {
+        ...LocalMediaService.DEFAULT_VIDEO_CONSTRAINTS,
+        deviceId: videoInput ? {exact: videoInput.deviceId} : undefined }
     };
 
     const stream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints);

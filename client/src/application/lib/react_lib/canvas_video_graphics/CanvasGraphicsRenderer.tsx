@@ -56,6 +56,9 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     } else {
       this.internalRenderingService.enableInteraction();
     }
+    this.externalRenderingService.disableInteraction();
+
+    this.externalRenderingService.disableContextCleanup();
 
     this.internalRenderingService.render();
     this.externalRenderingService.render();

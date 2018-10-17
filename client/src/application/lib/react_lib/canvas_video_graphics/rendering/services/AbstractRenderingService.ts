@@ -15,6 +15,7 @@ export abstract class AbstractRenderingService {
   public abstract setRenderContext(context: CanvasRenderingContext2D): void;
   public abstract setRenderObjects(objects: Array<CanvasGraphicsRenderObject>): void;
 
+  public abstract disableContextCleanup(): void;
   public abstract enableRendering(): void;
   public abstract disableRendering(): void;
   public abstract enableInteraction(): void;
