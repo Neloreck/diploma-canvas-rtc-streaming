@@ -44,6 +44,8 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
   private getOutputRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
+    // Todo: Spinner instead of this.
+
     if (this.props.stream === null) {
       return [
         new CenteredTextRO("Waiting for input stream.", 7, "#FFF")

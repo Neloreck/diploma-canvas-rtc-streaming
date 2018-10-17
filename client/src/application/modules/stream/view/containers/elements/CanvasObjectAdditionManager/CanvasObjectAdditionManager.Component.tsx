@@ -12,7 +12,9 @@ import {ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
 import {IStreamStoreState, StreamStoreConnect} from "@Module/stream/data/store";
 import {AddGraphicsObjectAction} from "@Module/stream/data/store/graphics";
 
-import {CanvasObjectsAdditionList, ICanvasObjectsAdditionListExternalProps} from "@Module/stream/view/components/elements/canvas_objects_management/CanvasObjectsAdditionList";
+import {
+  CanvasObjectsAdditionList, ICanvasObjectsAdditionListExternalProps
+} from "@Module/stream/view/components/elements/canvas_objects_management/CanvasObjectsAdditionList";
 
 import {
   ICanvasObjectAdditionManagerDispatchProps,
@@ -25,7 +27,7 @@ import {canvasObjectAdditionManagerStyle} from "./CanvasObjectAdditionManager.St
 @Styled(canvasObjectAdditionManagerStyle)
 @StreamStoreConnect<ICanvasObjectAdditionManagerStoreProps, ICanvasObjectAdditionManagerDispatchProps, ICanvasObjectAdditionManagerProps>(
   (store: IStreamStoreState) => ({
-      objects: []
+    inputStream: store.source.inputStream
   }), {
     onObjectAdded: (object: ICanvasObjectDescriptor<any>) => new AddGraphicsObjectAction({ object }),
     onObjectChanged: (object: ICanvasObjectDescriptor<any>) => log.error(object),
@@ -50,14 +52,17 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
 
   public render(): JSX.Element {
 
-    const {classes, onObjectAdded} = this.props;
+    const {classes, onObjectAdded, inputStream} = this.props;
     const {showAdditionWindow} = this.state;
 
     return (
         <div className={showAdditionWindow ? classes.root : classes.rootEmpty} ref={this.contentRef}>
 
           <Tooltip title={"Add object."} placement={"right"}>
-            <Button className={classes.addObjectTooltip} variant={"fab"} onClick={this.onToggleShowAdditionWindow}>
+            <Button className={classes.addObjectTooltip}
+                    disabled={inputStream === null}
+                    variant={"fab"}
+                    onClick={this.onToggleShowAdditionWindow}>
               { showAdditionWindow ? <Remove/> : <Add/> }
             </Button>
           </Tooltip>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {PureComponent} from "react";
+import {Fragment, PureComponent} from "react";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {CanvasGraphicsPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
@@ -38,11 +38,19 @@ export class RenderedVideoPreview extends PureComponent<IRenderedVideoPreviewPro
                                     showPreview={showPreview}
                                     />
 
+        {this.renderHelperManagers()}
+
+      </Grid>
+    );
+  }
+
+  private renderHelperManagers(): JSX.Element {
+    return (
+      <Fragment>
         <CanvasObjectAdditionManager {...{} as ICanvasObjectAdditionManagerExternalProps}/>
         <InputSourcesDrawerManager {...{} as IInputSourcesDrawerManagerExternalProps}/>
         <StreamingHelpManager {...{} as IStreamingHelpManagerExternalProps}/>
-
-      </Grid>
+      </Fragment>
     );
   }
 

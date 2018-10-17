@@ -1,6 +1,5 @@
+import {Optional} from "@Lib/ts/type";
 import {WithStyles} from "@material-ui/core";
-
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
 import {ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
 
@@ -11,7 +10,7 @@ export interface ICanvasObjectAdditionManagerState {
 }
 
 export interface ICanvasObjectAdditionManagerStoreProps {
-  objects: Array<CanvasGraphicsRenderObject>;
+  inputStream: Optional<MediaStream>;
 }
 
 export interface ICanvasObjectAdditionManagerDispatchProps {
