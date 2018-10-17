@@ -7,6 +7,8 @@ export const inputSourcesDrawerManagerStyle = (theme: Theme) => createStyles({
     width: theme.spacing.unit * 5,
   },
   drawerMenu: {
+    display: "flex",
+    padding: theme.spacing.unit * 2,
     width: 350
   },
   root: {

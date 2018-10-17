@@ -15,16 +15,16 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
     const {classes} = this.props;
 
     return (
-      <AppBar className={classes.root} position="static">
+      <AppBar className={classes.root} position={"static"}>
         <Toolbar>
 
-          <Typography className={classes.logo} variant="title" color="inherit" noWrap>
+          <Typography className={classes.logo} variant={"h5"} color={"inherit"} noWrap>
             X-CORE
           </Typography>
 
           <Grid container className={classes.rightBar}>
-            <Button variant="raised" color="default">Placeholder</Button>
-            <Button variant="raised" color="default">Placeholder</Button>
+            <Button variant={"contained"} color={"default"}>Placeholder</Button>
+            <Button variant={"contained"} color={"default"}>Placeholder</Button>
           </Grid>
 
         </Toolbar>

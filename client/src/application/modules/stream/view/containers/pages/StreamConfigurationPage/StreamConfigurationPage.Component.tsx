@@ -4,8 +4,11 @@ import {AutoBind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+import {localMediaService} from "@Module/stream/data/services/local_media";
 import {IStreamStoreState, StreamStoreConnect} from "@Module/stream/data/store";
 import {SetGraphicsDisplayAction, SetGridDisplayAction, SetPreviewModeAction} from "@Module/stream/data/store/graphics";
+import {UpdateInputStreamAndSourcesAction} from "@Module/stream/data/store/source";
+import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 import {AppBar, Grid, Tab, Tabs} from "@material-ui/core";
 
@@ -37,7 +40,8 @@ import {streamConfigurationPageStyle} from "./StreamConfigurationPage.Style";
   }), {
     setGraphicsDisplay: (show: boolean) => new SetGraphicsDisplayAction({ show }),
     setGridDisplay: (show: boolean) => new SetGridDisplayAction({ show }),
-    setPreviewMode: (show: boolean) => new SetPreviewModeAction({ show })
+    setPreviewMode: (show: boolean) => new SetPreviewModeAction({ show }),
+    updateStreamAndSources: (stream: MediaStream, devices: IInputSourceDevices) => new UpdateInputStreamAndSourcesAction({ stream, devices })
   })
 @Styled(streamConfigurationPageStyle)
 export class StreamConfigurationPage extends Component<IStreamConfigurationPageProps, IStreamConfigurationPageState> {
@@ -45,6 +49,10 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
   public readonly state: IStreamConfigurationPageState = {
     currentTab: 0
   };
+
+  public componentWillMount(): void {
+   this.setDefaultVideo();
+  }
 
   public render(): JSX.Element {
 
@@ -110,6 +118,14 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
       </Tabs>
       </AppBar>
     );
+  }
+
+  private async setDefaultVideo(): Promise<void> {
+
+    const {selectedDevices, updateStreamAndSources} = this.props;
+    const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput, selectedDevices.audioInput);
+
+    updateStreamAndSources(stream, selectedDevices);
   }
 
   @AutoBind

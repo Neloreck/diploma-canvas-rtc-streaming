@@ -6,6 +6,7 @@ import {Optional} from "@Lib/ts/type";
 import {
   SetGraphicsDisplayAction, SetGridDisplayAction, SetPreviewModeAction
 } from "@Module/stream/data/store/graphics/actions";
+import {UpdateInputStreamAndSourcesAction} from "@Module/stream/data/store/source";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 import {streamConfigurationPageStyle} from "./StreamConfigurationPage.Style";
@@ -27,6 +28,7 @@ export interface IStreamConfigurationPageDispatchProps {
   setGridDisplay: (show: boolean) => SetGridDisplayAction;
   setGraphicsDisplay: (show: boolean) => SetGraphicsDisplayAction;
   setPreviewMode: (show: boolean) => SetPreviewModeAction;
+  updateStreamAndSources: (stream: MediaStream, devices: IInputSourceDevices) => UpdateInputStreamAndSourcesAction;
 }
 
 export interface IStreamConfigurationPageExternalProps extends IStreamConfigurationPageDispatchProps, IStreamConfigurationPageStoreProps,

@@ -54,7 +54,7 @@
   "author": "Neloreck",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^3.1.0",
+    "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
     "history": "^4.7.2",
     "react": "^16.5.2",

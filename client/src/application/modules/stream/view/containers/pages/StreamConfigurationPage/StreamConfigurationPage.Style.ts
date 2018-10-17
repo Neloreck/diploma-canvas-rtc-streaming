@@ -29,13 +29,14 @@ export const streamConfigurationPageStyle = (theme: Theme) => createStyles({
     backgroundColor: theme.palette.secondary.light,
     display: "flex",
     flexDirection: "column",
+    minHeight: 350,
     minWidth: "75%",
     padding: theme.spacing.unit,
     position: "relative"
   },
   streamingVideoSection: {
     justifyContent: "center",
-    minHeight: 500,
+    minHeight: 600,
     overflow: "auto",
     width: "100%"
   },

@@ -8,15 +8,18 @@ export class ThemeState {
         contrastText: "#fff",
         dark: "#102027",
         light: "#62727b",
-        main: "#37474f",
+        main: "#37474f"
       },
       secondary: {
         contrastText: "#ffffff",
         dark: "#004c57",
         light: "#e0e9ee",
-        main: "#007884",
+        main: "#007884"
       },
     },
+    typography: {
+      useNextVariants: true
+    }
   };
 
 }

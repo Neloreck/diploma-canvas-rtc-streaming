@@ -9,6 +9,7 @@ import {ConnectedRouter} from "react-router-redux";
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
 import {globalStoreManager, GlobalStoreProvider} from "@Main/data/store";
+
 import {GlobalThemeProvider} from "@Main/view/layouts/theme/GlobalThemeProvider";
 
 /* Submodules: */

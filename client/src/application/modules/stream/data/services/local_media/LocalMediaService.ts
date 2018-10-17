@@ -4,6 +4,7 @@ import {Optional} from "@Lib/ts/type";
 import {Logger} from "@Lib/util/logger";
 
 import {EDeviceKind} from "@Module/stream/data/services/local_media/EDeviceKind";
+import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
 
 @Single
 export class LocalMediaService {
@@ -26,7 +27,7 @@ export class LocalMediaService {
     return (await this.getDevices()).filter((device: MediaDeviceInfo) => device.kind === EDeviceKind.VIDEO_INPUT);
   }
 
-  public async getInputDevicesBundled(): Promise<{ audio: Array<MediaDeviceInfo>, video: Array<MediaDeviceInfo> }> {
+  public async getInputDevicesBundled(): Promise<IInputDevicesBundle> {
 
     const devices: Array<MediaDeviceInfo> = await this.getDevices();
 
@@ -36,7 +37,29 @@ export class LocalMediaService {
     };
   }
 
-  public async getUserMedia(audioInput: Optional<MediaDeviceInfo>, videoInput: Optional<MediaDeviceInfo>) {
+  public killStream(stream: Optional<MediaStream>): void {
+
+    if (stream === null) {
+      return;
+    }
+
+    if (typeof stream.getTracks === "function") {
+      stream.getTracks().forEach((track) => track.stop());
+      return;
+    }
+
+    if (typeof stream.getAudioTracks === "function" && typeof stream.getVideoTracks === "function") {
+      stream.getAudioTracks().forEach((track) => track.stop());
+      stream.getVideoTracks().forEach((track) => track.stop());
+      return;
+    }
+
+    if (typeof stream.stop === "function") {
+      stream.stop();
+    }
+  }
+
+  public async getUserMedia(videoInput: Optional<MediaDeviceInfo>, audioInput: Optional<MediaDeviceInfo>) {
 
     // todo: 16 x 9 resolution for media stream
     const constraints = {

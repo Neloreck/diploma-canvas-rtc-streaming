@@ -4,25 +4,41 @@ import {AutoBind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {Button, Collapse, Grid, SwipeableDrawer, Tooltip} from "@material-ui/core";
+import {localMediaService} from "@Module/stream/data/services/local_media";
+import {StreamStoreConnect} from "@Module/stream/data/store";
+import {UpdateInputStreamAndSourcesAction} from "@Module/stream/data/store/source";
+import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
+
+import {Button, Divider, Grid, SwipeableDrawer, Tooltip, Typography} from "@material-ui/core";
 import {MoreVert} from "@material-ui/icons";
 
 import {IInputSourcesSelectFormExternalProps, InputSourcesSelectForm} from "../InputSourcesSelectForm";
 
-import {IInputSourcesDrawerManagerProps, IInputSourcesDrawerManagerState} from "./InputSourcesDrawerManager.StateProps";
+import {
+  IInputSourcesDrawerManagerDispatchProps,
+  IInputSourcesDrawerManagerProps,
+  IInputSourcesDrawerManagerState,
+  IInputSourcesDrawerManagerStoreProps
+} from "./InputSourcesDrawerManager.StateProps";
 import {inputSourcesDrawerManagerStyle} from "./InputSourcesDrawerManager.Style";
 
 @Styled(inputSourcesDrawerManagerStyle)
+@StreamStoreConnect<IInputSourcesDrawerManagerStoreProps, IInputSourcesDrawerManagerDispatchProps, IInputSourcesDrawerManagerProps> (
+  (state) => ({
+  }), {
+    onSourceStreamAndDevicesUpdate: (stream: MediaStream, devices: IInputSourceDevices) => new UpdateInputStreamAndSourcesAction({ stream, devices })
+  }
+)
 export class InputSourcesDrawerManager extends Component<IInputSourcesDrawerManagerProps, IInputSourcesDrawerManagerState> {
 
   public readonly state: IInputSourcesDrawerManagerState = {
-    showModal: false
+    showDrawer: false
   };
 
   public render(): JSX.Element {
 
     const {classes} = this.props;
-    const {showModal} = this.state;
+    const {showDrawer} = this.state;
 
     return (
       <Grid className={classes.root}>
@@ -34,25 +50,27 @@ export class InputSourcesDrawerManager extends Component<IInputSourcesDrawerMana
         </Tooltip>
 
         <SwipeableDrawer
-          open={showModal}
+          open={showDrawer}
           onClose={this.onHideModal}
           onOpen={this.onShowModal}
         >
 
           <Grid
             className={classes.drawerMenu}
-            tabIndex={0}
-            role="button"
+            direction={"column"}
+            justify={"center"}
             container
           >
-            <Collapse in={showModal}>
 
-                <InputSourcesSelectForm onInputSourcesChange={() => null as any} {...{} as IInputSourcesSelectFormExternalProps}/>
+            <Typography variant={"h6"} gutterBottom> Input Source </Typography>
 
-                <Button color={"primary"} onClick={this.onHideModal}>Save</Button>
-                <Button onClick={this.onHideModal}>Close</Button>
+            <Divider/>
 
-            </Collapse>
+            <InputSourcesSelectForm onInputSourcesChange={this.onSourcesUpdate}
+                                    {...{} as IInputSourcesSelectFormExternalProps}
+              />
+
+            <Divider/>
 
           </Grid>
 
@@ -63,13 +81,20 @@ export class InputSourcesDrawerManager extends Component<IInputSourcesDrawerMana
   }
 
   @AutoBind
+  private async onSourcesUpdate(devices: IInputSourceDevices): Promise<void> {
+
+    const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, devices.audioInput);
+    this.props.onSourceStreamAndDevicesUpdate(stream, devices);
+  }
+
+  @AutoBind
   private onShowModal(): void {
-    this.setState({ showModal: true });
+    this.setState({ showDrawer: true });
   }
 
   @AutoBind
   private onHideModal(): void {
-    this.setState({ showModal: false });
+    this.setState({ showDrawer: false });
   }
 
 }

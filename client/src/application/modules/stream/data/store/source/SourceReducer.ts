@@ -1,12 +1,12 @@
 import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 
-import {ChangeSelectedMediaDevicesAction} from "./actions";
+import {ChangeSelectedMediaDevicesAction, UpdateInputStreamAndSourcesAction} from "./actions";
 import {SourceState} from "./SourceState";
 
 export class SourceReducer extends ReflectiveReducer<SourceState> {
 
   @ActionHandler
-  public handleSelectedMediaDevicesChange(state: SourceState, action: ChangeSelectedMediaDevicesAction) {
+  public handleSelectedMediaDevicesChange(state: SourceState, action: ChangeSelectedMediaDevicesAction): SourceState {
     const newState = { ...state };
 
     newState.selectedDevices = {
@@ -15,6 +15,11 @@ export class SourceReducer extends ReflectiveReducer<SourceState> {
     };
 
     return newState;
+  }
+
+  @ActionHandler
+  public handleSourceStreamAndInputsChange(state: SourceState, action: UpdateInputStreamAndSourcesAction): SourceState {
+    return { ...state, inputStream: action.payload.stream, selectedDevices: action.payload.devices };
   }
 
 }

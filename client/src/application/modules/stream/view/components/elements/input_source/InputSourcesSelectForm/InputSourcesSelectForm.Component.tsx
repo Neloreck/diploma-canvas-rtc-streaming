@@ -1,50 +1,72 @@
 import * as React from "react";
 import {Component} from "react";
-
-import {Button, FormControl, Grid, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import {AutoBind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {Optional} from "@Lib/ts/type";
 
-import {LocalMediaService} from "@Module/stream/data/services/local_media";
+import {localMediaService} from "@Module/stream/data/services/local_media";
+import {EDeviceKind} from "@Module/stream/data/services/local_media/EDeviceKind";
+import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
 
-import {IInputSourcesSelectFormProps} from "./InputSourcesSelectForm.StateProps";
+import {
+  Button, FormControl, Grid, Input, InputLabel, MenuItem, Select
+} from "@material-ui/core";
+import {Check, Refresh} from "@material-ui/icons";
+
+import {VideoPreview} from "@Module/stream/view/components/elements/video_rendering/VideoPreview";
+
+import {IInputSourcesSelectFormProps, IInputSourcesSelectFormState} from "./InputSourcesSelectForm.StateProps";
 import {inputSourcesSelectFormStyle} from "./InputSourcesSelectForm.Style";
 
 @Styled(inputSourcesSelectFormStyle)
-export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormProps> {
+export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormProps, IInputSourcesSelectFormState> {
 
   public readonly state = {
+    previewStream: null,
+
     selectedInputSources: {
       audioInput: null as Optional<MediaDeviceInfo>,
       videoInput: null as Optional<MediaDeviceInfo>
     },
 
     audioInputSources: [] as Array<MediaDeviceInfo>,
-    videoInputSources: [] as Array<MediaDeviceInfo>,
+    videoInputSources: [] as Array<MediaDeviceInfo>
   };
 
-  private readonly localMediaService: LocalMediaService = new LocalMediaService();
-
   public componentWillMount(): void {
-    this.updateMediaDevices();
+    this.onUpdateMediaDevices()
+      .then((inputSources: IInputDevicesBundle): void => {
+        this.updatePreviewStream(inputSources.video[0], inputSources.audio[0]);
+      });
+  }
+
+  public componentWillUnmount(): void {
+    localMediaService.killStream(this.state.previewStream);
   }
 
   public render(): JSX.Element {
-    const [state, props] = [this.state, this.props];
+
+    const {classes} = this.props;
+    const {audioInputSources, videoInputSources, selectedInputSources, previewStream} = this.state;
 
     return (
-      <Grid className={props.classes.root} direction={"column"}>
+      <Grid className={classes.root} alignItems={"center"} direction={"column"} container>
 
-        <video/>
+        <VideoPreview className={classes.videoPreview} stream={previewStream}/>
 
-        <Button>
-          <RefreshIcon color="primary" style={{ fontSize: "1.2rem" }} onClick={() => this.updateMediaDevices()} />
-        </Button>
+        {this.renderDevicesSelection(videoInputSources, selectedInputSources.videoInput, "Video Input")}
+        {this.renderDevicesSelection(audioInputSources, selectedInputSources.audioInput, "Audio Input")}
 
-        {this.renderDevicesSelection(state.audioInputSources, state.selectedInputSources.audioInput, "Audio Input")}
-        {this.renderDevicesSelection(state.videoInputSources, state.selectedInputSources.videoInput, "Video Input")}
+        <Grid direction={"row"} container>
+          <Button className={classes.actionButton} onClick={this.onUpdateMediaDevices} variant={"outlined"}>
+            <Refresh color="primary" style={{ fontSize: "1.2rem" }}/>
+          </Button>
+
+          <Button className={classes.actionButton} variant={"outlined"}>
+            <Check color="primary" style={{ fontSize: "1.2rem" }} onClick={this.onChangesAccept}/>
+          </Button>
+        </Grid>
 
       </Grid>
     );
@@ -73,14 +95,22 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     );
   }
 
-  private async updateMediaDevices(): Promise<void> {
-    const newState = { ...this.state };
-    const inputSources: Array<MediaDeviceInfo> = await this.localMediaService.getDevices();
+  @AutoBind
+  private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
-    newState.audioInputSources = inputSources.filter((source) => source.kind === "audioinput");
-    newState.videoInputSources = inputSources.filter((source) => source.kind === "videoinput");
+    const inputSources: IInputDevicesBundle = await localMediaService.getInputDevicesBundled();
 
-    this.setState(newState);
+    this.setState({
+      audioInputSources: inputSources.audio,
+      videoInputSources: inputSources.video,
+    });
+
+    return inputSources;
+  }
+
+  @AutoBind
+  private onChangesAccept(): void {
+    this.props.onInputSourcesChange(this.state.selectedInputSources);
   }
 
   private handleDeviceSelection(device: MediaDeviceInfo | undefined): void {
@@ -89,22 +119,43 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
       return;
     }
 
-    const newState = { ...this.state };
+    const newState = { ...this.state, selectedInputSources: { ...this.state.selectedInputSources } };
 
     switch (device.kind) {
 
-      case "audioinput":
+      case EDeviceKind.AUDIO_INPUT:
         newState.selectedInputSources.audioInput = device;
         break;
 
-      case "videoinput":
+      case EDeviceKind.VIDEO_INPUT:
         newState.selectedInputSources.videoInput = device;
         break;
 
     }
 
+    const {selectedInputSources} = newState;
+
+    if (this.state.selectedInputSources.audioInput !== selectedInputSources.audioInput ||
+      this.state.selectedInputSources.videoInput !== selectedInputSources.videoInput) {
+      this.updatePreviewStream(selectedInputSources.videoInput, selectedInputSources.audioInput);
+    }
+
     this.setState(newState);
-    this.props.onInputSourcesChange(newState.selectedInputSources);
+  }
+
+  private async updatePreviewStream(videoDevice: Optional<MediaDeviceInfo>, audioDevice: Optional<MediaDeviceInfo>): Promise<void> {
+
+    const stream: MediaStream = await localMediaService.getUserMedia(videoDevice, audioDevice);
+
+    localMediaService.killStream(this.state.previewStream);
+
+    this.setState({
+      previewStream: stream,
+      selectedInputSources: {
+        audioInput: audioDevice,
+        videoInput: videoDevice
+      }
+    });
   }
 
 }

@@ -46,7 +46,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
     if (this.props.stream === null) {
       return [
-        new CenteredTextRO("No input stream provided.", 7, "#FFF")
+        new CenteredTextRO("Waiting for input stream.", 7, "#FFF")
       ];
     }
 

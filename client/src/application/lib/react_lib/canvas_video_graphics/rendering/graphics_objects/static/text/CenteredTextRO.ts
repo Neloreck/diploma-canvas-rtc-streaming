@@ -31,7 +31,7 @@ export class CenteredTextRO extends CanvasGraphicsRenderObject {
     const percentageSizing: { width: number, height: number } = this.getPercentageBaseSizing();
 
     const textSize: number = percentageSizing.width * this.textSize;
-    const textAlignSub: number = textSize * text.length / 4.5;
+    const textAlignSub: number = textSize * text.length / 4;
 
     context.strokeStyle = "#FF0000";
     context.fillStyle = "#FFF";
