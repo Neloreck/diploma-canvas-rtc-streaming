@@ -4,18 +4,18 @@ import {AutoBind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {Button, Collapse, Grid, Modal, SwipeableDrawer, Tooltip} from "@material-ui/core";
+import {Button, Collapse, Grid, SwipeableDrawer, Tooltip} from "@material-ui/core";
 import {MoreVert} from "@material-ui/icons";
 
 import {IInputSourcesSelectFormExternalProps, InputSourcesSelectForm} from "../InputSourcesSelectForm";
 
-import {IInputSourceManagerProps, IInputSourceManagerState} from "./InputSourceManager.StateProps";
-import {inputSourceManagerStyle} from "./InputSourceManager.Style";
+import {IInputSourcesDrawerManagerProps, IInputSourcesDrawerManagerState} from "./InputSourcesDrawerManager.StateProps";
+import {inputSourcesDrawerManagerStyle} from "./InputSourcesDrawerManager.Style";
 
-@Styled(inputSourceManagerStyle)
-export class InputSourceManager extends Component<IInputSourceManagerProps, IInputSourceManagerState> {
+@Styled(inputSourcesDrawerManagerStyle)
+export class InputSourcesDrawerManager extends Component<IInputSourcesDrawerManagerProps, IInputSourcesDrawerManagerState> {
 
-  public readonly state: IInputSourceManagerState = {
+  public readonly state: IInputSourcesDrawerManagerState = {
     showModal: false
   };
 

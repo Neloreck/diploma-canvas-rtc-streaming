@@ -1,12 +1,12 @@
 import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 
 import {ChangeSelectedMediaDevicesAction} from "./actions";
-import {InputSourceState} from "./InputSourceState";
+import {SourceState} from "./SourceState";
 
-export class InputSourceReducer extends ReflectiveReducer<InputSourceState> {
+export class SourceReducer extends ReflectiveReducer<SourceState> {
 
   @ActionHandler
-  public handleSelectedMediaDevicesChange(state: InputSourceState, action: ChangeSelectedMediaDevicesAction) {
+  public handleSelectedMediaDevicesChange(state: SourceState, action: ChangeSelectedMediaDevicesAction) {
     const newState = { ...state };
 
     newState.selectedDevices = {

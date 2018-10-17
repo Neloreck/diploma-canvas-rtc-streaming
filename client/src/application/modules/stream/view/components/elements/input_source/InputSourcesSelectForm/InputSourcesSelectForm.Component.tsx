@@ -35,14 +35,16 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     const [state, props] = [this.state, this.props];
 
     return (
-      <Grid className={props.classes.root} direction={"column"} container>
+      <Grid className={props.classes.root} direction={"column"}>
 
-        {this.renderDevicesSelection(state.audioInputSources, state.selectedInputSources.audioInput, "Audio Input")}
-        {this.renderDevicesSelection(state.videoInputSources, state.selectedInputSources.videoInput, "Video Input")}
+        <video/>
 
         <Button>
           <RefreshIcon color="primary" style={{ fontSize: "1.2rem" }} onClick={() => this.updateMediaDevices()} />
         </Button>
+
+        {this.renderDevicesSelection(state.audioInputSources, state.selectedInputSources.audioInput, "Audio Input")}
+        {this.renderDevicesSelection(state.videoInputSources, state.selectedInputSources.videoInput, "Video Input")}
 
       </Grid>
     );

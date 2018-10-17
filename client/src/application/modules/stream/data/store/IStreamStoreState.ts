@@ -1,9 +1,9 @@
 import {GraphicsState} from "@Module/stream/data/store/graphics";
-import {InputSourceState} from "@Module/stream/data/store/input_source";
+import {SourceState} from "@Module/stream/data/store/source";
 
 export interface IStreamStoreState {
 
-  inputSource: InputSourceState;
+  source: SourceState;
   graphics: GraphicsState;
 
 }

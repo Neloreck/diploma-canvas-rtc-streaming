@@ -1,7 +1,7 @@
 import {WithStyles} from "@material-ui/core";
 import {inputSourcesSelectFormStyle} from "./InputSourcesSelectForm.Style";
 
-import {IInputSourceDevices} from "@Module/stream/data/store/input_source/models/IInputSourceDevices";
+import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 export interface IInputSourcesSelectFormExternalProps extends WithStyles<typeof inputSourcesSelectFormStyle> {
 }

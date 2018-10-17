@@ -1,6 +1,6 @@
 import {createStyles, Theme} from "@material-ui/core/styles";
 
-export const inputSourceManagerStyle = (theme: Theme) => createStyles({
+export const inputSourcesDrawerManagerStyle = (theme: Theme) => createStyles({
   configureSourceTooltip: {
     height: theme.spacing.unit * 5,
     margin: theme.spacing.unit * 2,

@@ -2,50 +2,53 @@ import * as React from "react";
 import {ChangeEvent, Component} from "react";
 import {AutoBind} from "redux-cbd";
 
-import {AppBar, Grid, Tab, Tabs} from "@material-ui/core";
-
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {IStreamStoreState, StreamStoreConnect} from "@Module/stream/data/store";
 import {SetGraphicsDisplayAction, SetGridDisplayAction, SetPreviewModeAction} from "@Module/stream/data/store/graphics";
 
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/elements/HeaderBar";
-import {IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock} from "@Module/stream/view/components/elements/canvas_objects_management/PreviewConfigurationBlock";
-import {
-  IInputSourcePreviewVideoExternalProps,
-  InputSourcePreviewVideo
-} from "@Module/stream/view/components/elements/input_source/InputSourcePreviewVideo";
+import {AppBar, Grid, Tab, Tabs} from "@material-ui/core";
 
 import {
-  IStreamingPageDispatchProps,
-  IStreamingPageProps,
-  IStreamingPageStoreProps,
-  IStreamPageState
-} from "./StreamingPage.StateProps";
-import {streamingPageStyle} from "./StreamingPage.Style";
+  HeaderBar, IHeaderBarExternalProps
+} from "@Main/view/containers/elements/HeaderBar";
+import {
+  IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock
+} from "@Module/stream/view/components/elements/canvas_objects_management/PreviewConfigurationBlock";
+import {
+  IRenderedVideoPreviewExternalProps, RenderedVideoPreview
+} from "@Module/stream/view/components/elements/video_rendering/RenderedVideoPreview";
 
-@StreamStoreConnect<IStreamingPageStoreProps, IStreamingPageDispatchProps, IStreamingPageProps>(
+import {
+  IStreamConfigurationPageDispatchProps, IStreamConfigurationPageProps, IStreamConfigurationPageState,
+  IStreamConfigurationPageStoreProps
+} from "./StreamConfigurationPage.StateProps";
+import {streamConfigurationPageStyle} from "./StreamConfigurationPage.Style";
+
+@StreamStoreConnect<IStreamConfigurationPageStoreProps, IStreamConfigurationPageDispatchProps, IStreamConfigurationPageProps>(
   (store: IStreamStoreState) => ({
+    inputStream: store.source.inputStream,
+    selectedDevices: store.source.selectedDevices,
+
     renderObjects: store.graphics.objects,
-    selectedDevices: store.inputSource.selectedDevices,
     showGraphics: store.graphics.showGraphics,
     showGrid: store.graphics.showGrid,
-    showPreview: store.graphics.showPreview
+    showPreview: store.graphics.showPreview,
   }), {
     setGraphicsDisplay: (show: boolean) => new SetGraphicsDisplayAction({ show }),
     setGridDisplay: (show: boolean) => new SetGridDisplayAction({ show }),
     setPreviewMode: (show: boolean) => new SetPreviewModeAction({ show })
   })
-@Styled(streamingPageStyle)
-export class StreamingPage extends Component<IStreamingPageProps, IStreamPageState> {
+@Styled(streamConfigurationPageStyle)
+export class StreamConfigurationPage extends Component<IStreamConfigurationPageProps, IStreamConfigurationPageState> {
 
-  public readonly state: IStreamPageState = {
+  public readonly state: IStreamConfigurationPageState = {
     currentTab: 0
   };
 
   public render(): JSX.Element {
 
-    const {classes, showPreview, showGraphics, showGrid} = this.props;
+    const {classes, renderObjects, showPreview, showGraphics, showGrid, inputStream} = this.props;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
@@ -57,12 +60,12 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamPageSta
           <Grid className={classes.streamingVideoSection} direction={"row"} container>
 
             <Grid className={classes.streamingVideo} item>
-              <InputSourcePreviewVideo renderObjects={this.props.renderObjects}
-                                       sources={this.props.selectedDevices}
-                                       showGrid={showGrid}
-                                       showGraphics={showGraphics}
-                                       showPreview={showPreview}
-                                       {...{} as IInputSourcePreviewVideoExternalProps}/>
+              <RenderedVideoPreview stream={inputStream}
+                                    renderObjects={renderObjects}
+                                    showGrid={showGrid}
+                                    showGraphics={showGraphics}
+                                    showPreview={showPreview}
+                                    {...{} as IRenderedVideoPreviewExternalProps}/>
             </Grid>
 
             <Grid className={classes.configSidebar} item>
@@ -79,7 +82,9 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamPageSta
           </Grid>
 
           <Grid className={classes.under}>
+
             {this.renderTabs()}
+
           </Grid>
 
         </Grid>

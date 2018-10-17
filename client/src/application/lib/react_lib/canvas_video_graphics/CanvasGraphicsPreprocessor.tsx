@@ -13,7 +13,7 @@ export interface ICanvasGraphicsStreamProps {
   showGraphics: boolean;
   showPreview: boolean;
   renderingObjects: Array<CanvasGraphicsRenderObject>;
-  stream: MediaStream;
+  stream: MediaStream | null;
 }
 
 export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStreamProps> {

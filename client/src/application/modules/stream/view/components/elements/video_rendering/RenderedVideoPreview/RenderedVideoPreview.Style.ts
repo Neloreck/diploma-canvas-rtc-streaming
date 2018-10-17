@@ -1,6 +1,6 @@
-import {createStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, Theme} from "@material-ui/core";
 
-export const inputSourcePreviewVideoStyle = (theme: Theme) => createStyles({
+export const renderedVideoPreviewStyle = (theme: Theme) => createStyles({
   root: {
     boxSizing: "border-box",
     flexBasis: "20rem",

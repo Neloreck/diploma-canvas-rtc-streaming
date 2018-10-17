@@ -7,6 +7,7 @@ export const inputSourcesSelectFormStyle = (theme: Theme) => createStyles({
   },
   root: {
     height: "100%",
+    justifyContent: "center",
     width: "100%"
   }
 });

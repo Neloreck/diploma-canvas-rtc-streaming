@@ -11,7 +11,7 @@ import {ModuleRouter} from "@Module/stream/ModuleRouter";
 export class Module extends PureComponent {
 
   public componentDidMount(): void {
-    log.info("Module 'stream' has been mounted.");
+    log.info("Module 'stream' has been mounted into DOM.");
   }
 
   public render(): JSX.Element {

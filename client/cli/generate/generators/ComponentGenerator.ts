@@ -4,7 +4,7 @@ export class ComponentGenerator extends AbstractComponentGenerator {
 
   protected generateStyleAsStr(componentName: string): string {
     return (
-`import {createStyles, Theme} from "@material-ui/core/styles";
+`import {createStyles, Theme} from "@material-ui/core";
 
 export const ${this.deCapitalizeFirstLetter(componentName)}Style = (theme: Theme) => createStyles({
   root: {

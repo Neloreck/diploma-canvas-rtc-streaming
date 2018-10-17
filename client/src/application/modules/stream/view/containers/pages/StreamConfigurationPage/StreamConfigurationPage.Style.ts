@@ -1,6 +1,6 @@
-import {createStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, Theme} from "@material-ui/core";
 
-export const streamingPageStyle = (theme: Theme) => createStyles({
+export const streamConfigurationPageStyle = (theme: Theme) => createStyles({
   configSidebar: {
     backgroundColor: theme.palette.secondary.light,
     display: "flex",
