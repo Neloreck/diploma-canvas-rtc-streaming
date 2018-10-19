@@ -4,7 +4,7 @@ import {CheckAuthStatusErrorAction} from "./CheckAuthStatusErrorAction";
 import {SetAuthDataAction} from "./SetAuthDataAction";
 
 @ActionWired("AUTH_CHECK_CURRENT_STATUS")
-export class CheckAuthStatusAction extends AsyncAction {
+export class CheckAuthStatusAction extends AsyncAction<never> {
 
   public async act(): Promise<any> {
     return null;

@@ -4,7 +4,7 @@ import {LocalAuthFailedAction} from "./LocalAuthFailedAction";
 import {SetAuthDataAction} from "./SetAuthDataAction";
 
 @ActionWired("AUTH_AUTHORIZE_LOCAL_REQUEST")
-export class RequestLocalAuthAction extends AsyncAction {
+export class RequestLocalAuthAction extends AsyncAction<never> {
 
   public readonly payload: {
     temp: number;
