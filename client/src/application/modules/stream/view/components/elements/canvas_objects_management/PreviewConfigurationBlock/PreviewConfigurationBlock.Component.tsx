@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ChangeEvent, Component} from "react";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
@@ -39,17 +39,17 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
     );
   }
 
-  @AutoBind
+  @Bind
   private onPreviewToggle(event: ChangeEvent): void {
     this.props.onPreviewToggle((event.target as any).checked);
   }
 
-  @AutoBind
+  @Bind
   private onGraphicsToggle(event: ChangeEvent): void {
     this.props.onGraphicsToggle((event.target as any).checked);
   }
 
-  @AutoBind
+  @Bind
   private onGridToggle(event: ChangeEvent): void {
     this.props.onGridToggle((event.target as any).checked);
   }

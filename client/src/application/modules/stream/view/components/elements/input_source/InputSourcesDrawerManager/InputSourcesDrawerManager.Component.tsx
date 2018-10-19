@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Component} from "react";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
@@ -80,19 +80,19 @@ export class InputSourcesDrawerManager extends Component<IInputSourcesDrawerMana
     );
   }
 
-  @AutoBind
+  @Bind
   private async onSourcesUpdate(devices: IInputSourceDevices): Promise<void> {
 
     const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, devices.audioInput);
     this.props.onSourceStreamAndDevicesUpdate(stream, devices);
   }
 
-  @AutoBind
+  @Bind
   private onShowModal(): void {
     this.setState({ showDrawer: true });
   }
 
-  @AutoBind
+  @Bind
   private onHideModal(): void {
     this.setState({ showDrawer: false });
   }

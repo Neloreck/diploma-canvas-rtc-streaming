@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Component} from "react";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {Optional} from "@Lib/ts/type";
@@ -93,7 +93,7 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     );
   }
 
-  @AutoBind
+  @Bind
   private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
     const inputSources: IInputDevicesBundle = await localMediaService.getInputDevicesBundled();
@@ -126,7 +126,7 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     return inputSources;
   }
 
-  @AutoBind
+  @Bind
   private handleDeviceSelection(device: MediaDeviceInfo | undefined): void {
 
     if (!device) {
@@ -154,7 +154,7 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     this.setState(newState);
   }
 
-  @AutoBind
+  @Bind
   private onChangesAccept(): void {
     this.props.onInputSourcesChange(this.state.selectedInputSources);
   }

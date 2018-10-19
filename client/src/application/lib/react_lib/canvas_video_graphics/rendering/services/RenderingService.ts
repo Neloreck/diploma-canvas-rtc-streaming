@@ -1,5 +1,5 @@
 import {MouseEvent} from "react";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
 import {CanvasGraphicsRenderObject} from "../graphics_objects/base/CanvasGraphicsRenderObject";
@@ -162,7 +162,7 @@ export class RenderingService extends AbstractRenderingService {
 
   /* Rendering: */
 
-  @AutoBind
+  @Bind
   public render(): void {
 
     if (this.shouldCleanupConext) {

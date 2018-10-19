@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Component, createRef, RefObject} from "react";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {Button, Collapse, Tooltip} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
@@ -78,7 +78,7 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
     );
   }
 
-  @AutoBind
+  @Bind
   private handleWindowClick(event: MouseEvent): void {
 
     const target: HTMLUListElement = this.contentRef.current && this.contentRef.current.querySelector("ul");
@@ -89,22 +89,22 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
     }
   }
 
-  @AutoBind
+  @Bind
   private onObjectAdded(): void {
     this.props.onObjectAdded("" as any);
   }
 
-  @AutoBind
+  @Bind
   private onObjectRemoved(): void {
     this.props.onObjectRemoved("" as any);
   }
 
-  @AutoBind
+  @Bind
   private onObjectChanged(): void {
     this.props.onObjectChanged("" as any);
   }
 
-  @AutoBind
+  @Bind
   private onToggleShowAdditionWindow(event: React.MouseEvent<any>): void {
     event.stopPropagation();
     this.setState({ showAdditionWindow: !this.state.showAdditionWindow });

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Component} from "react";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {
   Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText
@@ -31,7 +31,7 @@ export class CanvasObjectsAdditionList extends Component<ICanvasObjectsAdditionL
     );
   }
 
-  @AutoBind
+  @Bind
   private renderCanvasItem(descriptor: ICanvasObjectDescriptor<any>): JSX.Element {
 
     const {classes, onObjectAdded} = this.props;

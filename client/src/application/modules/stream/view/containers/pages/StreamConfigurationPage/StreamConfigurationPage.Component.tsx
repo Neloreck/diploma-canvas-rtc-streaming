@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ChangeEvent, Component} from "react";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
@@ -128,22 +128,22 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
     updateStreamAndSources(stream, selectedDevices);
   }
 
-  @AutoBind
+  @Bind
   private onTabChange(event: ChangeEvent<any>, tabNumber: any): void {
     this.setState({ currentTab: +tabNumber });
   }
 
-  @AutoBind
+  @Bind
   private onToggleGridDisplay(show: boolean): void {
     this.props.setGridDisplay(show);
   }
 
-  @AutoBind
+  @Bind
   private onToggleGraphics(show: boolean): void {
     this.props.setGraphicsDisplay(show);
   }
 
-  @AutoBind
+  @Bind
   private onTogglePreviewMode(show: boolean): void {
     this.props.setPreviewMode(show);
   }

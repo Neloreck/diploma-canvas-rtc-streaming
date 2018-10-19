@@ -1,7 +1,7 @@
 import * as React from "react";
 import {createRef, Fragment, MouseEvent, PureComponent, RefObject} from "react";
 import ReactResizeDetector from "react-resize-detector";
-import {AutoBind} from "redux-cbd";
+import {Bind} from "redux-cbd";
 
 import {ICanvasGraphicsSizingContext} from "./rendering/context/index";
 import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./rendering/graphics_objects";
@@ -143,27 +143,27 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
 
   /* Events related methods: */
 
-  @AutoBind
+  @Bind
   private handleLayoutMouseDown(event: MouseEvent): void {
     this.internalRenderingService.handleMouseDown(event);
   }
 
-  @AutoBind
+  @Bind
   private handleLayoutMouseUp(event: MouseEvent): void {
     this.internalRenderingService.handleMouseUp(event);
   }
 
-  @AutoBind
+  @Bind
   private handleLayoutMouseMove(event: MouseEvent): void {
     this.internalRenderingService.handleMouseMove(event);
   }
 
-  @AutoBind
+  @Bind
   private handleLayoutMouseEnter(event: MouseEvent): void {
     this.internalRenderingService.handleMouseEnter(event);
   }
 
-  @AutoBind
+  @Bind
   private handleLayoutMouseLeave(event: MouseEvent): void {
     this.internalRenderingService.handleMouseLeave(event);
   }
