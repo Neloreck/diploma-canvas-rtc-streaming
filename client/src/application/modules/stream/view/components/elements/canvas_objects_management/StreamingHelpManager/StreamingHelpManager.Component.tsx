@@ -1,0 +1,38 @@
+import * as React from "react";
+import {Component} from "react";
+
+import {Styled} from "@Lib/react_lib/@material_ui";
+
+import {Button, Collapse, Grid, Tooltip} from "@material-ui/core";
+import {Help} from "@material-ui/icons";
+
+import {IStreamingHelpManagerProps} from "./StreamingHelpManager.StateProps";
+import {streamingHelpManagerStyle} from "./StreamingHelpManager.Style";
+
+@Styled(streamingHelpManagerStyle)
+export class StreamingHelpManager extends Component<IStreamingHelpManagerProps> {
+
+  public render(): JSX.Element {
+
+    const {classes, } = this.props;
+
+    return (
+      <Grid className={classes.root}>
+
+        <Tooltip title={"Search for help."} placement={"right"}>
+          <Button className={classes.helpTooltip} variant={"fab"}>
+            <Help/>
+          </Button>
+        </Tooltip>
+
+        <Collapse in={false}>
+          <div>
+            HELP
+          </div>
+        </Collapse>
+
+      </Grid>
+    );
+  }
+
+}

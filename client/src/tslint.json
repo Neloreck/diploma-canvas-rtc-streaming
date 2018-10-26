@@ -14,7 +14,8 @@
     "max-line-length": [false],
     "no-empty-interface": false,
     "trailing-comma": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "object-literal-key-quotes": [true, "as-needed"]
   },
 
 

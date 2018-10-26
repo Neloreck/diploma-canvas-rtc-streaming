@@ -1,10 +1,10 @@
-import {AbstractGenerator} from "./AbstractGenerator";
+import {AbstractComponentGenerator} from "./AbstractComponentGenerator";
 
-export class ComponentGenerator extends AbstractGenerator{
+export class ComponentGenerator extends AbstractComponentGenerator {
 
   protected generateStyleAsStr(componentName: string): string {
     return (
-`import {createStyles, Theme} from "@material-ui/core/styles";
+`import {createStyles, Theme} from "@material-ui/core";
 
 export const ${this.deCapitalizeFirstLetter(componentName)}Style = (theme: Theme) => createStyles({
   root: {
@@ -36,12 +36,12 @@ export interface I${componentName}Props extends I${componentName}OwnProps, I${co
 `import * as React from "react";
 import {Component} from "react";
 
-import {withStyle} from "@Annotate";
+import {_Styled} from "@_StyledPath";
 
 import {I${componentName}Props} from "./${componentName}.StateProps";
 import {${this.deCapitalizeFirstLetter(componentName)}Style} from "./${componentName}.Style";
 
-@withStyle(${this.deCapitalizeFirstLetter(componentName)}Style)
+@_Styled(${this.deCapitalizeFirstLetter(componentName)}Style)
 export class ${componentName} extends Component<I${componentName}Props> {
 
   public render(): JSX.Element {
