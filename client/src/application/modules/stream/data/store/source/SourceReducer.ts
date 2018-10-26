@@ -5,7 +5,7 @@ import {SourceState} from "./SourceState";
 
 export class SourceReducer extends ReflectiveReducer<SourceState> {
 
-  @ActionHandler
+  @ActionHandler()
   public handleSelectedMediaDevicesChange(state: SourceState, action: ChangeSelectedMediaDevicesAction): SourceState {
     const newState = { ...state };
 
@@ -17,7 +17,7 @@ export class SourceReducer extends ReflectiveReducer<SourceState> {
     return newState;
   }
 
-  @ActionHandler
+  @ActionHandler()
   public handleSourceStreamAndInputsChange(state: SourceState, action: UpdateInputStreamAndSourcesAction): SourceState {
     return { ...state, inputStream: action.payload.stream, selectedDevices: action.payload.devices };
   }

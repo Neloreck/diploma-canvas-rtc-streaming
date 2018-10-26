@@ -5,7 +5,7 @@ import {ThemeState} from "./ThemeState";
 
 export class ThemeReducer extends ReflectiveReducer<ThemeState> {
 
-  @ActionHandler
+  @ActionHandler()
   public updatePrimaryPalette(state: ThemeState, action: UpdatePrimaryThemePaletteAction) {
     const newState = { ...state };
 
@@ -18,7 +18,7 @@ export class ThemeReducer extends ReflectiveReducer<ThemeState> {
     return newState;
   }
 
-  @ActionHandler
+  @ActionHandler()
   public updateSecondaryPalette(state: ThemeState, action: UpdateSecondaryThemePaletteAction) {
     const newState = { ...state };
 

@@ -85,7 +85,7 @@ import {${this.capitalizeFirstLetter(reducerName)}State} from "./${this.capitali
 
 export class ${this.capitalizeFirstLetter(reducerName)}Reducer extends ReflectiveReducer<${this.capitalizeFirstLetter(reducerName)}State>  {
 
-  @ActionHandler
+  @ActionHandler()
   public changeStoredData(state: ${this.capitalizeFirstLetter(reducerName)}State, action: ${this.capitalizeFirstLetter(reducerName)}SampleAction): ${this.capitalizeFirstLetter(reducerName)}State {
     return { ...state, someData: action.payload.someData };
   }

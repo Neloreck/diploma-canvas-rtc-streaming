@@ -14,7 +14,7 @@ import {GraphicsState} from "./GraphicsState";
 
 export class GraphicsReducer extends ReflectiveReducer<GraphicsState>  {
 
-  @ActionHandler
+  @ActionHandler()
   public addGraphicsObject(state: GraphicsState, action: AddGraphicsObjectAction): GraphicsState {
 
     const objects: Array<CanvasGraphicsRenderObject> = [
@@ -24,29 +24,29 @@ export class GraphicsReducer extends ReflectiveReducer<GraphicsState>  {
     return { ...state, objects };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public handleToggleGrid(state: GraphicsState, action: SetGridDisplayAction): GraphicsState {
     return { ...state, showGrid: action.payload.show };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public handleTogglePreviewMode(state: GraphicsState, action: SetPreviewModeAction): GraphicsState {
     return { ...state, showPreview: action.payload.show };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public handleToggleGraphicsDisplay(state: GraphicsState, action: SetGraphicsDisplayAction): GraphicsState {
     return { ...state, showGraphics: action.payload.show };
   }
 
   // Todo:
 
-  @ActionHandler
+  @ActionHandler()
   public removeGraphicsObject(state: GraphicsState, action: RemoveGraphicsObjectAction): GraphicsState {
     return { ...state, objects: [action.payload.object] };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public changeGraphicsObject(state: GraphicsState, action: UpdateGraphicsObjectAction): GraphicsState {
     return { ...state, objects: [action.payload.object] };
   }
