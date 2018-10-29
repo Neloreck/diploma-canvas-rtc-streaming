@@ -1,9 +1,11 @@
 package com.xcore.server.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,6 +17,9 @@ import java.io.IOException;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
+
+  @Autowired
+  ApplicationConfig applicationConfig;
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -36,6 +41,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
             return location.exists() && location.isReadable() ? location : null;
           }
         });
+  }
+
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+
+    String[] allowedOrigins = applicationConfig.getAllowedOrigins().stream().toArray(String[]::new);
+
+    registry.addMapping("/**")
+        .allowedOrigins(allowedOrigins)
+        .allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE")
+        .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers")
+        .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+        .allowCredentials(true)
+        .maxAge(3600);
   }
 
   @Bean
