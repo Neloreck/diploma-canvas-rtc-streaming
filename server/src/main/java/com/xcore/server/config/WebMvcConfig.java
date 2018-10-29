@@ -5,14 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.script.ScriptTemplateViewResolver;
-
-import java.io.IOException;
 
 @Configuration
 @EnableWebMvc
@@ -33,7 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .resourceChain(true)
         .addResolver(new PathResourceResolver() {
           @Override
-          protected Resource getResource(String resourcePath, Resource location) throws IOException {
+          protected Resource getResource(String resourcePath, Resource location) {
             if (resourcePath.startsWith("api") || resourcePath.startsWith("ws") || resourcePath.startsWith("favicon")) {
               return null;
             }

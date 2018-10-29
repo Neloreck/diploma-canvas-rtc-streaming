@@ -1,4 +1,4 @@
-package com.xcore.application.authentication.models.role
+package com.xcore.application.authentication.models.role;
 
 object EAppUserRoleAccessLevel extends Enumeration {
   type ERoleAccessLevel = Value;

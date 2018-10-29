@@ -1,14 +1,14 @@
 package com.xcore.application.authentication.controllers;
 
-import com.xcore.application.authentication.controllers.api.{CurrentAuthInfoResponse, SignUpRequest, SignUpResponse}
-import com.xcore.application.authentication.models.user.{IAppUserRepository}
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.context.SecurityContextHolder
+import com.xcore.application.authentication.controllers.api.{CurrentAuthInfoResponse, SignUpRequest, SignUpResponse};
+import com.xcore.application.authentication.models.user.IAppUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.{GetMapping, PostMapping, RequestMapping, RestController};
 
 @RestController
 @RequestMapping(Array ("/api/auth") )
-class AuthController() {
+class AuthController {
 
   @Autowired
   private var appUserRepository: IAppUserRepository = _;

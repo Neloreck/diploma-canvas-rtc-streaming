@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 @EntityScan(basePackages = { "com.xcore.server", "com.xcore.application"})
-// Utility:
 @Slf4j(topic = "[✴️ Application]")
 public class XCoreServer {
 

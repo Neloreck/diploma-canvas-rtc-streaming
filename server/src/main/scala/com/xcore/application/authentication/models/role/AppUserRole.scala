@@ -9,8 +9,7 @@ import javax.persistence._
 import scala.beans.BeanProperty;
 
 @Entity
-class AppUserRole()
-  extends Serializable {
+class AppUserRole extends Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
