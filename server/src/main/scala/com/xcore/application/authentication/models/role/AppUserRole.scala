@@ -5,6 +5,7 @@ import java.util._
 import com.xcore.application.authentication.models.role.EAppUserRoleAccessLevel.ERoleAccessLevel
 import com.xcore.application.authentication.models.user.AppUser
 import javax.persistence._
+import lombok.NonNull
 
 import scala.beans.BeanProperty;
 
@@ -15,18 +16,22 @@ class AppUserRole extends Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @BeanProperty
     @Column
+    @NonNull
     var id: Long = _;
 
     @Column(length = 64)
     @BeanProperty
+    @NonNull
     var name: String = "default";
 
     @Column
     @BeanProperty
+    @NonNull
     var accessLevel: ERoleAccessLevel = EAppUserRoleAccessLevel.FROZEN;
 
     @OneToMany(mappedBy = "id")
     @BeanProperty
+    @NonNull
     var users: List[AppUser] = new ArrayList[AppUser];
 
 }

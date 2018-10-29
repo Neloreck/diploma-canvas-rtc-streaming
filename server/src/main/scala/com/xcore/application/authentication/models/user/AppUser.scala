@@ -1,10 +1,7 @@
 package com.xcore.application.authentication.models.user;
 
 import com.xcore.application.authentication.models.role.AppUserRole;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.{Data, NonNull};
 import javax.persistence._;
 import java.io.Serializable;
 
@@ -12,9 +9,7 @@ import scala.beans.BeanProperty;
 
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-class AppUser() extends Serializable() {
+class AppUser extends Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

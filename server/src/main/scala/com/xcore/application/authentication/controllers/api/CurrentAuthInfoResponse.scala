@@ -11,7 +11,7 @@ class CurrentAuthInfoResponse (authentication: Authentication) extends Response 
     this.authenticated = authentication.isAuthenticated;
   }
 
-  def isAuthenticated() = this.authenticated;
+  def isAuthenticatedl: Boolean = this.authenticated;
 
 }
 

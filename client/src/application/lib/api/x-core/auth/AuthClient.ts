@@ -12,4 +12,24 @@ export class AuthClient {
     return response as any;
   }
 
+  public async getTokens(request: any): Promise<any> {
+    // todo.
+  }
+
+  public async refreshTokens(request: any): Promise<any> {
+    // todo.
+  }
+
+  public async signUp(request: any): Promise<any> {
+    // todo.
+  }
+
+  public async login(request: any): Promise<any> {
+    // todo;
+  }
+
+  public async logout(request: any): Promise<any> {
+    // todo;
+  }
+
 }

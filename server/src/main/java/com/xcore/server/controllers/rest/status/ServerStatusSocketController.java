@@ -19,7 +19,6 @@ public class ServerStatusSocketController {
 
   @MessageMapping("/test")
   public void handleTestMessage() {
-
   }
 
 
