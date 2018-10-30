@@ -31,11 +31,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         @Override
         protected Resource getResource(String resourcePath, Resource location) {
-          if (resourcePath.startsWith("api") || resourcePath.startsWith("ws") || resourcePath.startsWith("favicon")) {
-            return null;
-          }
+        if (resourcePath.startsWith("api") || resourcePath.startsWith("ws") || resourcePath.startsWith("favicon")) {
+          return null;
+        }
 
-          return location.exists() && location.isReadable() ? location : null;
+        return location.exists() && location.isReadable() ? location : null;
         }
 
       });
@@ -57,7 +57,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      *  registry.addMapping("/**")
      *    .allowedOrigins(allowedOrigins)
      *    .allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE")
-     *    .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers")
+     *    .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-ApiRequest-Method", "Access-Control-ApiRequest-Headers")
      *    .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
      *    .allowCredentials(true)
      *    .maxAge(3600);

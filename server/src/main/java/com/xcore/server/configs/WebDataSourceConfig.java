@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EntityScan("com.xcore.application")
 @EnableJpaRepositories("com.xcore.application")
-public class DataSourceConfig {
+public class WebDataSourceConfig {
 }

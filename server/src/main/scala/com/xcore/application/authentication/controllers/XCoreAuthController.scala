@@ -1,6 +1,6 @@
 package com.xcore.application.authentication.controllers;
 
-import com.xcore.application.authentication.controllers.auth_exchange._
+import com.xcore.application.authentication.controllers.xcore_auth_exchange._
 import com.xcore.application.authentication.models.user.IAppUserRepository
 import com.xcore.application.authentication.services.IAuthService
 import org.springframework.beans.factory.annotation.{Autowired, Qualifier}
@@ -21,11 +21,11 @@ class XCoreAuthController {
   // Controller methods:
 
   @GetMapping(Array("/info"))
-  def getCurrentAuthInfo(): AuthInfoResponse = {
+  def getCurrentAuthInfo(): AuthInfoApiResponse = {
 
     val authentication = SecurityContextHolder.getContext.getAuthentication;
 
-    new AuthInfoResponse(authentication);
+    new AuthInfoApiResponse(authentication);
   }
 
   @PostMapping(Array("/sign-up"))
@@ -34,16 +34,16 @@ class XCoreAuthController {
   }
 
   @PostMapping(Array("/login"))
-  def login(request: LoginRequest): LoginResponse = {
-    new LoginResponse();
+  def login(request: LoginApiRequest): LoginApiResponse = {
+    new LoginApiResponse();
   }
 
   @PostMapping(Array("/logout"))
-  def logout(): AuthInfoResponse = {
+  def logout(): AuthInfoApiResponse = {
     val authentication = SecurityContextHolder.getContext.getAuthentication;
     authentication.setAuthenticated(false);
 
-    new AuthInfoResponse(authentication);
+    new AuthInfoApiResponse(authentication);
   }
 
   @PostMapping(Array("/refresh-tokens"))

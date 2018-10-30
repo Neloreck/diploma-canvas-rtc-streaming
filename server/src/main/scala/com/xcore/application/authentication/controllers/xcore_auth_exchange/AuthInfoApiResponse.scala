@@ -1,9 +1,9 @@
-package com.xcore.application.authentication.controllers.auth_exchange;
+package com.xcore.application.authentication.controllers.xcore_auth_exchange;
 
-import com.xcore.server.controllers.rest.general.api.Response;
+import com.xcore.server.controllers.rest.exchange.ApiResponse
 import org.springframework.security.core.Authentication;
 
-class AuthInfoResponse(authentication: Authentication) extends Response {
+class AuthInfoApiResponse(authentication: Authentication) extends ApiResponse {
 
   private var authenticated: Boolean = false;
 

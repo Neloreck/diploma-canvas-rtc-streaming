@@ -1,7 +1,6 @@
-package com.xcore.server.controllers.rest.general;
+package com.xcore.server.controllers.rest;
 
-import com.xcore.server.controllers.rest.general.api.ApiInfoResponse;
-import com.xcore.server.controllers.rest.general.api.ErrorResponse;
+import com.xcore.server.controllers.rest.exchange.ErrorApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,16 +17,10 @@ public class GeneralController {
   }
 
   @ResponseBody
-  @RequestMapping("/api")
-  public ApiInfoResponse handleApiInfoDetails() {
-    return new ApiInfoResponse();
-  }
-
-  @ResponseBody
   @RequestMapping("/api/**")
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
-  public ErrorResponse handleApiWrongEndpointError() {
-    return new ErrorResponse("Failed to find api endpoint.");
+  public ErrorApiResponse handleApiWrongEndpointError() {
+    return new ErrorApiResponse("Failed to find api endpoint.");
   }
 
   @GetMapping("/error")

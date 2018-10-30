@@ -1,6 +1,6 @@
-package com.xcore.server.controllers.rest.exception;
+package com.xcore.server.controllers.rest;
 
-import com.xcore.server.controllers.rest.general.api.ErrorResponse;
+import com.xcore.server.controllers.rest.exchange.ErrorApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,8 +14,8 @@ public class ExceptionController {
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ErrorResponse handleBadMethodParamsException() {
-    return new ErrorResponse("Bad request params received.");
+  public ErrorApiResponse handleBadMethodParamsException() {
+    return new ErrorApiResponse("Bad request params received.");
   }
 
 }

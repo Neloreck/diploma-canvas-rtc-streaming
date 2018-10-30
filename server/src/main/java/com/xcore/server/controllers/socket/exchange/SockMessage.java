@@ -1,4 +1,4 @@
-package com.xcore.server.controllers.sock.general.api;
+package com.xcore.server.controllers.socket.exchange;
 
 import lombok.Data;
 

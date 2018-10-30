@@ -1,7 +1,7 @@
-package com.xcore.server.controllers.sock.general;
+package com.xcore.server.controllers.socket;
 
-import com.xcore.server.controllers.sock.general.api.TempMessageRequest;
-import com.xcore.server.controllers.sock.general.api.TempMessageResponse;
+import com.xcore.server.controllers.socket.exchange.TempMessageRequest;
+import com.xcore.server.controllers.socket.exchange.TempMessageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
