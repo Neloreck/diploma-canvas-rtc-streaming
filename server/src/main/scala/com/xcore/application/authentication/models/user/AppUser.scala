@@ -1,15 +1,20 @@
 package com.xcore.application.authentication.models.user;
 
-import com.xcore.application.authentication.models.role.AppUserRole;
+import com.xcore.application.authentication.models.role.{AppUserRole, EAppUserRoleAccessLevel};
+import org.springframework.security.core.userdetails.UserDetails;
 import lombok.{Data, NonNull};
 import javax.persistence._;
 import java.io.Serializable;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import scala.beans.BeanProperty;
 
 @Data
 @Entity
-class AppUser extends Serializable {
+class AppUser extends Serializable with UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,5 +41,28 @@ class AppUser extends Serializable {
   @NonNull
   @BeanProperty
   var password: String = _;
+
+  /*
+   * Computed:
+   */
+
+  @JsonIgnore
+  override def getUsername: String = this.login;
+
+  // todo:
+  @JsonIgnore
+  override def getAuthorities: List[GrantedAuthority] = List(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+  @JsonIgnore
+  override def isAccountNonLocked: Boolean = !this.role.accessLevel.equals(EAppUserRoleAccessLevel.FROZEN);
+
+  @JsonIgnore
+  override def isAccountNonExpired: Boolean = true;
+
+  @JsonIgnore
+  override def isCredentialsNonExpired: Boolean = true;
+
+  @JsonIgnore
+  override def isEnabled: Boolean = this.role.accessLevel.equals(EAppUserRoleAccessLevel.FROZEN);
 
 }

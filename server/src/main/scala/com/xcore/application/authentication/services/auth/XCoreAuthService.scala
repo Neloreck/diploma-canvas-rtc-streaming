@@ -1,4 +1,4 @@
-package com.xcore.application.authentication.services;
+package com.xcore.application.authentication.services.auth
 
 import javax.annotation.Resource
 import org.springframework.stereotype.Service;
