@@ -1,12 +1,12 @@
 package com.xcore.application.authentication.controllers;
 
-import com.xcore.application.authentication.controllers.xcore_auth_exchange._
-import com.xcore.application.authentication.models.user.IAppUserRepository
-import com.xcore.application.authentication.services.IAuthService
-import com.xcore.server.controllers.rest.exchange.ErrorApiResponse
-import org.springframework.beans.factory.annotation.{Autowired, Qualifier}
-import org.springframework.http.HttpStatus
-import org.springframework.security.core.context.SecurityContextHolder
+import com.xcore.application.authentication.controllers.xcore_auth_exchange._;
+import com.xcore.application.authentication.models.user.IAppUserRepository;
+import com.xcore.application.authentication.services.IAuthService;
+import com.xcore.server.controllers.rest.exchange.ErrorApiResponse;
+import org.springframework.beans.factory.annotation.{Autowired, Qualifier};
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation._;
 
 @RestController
