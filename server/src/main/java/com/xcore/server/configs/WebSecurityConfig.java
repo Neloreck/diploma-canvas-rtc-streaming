@@ -24,9 +24,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity httpSecurity) throws Exception {
 
     // Disable csrf because we will use token for our api requests.
-    httpSecurity.csrf().disable();
+    httpSecurity
+      .csrf().disable();
 
-    httpSecurity.authorizeRequests().antMatchers("/**").permitAll();
+    httpSecurity
+      // Api security policy.
+      .authorizeRequests()
+        .antMatchers("/api/auth/**")
+        .permitAll()
+        .antMatchers("/api/**")
+        .authenticated()
+      // Allow for front-end and statics.
+      .anyRequest()
+        .permitAll()
+      // Fallback for denied access response.
+      .and()
+        .exceptionHandling()
+        .accessDeniedPage("/api/auth/access-denied");
   }
 
 }

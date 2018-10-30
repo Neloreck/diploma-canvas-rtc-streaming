@@ -2,6 +2,7 @@ package com.xcore.server.controllers.rest;
 
 import com.xcore.server.controllers.rest.exchange.ErrorApiResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,13 @@ public class ExceptionController {
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ErrorApiResponse handleBadMethodParamsException() {
     return new ErrorApiResponse("Bad request params received.");
+  }
+
+  @ResponseBody
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ExceptionHandler(AccessDeniedException.class)
+  public ErrorApiResponse handleUnauthorizedError() {
+    return  new ErrorApiResponse("Access was denied.");
   }
 
 }

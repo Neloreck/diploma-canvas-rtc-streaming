@@ -26,6 +26,7 @@ public class GeneralController {
   @GetMapping("/error")
   @ResponseStatus(value =  HttpStatus.INTERNAL_SERVER_ERROR)
   public ModelAndView handleError() {
+
     return new ModelAndView("error");
   }
 

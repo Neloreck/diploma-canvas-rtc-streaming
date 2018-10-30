@@ -8,7 +8,7 @@ const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
-import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin, ProvidePlugin} from "webpack";
+import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin} from "webpack";
 
 type EnvironmentType = ("development" | "production");
 

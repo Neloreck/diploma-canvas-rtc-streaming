@@ -9,6 +9,9 @@ import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.script.ScriptTemplateViewResolver;
 
+import java.util.List;
+import java.util.Arrays;
+
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -18,10 +21,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+    List<String> ignoredResources = Arrays.asList("ws", "api", "favicon");
+
+    // Handle static files.
     registry
       .addResourceHandler("/public/**")
       .addResourceLocations("classpath:/public/");
 
+    // Spa fallback.
     registry
       .addResourceHandler( "/", "/**")
       .setCachePeriod(0)
@@ -31,11 +39,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         @Override
         protected Resource getResource(String resourcePath, Resource location) {
-        if (resourcePath.startsWith("api") || resourcePath.startsWith("ws") || resourcePath.startsWith("favicon")) {
-          return null;
-        }
 
-        return location.exists() && location.isReadable() ? location : null;
+          if (ignoredResources.stream().anyMatch(resourcePath::startsWith)) {
+            return null;
+          }
+
+          return location.exists() && location.isReadable()
+            ? location
+            : null;
         }
 
       });
@@ -66,9 +77,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
   @Bean
   public ViewResolver viewResolver() {
+
     ScriptTemplateViewResolver viewResolver = new ScriptTemplateViewResolver();
 
-    viewResolver.setPrefix("classpath:/templates/");
+    viewResolver.setPrefix("classpath:templates/");
     viewResolver.setSuffix(".mustache");
 
     return viewResolver;
