@@ -97,8 +97,9 @@ export class WebpackBuildConfig implements Configuration {
         ]
       },
       // Fonts loading
+      // todo: Proper config instead of url resolving.
       {
-        loader: "url-loader?limit=512&name=font/[name].[ext]",
+        loader: "url-loader?limit=512&name=fonts/[name].[ext]",
         test: /\.(woff|woff2|eot|ttf)$/
       },
       // Templates rendering.
@@ -133,6 +134,7 @@ export class WebpackBuildConfig implements Configuration {
     new HtmlWebpackPlugin({
       environment,
       filename: "index.html",
+      favicon: path.resolve(projectRoot, "src/application/modules/main/assets/ico/favicon.ico"),
       inject: true,
       minify: {
         minifyCSS: true,

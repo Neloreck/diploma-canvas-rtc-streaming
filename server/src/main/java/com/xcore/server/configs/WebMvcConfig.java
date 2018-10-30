@@ -1,11 +1,13 @@
 package com.xcore.server.configs;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.script.ScriptTemplateViewResolver;
 
@@ -32,9 +34,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // Spa fallback.
     registry
       .addResourceHandler( "/", "/**")
-      .setCachePeriod(0)
+      .setCachePeriod(3600)
       .addResourceLocations("classpath:/public/spa/index.html")
       .resourceChain(true)
+      .addResolver(new GzipResourceResolver())
       .addResolver(new PathResourceResolver() {
 
         @Override
@@ -44,9 +47,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
             return null;
           }
 
-          return location.exists() && location.isReadable()
-            ? location
-            : null;
+          if (location.exists() && location.isReadable()) {
+            return location;
+          }
+
+          return null;
         }
 
       });
