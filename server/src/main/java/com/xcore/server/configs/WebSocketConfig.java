@@ -1,4 +1,4 @@
-package com.xcore.server.config;
+package com.xcore.server.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

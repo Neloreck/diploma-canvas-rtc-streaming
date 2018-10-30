@@ -1,4 +1,4 @@
-package com.xcore.server.config;
+package com.xcore.server.configs;
 
 public enum  EApplicationMode {
 

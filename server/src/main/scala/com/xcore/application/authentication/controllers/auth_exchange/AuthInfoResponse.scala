@@ -1,9 +1,9 @@
-package com.xcore.application.authentication.controllers.api;
+package com.xcore.application.authentication.controllers.auth_exchange;
 
 import com.xcore.server.controllers.rest.general.api.Response;
 import org.springframework.security.core.Authentication;
 
-class CurrentAuthInfoResponse (authentication: Authentication) extends Response {
+class AuthInfoResponse(authentication: Authentication) extends Response {
 
   private var authenticated: Boolean = false;
 
@@ -11,7 +11,7 @@ class CurrentAuthInfoResponse (authentication: Authentication) extends Response 
     this.authenticated = authentication.isAuthenticated;
   }
 
-  def isAuthenticatedl: Boolean = this.authenticated;
+  def isAuthenticated: Boolean = this.authenticated;
 
 }
 

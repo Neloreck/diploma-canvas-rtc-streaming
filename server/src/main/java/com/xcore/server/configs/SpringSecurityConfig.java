@@ -1,4 +1,4 @@
-package com.xcore.server.config;
+package com.xcore.server.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   ApplicationConfig applicationConfig;
@@ -23,14 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-    // Disable for development server.
-    if (applicationConfig.getApplicationMode().equals(EApplicationMode.DEVELOPMENT)) {
-      httpSecurity.csrf().disable();
-    }
+    // Disable csrf because we will use token for our api requests.
+    httpSecurity.csrf().disable();
 
-    httpSecurity
-      .authorizeRequests()
-      .antMatchers("/**").permitAll();
+    httpSecurity.authorizeRequests().antMatchers("/**").permitAll();
   }
 
 }
