@@ -4,7 +4,6 @@ import com.xcore.application.authentication.exceptions.AuthAccessDeniedHandler;
 import com.xcore.application.authentication.services.details.AppUserDetailService;
 import com.xcore.server.configs.ApplicationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +12,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.annotation.Resource;
 /*
  * Docs:
  * https://docs.spring.io/spring-security/site/docs/current/reference/html/jc.html
@@ -26,32 +22,33 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  ApplicationConfig applicationConfig;
+  var applicationConfig: ApplicationConfig = _;
 
   @Autowired
-  AuthAccessDeniedHandler authAccessDeniedHandler;
+  var authAccessDeniedHandler: AuthAccessDeniedHandler = _;
 
   @Autowired
-  AppUserDetailService appUserDetailService;
+  var appUserDetailService: AppUserDetailService = _;
 
   @Bean
-  @Override
-  public AuthenticationManager authenticationManager() throws Exception {
-    return super.authenticationManagerBean();
+  override def authenticationManager(): AuthenticationManager = {
+    super.authenticationManagerBean();
   }
 
   @Autowired
-  public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-    auth
+  @throws[Exception]
+  def globalUserDetails(authenticationManagerBuilder: AuthenticationManagerBuilder): Unit = {
+    authenticationManagerBuilder
       .userDetailsService(appUserDetailService)
       .passwordEncoder(new BCryptPasswordEncoder());
   }
 
   @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception {
+  @throws[Exception]
+  protected override def configure(httpSecurity: HttpSecurity): Unit = {
 
     // Disable csrf because we will use token for our api requests.
     httpSecurity

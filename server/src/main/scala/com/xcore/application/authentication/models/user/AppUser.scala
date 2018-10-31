@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.{Data, NonNull};
 import javax.persistence._;
 import java.io.Serializable;
+import java.util.{List, Arrays};
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,7 +52,7 @@ class AppUser extends Serializable with UserDetails {
 
   // todo:
   @JsonIgnore
-  override def getAuthorities: List[GrantedAuthority] = List(new SimpleGrantedAuthority("ROLE_ADMIN"));
+  override def getAuthorities: List[GrantedAuthority] = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
   @JsonIgnore
   override def isAccountNonLocked: Boolean = !this.role.accessLevel.equals(EAppUserRoleAccessLevel.FROZEN);

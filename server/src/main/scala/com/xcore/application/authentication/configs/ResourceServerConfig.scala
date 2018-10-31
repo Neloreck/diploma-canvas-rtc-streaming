@@ -1,10 +1,10 @@
 package com.xcore.application.authentication.configs;
 
-import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.oauth2.config.annotation.web.configuration.{EnableResourceServer, ResourceServerConfigurerAdapter}
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer
-import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.{EnableResourceServer, ResourceServerConfigurerAdapter};
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 
 @Configuration
 @EnableResourceServer
@@ -15,7 +15,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
   override def configure(resources: ResourceServerSecurityConfigurer): Unit = {
     resources
       .resourceId(RESOURCE_ID)
-      .stateless(false)
+      .stateless(false);
   }
 
   @throws[Exception]

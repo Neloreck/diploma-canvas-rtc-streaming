@@ -2,7 +2,7 @@
 
 # Copy client dist into resources folder for backend building.
 
-cd "${0%/.}"
+cd "${0%/.}";
 
 echo "Building SPA bundle (production).";
 cd ./client && npm run build;

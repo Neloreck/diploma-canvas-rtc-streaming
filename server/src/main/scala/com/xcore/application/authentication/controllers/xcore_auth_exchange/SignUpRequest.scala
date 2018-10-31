@@ -1,4 +1,6 @@
 package com.xcore.application.authentication.controllers.xcore_auth_exchange;
 
-class SignUpRequest {
+import com.xcore.server.controllers.rest.exchange.ApiRequest;
+
+class SignUpRequest extends ApiRequest {
 }

@@ -9,6 +9,6 @@ public abstract class ApiResponse {
 
   private Boolean success = true;
 
-  private Date timeStamp = new Date();
+  private Date timestamp = new Date();
 
 }

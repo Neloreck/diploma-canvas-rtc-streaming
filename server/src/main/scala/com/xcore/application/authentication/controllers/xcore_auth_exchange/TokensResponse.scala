@@ -1,4 +1,6 @@
-package com.xcore.application.authentication.controllers.xcore_auth_exchange
+package com.xcore.application.authentication.controllers.xcore_auth_exchange;
 
-class TokensResponse {
+import com.xcore.server.controllers.rest.exchange.ApiResponse;
+
+class TokensResponse extends ApiResponse {
 }

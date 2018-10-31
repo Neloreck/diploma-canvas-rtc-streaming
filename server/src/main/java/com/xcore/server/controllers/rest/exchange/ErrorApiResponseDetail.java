@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-class ErrorApiResponseDetail {
+public class ErrorApiResponseDetail {
 
   private String type = "Error";
   private String message;
