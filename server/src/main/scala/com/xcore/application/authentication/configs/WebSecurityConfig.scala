@@ -25,13 +25,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  var applicationConfig: ApplicationConfig = _;
+  private var applicationConfig: ApplicationConfig = _;
 
   @Autowired
-  var authAccessDeniedHandler: AuthAccessDeniedHandler = _;
+  private var authAccessDeniedHandler: AuthAccessDeniedHandler = _;
 
   @Autowired
-  var appUserDetailService: AppUserDetailService = _;
+  private var appUserDetailService: AppUserDetailService = _;
 
   @Bean
   override def authenticationManager(): AuthenticationManager = {
@@ -61,7 +61,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/**").authenticated()
       .and()
         // Fallback for denied access response.
-        .exceptionHandling().accessDeniedHandler(new AuthAccessDeniedHandler())
+        .exceptionHandling().accessDeniedHandler(authAccessDeniedHandler)
         .authenticationEntryPoint(authAccessDeniedHandler);
   }
 

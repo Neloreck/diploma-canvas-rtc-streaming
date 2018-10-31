@@ -1,15 +1,14 @@
 package com.xcore.application.authentication.models.user;
 
-import com.xcore.application.authentication.models.role.{AppUserRole, EAppUserRoleAccessLevel};
+import com.xcore.application.authentication.models.role.AppUserRole;
 import org.springframework.security.core.userdetails.UserDetails;
 import lombok.{Data, NonNull};
 import javax.persistence._;
 import java.io.Serializable;
-import java.util.{List, Arrays};
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import scala.beans.BeanProperty;
 
@@ -22,7 +21,7 @@ class AppUser extends Serializable with UserDetails {
   @Column
   var id: Long = _;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "role_id")
   @BeanProperty
   @NonNull
@@ -50,12 +49,11 @@ class AppUser extends Serializable with UserDetails {
   @JsonIgnore
   override def getUsername: String = this.login;
 
-  // todo:
   @JsonIgnore
-  override def getAuthorities: List[GrantedAuthority] = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+  override def getAuthorities: List[GrantedAuthority] = role.getAuthorities;
 
   @JsonIgnore
-  override def isAccountNonLocked: Boolean = !this.role.accessLevel.equals(EAppUserRoleAccessLevel.FROZEN);
+  override def isAccountNonLocked: Boolean = !this.role.accessLevel.isFrozen;
 
   @JsonIgnore
   override def isAccountNonExpired: Boolean = true;
@@ -64,6 +62,6 @@ class AppUser extends Serializable with UserDetails {
   override def isCredentialsNonExpired: Boolean = true;
 
   @JsonIgnore
-  override def isEnabled: Boolean = this.role.accessLevel.equals(EAppUserRoleAccessLevel.FROZEN);
+  override def isEnabled: Boolean = !this.role.accessLevel.isFrozen;
 
 }

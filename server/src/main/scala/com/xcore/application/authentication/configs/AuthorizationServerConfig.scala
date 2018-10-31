@@ -15,18 +15,18 @@ import org.springframework.security.oauth2.provider.token.store.{JwtAccessTokenC
 
 class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-  val CLIENT_ID: String = "devglan-client";
-  val CLIENT_SECRET: String = "devglan-secret";
-  val GRANT_TYPE_PASSWORD: String= "password";
-  val AUTHORIZATION_CODE: String = "authorization_code";
-  val REFRESH_TOKEN: String = "refresh_token";
-  val IMPLICIT: String = "implicit";
-  val SCOPE_READ: String = "read";
-  val SCOPE_WRITE: String = "write";
-  val TRUST: String = "trust";
+  private val CLIENT_ID: String = "devglan-client";
+  private val CLIENT_SECRET: String = "devglan-secret";
+  private val GRANT_TYPE_PASSWORD: String= "password";
+  private val AUTHORIZATION_CODE: String = "authorization_code";
+  private val REFRESH_TOKEN: String = "refresh_token";
+  private val IMPLICIT: String = "implicit";
+  private val SCOPE_READ: String = "read";
+  private val SCOPE_WRITE: String = "write";
+  private val TRUST: String = "trust";
 
-  val ACCESS_TOKEN_VALIDITY_SECONDS: Int = 1 * 60 * 60;
-  val REFRESH_TOKEN_VALIDITY_SECONDS: Int = 6 * 60 * 60;
+  private val ACCESS_TOKEN_VALIDITY_SECONDS: Int = 1 * 60 * 60;
+  private val REFRESH_TOKEN_VALIDITY_SECONDS: Int = 6 * 60 * 60;
 
   @Autowired
   private var authenticationManager: AuthenticationManager = _;

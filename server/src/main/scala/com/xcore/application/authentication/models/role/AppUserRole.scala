@@ -1,11 +1,12 @@
 package com.xcore.application.authentication.models.role;
 
-import java.util._
+import java.util._;
 
-import com.xcore.application.authentication.models.role.EAppUserRoleAccessLevel.ERoleAccessLevel
-import com.xcore.application.authentication.models.user.AppUser
-import javax.persistence._
-import lombok.NonNull
+import com.xcore.application.authentication.models.user.AppUser;
+import javax.persistence._;
+import lombok.NonNull;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
 import scala.beans.BeanProperty;
 
@@ -26,13 +27,17 @@ class AppUserRole extends Serializable {
 
     @Column
     @BeanProperty
+    @Enumerated(EnumType.STRING)
     @NonNull
-    var accessLevel: ERoleAccessLevel = EAppUserRoleAccessLevel.FROZEN;
+    var accessLevel: EAppUserRoleAccessLevel = EAppUserRoleAccessLevel.ROLE_FROZEN;
 
     @OneToMany(mappedBy = "id")
     @BeanProperty
     @NonNull
     var users: List[AppUser] = new ArrayList[AppUser];
+
+    @JsonIgnore
+    def getAuthorities: List[GrantedAuthority] = accessLevel.getAuthorities();
 
 }
 
