@@ -48,20 +48,14 @@ class XCoreAuthController {
     new AuthInfoApiResponse(authentication);
   }
 
-  @PostMapping(Array("/refresh-tokens"))
+  @PostMapping(Array("/refresh-token"))
   def refreshTokens(): RefreshTokensResponse = {
     new RefreshTokensResponse();
   }
 
-  @GetMapping(Array("/tokens"))
+  @GetMapping(Array("/token"))
   def getTokens(): TokensResponse = {
     new TokensResponse();
-  }
-
-  @RequestMapping(Array("/access-denied"))
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  def handleUnauthorizedApiRequests() = {
-    new ErrorApiResponse("FUCK")
   }
 
 }
