@@ -1,10 +1,10 @@
 import * as React from "react";
 import {Fragment, PureComponent} from "react";
-import {Wrapped} from "redux-cbd";
-
 import {Route} from "react-router";
 import {Switch} from "react-router-dom";
 import {ConnectedRouter} from "react-router-redux";
+
+import {Wrapped} from "@redux-cbd/utils";
 
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 

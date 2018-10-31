@@ -1,4 +1,4 @@
-import {ActionWired, SimpleAction} from "redux-cbd";
+import {ActionWired, SimpleAction} from "@redux-cbd/core";
 
 import {PaletteColorOptions} from "@material-ui/core/styles/createPalette";
 

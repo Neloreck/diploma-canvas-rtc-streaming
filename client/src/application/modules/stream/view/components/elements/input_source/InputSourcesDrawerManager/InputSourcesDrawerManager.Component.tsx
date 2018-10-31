@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Component} from "react";
-import {Bind} from "redux-cbd";
+
+import {Bind} from "@redux-cbd/utils";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 

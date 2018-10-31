@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Component} from "react";
-import {Bind} from "redux-cbd";
+
+import {Bind} from "@redux-cbd/utils";
 
 import {
   Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText

@@ -1,7 +1,8 @@
 import * as React from "react";
 import {createRef, Fragment, MouseEvent, PureComponent, RefObject} from "react";
 import ReactResizeDetector from "react-resize-detector";
-import {Bind} from "redux-cbd";
+
+import {Bind} from "@redux-cbd/utils";
 
 import {ICanvasGraphicsSizingContext} from "./rendering/context/index";
 import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./rendering/graphics_objects";

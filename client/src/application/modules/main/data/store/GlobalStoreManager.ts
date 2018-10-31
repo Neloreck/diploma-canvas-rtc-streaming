@@ -1,7 +1,8 @@
 import {routerMiddleware, routerReducer} from "react-router-redux";
 import {Action, applyMiddleware, combineReducers,  createStore, Middleware, Reducer, Store} from "redux";
-import {cbdMiddleware, CBDStoreManager, StoreManaged} from "redux-cbd";
 import {composeWithDevTools} from "redux-devtools-extension";
+
+import {cbdMiddleware, CBDStoreManager, StoreManaged} from "@redux-cbd/core";
 
 import {History} from "history";
 import createHistory from "history/createBrowserHistory";

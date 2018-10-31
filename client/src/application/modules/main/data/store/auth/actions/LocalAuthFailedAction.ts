@@ -1,4 +1,4 @@
-import {ActionWired, SimpleAction} from "redux-cbd";
+import {ActionWired, SimpleAction} from "@redux-cbd/core";
 
 @ActionWired("AUTH_AUTHORIZE_LOCAL_FAIL")
 export class LocalAuthFailedAction extends SimpleAction {

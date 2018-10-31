@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Component, createRef, RefObject} from "react";
-import {Bind} from "redux-cbd";
+
+import {Bind} from "@redux-cbd/utils";
 
 import {Button, Collapse, Tooltip} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";

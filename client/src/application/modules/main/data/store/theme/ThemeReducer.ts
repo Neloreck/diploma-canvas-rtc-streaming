@@ -1,4 +1,4 @@
-import {ActionHandler, ReflectiveReducer} from "redux-cbd";
+import {ActionHandler, ReflectiveReducer} from "@redux-cbd/core";
 
 import {UpdatePrimaryThemePaletteAction, UpdateSecondaryThemePaletteAction} from "./actions";
 import {ThemeState} from "./ThemeState";

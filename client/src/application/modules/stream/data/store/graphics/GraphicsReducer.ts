@@ -1,4 +1,4 @@
-import {ActionHandler, ReflectiveReducer} from "redux-cbd";
+import {ActionHandler, ReflectiveReducer} from "@redux-cbd/core";
 
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 

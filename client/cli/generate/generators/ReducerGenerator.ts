@@ -49,7 +49,7 @@ export * from "./actions";
 
   private generateSampleActionTemplateAsStr(reducerFolder: string, reducerName: string): string {
     return (
-      `import {ActionWired, SimpleAction} from "redux-cbd";
+      `import {ActionWired, SimpleAction} from "@redux-cbd/core";
 
 @ActionWired("SAMPLE_ACTION")
 export class ${this.capitalizeFirstLetter(reducerName)}SampleAction extends SimpleAction {
@@ -78,7 +78,7 @@ export class ${this.capitalizeFirstLetter(reducerName)}SampleAction extends Simp
 
   private generateReducerTemplateAsStr(reducerFolder: string, reducerName: string): string {
     return (
-      `import {ActionHandler, ReflectiveReducer} from "redux-cbd";
+      `import {ActionHandler, ReflectiveReducer} from "@redux-cbd/core";
 
 import {${this.capitalizeFirstLetter(reducerName)}SampleAction} from "./actions";
 import {${this.capitalizeFirstLetter(reducerName)}State} from "./${this.capitalizeFirstLetter(reducerName)}State";

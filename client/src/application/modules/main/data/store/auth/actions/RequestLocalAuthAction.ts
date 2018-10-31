@@ -1,4 +1,4 @@
-import {ActionWired, AsyncAction} from "redux-cbd";
+import {ActionWired, AsyncAction} from "@redux-cbd/core";
 
 import {LocalAuthFailedAction} from "./LocalAuthFailedAction";
 import {SetAuthDataAction} from "./SetAuthDataAction";

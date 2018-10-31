@@ -1,5 +1,6 @@
 import {MouseEvent} from "react";
-import {Bind} from "redux-cbd";
+
+import {Bind} from "@redux-cbd/utils";
 
 import {ICanvasGraphicsSizingContext} from "../context/ICanvasGraphicsSizingContext";
 import {CanvasGraphicsRenderObject} from "../graphics_objects/base/CanvasGraphicsRenderObject";

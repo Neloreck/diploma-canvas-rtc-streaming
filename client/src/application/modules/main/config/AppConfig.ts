@@ -1,6 +1,6 @@
-import {Single} from "redux-cbd";
+import {Single} from "@redux-cbd/utils";
 
-@Single
+@Single()
 export class AppConfig {
 
   public readonly env: string = (process.env.NODE_ENV as string);

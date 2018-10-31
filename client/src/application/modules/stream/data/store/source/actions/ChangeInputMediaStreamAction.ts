@@ -1,4 +1,4 @@
-import {ActionWired, DataExchangeAction} from "redux-cbd";
+import {ActionWired, DataExchangeAction} from "@redux-cbd/core";
 
 import {Optional} from "@Lib/ts/type";
 

@@ -1,6 +1,7 @@
 import {Action, applyMiddleware, combineReducers,  createStore, Middleware, Reducer, Store} from "redux";
-import {cbdMiddleware, CBDStoreManager, StoreManaged} from "redux-cbd";
 import {composeWithDevTools} from "redux-devtools-extension";
+
+import {cbdMiddleware, CBDStoreManager, StoreManaged} from "@redux-cbd/core";
 
 import {appConfig} from "@Main/config";
 

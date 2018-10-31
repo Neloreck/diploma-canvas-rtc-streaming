@@ -1,6 +1,7 @@
 import * as React from "react";
 import {PureComponent} from "react";
-import {Wrapped} from "redux-cbd";
+
+import {Wrapped} from "@redux-cbd/utils";
 
 import {log} from "@Lib/util/logger";
 

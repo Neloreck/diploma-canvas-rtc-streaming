@@ -1,4 +1,4 @@
-import {ActionWired, DataExchangeAction} from "redux-cbd";
+import {ActionWired, DataExchangeAction} from "@redux-cbd/core";
 
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 

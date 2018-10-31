@@ -1,4 +1,4 @@
-import {ActionWired, DataExchangeAction} from "redux-cbd";
+import {ActionWired, DataExchangeAction} from "@redux-cbd/core";
 
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 

@@ -1,4 +1,4 @@
-import {ActionHandler, ReflectiveReducer} from "redux-cbd";
+import {ActionHandler, ReflectiveReducer} from "@redux-cbd/core";
 
 import {ChangeSelectedMediaDevicesAction, UpdateInputStreamAndSourcesAction} from "./actions";
 import {SourceState} from "./SourceState";
