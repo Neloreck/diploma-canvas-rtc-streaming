@@ -53,7 +53,7 @@ class AppUser extends Serializable with UserDetails {
   override def getAuthorities: List[GrantedAuthority] = role.getAuthorities;
 
   @JsonIgnore
-  override def isAccountNonLocked: Boolean = !this.role.accessLevel.isFrozen;
+  override def isAccountNonLocked: Boolean = !this.role.accessLevel.isActive;
 
   @JsonIgnore
   override def isAccountNonExpired: Boolean = true;
@@ -62,6 +62,6 @@ class AppUser extends Serializable with UserDetails {
   override def isCredentialsNonExpired: Boolean = true;
 
   @JsonIgnore
-  override def isEnabled: Boolean = !this.role.accessLevel.isFrozen;
+  override def isEnabled: Boolean = !this.role.accessLevel.isActive;
 
 }

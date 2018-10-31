@@ -7,10 +7,6 @@ import org.springframework.stereotype.Service;
 @Resource(name = "XCoreAuthService")
 class XCoreAuthService extends IAuthService {
 
-  override def isAuthorized(login: String, password: String): Boolean = {
-    false;
-  }
-
   override def login(): Boolean = {
     false;
   };

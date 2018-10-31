@@ -13,17 +13,10 @@ class AppUserDetailService extends UserDetailsService {
   @Autowired
   private var appUserRepository: IAppUserRepository = _;
 
-  /*
-   * Actually, search by id.
-   * Auth lib related.
-   */
   @throws[UsernameNotFoundException]
-  override def loadUserByUsername(userId: String): UserDetails = loadUserById(java.lang.Long.parseLong(userId));
+  def loadUserByUsername(login: String): UserDetails = {
 
-  @throws[UsernameNotFoundException]
-  def loadUserById(userId: Long): UserDetails = {
-
-    val optionalUser: Optional[AppUser] = appUserRepository.findById(userId);
+    val optionalUser: Optional[AppUser] = appUserRepository.findByLogin(login);
 
     if (optionalUser.get() == null) {
       throw new UsernameNotFoundException("Invalid username or password.")

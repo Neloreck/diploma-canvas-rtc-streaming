@@ -1,13 +1,13 @@
 package com.xcore.application.authentication.configs;
 
-import com.xcore.application.authentication.exceptions.AuthAccessDeniedHandler
-import com.xcore.server.configs.ApplicationConfig
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.{Bean, Configuration, Primary}
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.oauth2.config.annotation.web.configuration.{EnableResourceServer, ResourceServerConfigurerAdapter}
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices
+import com.xcore.application.authentication.exceptions.AuthAccessDeniedHandler;
+import com.xcore.server.configs.ApplicationConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.{Bean, Configuration, Primary};
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.{EnableResourceServer, ResourceServerConfigurerAdapter};
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.{JwtAccessTokenConverter, JwtTokenStore};
 
 @Configuration
