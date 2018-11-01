@@ -1,4 +1,4 @@
-INSERT INTO app_user (id, role_id, login, mail, password) VALUES (0, 0, 'frozen', 'frozen', 'frozen');
-INSERT INTO app_user (id, role_id, login, mail, password) VALUES (1, 1, 'default', 'default', 'default');
-INSERT INTO app_user (id, role_id, login, mail, password) VALUES (2, 2, 'moderator', 'moderator', 'moderator');
-INSERT INTO app_user (id, role_id, login, mail, password) VALUES (3, 3, 'admin', 'admin', 'admin');
+INSERT INTO app_user (role_id, login, mail, password) VALUES (1, 'frozen', 'frozen', '$2a$10$I.te9pTuxpsCXSsmhDNDVuW9uuW3cOVzsmf9XgWIFDjydRCsp0njG');
+INSERT INTO app_user (role_id, login, mail, password) VALUES (2, 'default', 'default', '$2a$10$I.te9pTuxpsCXSsmhDNDVuW9uuW3cOVzsmf9XgWIFDjydRCsp0njG');
+INSERT INTO app_user (role_id, login, mail, password) VALUES (3, 'moderator', 'moderator', '$2a$10$I.te9pTuxpsCXSsmhDNDVuW9uuW3cOVzsmf9XgWIFDjydRCsp0njG');
+INSERT INTO app_user (role_id, login, mail, password) VALUES (4, 'admin', 'admin', '$2a$10$I.te9pTuxpsCXSsmhDNDVuW9uuW3cOVzsmf9XgWIFDjydRCsp0njG');

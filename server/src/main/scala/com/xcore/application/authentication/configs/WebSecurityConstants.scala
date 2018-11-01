@@ -1,12 +1,24 @@
-package com.xcore.application.authentication.configs;
+package com.xcore.application.authentication.configs
 
-object WebSecurityConstants {
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 
-  val JWT_PREFIX: String = "Bearer ";
+@Component
+class WebSecurityConstants {
 
-  val AUTHORIZATION_HEADER = "Authorization";
+  val AUTHORIZATION_HEADER_KEY: String = "Authorization";
+  val AUTHORIZATION_HEADER_PREFIX: String = "Bearer";
 
-  val TOKEN_AUTHORITIES_KEY = "authorities";
-  val TOKEN_REMEMBER_KEY = "rememberMe";
+  @Value("${xcore.security.resource.id}")
+  var RESOURCE_ID: String = _;
+
+  @Value("${xcore.security.secret}")
+  var SECRET: String = _;
+
+  @Value("${xcore.security.token.validity.expiration}")
+  var ACCESS_TOKEN_VALIDITY_SECONDS: Int = 60 * 5 * 1;
+
+  @Value("${xcore.security.token.validity.expiration}")
+  var REFRESH_TOKEN_VALIDITY_SECONDS: Int = 60 * 60 * 12;
 
 }

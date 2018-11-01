@@ -1,14 +1,17 @@
 package com.xcore.server.controllers.rest.exchange;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
 public abstract class ApiResponse {
 
+  @Getter
+  @Setter
   private Boolean success = true;
 
+  @Getter
   private Date timestamp = new Date();
 
 }

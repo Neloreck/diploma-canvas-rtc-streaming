@@ -10,8 +10,11 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Slf4j(topic = "[✴️ Application]")
 public class XCoreServer {
 
-	public static void main(String[] args) {
+	static {
 		log.info("X-Core application starting.");
+	}
+
+	public static void main(String[] args) {
 		SpringApplication.run(XCoreServer.class, args);
 	}
 
