@@ -27,10 +27,9 @@ public class GeneralController {
   }
 
   @GetMapping("/error")
-  @ResponseStatus(value =  HttpStatus.INTERNAL_SERVER_ERROR)
   public ModelAndView handleError(HttpServletRequest request) {
 
-    log.error("Internal server error: {}, path: {}.", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE), request.getRequestURI());
+    log.error("Internal server error: {}.", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
 
     return new ModelAndView("error");
   }

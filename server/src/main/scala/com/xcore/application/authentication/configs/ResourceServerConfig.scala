@@ -24,6 +24,8 @@ import org.springframework.security.web.access.AccessDeniedHandler
 @EnableResourceServer
 class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+  private val log: Logger = LoggerFactory.getLogger("[🔒SECURITY]");
+
   @Autowired
   private var webSecurityConstants: WebSecurityConstants = _;
 
@@ -33,21 +35,24 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
   @Autowired
   private var tokenStore: TokenStore = _;
 
-  private val log: Logger = LoggerFactory.getLogger("[RESOURCE SERVER]");
-
   /*
    * Configuration:
    */
 
   override def configure(resourceServerSecurityConfigurer: ResourceServerSecurityConfigurer): Unit = {
+
+    log.info("Configuring resourceServerSecurity and token storage.")
+
     resourceServerSecurityConfigurer
-      .resourceId(webSecurityConstants.RESOURCE_ID)
+      .resourceId(webSecurityConstants.SERVER_APPLICATION_ID)
       .tokenServices(tokenServices)
       .tokenStore(tokenStore);
   }
 
   @throws[Exception]
   override def configure(httpSecurity: HttpSecurity): Unit = {
+
+    log.info("Configuring httpSecurity and session management.")
 
     httpSecurity
       .sessionManagement()

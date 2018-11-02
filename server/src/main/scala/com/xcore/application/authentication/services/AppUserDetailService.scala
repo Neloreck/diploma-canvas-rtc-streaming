@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service
 @Service
 class AppUserDetailService extends UserDetailsService {
 
+  private val log: Logger = LoggerFactory.getLogger("[🔒AUTH]");
+
   @Autowired
   private var passwordEncoder: PasswordEncoder = _;
 
@@ -22,17 +24,13 @@ class AppUserDetailService extends UserDetailsService {
   @Autowired
   private var appUserRoleRepository: IAppUserRoleRepository = _;
 
-  private val log: Logger = LoggerFactory.getLogger("[USER DETAILS]");
-
   @throws[UsernameNotFoundException]
   def loadUserByUsername(login: String): UserDetails = {
-
-    log.info(s"Searching user by login: '$login'.")
 
     val optionalUser: Optional[AppUser] = appUserRepository.findByLogin(login);
 
     if (optionalUser.isPresent) {
-      log.info(s"User '$login' was.")
+      log.info(s"User '$login' was found.")
       optionalUser.get();
     } else {
       log.info(s"User '$login' was not found.")
