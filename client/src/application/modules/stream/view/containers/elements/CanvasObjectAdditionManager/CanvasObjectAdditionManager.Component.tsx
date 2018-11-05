@@ -79,7 +79,7 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
     );
   }
 
-  @Bind
+  @Bind()
   private handleWindowClick(event: MouseEvent): void {
 
     const target: HTMLUListElement = this.contentRef.current && this.contentRef.current.querySelector("ul");
@@ -90,22 +90,22 @@ export class CanvasObjectAdditionManager extends Component<ICanvasObjectAddition
     }
   }
 
-  @Bind
+  @Bind()
   private onObjectAdded(): void {
     this.props.onObjectAdded("" as any);
   }
 
-  @Bind
+  @Bind()
   private onObjectRemoved(): void {
     this.props.onObjectRemoved("" as any);
   }
 
-  @Bind
+  @Bind()
   private onObjectChanged(): void {
     this.props.onObjectChanged("" as any);
   }
 
-  @Bind
+  @Bind()
   private onToggleShowAdditionWindow(event: React.MouseEvent<any>): void {
     event.stopPropagation();
     this.setState({ showAdditionWindow: !this.state.showAdditionWindow });

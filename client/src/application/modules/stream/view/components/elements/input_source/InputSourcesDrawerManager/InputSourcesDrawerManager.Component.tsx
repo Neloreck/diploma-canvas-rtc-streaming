@@ -81,19 +81,19 @@ export class InputSourcesDrawerManager extends Component<IInputSourcesDrawerMana
     );
   }
 
-  @Bind
+  @Bind()
   private async onSourcesUpdate(devices: IInputSourceDevices): Promise<void> {
 
     const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, devices.audioInput);
     this.props.onSourceStreamAndDevicesUpdate(stream, devices);
   }
 
-  @Bind
+  @Bind()
   private onShowModal(): void {
     this.setState({ showDrawer: true });
   }
 
-  @Bind
+  @Bind()
   private onHideModal(): void {
     this.setState({ showDrawer: false });
   }

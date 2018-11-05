@@ -144,27 +144,27 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
 
   /* Events related methods: */
 
-  @Bind
+  @Bind()
   private handleLayoutMouseDown(event: MouseEvent): void {
     this.internalRenderingService.handleMouseDown(event);
   }
 
-  @Bind
+  @Bind()
   private handleLayoutMouseUp(event: MouseEvent): void {
     this.internalRenderingService.handleMouseUp(event);
   }
 
-  @Bind
+  @Bind()
   private handleLayoutMouseMove(event: MouseEvent): void {
     this.internalRenderingService.handleMouseMove(event);
   }
 
-  @Bind
+  @Bind()
   private handleLayoutMouseEnter(event: MouseEvent): void {
     this.internalRenderingService.handleMouseEnter(event);
   }
 
-  @Bind
+  @Bind()
   private handleLayoutMouseLeave(event: MouseEvent): void {
     this.internalRenderingService.handleMouseLeave(event);
   }

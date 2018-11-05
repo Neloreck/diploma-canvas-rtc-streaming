@@ -94,7 +94,7 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     );
   }
 
-  @Bind
+  @Bind()
   private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
     const inputSources: IInputDevicesBundle = await localMediaService.getInputDevicesBundled();
@@ -127,7 +127,7 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     return inputSources;
   }
 
-  @Bind
+  @Bind()
   private handleDeviceSelection(device: MediaDeviceInfo | undefined): void {
 
     if (!device) {
@@ -155,7 +155,7 @@ export class InputSourcesSelectForm extends Component<IInputSourcesSelectFormPro
     this.setState(newState);
   }
 
-  @Bind
+  @Bind()
   private onChangesAccept(): void {
     this.props.onInputSourcesChange(this.state.selectedInputSources);
   }

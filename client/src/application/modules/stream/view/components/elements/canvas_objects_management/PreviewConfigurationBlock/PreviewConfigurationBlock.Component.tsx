@@ -40,17 +40,17 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
     );
   }
 
-  @Bind
+  @Bind()
   private onPreviewToggle(event: ChangeEvent): void {
     this.props.onPreviewToggle((event.target as any).checked);
   }
 
-  @Bind
+  @Bind()
   private onGraphicsToggle(event: ChangeEvent): void {
     this.props.onGraphicsToggle((event.target as any).checked);
   }
 
-  @Bind
+  @Bind()
   private onGridToggle(event: ChangeEvent): void {
     this.props.onGridToggle((event.target as any).checked);
   }

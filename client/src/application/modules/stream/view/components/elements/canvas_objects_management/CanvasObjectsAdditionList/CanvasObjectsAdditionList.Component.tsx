@@ -4,7 +4,7 @@ import {Component} from "react";
 import {Bind} from "@redux-cbd/utils";
 
 import {
-  Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText
+  Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText
 } from "@material-ui/core";
 
 import {Add, MoreVert} from "@material-ui/icons";
@@ -32,7 +32,7 @@ export class CanvasObjectsAdditionList extends Component<ICanvasObjectsAdditionL
     );
   }
 
-  @Bind
+  @Bind()
   private renderCanvasItem(descriptor: ICanvasObjectDescriptor<any>): JSX.Element {
 
     const {classes, onObjectAdded} = this.props;

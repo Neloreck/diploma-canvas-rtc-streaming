@@ -64,8 +64,8 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^5.0.0-alpha.9",
-    "@redux-cbd/core": "^1.0.2",
-    "@redux-cbd/utils": "^1.0.2",
+    "@redux-cbd/core": "^1.0.3",
+    "@redux-cbd/utils": "^1.0.5",
     "redux-devtools-extension": "^2.13.5",
     "reflect-metadata": "^0.1.12",
     "typeface-roboto": "^0.0.54"

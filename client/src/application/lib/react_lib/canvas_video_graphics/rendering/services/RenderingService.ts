@@ -163,7 +163,7 @@ export class RenderingService extends AbstractRenderingService {
 
   /* Rendering: */
 
-  @Bind
+  @Bind()
   public render(): void {
 
     if (this.shouldCleanupConext) {

@@ -129,22 +129,22 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
     updateStreamAndSources(stream, selectedDevices);
   }
 
-  @Bind
+  @Bind()
   private onTabChange(event: ChangeEvent<any>, tabNumber: any): void {
     this.setState({ currentTab: +tabNumber });
   }
 
-  @Bind
+  @Bind()
   private onToggleGridDisplay(show: boolean): void {
     this.props.setGridDisplay(show);
   }
 
-  @Bind
+  @Bind()
   private onToggleGraphics(show: boolean): void {
     this.props.setGraphicsDisplay(show);
   }
 
-  @Bind
+  @Bind()
   private onTogglePreviewMode(show: boolean): void {
     this.props.setPreviewMode(show);
   }
