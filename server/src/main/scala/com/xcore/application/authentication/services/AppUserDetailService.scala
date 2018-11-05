@@ -2,7 +2,7 @@ package com.xcore.application.authentication.services
 
 import java.util.Optional
 
-import com.xcore.application.authentication.models.role.{AppUserRole, EAppUserRoleAccessLevel, IAppUserRoleRepository}
+import com.xcore.application.authentication.models.role.EAppUserRoleAccessLevel
 import com.xcore.application.authentication.models.user.{AppUser, IAppUserRepository}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,16 +13,13 @@ import org.springframework.stereotype.Service
 @Service
 class AppUserDetailService extends UserDetailsService {
 
-  private val log: Logger = LoggerFactory.getLogger("[🔒AUTH]");
+  private val log: Logger = LoggerFactory.getLogger("[🔒SECURITY]");
 
   @Autowired
   private var passwordEncoder: PasswordEncoder = _;
 
   @Autowired
   private var appUserRepository: IAppUserRepository = _;
-
-  @Autowired
-  private var appUserRoleRepository: IAppUserRoleRepository = _;
 
   @throws[UsernameNotFoundException]
   def loadUserByUsername(login: String): UserDetails = {
@@ -38,10 +35,12 @@ class AppUserDetailService extends UserDetailsService {
     }
   }
 
+  def loadUserById(id: Long): Optional[AppUser] = appUserRepository.findById(id);
+
   @throws[Exception]
   def registerUser(login: String, mail: String, password: String): AppUser = {
 
-    val defaultRole: AppUserRole = appUserRoleRepository.findByAccessLevel(EAppUserRoleAccessLevel.ROLE_USER);
+    val defaultRole: EAppUserRoleAccessLevel = EAppUserRoleAccessLevel.ROLE_USER;
     val appUser: AppUser = new AppUser();
 
     appUser.setLogin(login);
@@ -52,7 +51,6 @@ class AppUserDetailService extends UserDetailsService {
     registerUser(appUser);
   }
 
-  @throws[Exception]
   def registerUser(appUser: AppUser): AppUser = {
 
     log.info(s"Registering user: '${appUser.getUsername}'.")

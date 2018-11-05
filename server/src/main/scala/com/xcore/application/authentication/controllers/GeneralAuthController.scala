@@ -53,10 +53,4 @@ class GeneralAuthController {
     }
   }
 
-  @PostMapping(Array("/logout"))
-  def logout(): AuthInfoApiResponse = {
-    log.info("Got logout request.");
-    AuthInfoApiResponse(false);
-  }
-
 }

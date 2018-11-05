@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
@@ -35,6 +36,17 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     authenticationManagerBuilder
       .userDetailsService(appUserDetailsService)
       .passwordEncoder(passwordEncoder());
+  }
+
+  @throws[Exception]
+  override def configure(httpSecurity: HttpSecurity): Unit = {
+
+    log.info("Configuring httpSecurity and session management.")
+
+    httpSecurity
+      .authorizeRequests()
+      .antMatchers("/api/auth/**").permitAll()
+      .antMatchers("/api/**").authenticated();
   }
 
 }

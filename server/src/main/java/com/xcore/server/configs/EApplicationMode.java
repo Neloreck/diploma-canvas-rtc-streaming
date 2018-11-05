@@ -2,7 +2,7 @@ package com.xcore.server.configs;
 
 public enum  EApplicationMode {
 
-  DEVELOPMENT("development"), PRODUCTION("production"), UNKNOWN(null);
+  DEVELOPMENT("development"), TESTING("testing"), PRODUCTION("production"), UNKNOWN(null);
 
   private String mode;
 
