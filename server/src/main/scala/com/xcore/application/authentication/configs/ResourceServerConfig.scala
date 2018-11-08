@@ -48,7 +48,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     httpSecurity
       .sessionManagement()
-      .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+      .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     httpSecurity
       .csrf()

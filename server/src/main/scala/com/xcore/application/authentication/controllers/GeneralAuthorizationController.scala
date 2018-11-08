@@ -7,7 +7,7 @@ import com.xcore.application.authentication.models.user.AppUser
 import com.xcore.application.authentication.services.AppUserDetailService
 import com.xcore.application.authentication.utils.AuthUtils
 import com.xcore.server.controllers.rest.exchange.{ApiRequest, ApiResponse, ErrorApiResponse}
-import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation._
 
 @RestController
 @RequestMapping(Array("/auth"))
-class GeneralAuthController {
+class GeneralAuthorizationController {
 
   private val log: Logger = LoggerFactory.getLogger("[🔒AUTH]");
 
@@ -31,6 +31,7 @@ class GeneralAuthController {
   case class LoginResponse(@BeanProperty username: String, @BeanProperty password: String) extends ApiResponse;
   case class TokenRequest(@BeanProperty username: String, @BeanProperty password: String, client_id: String, grant_type: String) extends ApiRequest;
 
+
   @GetMapping(Array("/info"))
   def getCurrentAuthInfo: AuthInfoApiResponse = {
 
@@ -42,11 +43,12 @@ class GeneralAuthController {
   }
 
   @PostMapping(Array("/login"))
-  def login(request: HttpServletRequest): ApiResponse = {
+  def login(response: HttpServletResponse): Unit = {
 
     log.info("Get [/login] request.");
 
-    LoginResponse("username", "password");
+
+    response.sendRedirect("redirect:/auth/token");
   }
 
   @PostMapping(Array("/sign-up"))

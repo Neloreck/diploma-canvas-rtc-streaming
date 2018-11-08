@@ -20,7 +20,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,9 +67,8 @@ public class OAuthMvcTest {
     params.add("password", password);
 
     ResultActions result = mockMvc
-      .perform(get("/api/auth/token")
+      .perform(post("/auth/token")
       .params(params)
-      // todo: Encode.
       .with(httpBasic(webSecurityOptions.CLIENT_APPLICATION_ID(), webSecurityOptions.CLIENT_APPLICATION_SECRET()))
       .accept("application/json;charset=UTF-8"))
       .andExpect(status().isOk())
