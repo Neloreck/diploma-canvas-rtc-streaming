@@ -2,7 +2,8 @@ package com.xcore.application.authentication.services
 
 import java.util.Optional
 
-import com.xcore.application.authentication.models.role.EAppUserRoleAccessLevel
+import com.xcore.application.authentication.configs.WebSecurityOptions
+import com.xcore.application.authentication.models.role.EAppAccessLevel
 import com.xcore.application.authentication.models.user.{AppUser, IAppUserRepository}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service
 class AppUserDetailService extends UserDetailsService {
 
   private val log: Logger = LoggerFactory.getLogger("[🔒SECURITY]");
+
+  @Autowired
+  private var webSecurityOptions: WebSecurityOptions = _;
 
   @Autowired
   private var passwordEncoder: PasswordEncoder = _;
@@ -40,7 +44,7 @@ class AppUserDetailService extends UserDetailsService {
   @throws[Exception]
   def registerUser(login: String, mail: String, password: String): AppUser = {
 
-    val defaultRole: EAppUserRoleAccessLevel = EAppUserRoleAccessLevel.ROLE_USER;
+    val defaultRole: EAppAccessLevel = EAppAccessLevel.ROLE_USER;
     val appUser: AppUser = new AppUser();
 
     appUser.setLogin(login);

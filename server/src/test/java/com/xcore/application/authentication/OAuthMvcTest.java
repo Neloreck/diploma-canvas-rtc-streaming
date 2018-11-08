@@ -1,6 +1,6 @@
 package com.xcore.application.authentication;
 
-import com.xcore.application.authentication.configs.WebSecurityConstants;
+import com.xcore.application.authentication.configs.WebSecurityOptions;
 import com.xcore.server.XCoreServer;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +37,7 @@ public class OAuthMvcTest {
   private FilterChainProxy springSecurityFilterChain;
 
   @Autowired
-  private WebSecurityConstants webSecurityConstants;
+  private WebSecurityOptions webSecurityOptions;
 
   private MockMvc mockMvc;
 
@@ -61,15 +61,16 @@ public class OAuthMvcTest {
 
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 
+    params.add("client_id", webSecurityOptions.CLIENT_APPLICATION_ID());
     params.add("grant_type", "password");
-    params.add("client_id", webSecurityConstants.CLIENT_APPLICATION_ID());
     params.add("username", username);
     params.add("password", password);
 
     ResultActions result = mockMvc
-      .perform(post("/api/auth/token")
+      .perform(get("/api/auth/token")
       .params(params)
-      .with(httpBasic(webSecurityConstants.CLIENT_APPLICATION_ID(), webSecurityConstants.SECRET()))
+      // todo: Encode.
+      .with(httpBasic(webSecurityOptions.CLIENT_APPLICATION_ID(), webSecurityOptions.CLIENT_APPLICATION_SECRET()))
       .accept("application/json;charset=UTF-8"))
       .andExpect(status().isOk())
       .andExpect(content().contentType("application/json;charset=UTF-8"));

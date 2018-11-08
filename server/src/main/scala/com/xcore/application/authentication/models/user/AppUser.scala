@@ -5,7 +5,7 @@ import lombok.NonNull
 import javax.persistence._
 import java.io.Serializable
 
-import com.xcore.application.authentication.models.role.EAppUserRoleAccessLevel
+import com.xcore.application.authentication.models.role.EAppAccessLevel
 import org.codehaus.jackson.annotate.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
 
@@ -21,7 +21,7 @@ class AppUser extends Serializable with UserDetails {
   @Column()
   @BeanProperty
   @NonNull
-  var role: EAppUserRoleAccessLevel = _;
+  var role: EAppAccessLevel = _;
 
   @Column(length = 64, nullable = false, unique = true)
   @BeanProperty
@@ -38,7 +38,7 @@ class AppUser extends Serializable with UserDetails {
   @BeanProperty
   var password: String = _;
 
-  def this(login: String, mail: String, password: String, role: EAppUserRoleAccessLevel) = {
+  def this(login: String, mail: String, password: String, role: EAppAccessLevel) = {
 
     this();
 
@@ -59,7 +59,7 @@ class AppUser extends Serializable with UserDetails {
   override def getAuthorities: java.util.List[GrantedAuthority] = role.getAuthorities;
 
   @JsonIgnore
-  override def isAccountNonLocked: Boolean = !this.role.isActive;
+  override def isAccountNonLocked: Boolean = this.role.isActive;
 
   @JsonIgnore
   override def isAccountNonExpired: Boolean = true;
@@ -68,6 +68,6 @@ class AppUser extends Serializable with UserDetails {
   override def isCredentialsNonExpired: Boolean = true;
 
   @JsonIgnore
-  override def isEnabled: Boolean = !this.role.isActive;
+  override def isEnabled: Boolean = this.role.isActive;
 
 }

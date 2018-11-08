@@ -27,11 +27,20 @@ public class GeneralController {
   }
 
   @GetMapping("/error")
-  public ModelAndView handleError(HttpServletRequest request) {
+  public ModelAndView handleGetError(HttpServletRequest request) {
 
-    log.error("Internal server error: {}.", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+    log.error("Request error: {}, {}.", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE), request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
 
     return new ModelAndView("error");
+  }
+
+  @ResponseBody
+  @PostMapping("/error")
+  public ErrorApiResponse handlePostError(HttpServletRequest request) {
+
+    log.error("Request error: {}, {}.", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE), request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
+
+    return new ErrorApiResponse((String)request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
   }
 
 }

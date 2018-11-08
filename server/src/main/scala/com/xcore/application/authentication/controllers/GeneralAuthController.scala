@@ -2,44 +2,58 @@ package com.xcore.application.authentication.controllers;
 
 import java.beans.BeanProperty
 
+import com.xcore.application.authentication.models.role.EAppAccessLevel
 import com.xcore.application.authentication.models.user.AppUser
 import com.xcore.application.authentication.services.AppUserDetailService
+import com.xcore.application.authentication.utils.AuthUtils
 import com.xcore.server.controllers.rest.exchange.{ApiRequest, ApiResponse, ErrorApiResponse}
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation._
 
 @RestController
-@RequestMapping(Array("/api/auth"))
+@RequestMapping(Array("/auth"))
 class GeneralAuthController {
+
+  private val log: Logger = LoggerFactory.getLogger("[🔒AUTH]");
 
   @Autowired
   private var appUserDetailService: AppUserDetailService = _;
 
-  private val log: Logger = LoggerFactory.getLogger("[🔒AUTH]");
+  case class SignUpRequest(login: String, mail: String,password: String) extends ApiRequest;
+  case class LoginRequest(username: String, password: String) extends ApiRequest;
 
   case class AuthInfoApiResponse(@BeanProperty authenticated: Boolean) extends ApiResponse;
-  case class SignUpRequest(@BeanProperty login: String, @BeanProperty mail: String, @BeanProperty password: String) extends ApiRequest;
   case class SignUpResponse(@BeanProperty user: AppUser) extends ApiResponse;
+  case class LoginResponse(@BeanProperty username: String, @BeanProperty password: String) extends ApiResponse;
+  case class TokenRequest(@BeanProperty username: String, @BeanProperty password: String, client_id: String, grant_type: String) extends ApiRequest;
 
   @GetMapping(Array("/info"))
   def getCurrentAuthInfo: AuthInfoApiResponse = {
 
-    log.info("Got info request.");
+    log.info("Get [/info] request.");
 
-    val authentication = SecurityContextHolder.getContext.getAuthentication;
-    val user: UserDetails = appUserDetailService.loadUserByUsername("admin");
+    val authentication: Authentication = AuthUtils.getAuthentication;
 
-    val response = AuthInfoApiResponse(authentication.isAuthenticated);
+    AuthInfoApiResponse(!authentication.getAuthorities.contains(EAppAccessLevel.ROLE_ANONYMOUS.getAuthority));
+  }
 
-    response;
+  @PostMapping(Array("/login"))
+  def login(request: HttpServletRequest): ApiResponse = {
+
+    log.info("Get [/login] request.");
+
+    LoginResponse("username", "password");
   }
 
   @PostMapping(Array("/sign-up"))
   def signUp(request: SignUpRequest): ResponseEntity[ApiResponse] = {
+
+    log.info("Get [/sign-up] request.");
+
     try {
       val user: AppUser = appUserDetailService.registerUser(request.login, request.password, request.mail);
 

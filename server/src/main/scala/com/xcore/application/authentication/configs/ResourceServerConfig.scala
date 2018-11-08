@@ -1,10 +1,6 @@
 package com.xcore.application.authentication.configs
 
-import java.io.IOException
-
 import com.xcore.server.controllers.rest.exchange.ErrorApiResponse
-import javax.servlet.ServletException
-import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import org.codehaus.jackson.map.ObjectMapper
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,11 +10,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.oauth2.config.annotation.web.configuration.{EnableResourceServer, ResourceServerConfigurerAdapter}
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices
-import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.access.AccessDeniedHandler
+
+import javax.servlet.ServletException
+import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
+
+import java.io.IOException
 
 @Configuration
 @EnableResourceServer
@@ -27,13 +26,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
   private val log: Logger = LoggerFactory.getLogger("[🔒SECURITY]");
 
   @Autowired
-  private var webSecurityConstants: WebSecurityConstants = _;
-
-  @Autowired
-  private var tokenServices: DefaultTokenServices = _;
-
-  @Autowired
-  private var tokenStore: TokenStore = _;
+  private var webSecurityOptions: WebSecurityOptions = _;
 
   /*
    * Configuration:
@@ -44,9 +37,8 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     log.info("Configuring resourceServerSecurity and token storage.")
 
     resourceServerSecurityConfigurer
-      .resourceId(webSecurityConstants.SERVER_APPLICATION_ID)
-      .tokenServices(tokenServices)
-      .tokenStore(tokenStore);
+      .resourceId(webSecurityOptions.SERVER_APPLICATION_ID)
+      .tokenServices(webSecurityOptions.getAccessTokenServices);
   }
 
   @throws[Exception]
@@ -56,7 +48,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     httpSecurity
       .sessionManagement()
-      .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+      .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
     httpSecurity
       .csrf()
@@ -66,7 +58,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     httpSecurity
       .authorizeRequests()
-      .antMatchers("/api/auth/**").permitAll()
+      .antMatchers("/auth/**").permitAll()
       .antMatchers("/api/**").authenticated();
 
     httpSecurity

@@ -6,14 +6,14 @@ import lombok.Getter;
 public class ErrorApiResponse extends ApiResponse {
 
   private final Boolean success = false;
-  private ErrorApiResponseDetail detail;
+  private ErrorApiResponseDetail error;
 
   public ErrorApiResponse(String errorMessage) {
-    this.detail = new ErrorApiResponseDetail("Error", errorMessage);
+    this.error = new ErrorApiResponseDetail("Error", errorMessage);
   }
 
   public ErrorApiResponse(Exception ex) {
-    this.detail = new ErrorApiResponseDetail(ex.getClass().getTypeName(), ex.getMessage());
+    this.error = new ErrorApiResponseDetail(ex.getClass().getTypeName(), ex.getMessage());
   }
 
 }
