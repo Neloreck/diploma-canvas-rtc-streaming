@@ -68,7 +68,8 @@
     "@redux-cbd/utils": "^1.0.5",
     "redux-devtools-extension": "^2.13.5",
     "reflect-metadata": "^0.1.12",
-    "typeface-roboto": "^0.0.54"
+    "typeface-roboto": "^0.0.54",
+    "@redux-cbd/context": "latest"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

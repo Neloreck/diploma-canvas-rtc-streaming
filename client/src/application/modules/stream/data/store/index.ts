@@ -1,8 +1,8 @@
-import {StreamStoreManager} from "@Module/stream/data/store/StreamStoreManager";
+import {GraphicsContext} from "@Module/stream/data/store/graphics/GraphicsContext";
+import {SourceContext} from "@Module/stream/data/store/source/SourceContext";
 
-export const streamStoreManager: StreamStoreManager = new StreamStoreManager();
-export const StreamStoreProvider = streamStoreManager.getProviderComponent();
-export const StreamStoreConnect = streamStoreManager.getConsumerAnnotation();
+export const graphicsContext: GraphicsContext = new GraphicsContext();
+export const sourceContext: SourceContext = new SourceContext();
 
-export {StreamStoreManager} from "@Module/stream/data/store/StreamStoreManager";
-export {IStreamStoreState} from "@Module/stream/data/store/IStreamStoreState";
+export {GraphicsContext, IGraphicsContextState} from "@Module/stream/data/store/graphics/GraphicsContext";
+export {SourceContext, ISourceContextState} from "@Module/stream/data/store/source/SourceContext";

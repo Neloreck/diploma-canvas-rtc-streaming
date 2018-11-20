@@ -1,7 +1,0 @@
-import {ActionWired, DataExchangeAction} from "@redux-cbd/core";
-
-import {IInputSourceDevices} from "../models/IInputSourceDevices";
-
-@ActionWired("INPUT_SOURCE_CHANGE_MEDIA_DEVICES")
-export class ChangeSelectedMediaDevicesAction extends DataExchangeAction<IInputSourceDevices> {
-}
