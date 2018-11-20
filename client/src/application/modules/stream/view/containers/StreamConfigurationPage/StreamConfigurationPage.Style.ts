@@ -7,7 +7,7 @@ export const streamConfigurationPageStyle = (theme: Theme) => createStyles({
     flexDirection: "column",
     flexGrow: 1,
     minWidth: 250,
-    padding: theme.spacing.unit
+    padding: theme.spacing.unit * 2
   },
   content: {
     flexDirection: "column",
@@ -31,7 +31,7 @@ export const streamConfigurationPageStyle = (theme: Theme) => createStyles({
     flexDirection: "column",
     minHeight: 350,
     minWidth: "75%",
-    padding: theme.spacing.unit,
+    padding: theme.spacing.unit * 2,
     position: "relative"
   },
   streamingVideoSection: {

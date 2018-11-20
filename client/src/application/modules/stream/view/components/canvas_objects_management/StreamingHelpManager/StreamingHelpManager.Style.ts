@@ -9,6 +9,6 @@ export const streamingHelpManagerStyle = (theme: Theme) => createStyles({
   root: {
     left: 0,
     position: "absolute",
-    top: theme.spacing.unit * 7
+    top: theme.spacing.unit * 8
   }
 });

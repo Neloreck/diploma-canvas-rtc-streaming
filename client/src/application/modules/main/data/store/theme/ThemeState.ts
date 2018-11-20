@@ -6,15 +6,15 @@ export class ThemeState {
     palette: {
       primary: {
         contrastText: "#fff",
-        dark: "#102027",
-        light: "#62727b",
-        main: "#37474f"
+        dark: "#0d1e2b",
+        light: "#2e85b0",
+        main: "#1f5070"
       },
       secondary: {
         contrastText: "#ffffff",
-        dark: "#004c57",
-        light: "#e0e9ee",
-        main: "#007884"
+        dark: "#7e7e86",
+        light: "#cbd4cc",
+        main: "#abafaa"
       },
     },
     typography: {

@@ -8,6 +8,8 @@ import {ICanvasGraphicsSizingContext} from "./rendering/context/index";
 import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./rendering/graphics_objects";
 import {AbstractRenderingService, RenderingService} from "./rendering/services";
 
+import "./canvasStyling.scss";
+
 export interface ICanvasGraphicsRendererProps {
   previewMode: boolean;
   internalRenderingItems: Array<CanvasGraphicsRenderObject>;
@@ -16,7 +18,7 @@ export interface ICanvasGraphicsRendererProps {
 
 export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendererProps> {
 
-  private static readonly DEFAULT_ASPECT_RATIO: number = 16 / 9;
+  private static readonly DEFAULT_ASPECT_RATIO: number = 1.77;
 
   private readonly internalPreRendererCanvas: RefObject<HTMLCanvasElement> = createRef();
   private readonly externalPreRendererCanvas: RefObject<HTMLCanvasElement> = createRef();
@@ -120,9 +122,11 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
 
         </div>
 
-        <ReactResizeDetector onResize={(width, height) => this.reCalculateSizing(width, height)}
-                             refreshMode={"throttle"} refreshRate={500}
-                             handleHeight handleWidth/>
+        <ReactResizeDetector
+          onResize={(width, height) => this.reCalculateSizing(width, height)}
+          refreshMode={"throttle"} refreshRate={250}
+          handleHeight handleWidth
+        />
 
       </Fragment>
     );
@@ -187,7 +191,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
       canvasWidth = height * aspectRatio;
     }
 
-    this.resize(Math.floor(canvasWidth), Math.floor(canvasHeight));
+    this.resize(Math.round(canvasWidth) - 25 * 1.1, Math.round(canvasHeight) - 25);
   }
 
   private resize(width: number, height: number): void {
