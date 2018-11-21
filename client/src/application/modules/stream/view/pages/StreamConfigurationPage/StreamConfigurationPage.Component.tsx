@@ -11,7 +11,7 @@ import {ISourceContextState, sourceContext} from "@Module/stream/data/store";
 import {AppBar, Grid, Tab, Tabs, WithStyles} from "@material-ui/core";
 
 import {HeaderBar, IHeaderBarExternalProps} from "@Module/main/view/containers/HeaderBar";
-import {CanvasObjectsConfigurationTab, ICanvasObjectsConfigurationTabExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectsConfigurationTab/CanvasObjectsConfigurationTab.Component";
+import {CanvasObjectsConfigurationTab, ICanvasObjectsConfigurationTabExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectsConfigurationTab";
 import {IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock} from "@Module/stream/view/layout/PreviewConfigurationBlock";
 import {IRenderingVideoPreviewControlBlockExternalProps, RenderingVideoPreviewControlBlock} from "@Module/stream/view/layout/RenderingVideoPreviewControlBlock";
 

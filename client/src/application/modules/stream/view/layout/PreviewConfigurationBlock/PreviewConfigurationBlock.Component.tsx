@@ -3,8 +3,9 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {ChangeEvent, Component} from "react";
 
-import {Styled} from "../../../../../lib/react_lib/@material_ui/index";
-import {graphicsContext, IGraphicsContextState} from "@Module/stream//data/store/index";
+import {Styled} from "@Lib/react_lib/@material_ui";
+
+import {graphicsContext, IGraphicsContextState} from "@Module/stream//data/store";
 
 import {FormControlLabel, FormLabel, Grid, Switch, WithStyles} from "@material-ui/core";
 
