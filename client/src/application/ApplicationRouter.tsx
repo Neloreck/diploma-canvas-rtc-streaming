@@ -27,8 +27,10 @@ export const StreamModule = lazyLoadComponentFactory.getComponent(() => import(/
 export class ApplicationRouter extends PureComponent<IRouterContextState> {
 
   public render(): JSX.Element {
+    const {routingState: {history}} = this.props;
+
     return (
-      <Router history={this.props.routingState.history}>
+      <Router history={history}>
 
         <Switch>
 
