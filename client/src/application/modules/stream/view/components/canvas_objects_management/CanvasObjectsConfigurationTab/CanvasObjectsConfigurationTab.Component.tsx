@@ -10,18 +10,7 @@ import {Optional} from "@Lib/ts/type";
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
 import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store";
 
-import {
-  Avatar,
-  Button,
-  Grid,
-  Grow,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  Typography,
-  WithStyles
-} from "@material-ui/core";
+import {Avatar, Button, Grid, Grow, List, ListItem, ListItemSecondaryAction, ListItemText, Typography, WithStyles} from "@material-ui/core";
 import {Delete, Image} from "@material-ui/icons";
 import {CanvasObjectTemplateConfiguration, ICanvasObjectTemplateConfigurationExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectTemplateConfiguration";
 

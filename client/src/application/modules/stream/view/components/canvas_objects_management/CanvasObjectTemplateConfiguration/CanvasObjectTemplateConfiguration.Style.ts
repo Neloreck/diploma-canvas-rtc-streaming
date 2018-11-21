@@ -29,7 +29,7 @@ export const canvasObjectTemplateConfigurationStyle = (theme: Theme) => createSt
     },
     height: "100%",
     padding: theme.spacing.unit * 2,
-    width: "25%"
+    width: "20%"
   },
   root: {
     backgroundColor: theme.palette.secondary.light,

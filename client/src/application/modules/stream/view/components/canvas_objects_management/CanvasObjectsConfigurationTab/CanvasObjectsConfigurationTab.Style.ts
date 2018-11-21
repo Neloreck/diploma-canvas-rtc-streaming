@@ -24,7 +24,9 @@ export const canvasObjectsConfigurationTabStyle = (theme: Theme) => createStyles
     backgroundColor: theme.palette.secondary.light,
     flexBasis: theme.spacing.unit * 34,
     flexGrow: 1,
+    maxHeight: "100%",
     minWidth: theme.spacing.unit * 34,
+    overflowY: "auto",
     padding: `0 ${theme.spacing.unit}px`,
     width: "100%"
   },
