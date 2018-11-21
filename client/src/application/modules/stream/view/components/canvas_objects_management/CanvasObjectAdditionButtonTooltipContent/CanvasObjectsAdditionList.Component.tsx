@@ -5,7 +5,7 @@ import {PureComponent} from "react";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {ICanvasObjectDescriptor, RenderingService} from "@Module/stream/data/services/rendering";
+import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
 import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store/index";
 
 import {Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, WithStyles} from "@material-ui/core";
@@ -32,7 +32,7 @@ export class CanvasObjectAdditionButtonTooltipContent extends PureComponent<ICan
     return (
       <Grid className={classes.root}>
         <List>
-          {RenderingService.getRenderingDescriptors().map(this.renderCanvasItem)}
+          {renderingService.getRenderingDescriptors().map(this.renderCanvasItem)}
         </List>
       </Grid>
     );

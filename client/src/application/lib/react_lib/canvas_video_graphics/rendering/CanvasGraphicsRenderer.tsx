@@ -4,11 +4,11 @@ import ReactResizeDetector from "react-resize-detector";
 
 import {Bind} from "@redux-cbd/utils";
 
-import {ICanvasGraphicsSizingContext} from "./rendering/context/index";
-import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./rendering/graphics_objects";
-import {AbstractRenderingService, RenderingService} from "./rendering/services";
+import {ICanvasGraphicsSizingContext} from "./context/index";
+import {CanvasGraphicsRenderObject, DomCanvasShadowRO} from "./graphics_objects/index";
+import {AbstractRenderingService, RenderingService} from "./services/index";
 
-import "./canvasStyling.scss";
+import "../canvasStyling.scss";
 
 export interface ICanvasGraphicsRendererProps {
   previewMode: boolean;

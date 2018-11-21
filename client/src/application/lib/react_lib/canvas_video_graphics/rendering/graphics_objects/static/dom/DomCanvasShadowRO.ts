@@ -2,6 +2,8 @@ import {CanvasGraphicsRenderObject} from "../../base/CanvasGraphicsRenderObject"
 
 export class DomCanvasShadowRO extends CanvasGraphicsRenderObject {
 
+  public configuration = {};
+
   private readonly shadow: HTMLCanvasElement;
 
   public constructor(shadow: HTMLCanvasElement) {

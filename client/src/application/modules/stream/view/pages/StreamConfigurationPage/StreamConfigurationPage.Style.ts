@@ -36,7 +36,7 @@ export const streamConfigurationPageStyle = (theme: Theme) => createStyles({
   },
   streamingVideoSection: {
     justifyContent: "center",
-    minHeight: 600,
+    minHeight: theme.spacing.unit * 65,
     overflow: "auto",
     width: "100%"
   },

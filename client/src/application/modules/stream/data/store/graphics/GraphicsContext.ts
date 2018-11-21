@@ -12,6 +12,7 @@ export interface IGraphicsContextState {
   };
   graphicsActions: {
     addObject: (object: CanvasGraphicsRenderObject) => void,
+    removeObject: (object: CanvasGraphicsRenderObject) => void,
     setGridDisplay: (param: boolean) => void;
     setGraphicsDisplay: (param: boolean) => void;
     setPreviewDisplay: (param: boolean) => void;
@@ -23,6 +24,7 @@ export class GraphicsContext extends ReactContextManager<IGraphicsContextState> 
   protected state: IGraphicsContextState = {
     graphicsActions: {
       addObject: this.addObject,
+      removeObject: this.removeObject,
       setGraphicsDisplay: this.setGraphicsDisplay,
       setGridDisplay: this.setGridDisplay,
       setPreviewDisplay: this.setPreviewDisplay
@@ -38,6 +40,12 @@ export class GraphicsContext extends ReactContextManager<IGraphicsContextState> 
   @Bind()
   protected addObject(object: CanvasGraphicsRenderObject): void {
     this.state.graphicsState = { ...this.state.graphicsState, objects: this.state.graphicsState.objects.concat(object)};
+    this.update();
+  }
+
+  @Bind()
+  protected removeObject(object: CanvasGraphicsRenderObject): void {
+    this.state.graphicsState = { ...this.state.graphicsState, objects: this.state.graphicsState.objects.filter((it) => it !== object)};
     this.update();
   }
 

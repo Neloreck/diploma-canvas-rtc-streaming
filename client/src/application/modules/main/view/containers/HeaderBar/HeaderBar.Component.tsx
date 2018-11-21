@@ -28,8 +28,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
           </Typography>
 
           <Grid container className={classes.rightBar}>
-            <Button variant={"contained"} color={"default"}>Placeholder</Button>
-            <Button variant={"contained"} color={"default"}>Placeholder</Button>
+            <Button variant={"contained"} color={"default"}>Login</Button>
           </Grid>
 
         </Toolbar>

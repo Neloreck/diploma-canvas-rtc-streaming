@@ -1,14 +1,35 @@
+import {Consume} from "@redux-cbd/context";
+import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Component} from "react";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
+import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
+import {Optional} from "@Lib/ts/type";
 
-import {Avatar, Button, Collapse, Grid, List, ListItem, ListItemText, Tooltip, WithStyles} from "@material-ui/core";
-import {Image} from "@material-ui/icons";
+import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
+import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store";
+
+import {
+  Avatar,
+  Button,
+  Grid,
+  Grow,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
+  WithStyles
+} from "@material-ui/core";
+import {Delete, Image} from "@material-ui/icons";
+import {CanvasObjectTemplateConfiguration, ICanvasObjectTemplateConfigurationExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectTemplateConfiguration";
 
 import {canvasObjectsConfigurationTabStyle} from "./CanvasObjectsConfigurationTab.Style";
-import {Consume} from "@redux-cbd/context";
-import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store";
+
+export interface ICanvasObjectsConfigurationTabState {
+  selectedObject: Optional<CanvasGraphicsRenderObject>;
+}
 
 export interface ICanvasObjectsConfigurationTabExternalProps extends WithStyles<typeof canvasObjectsConfigurationTabStyle>, IGraphicsContextState {}
 
@@ -18,11 +39,16 @@ export interface ICanvasObjectsConfigurationTabProps extends ICanvasObjectsConfi
 
 @Consume<IGraphicsContextState, ICanvasObjectsConfigurationTabProps>(graphicsContext)
 @Styled(canvasObjectsConfigurationTabStyle)
-export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfigurationTabProps> {
+export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfigurationTabProps, ICanvasObjectsConfigurationTabState> {
+
+  public state: ICanvasObjectsConfigurationTabState = {
+    selectedObject: null
+  };
 
   public render(): JSX.Element {
 
-    const {classes, } = this.props;
+    const {selectedObject} = this.state;
+    const {classes} = this.props;
 
     return (
       <Grid className={classes.root} container>
@@ -31,9 +57,14 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
           {this.renderObjectsList()}
         </Grid>
 
-        <Grid className={classes.objectsConfigurationBlock}>
-          {this.renderSelectedObjectConfigBlock()}
-        </Grid>
+        {
+          selectedObject !== null
+            ?
+            <Grow in={true}>
+              <Grid className={classes.objectsConfigurationBlock}> {this.renderSelectedObjectConfigBlock()} </Grid>
+            </Grow>
+            : null
+        }
 
       </Grid>
     );
@@ -41,32 +72,86 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
   private renderObjectsList(): JSX.Element {
 
-    const {graphicsState: {objects}} = this.props;
+    const {classes, graphicsState: {objects}} = this.props;
+    const {selectedObject} = this.state;
+
+    if (objects.length === 0) {
+      return (
+        <Grid className={classes.noGraphicsMessage} alignItems={"center"} justify={"center"} container>
+          <Typography variant={"h5"} gutterBottom> Create at least one graphics item for configuration. </Typography>
+        </Grid>
+      );
+    }
 
     return (
-      <List>
+      <Grow in={true}>
+        <List>
+          {
+            objects.map((item, idx) => {
 
-        {
-          objects.map((item, idx) => (
-            <ListItem key={idx}>
-              <Avatar>
-                <Image/>
-              </Avatar>
-              <ListItemText primary="Item" secondary={JSON.stringify(Object.keys(item))} />
-            </ListItem>
-          ))
-        }
+              const descriptor: Optional<ICanvasObjectDescriptor<any>> = renderingService.getDescriptor(item);
 
-      </List>
+              if (!descriptor) {
+                throw new Error("Descriptor for object was not found, implement it before using in list.");
+              }
+
+              return (
+                <ListItem key={idx} className={(item === selectedObject ? classes.objectListItemSelected : classes.objectListItem)}
+                          onClick={() => this.onConfigurableObjectSelected(item)}>
+
+                  <Avatar>
+                    <Image/>
+                  </Avatar>
+
+                  <ListItemText primary={descriptor.name} secondary={descriptor.description} />
+
+                  <ListItemSecondaryAction>
+                    <Button onClick={() => this.onGraphicsItemRemoveClicked(item)}>
+                      <Delete className={classes.objectListItemSecondary}/>
+                    </Button>
+                  </ListItemSecondaryAction>
+
+                </ListItem>
+              );
+            })
+          }
+        </List>
+      </Grow>
     );
   }
 
-  private renderSelectedObjectConfigBlock(): JSX.Element {
-    return (
-      <div>
-        123
-      </div>
-    );
+  private renderSelectedObjectConfigBlock(): Optional<JSX.Element> {
+
+    const {selectedObject} = this.state;
+
+    if (!selectedObject) {
+      return null;
+    }
+
+    return <CanvasObjectTemplateConfiguration object={selectedObject}
+                                              onCancelSelection={this.onSelectionCanceled}
+                                              onSelectedRemove={this.onGraphicsItemRemoveClicked}
+                                              {...{} as ICanvasObjectTemplateConfigurationExternalProps}/>;
+  }
+
+  @Bind()
+  private onGraphicsItemRemoveClicked(object: CanvasGraphicsRenderObject): void {
+
+    if (object === this.state.selectedObject) {
+      this.setState({selectedObject: null});
+    }
+
+    this.props.graphicsActions.removeObject(object);
+  }
+
+  @Bind()
+  private onConfigurableObjectSelected(object: CanvasGraphicsRenderObject) {
+    this.setState({selectedObject: object});
+  }
+
+  @Bind()
+  private onSelectionCanceled(): void {
+    this.setState({selectedObject: null});
   }
 
 }

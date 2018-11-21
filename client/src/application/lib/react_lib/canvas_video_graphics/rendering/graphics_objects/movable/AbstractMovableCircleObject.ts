@@ -4,8 +4,8 @@ import {ResizeControl} from "./ResizeControl";
 
 export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableCircleObject {
 
-  protected radius: number = 150;
-  protected center: IPoint = { x: 100, y: 100 };
+  public radius: number = 25;
+  public center: IPoint = { x: 50, y: 50 };
   protected resizeControlsSize: number = 10;
 
   private readonly resizeControl: ResizeControl = new ResizeControl(0, 0, 15, 15);

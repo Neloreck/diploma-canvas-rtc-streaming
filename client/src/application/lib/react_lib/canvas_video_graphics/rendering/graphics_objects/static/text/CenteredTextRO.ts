@@ -2,6 +2,8 @@ import {CanvasGraphicsRenderObject} from "../../base/CanvasGraphicsRenderObject"
 
 export class CenteredTextRO extends CanvasGraphicsRenderObject {
 
+  public configuration = {};
+
   private increment: number = 0;
 
   private readonly text: string = "textLabel";

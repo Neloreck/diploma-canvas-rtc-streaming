@@ -3,6 +3,8 @@ import {ICanvasGraphicsSizingContext} from "../../context/ICanvasGraphicsSizingC
 
 export abstract class CanvasGraphicsRenderObject {
 
+  public abstract configuration: any;
+
   protected readonly createdAt: number = Date.now();
 
   private id: string = "0";
