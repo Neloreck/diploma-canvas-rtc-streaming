@@ -1,4 +1,4 @@
-import {IXCoreResponse} from "../_core/exchange/IXCoreResponse";
+import {IXCoreResponse} from "../exchange/IXCoreResponse";
 
 export interface IAuthInfoResponse extends IXCoreResponse {
   success: boolean;

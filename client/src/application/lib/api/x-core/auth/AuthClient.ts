@@ -1,14 +1,14 @@
 import {IAuthInfoRequest} from "./IAuthInfoRequest";
 import {IAuthInfoResponse} from "./IAuthInfoResponse";
 
-import {xCoreClient} from "../";
+import {XCoreClient} from "@Lib/api/x-core/XCoreClient";
 
-export class AuthClient {
+export class AuthClient extends XCoreClient {
 
   private static AUTH_MAPPING: string = "api/auth/";
 
   public async getAuthInfo(request: IAuthInfoRequest): Promise<IAuthInfoResponse> {
-    const response = await xCoreClient.get(AuthClient.AUTH_MAPPING + "info/", );
+    const response = await this.get(AuthClient.AUTH_MAPPING + "info/", );
     return response as any;
   }
 

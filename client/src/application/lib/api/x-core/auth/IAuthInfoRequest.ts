@@ -1,4 +1,4 @@
-import {IXCoreRequest} from "../_core/exchange/IXCoreRequest";
+import {IXCoreRequest} from "../exchange/IXCoreRequest";
 
 export interface IAuthInfoRequest extends IXCoreRequest {
 }

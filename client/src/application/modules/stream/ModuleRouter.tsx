@@ -8,7 +8,7 @@ import {ErrorPage} from "@Main/view/containers/ErrorPage";
 
 /* Stream routes: */
 
-const StreamConfigurationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-configuration-page" */"@Module/stream/view/containers/StreamConfigurationPage"));
+const StreamConfigurationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-configuration-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
 
 export class ModuleRouter extends PureComponent {
 
