@@ -4,7 +4,7 @@ import {Route, Switch} from "react-router";
 
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
-import {ErrorPage} from "@Main/view/containers/pages/ErrorPage";
+import {ErrorPage} from "@Main/view/containers/ErrorPage";
 
 /* Stream routes: */
 

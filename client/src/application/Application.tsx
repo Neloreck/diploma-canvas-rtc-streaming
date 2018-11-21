@@ -14,7 +14,7 @@ import "typeface-roboto";
 export class Application {
 
   public static main(): void {
-    render(<ApplicationRouter/>, document.getElementById("application-root"));
+    render(<ApplicationRouter {...{} as any}/>, document.getElementById("application-root"));
   }
 
 }

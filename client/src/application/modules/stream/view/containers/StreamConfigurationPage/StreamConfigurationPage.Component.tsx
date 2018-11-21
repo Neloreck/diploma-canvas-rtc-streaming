@@ -10,7 +10,7 @@ import {ISourceContextState, sourceContext} from "@Module/stream/data/store";
 
 import {AppBar, Grid, Tab, Tabs, WithStyles} from "@material-ui/core";
 
-import {HeaderBar, IHeaderBarExternalProps} from "@Module/main/view/containers/elements/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Module/main/view/containers/HeaderBar";
 import {IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock} from "@Module/stream/view/components/canvas_objects_management/PreviewConfigurationBlock";
 import {IRenderedVideoPreviewExternalProps, RenderedVideoPreview} from "@Module/stream/view/components/video_rendering/RenderedVideoPreview";
 
