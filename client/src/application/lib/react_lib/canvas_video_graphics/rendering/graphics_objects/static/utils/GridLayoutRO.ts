@@ -3,6 +3,8 @@ import {CanvasGraphicsRenderObject} from "../../base/CanvasGraphicsRenderObject"
 
 export class GridLayoutRO extends CanvasGraphicsRenderObject {
 
+  public configuration = {};
+
   private readonly lineWidth: number = 3;
   private readonly verticalLinesCount: number = 1;
   private readonly horizontalLinesCount: number = 1;

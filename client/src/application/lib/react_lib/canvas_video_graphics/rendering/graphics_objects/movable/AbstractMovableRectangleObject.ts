@@ -5,10 +5,10 @@ import {ResizeControl} from "../movable/ResizeControl";
 
 export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovableRectangleObject {
 
-  protected left: number = 0;
-  protected top: number = 0;
-  protected width: number = 5;
-  protected height: number = 5;
+  public left: number = 0;
+  public top: number = 0;
+  public width: number = 5;
+  public height: number = 5;
 
   protected resizeControlsSize: number = 15;
 

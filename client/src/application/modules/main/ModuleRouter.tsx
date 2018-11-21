@@ -8,11 +8,11 @@ import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
 /* Main routes: */
 
-import {ErrorPage} from "@Main/view/containers/pages/ErrorPage";
+import {ErrorPage} from "@Main/view/containers/ErrorPage";
 
-const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@home-page" */"modules/main/view/containers/pages/HomePage/index"));
-const SignInPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@sign-in-page" */"modules/main/view/containers/pages/SignInPage/index"));
-const SignUpPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@sign-up-page" */"modules/main/view/containers/pages/SignUpPage/index"));
+const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@home-page" */"modules/main/view/containers/HomePage/index"));
+const SignInPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@sign-in-page" */"modules/main/view/containers/SignInPage/index"));
+const SignUpPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@sign-up-page" */"modules/main/view/containers/SignUpPage/index"));
 
 export class ModuleRouter extends PureComponent {
 

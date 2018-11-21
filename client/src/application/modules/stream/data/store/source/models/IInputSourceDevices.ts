@@ -1,4 +1,4 @@
-import {Optional} from "@Lib/ts/type/Optional";
+import {Optional} from "../../../../../../lib/ts/type/Optional";
 
 export interface IInputSourceDevices {
   videoInput: Optional<MediaDeviceInfo>;

@@ -1,16 +1,15 @@
+import {Consume, Provide} from "@redux-cbd/context";
+import {Wrapped} from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent} from "react";
-import {Wrapped} from "redux-cbd";
-
-import {Route} from "react-router";
+import {PureComponent} from "react";
+import {Route, Router} from "react-router";
 import {Switch} from "react-router-dom";
-import {ConnectedRouter} from "react-router-redux";
 
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
-import {globalStoreManager, GlobalStoreProvider} from "@Main/data/store";
+import {authContext, IRouterContextState, routerContext, themeContext} from "@Main/data/store";
 
-import {GlobalThemeProvider} from "@Main/view/layouts/theme/GlobalThemeProvider";
+import {GlobalThemeProvider, IGlobalThemeProviderProps} from "@Main/view/layouts/GlobalThemeProvider";
 
 /* Submodules: */
 
@@ -19,14 +18,19 @@ export const StreamModule = lazyLoadComponentFactory.getComponent(() => import(/
 
 /* Router: */
 
-@Wrapped(GlobalStoreProvider)
-@Wrapped(GlobalThemeProvider)
-@Wrapped(ConnectedRouter, { history: globalStoreManager.getBrowserHistory(), store: globalStoreManager.getStore()})
-export class ApplicationRouter extends PureComponent {
+@Provide(authContext)
+@Provide(routerContext)
+@Provide(themeContext)
+
+@Consume<IRouterContextState, IRouterContextState>(routerContext)
+@Wrapped<IGlobalThemeProviderProps, IRouterContextState>(GlobalThemeProvider)
+export class ApplicationRouter extends PureComponent<IRouterContextState> {
 
   public render(): JSX.Element {
+    const {routingState: {history}} = this.props;
+
     return (
-      <Fragment>
+      <Router history={history}>
 
         <Switch>
 
@@ -35,7 +39,7 @@ export class ApplicationRouter extends PureComponent {
 
         </Switch>
 
-      </Fragment>
+      </Router>
     );
   }
 

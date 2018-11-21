@@ -1,13 +1,14 @@
+import {Provide} from "@redux-cbd/context";
 import * as React from "react";
 import {PureComponent} from "react";
-import {Wrapped} from "redux-cbd";
 
 import {log} from "@Lib/util/logger";
 
-import {StreamStoreProvider} from "@Module/stream/data/store";
+import {graphicsContext, sourceContext} from "@Module/stream/data/store";
 import {ModuleRouter} from "@Module/stream/ModuleRouter";
 
-@Wrapped(StreamStoreProvider)
+@Provide(graphicsContext)
+@Provide(sourceContext)
 export class Module extends PureComponent {
 
   public componentDidMount(): void {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {PureComponent} from "react";
 
-import {CanvasGraphicsRenderer} from "./CanvasGraphicsRenderer";
+import {CanvasGraphicsRenderer} from "./rendering/CanvasGraphicsRenderer";
 
 import {CanvasGraphicsRenderObject, DomVideoRO} from "./rendering/graphics_objects/index";
 import {GridLayoutRO} from "./rendering/graphics_objects/index";

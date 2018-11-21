@@ -1,11 +1,11 @@
-import {GlobalStoreManager} from "@Main/data/store/GlobalStoreManager";
-import {IGlobalStoreState} from "@Main/data/store/IGlobalStoreState";
+import {AuthContext} from "@Main/data/store/auth/AuthContext";
+import {RouterContext} from "@Main/data/store/routing/RouterContext";
+import {ThemeContext} from "@Main/data/store/theme/ThemeContext";
 
-/* Global store utility: */
-export const globalStoreManager: GlobalStoreManager = new GlobalStoreManager();
-export const GlobalStoreProvider = globalStoreManager.getProviderComponent();
-export const GlobalStoreConnect = globalStoreManager.getConsumerAnnotation();
+export const authContext: AuthContext = new AuthContext();
+export const themeContext: ThemeContext = new ThemeContext();
+export const routerContext: RouterContext = new RouterContext();
 
-/* ReExport: */
-export {GlobalStoreManager} from "@Main/data/store/GlobalStoreManager";
-export {IGlobalStoreState} from "@Main/data/store/IGlobalStoreState";
+export {AuthContext, IAuthContextState} from "@Main/data/store/auth/AuthContext";
+export {ThemeContext, IThemeContextState} from "@Main/data/store/theme/ThemeContext";
+export {RouterContext, IRouterContextState} from "@Main/data/store/routing/RouterContext";

@@ -4,6 +4,8 @@ import {CanvasGraphicsRenderObject} from "../../base/CanvasGraphicsRenderObject"
 
 export class DomVideoRO extends CanvasGraphicsRenderObject {
 
+  public configuration = {};
+
   private isVideoRendering: boolean = false;
   private mediaStream: MediaStream = new MediaStream();
   private hiddenVideoRenderer: HTMLVideoElement = document.createElement("video");

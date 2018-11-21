@@ -1,4 +1,4 @@
-import {Single} from "redux-cbd";
+import {Single} from "@redux-cbd/utils";
 
 import {Optional} from "@Lib/ts/type";
 import {Logger} from "@Lib/util/logger";
@@ -6,7 +6,7 @@ import {Logger} from "@Lib/util/logger";
 import {EDeviceKind} from "@Module/stream/data/services/local_media/EDeviceKind";
 import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
 
-@Single
+@Single()
 export class LocalMediaService {
 
   public static readonly DEFAULT_VIDEO_CONSTRAINTS = {

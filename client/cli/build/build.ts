@@ -9,8 +9,13 @@ export class ClientBuilder {
     colors: true
   };
 
-  public static build(options): void {
+  public static readonly SERVER_PUBLIC_PATH: string = "/public/spa/";
+
+  public static build(options: WebpackBuildConfig): void {
+
     process.stdout.write(`\nStarted building client bundle in ${green(process.env.NODE_ENV || "unselected")} mode. \n\n`);
+    options.output.publicPath = ClientBuilder.SERVER_PUBLIC_PATH;
+
     webpack(options).run(this.onFinish);
   }
 

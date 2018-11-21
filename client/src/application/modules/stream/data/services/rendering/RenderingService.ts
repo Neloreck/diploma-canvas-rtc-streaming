@@ -1,11 +1,8 @@
+import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
+
 import {SimpleCircle, SimpleRectangle} from "@Module/stream/data/services/rendering/canvas_objects";
-import {ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering/ICanvasObjectDescriptor";
 
 export class RenderingService {
-
-  public static getRenderingDescriptors()/*: Array<ICanvasObjectDescriptor> */ {
-    return this.RENDER_DESCRIPTORS;
-  }
 
   private static RENDER_DESCRIPTORS = [
     {
@@ -18,5 +15,13 @@ export class RenderingService {
       prototype: SimpleCircle.prototype
     }
   ];
+
+  public getRenderingDescriptors()/*: Array<ICanvasObjectDescriptor> */ {
+    return RenderingService.RENDER_DESCRIPTORS;
+  }
+
+  public getDescriptor(object: CanvasGraphicsRenderObject) {
+    return RenderingService.RENDER_DESCRIPTORS.find(((it) => it.prototype === Object.getPrototypeOf(object))) || null;
+  }
 
 }

@@ -4,6 +4,8 @@ import {CanvasGraphicsResizableObject} from "../base/CanvasGraphicsResizableObje
 
 export class ResizeControl extends CanvasGraphicsMovableRectangleObject {
 
+  public configuration = {};
+
   public owner: CanvasGraphicsResizableObject = null as any;
 
   public absoluteLeft: number = 0;
