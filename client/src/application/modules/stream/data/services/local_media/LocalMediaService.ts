@@ -69,13 +69,17 @@ export class LocalMediaService {
     }
   }
 
-  public async getUserMedia(videoInput: Optional<MediaDeviceInfo>, audioInput: Optional<MediaDeviceInfo>) {
+  public async getUserMedia(videoInput: Optional<MediaDeviceInfo> | boolean, audioInput: Optional<MediaDeviceInfo> | boolean) {
 
     const constraints = {
-      audio: { deviceId: audioInput ? {exact: audioInput.deviceId} : undefined },
-      video: {
-        ...this.DEFAULT_VIDEO_CONSTRAINTS,
-        deviceId: videoInput ? {exact: videoInput.deviceId} : undefined }
+      audio:
+        audioInput
+          ? { deviceId: audioInput === true ? "default" : {exact: audioInput.deviceId} }
+          : false,
+      video:
+        videoInput
+        ? { ...this.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: videoInput.deviceId} }
+        : false
     };
 
     const stream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints);

@@ -6,7 +6,7 @@ import {ChangeEvent, Component, Fragment, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {localMediaService} from "@Module/stream/data/services/local_media";
-import {ISourceContextState, sourceContext} from "@Module/stream/data/store";
+import {graphicsContext, IGraphicsContextState, ISourceContextState, sourceContext} from "@Module/stream/data/store";
 
 import {AppBar, Grid, Tab, Tabs, WithStyles} from "@material-ui/core";
 
@@ -21,12 +21,13 @@ export interface IStreamConfigurationPageState {
   currentTab: number;
 }
 
-export interface IStreamConfigurationPageExternalProps extends ISourceContextState, WithStyles<typeof streamConfigurationPageStyle> {}
+export interface IStreamConfigurationPageExternalProps extends ISourceContextState, IGraphicsContextState, WithStyles<typeof streamConfigurationPageStyle> {}
 
 export interface IStreamConfigurationPageOwnProps {}
 
 export interface IStreamConfigurationPageProps extends IStreamConfigurationPageOwnProps, IStreamConfigurationPageExternalProps {}
 
+@Consume<IGraphicsContextState, IStreamConfigurationPageProps>(graphicsContext)
 @Consume<ISourceContextState, IStreamConfigurationPageProps>(sourceContext)
 @Styled(streamConfigurationPageStyle)
 export class StreamConfigurationPage extends Component<IStreamConfigurationPageProps, IStreamConfigurationPageState> {
@@ -36,7 +37,25 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
   };
 
   public componentWillMount(): void {
-   this.setDefaultVideo();
+
+    const {graphicsState: {showMainVideo}} = this.props;
+
+    if (showMainVideo) {
+      this.getDefaultVideo();
+    }
+  }
+
+  public componentWillReceiveProps(nextProps: IStreamConfigurationPageProps): void {
+
+    const {inputStream} = this.props.sourceState;
+
+    if (nextProps.graphicsState.showMainVideo !== this.props.graphicsState.showMainVideo) {
+      if (nextProps.graphicsState.showMainVideo) {
+        this.getDefaultVideo();
+      } else {
+        localMediaService.killStream(inputStream);
+      }
+    }
   }
 
   public render(): JSX.Element {
@@ -118,9 +137,9 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
     );
   }
 
-  private async setDefaultVideo(): Promise<void> {
+  private async getDefaultVideo(): Promise<void> {
     const {sourceActions: {updateInputStreamAndSources}, sourceState: {selectedDevices}} = this.props;
-    const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput, selectedDevices.audioInput);
+    const stream: MediaStream = await localMediaService.getUserMedia(true, false);
 
     updateInputStreamAndSources(stream, selectedDevices);
   }

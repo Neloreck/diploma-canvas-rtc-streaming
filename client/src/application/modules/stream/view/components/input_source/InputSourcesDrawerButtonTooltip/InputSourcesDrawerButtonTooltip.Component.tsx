@@ -6,7 +6,7 @@ import {Component} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {localMediaService} from "@Module/stream/data/services/local_media";
-import {ISourceContextState, sourceContext} from "@Module/stream/data/store";
+import {graphicsContext, IGraphicsContextState, ISourceContextState, sourceContext} from "@Module/stream/data/store";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 import {Button, Grid, SwipeableDrawer, Tooltip, WithStyles} from "@material-ui/core";
@@ -20,12 +20,13 @@ export interface IInputSourcesDrawerButtonTooltipState {
   showDrawer: boolean;
 }
 
-export interface IInputSourcesDrawerButtonTooltipExternalProps extends WithStyles<typeof inputSourcesDrawerButtonTooltipStyle>, ISourceContextState {}
+export interface IInputSourcesDrawerButtonTooltipExternalProps extends WithStyles<typeof inputSourcesDrawerButtonTooltipStyle>, ISourceContextState, IGraphicsContextState {}
 
 export interface IInputSourcesDrawerButtonTooltipOwnProps {}
 
 export interface IInputSourcesDrawerButtonTooltipProps extends IInputSourcesDrawerButtonTooltipOwnProps, IInputSourcesDrawerButtonTooltipExternalProps {}
 
+@Consume<IGraphicsContextState, IInputSourcesDrawerButtonTooltipProps>(graphicsContext)
 @Consume<ISourceContextState, IInputSourcesDrawerButtonTooltipProps>(sourceContext)
 @Styled(inputSourcesDrawerButtonTooltipStyle)
 export class InputSourcesDrawerButtonTooltip extends Component<IInputSourcesDrawerButtonTooltipProps, IInputSourcesDrawerButtonTooltipState> {
@@ -62,8 +63,15 @@ export class InputSourcesDrawerButtonTooltip extends Component<IInputSourcesDraw
 
   @Bind()
   private async onSourcesUpdate(devices: IInputSourceDevices): Promise<void> {
-    const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, devices.audioInput);
-    this.props.sourceActions.updateInputStreamAndSources(stream, devices);
+
+    const {graphicsState: {showMainVideo}, sourceActions: {updateInputStreamAndSources, updateInputSources}} = this.props;
+
+    if (showMainVideo) {
+      const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, false);
+      updateInputStreamAndSources(stream, devices);
+    } else {
+      updateInputSources(devices);
+    }
   }
 
   @Bind()

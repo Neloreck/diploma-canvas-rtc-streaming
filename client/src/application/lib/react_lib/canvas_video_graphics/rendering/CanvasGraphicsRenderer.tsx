@@ -191,7 +191,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
       canvasWidth = height * aspectRatio;
     }
 
-    this.resize(Math.round(canvasWidth) - 25 * 1.1, Math.round(canvasHeight) - 25);
+    this.resize(Math.round(canvasWidth), Math.round(canvasHeight));
   }
 
   private resize(width: number, height: number): void {

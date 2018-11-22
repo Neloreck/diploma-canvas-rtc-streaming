@@ -6,7 +6,6 @@ export const renderingVideoPreviewControlBlockStyle = (theme: Theme) => createSt
     flexBasis: "20rem",
     flexGrow: 1,
     height: "100%",
-    overflow: "hidden",
     width: "100%",
 
     "& canvas": {

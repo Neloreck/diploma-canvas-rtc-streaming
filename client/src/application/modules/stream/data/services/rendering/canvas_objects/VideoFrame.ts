@@ -8,10 +8,10 @@ export class VideoFrame extends AbstractMovableRectangleObject {
     borderColor: "#24242b",
     borderWidth: 4,
     renderBackground: true,
-    renderBorder: true,
-    stream: new MediaStream()
+    renderBorder: true
   };
 
+  private mediaStream: MediaStream = new MediaStream();
   private isVideoRendering: boolean = false;
   private hiddenVideoRenderer: HTMLVideoElement = document.createElement("video");
 
@@ -19,9 +19,13 @@ export class VideoFrame extends AbstractMovableRectangleObject {
 
     super();
 
-    this.startVideo()
-      .then();
+    this.hiddenVideoRenderer.srcObject = this.mediaStream;
+    this.startVideo().then();
+  }
 
+  public updateMediaStream(stream: MediaStream): void {
+    stream.getVideoTracks().forEach((track) => { track.stop(); this.mediaStream.removeTrack(track); });
+    stream.getVideoTracks().forEach((track) => stream.addTrack(track));
   }
 
   public renderSelf(): void {
@@ -47,7 +51,7 @@ export class VideoFrame extends AbstractMovableRectangleObject {
       context.stroke();
     }
 
-    context.drawImage(this.hiddenVideoRenderer, this.top, this.left, sizing.width, sizing.height);
+    context.drawImage(this.hiddenVideoRenderer, this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
     context.closePath();
   }
 
