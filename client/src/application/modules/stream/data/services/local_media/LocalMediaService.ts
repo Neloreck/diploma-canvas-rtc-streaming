@@ -9,12 +9,14 @@ import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInp
 @Single()
 export class LocalMediaService {
 
-  public static readonly DEFAULT_VIDEO_CONSTRAINTS = {
+  private readonly DEFAULT_VIDEO_CONSTRAINTS = {
     advanced: [
-      { aspectRatio: { min: 1.7777, ideal: 1.7777, max: 1.7778 } }
+      { aspectRatio: { min: 16 / 9, exact: 16 / 9 } },
+      { width: { min: 640, max: 1920 } }
     ],
-    frameRate: { min: 27, ideal: 30, max: 60 },
-    height: { min: 720, ideal: 720, max: 1080 },
+    aspectRatio: { exact: 16 / 9, ideal: 16 / 9 },
+    frameRate: { min: 24, ideal: 30, max: 60 },
+    height: { min: 360, max: 1080 }
   };
 
   private log: Logger = new Logger("[🕳️LMS]");
@@ -72,7 +74,7 @@ export class LocalMediaService {
     const constraints = {
       audio: { deviceId: audioInput ? {exact: audioInput.deviceId} : undefined },
       video: {
-        ...LocalMediaService.DEFAULT_VIDEO_CONSTRAINTS,
+        ...this.DEFAULT_VIDEO_CONSTRAINTS,
         deviceId: videoInput ? {exact: videoInput.deviceId} : undefined }
     };
 

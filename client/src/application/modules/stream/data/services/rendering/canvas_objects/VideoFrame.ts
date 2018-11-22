@@ -4,16 +4,15 @@ import {ICanvasGraphicsSizingContext} from "@Lib/react_lib/canvas_video_graphics
 export class VideoFrame extends AbstractMovableRectangleObject {
 
   public configuration = {
-    backgroundColor: "#555",
-    borderColor: "#0a0",
-    borderWidth: 10,
+    backgroundColor: "#dadada",
+    borderColor: "#24242b",
+    borderWidth: 4,
     renderBackground: true,
     renderBorder: true,
-    stream: null as (MediaStream | null)
+    stream: new MediaStream()
   };
 
   private isVideoRendering: boolean = false;
-  private mediaStream: MediaStream = new MediaStream();
   private hiddenVideoRenderer: HTMLVideoElement = document.createElement("video");
 
   public constructor() {
@@ -36,16 +35,16 @@ export class VideoFrame extends AbstractMovableRectangleObject {
 
     context.beginPath();
 
+    if (configuration.renderBackground) {
+      context.fillStyle = configuration.backgroundColor;
+      context.fillRect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
+    }
+
     if (configuration.renderBorder) {
       context.lineWidth = configuration.borderWidth;
       context.strokeStyle = configuration.borderColor;
       context.rect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
       context.stroke();
-    }
-
-    if (configuration.renderBackground) {
-      context.fillStyle = configuration.backgroundColor;
-      context.fillRect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
     }
 
     context.drawImage(this.hiddenVideoRenderer, this.top, this.left, sizing.width, sizing.height);

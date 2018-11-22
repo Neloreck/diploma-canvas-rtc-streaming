@@ -27,7 +27,7 @@ export class GridLayoutRO extends CanvasGraphicsRenderObject {
     const endHeight: number = height - 1;
 
     context.lineWidth = this.lineWidth;
-    context.strokeStyle = "#1a09ff";
+    context.strokeStyle = "rgba(25, 10, 255, 0.5)";
 
     for (let it = 1; it <= width; it += Math.floor(endWidth / (this.verticalLinesCount + 1))) {
       this.renderLine(it, 0, it, height);

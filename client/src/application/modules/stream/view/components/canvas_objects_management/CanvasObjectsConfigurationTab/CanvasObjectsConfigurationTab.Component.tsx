@@ -114,7 +114,7 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
                 </ListItem>
               );
-            })
+            }).reverse()
           }
         </List>
       </Grow>

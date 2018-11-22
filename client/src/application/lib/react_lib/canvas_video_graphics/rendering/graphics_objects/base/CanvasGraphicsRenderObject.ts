@@ -16,10 +16,6 @@ export abstract class CanvasGraphicsRenderObject {
     this.id = generateUUID();
   }
 
-  public setId(id: string): void {
-    this.id = id;
-  }
-
   public getId(): string {
     return this.id;
   }
@@ -64,7 +60,28 @@ export abstract class CanvasGraphicsRenderObject {
     /* Some objects need destruction */
   }
 
-  public abstract renderSelf(): void;
+  public render(): void {
+    this.beforeRender();
+    this.renderSelf();
+    this.afterRender();
+    this.cleanupContext();
+  }
+
+  protected beforeRender(): void {
+    /* Some objects need handling */
+  }
+
+  protected afterRender(): void {
+    /* Some objects need handling */
+  }
+
+  protected cleanupContext(): void {
+    this.context.lineWidth = 2;
+    this.context.strokeStyle = "#000";
+    this.context.fillStyle = "#000";
+  }
+
+  protected abstract renderSelf(): void;
 
   // Private implementation.
 

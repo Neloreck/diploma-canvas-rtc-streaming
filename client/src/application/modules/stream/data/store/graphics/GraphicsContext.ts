@@ -42,7 +42,7 @@ export class GraphicsContext extends ReactContextManager<IGraphicsContextState> 
       objects: [],
       showGraphics: true,
       showGrid: false,
-      showMainVideo: false,
+      showMainVideo: true,
       showPreview: false
     }
   };
@@ -62,6 +62,8 @@ export class GraphicsContext extends ReactContextManager<IGraphicsContextState> 
   protected removeObject(object: CanvasGraphicsRenderObject): void {
     this.state.graphicsState = { ...this.state.graphicsState, objects: this.state.graphicsState.objects.filter((it) => it !== object)};
     this.update();
+
+    object.dispose();
   }
 
   @Bind()

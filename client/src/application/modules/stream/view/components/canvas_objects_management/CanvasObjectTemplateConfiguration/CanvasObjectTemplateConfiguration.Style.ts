@@ -31,7 +31,9 @@ export const canvasObjectTemplateConfigurationStyle = (theme: Theme) => createSt
   },
   objectPreviewConfiguration: {
     boxSizing: "border-box",
-    padding: theme.spacing.unit * 2
+    flexGrow: 1,
+    padding: theme.spacing.unit * 2,
+    width: "100%"
   },
   objectPreviewRenderer: {
     "& canvas": {

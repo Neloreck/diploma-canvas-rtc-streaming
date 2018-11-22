@@ -63,8 +63,8 @@ export class CanvasObjectTemplateConfiguration extends Component<ICanvasObjectTe
 
           <Grid className={classes.objectHeadingTitle}>
             <Typography variant={"h6"}>{objectDescriptor.name} </Typography>
-            {index === 0 ? null : <IconButton onClick={() => onObjectIndexSwap(index, index - 1)}> <ArrowUpward fontSize={"small"}/> </IconButton>}
-            {index === maxIndex ? null : <IconButton onClick={() => onObjectIndexSwap(index, index + 1)}> <ArrowDownward fontSize={"small"}/> </IconButton>}
+            <IconButton disabled={index === maxIndex} onClick={() => onObjectIndexSwap(index, index + 1)}> <ArrowUpward fontSize={"small"}/> </IconButton>
+            <IconButton disabled={index === 0} onClick={() => onObjectIndexSwap(index, index - 1)}> <ArrowDownward fontSize={"small"}/> </IconButton>
           </Grid>
 
           <Grid>

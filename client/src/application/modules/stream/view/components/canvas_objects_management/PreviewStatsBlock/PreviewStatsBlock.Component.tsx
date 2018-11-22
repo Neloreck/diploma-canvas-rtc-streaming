@@ -36,11 +36,13 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     return (
       <Grid className={classes.root} direction={"column"} container>
 
-        <Grid container justify={"space-between"} alignItems={"center"}>
+        <Grid
+          className={classes.heading}
+          container justify={"space-between"} alignItems={"center"}
+          onClick={this.onStatsBlockViewToggle}
+        >
           <Typography variant={"h6"}> Stats </Typography>
-          <IconButton onClick={this.onStatsBlockViewToggle}>
-            { showStatsConfiguration ? <Remove fontSize={"small"}/> : <Add fontSize={"small"}/>}
-          </IconButton>
+          { showStatsConfiguration ? <Remove fontSize={"small"}/> : <Add fontSize={"small"}/>}
         </Grid>
 
       </Grid>

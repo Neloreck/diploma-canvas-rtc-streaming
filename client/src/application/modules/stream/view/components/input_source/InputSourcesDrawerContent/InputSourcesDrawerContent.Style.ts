@@ -24,7 +24,7 @@ export const inputSourcesDrawerContentStyle = (theme: Theme) => createStyles({
   },
   videoPreview: {
     backgroundColor: "black",
-    height: 180,
+    height: 168,
     marginBottom: theme.spacing.unit * 3,
     width: 300
   }

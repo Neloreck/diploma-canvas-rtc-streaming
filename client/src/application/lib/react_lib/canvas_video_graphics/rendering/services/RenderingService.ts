@@ -98,7 +98,7 @@ export class RenderingService extends AbstractRenderingService {
 
       const renderObject = this.renderObjects[it];
 
-      if (renderObject.isMovable() && !renderObject.isDisabled()) {
+      if (renderObject.isInteractive() && !renderObject.isDisabled()) {
 
         const movableRenderObject: CanvasGraphicsMovableObject = renderObject as CanvasGraphicsMovableObject;
 
@@ -126,7 +126,7 @@ export class RenderingService extends AbstractRenderingService {
       const realPosition: IPoint = { x: event.pageX - this.renderSizing.offsetX, y: event.pageY - this.renderSizing.offsetY };
       const oldPosition: IPoint = this.mouseTouchCoordinates || realPosition;
 
-      if (this.selectedObject !== null && !this.selectedObject.isDisabled()) {
+      if (this.selectedObject !== null && !this.selectedObject.isDisabled() && this.selectedObject.isResizable()) {
 
         const isInResizeBounds: boolean = this.selectedObject.isInResizeBounds(realPosition);
 
@@ -189,7 +189,7 @@ export class RenderingService extends AbstractRenderingService {
 
       if (!object.isDisabled()) {
 
-        object.renderSelf();
+        object.render();
 
         if (this.shouldHandleInteraction &&
           object.isInteractive() && (object as CanvasGraphicsInteractiveObject).isSelected()) {

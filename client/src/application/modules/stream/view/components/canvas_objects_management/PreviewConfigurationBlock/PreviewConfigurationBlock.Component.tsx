@@ -36,11 +36,9 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
     return (
       <Grid className={classes.root} direction={"column"} container>
 
-        <Grid container justify={"space-between"} alignItems={"center"}>
+        <Grid className={classes.heading} container justify={"space-between"} alignItems={"center"} onClick={this.onPreviewBlockViewToggle}>
           <Typography variant={"h6"}> View Configuration </Typography>
-          <IconButton onClick={this.onPreviewBlockViewToggle}>
-            { showPreviewConfiguration ? <Remove fontSize={"small"}/> : <Add fontSize={"small"}/>}
-          </IconButton>
+          { showPreviewConfiguration ? <Remove fontSize={"small"}/> : <Add fontSize={"small"}/>}
         </Grid>
 
         <Grow in={showPreviewConfiguration}>

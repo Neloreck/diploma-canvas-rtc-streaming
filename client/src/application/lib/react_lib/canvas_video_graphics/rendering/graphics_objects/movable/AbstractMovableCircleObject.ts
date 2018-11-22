@@ -19,8 +19,6 @@ export abstract class AbstractMovableCircleObject extends CanvasGraphicsMovableC
     this.center = center || { x: 50, y: 50 };
   }
 
-  public abstract renderSelf(): void;
-
   public renderInteraction(): void {
     this.renderSelectionOverElement();
     this.renderResizeControls();

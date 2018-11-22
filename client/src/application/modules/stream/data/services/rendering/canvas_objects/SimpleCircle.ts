@@ -3,9 +3,9 @@ import {AbstractMovableCircleObject} from "@Lib/react_lib/canvas_video_graphics"
 export class SimpleCircle extends AbstractMovableCircleObject {
 
   public configuration = {
-    backgroundColor: "#555",
-    color: "#92a5ff",
-    lineWidth: 3,
+    backgroundColor: "#e5e7e9",
+    borderColor: "#24242b",
+    borderWidth: 4,
     renderBackground: true
   };
 
@@ -15,8 +15,8 @@ export class SimpleCircle extends AbstractMovableCircleObject {
     const {width: pWidth, height: pHeight}: { width: number, height: number} = this.getPercentageBaseSizing();
     const configuration = this.configuration;
 
-    context.strokeStyle = configuration.color;
-    context.lineWidth = configuration.lineWidth;
+    context.strokeStyle = configuration.borderColor;
+    context.lineWidth = configuration.borderWidth;
 
     context.beginPath();
 

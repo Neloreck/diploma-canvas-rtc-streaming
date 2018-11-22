@@ -3,9 +3,9 @@ import {AbstractMovableRectangleObject} from "@Lib/react_lib/canvas_video_graphi
 export class SimpleRectangle extends AbstractMovableRectangleObject {
 
   public readonly configuration = {
-    backgroundColor: "#372",
-    color: "#ffeada",
-    lineWidth: 3,
+    backgroundColor: "#e9e5e2",
+    borderColor: "#24242b",
+    borderWidth: 4,
     renderBackground: true
   };
 
@@ -16,8 +16,8 @@ export class SimpleRectangle extends AbstractMovableRectangleObject {
 
     const configuration = this.configuration;
 
-    context.strokeStyle = this.configuration.color;
-    context.lineWidth = this.configuration.lineWidth;
+    context.strokeStyle = this.configuration.borderColor;
+    context.lineWidth = this.configuration.borderWidth;
 
     context.beginPath();
 

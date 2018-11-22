@@ -44,8 +44,6 @@ export abstract class AbstractMovableRectangleObject extends CanvasGraphicsMovab
     this.resizeBotRight.setCorner(3);
   }
 
-  public abstract renderSelf(): void;
-
   public renderInteraction(): void {
     this.renderSelectionOverElement();
     this.renderResizeControls();

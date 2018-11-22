@@ -1,6 +1,6 @@
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
-import {SimpleCircle, SimpleRectangle, VideoFrame} from "@Module/stream/data/services/rendering/canvas_objects";
+import {OpacityFilter, SimpleCircle, SimpleRectangle, VideoFrame} from "@Module/stream/data/services/rendering/canvas_objects";
 
 export class RenderingService {
 

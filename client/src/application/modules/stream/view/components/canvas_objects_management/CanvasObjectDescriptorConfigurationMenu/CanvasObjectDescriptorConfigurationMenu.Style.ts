@@ -2,12 +2,11 @@ import {createStyles, Theme} from "@material-ui/core/styles";
 
 export const canvasObjectDescriptorConfigurationMenuStyle = (theme: Theme) => createStyles({
   root: {
-    backgroundColor: theme.palette.secondary.light,
-    borderLeft: "2px solid " + theme.palette.secondary.dark,
-    borderRight: "2px solid " + theme.palette.secondary.dark,
+    backgroundColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing.unit,
     height: "100%",
-    minWidth: theme.spacing.unit * 24,
+    minWidth: theme.spacing.unit * 33,
     overflowY: "auto",
-    padding: theme.spacing.unit,
+    padding: theme.spacing.unit * 2,
   }
 });

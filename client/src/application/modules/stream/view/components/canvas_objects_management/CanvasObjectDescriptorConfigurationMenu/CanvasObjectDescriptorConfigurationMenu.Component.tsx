@@ -40,7 +40,7 @@ export class CanvasObjectDescriptorConfigurationMenu extends Component<ICanvasOb
               return (
                 <Grid key={idx} container justify={"space-between"} alignItems={"center"}>
 
-                  {JSON.stringify(key)} ->
+                  {JSON.stringify(key)}
 
                   <Input
                     value={object.configuration[key]}
