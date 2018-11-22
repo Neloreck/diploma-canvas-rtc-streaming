@@ -2,13 +2,13 @@ import * as React from "react";
 import {PureComponent} from "react";
 
 import {CanvasGraphicsRenderer} from "./rendering/CanvasGraphicsRenderer";
-
-import {CanvasGraphicsRenderObject, DomVideoRO} from "./rendering/graphics_objects/index";
-import {GridLayoutRO} from "./rendering/graphics_objects/index";
-
+import {CanvasGraphicsRenderObject, DomVideoRO} from "./rendering/graphics_objects";
+import {GridLayoutRO} from "./rendering/graphics_objects";
+import {ContextCleanerRO} from "./rendering/graphics_objects/static/dom/ContextCleanerRO";
 import {CenteredTextRO} from "./rendering/graphics_objects/static/text/CenteredTextRO";
 
 export interface ICanvasGraphicsStreamProps {
+  showMainVideo: boolean;
   showGrid: boolean;
   showGraphics: boolean;
   showPreview: boolean;
@@ -20,52 +20,55 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
   public render(): JSX.Element {
     return (
-      <CanvasGraphicsRenderer previewMode={this.props.showPreview}
-                              externalRenderingItems={this.getOutputRenderingObjectsContext()}
-                              internalRenderingItems={this.getPreviewRenderingObjectsContext()}
+      <CanvasGraphicsRenderer
+        previewMode={this.props.showPreview}
+        externalRenderingItems={this.getOutputRenderingObjectsContext()}
+        internalRenderingItems={this.getPreviewRenderingObjectsContext()}
       />
     );
   }
 
   private getPreviewRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
+    const {showGraphics, showGrid, showPreview, renderingObjects} = this.props;
     const previewItems: Array<CanvasGraphicsRenderObject> = [];
 
-    if (this.props.showGraphics === false) {
+    if (showGraphics === false) {
       return previewItems;
     }
 
-    if (this.props.showGrid === true && this.props.showPreview === false) {
+    if (showGrid === true && showPreview === false) {
       previewItems.push(new GridLayoutRO(1, 1));
     }
 
-    return previewItems.concat(this.props.renderingObjects);
+    return previewItems.concat(renderingObjects);
   }
 
   private getOutputRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
-    // Todo: Spinner instead of this.
+    const {stream, showMainVideo, showGraphics, renderingObjects} = this.props;
+    const outputItems: Array<CanvasGraphicsRenderObject> = [];
 
-    if (this.props.stream === null) {
-      return [
-        new CenteredTextRO("Waiting for input stream.", 7, "#FFF")
-      ];
+    if (showMainVideo) {
+      if (stream === null) {
+        return [
+          new CenteredTextRO("Waiting for input stream.", 7, "#FFF")
+        ];
+      }
+
+      if (stream.getVideoTracks().length === 0) {
+        return [
+          new CenteredTextRO("Waiting for video.", 7, "#FFF")
+        ];
+      }
+
+      outputItems.push(new DomVideoRO(stream));
+    } else {
+      outputItems.push(new ContextCleanerRO());
     }
 
-    if (this.props.stream.getVideoTracks().length === 0) {
-      return [
-        new CenteredTextRO("Waiting for video.", 7, "#FFF")
-      ];
-    }
-
-    // Passed 'error' conditions.
-
-    const outputItems: Array<CanvasGraphicsRenderObject> = [
-      new DomVideoRO(this.props.stream)
-    ];
-
-    if (this.props.showGraphics === true) {
-      return outputItems.concat(this.props.renderingObjects);
+    if (showGraphics === true) {
+      return outputItems.concat(renderingObjects);
     }
 
     return outputItems;

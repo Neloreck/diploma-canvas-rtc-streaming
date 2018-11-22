@@ -31,13 +31,14 @@ export class RenderingVideoPreviewControlBlock extends PureComponent<IRenderingV
 
   public render(): JSX.Element {
 
-    const {graphicsState: {objects, showGraphics, showGrid, showPreview}, stream} = this.props;
+    const {graphicsState: {objects, showGraphics, showGrid, showPreview, showMainVideo}, stream} = this.props;
 
     return (
       <Grid className={this.props.classes.root} justify={"center"} alignItems={"center"} container>
 
         <CanvasGraphicsPreprocessor
           stream={stream}
+          showMainVideo={showMainVideo}
           renderingObjects={objects}
           showGrid={showGrid}
           showGraphics={showGraphics}

@@ -1,6 +1,6 @@
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
-import {SimpleCircle, SimpleRectangle} from "@Module/stream/data/services/rendering/canvas_objects";
+import {SimpleCircle, SimpleRectangle, VideoFrame} from "@Module/stream/data/services/rendering/canvas_objects";
 
 export class RenderingService {
 
@@ -13,6 +13,10 @@ export class RenderingService {
       description: "Simple circle",
       name: "Circle",
       prototype: SimpleCircle.prototype
+    }, {
+      description: "Additional Input",
+      name: "Video Frame",
+      prototype: VideoFrame.prototype
     }
   ];
 

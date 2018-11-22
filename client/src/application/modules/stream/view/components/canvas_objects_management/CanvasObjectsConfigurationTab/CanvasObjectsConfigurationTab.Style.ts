@@ -8,7 +8,8 @@ export const canvasObjectsConfigurationTabStyle = (theme: Theme) => createStyles
     "&:hover": {
       backgroundColor: theme.palette.secondary.main
     },
-    cursor: "pointer"
+    cursor: "pointer",
+    transition: "150ms"
   },
   objectListItemSecondary: {
     cursor: "pointer",

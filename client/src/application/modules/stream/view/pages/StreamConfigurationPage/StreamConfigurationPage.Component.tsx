@@ -10,9 +10,9 @@ import {ISourceContextState, sourceContext} from "@Module/stream/data/store";
 
 import {AppBar, Grid, Tab, Tabs, WithStyles} from "@material-ui/core";
 
-import {HeaderBar, IHeaderBarExternalProps} from "@Module/main/view/containers/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
 import {CanvasObjectsConfigurationTab, ICanvasObjectsConfigurationTabExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectsConfigurationTab";
-import {IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock} from "@Module/stream/view/layout/PreviewConfigurationBlock";
+import {IRenderingVideoPreviewConfigurationBlockExternalProps, RenderingVideoPreviewConfigurationBlock} from "@Module/stream/view/layout/RenderingVideoPreviewConfigurationBlock";
 import {IRenderingVideoPreviewControlBlockExternalProps, RenderingVideoPreviewControlBlock} from "@Module/stream/view/layout/RenderingVideoPreviewControlBlock";
 
 import {streamConfigurationPageStyle} from "./StreamConfigurationPage.Style";
@@ -57,7 +57,7 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
             </Grid>
 
             <Grid className={classes.configSidebar} item>
-              <PreviewConfigurationBlock {...{} as IPreviewConfigurationBlockExternalProps}/>
+              <RenderingVideoPreviewConfigurationBlock {...{} as IRenderingVideoPreviewConfigurationBlockExternalProps}/>
             </Grid>
 
           </Grid>

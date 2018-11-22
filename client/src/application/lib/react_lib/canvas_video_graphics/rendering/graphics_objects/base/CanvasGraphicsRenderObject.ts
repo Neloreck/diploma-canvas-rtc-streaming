@@ -60,6 +60,10 @@ export abstract class CanvasGraphicsRenderObject {
     return false;
   }
 
+  public dispose(): void {
+    /* Some objects need destruction */
+  }
+
   public abstract renderSelf(): void;
 
   // Private implementation.
@@ -80,7 +84,7 @@ export abstract class CanvasGraphicsRenderObject {
     return absolute * 100 / this.sizing.height;
   }
 
-  protected getPercentageBaseSizing() {
+  protected getPercentageBaseSizing(): { width: number; height: number; } {
     return { width: this.sizing.width / 100, height: this.sizing.height / 100 };
   }
 

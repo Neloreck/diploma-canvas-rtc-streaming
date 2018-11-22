@@ -10,8 +10,9 @@ import {Optional} from "@Lib/ts/type";
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
 import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store";
 
-import {Avatar, Button, Grid, Grow, List, ListItem, ListItemSecondaryAction, ListItemText, Typography, WithStyles} from "@material-ui/core";
+import {Avatar, Checkbox, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography, WithStyles} from "@material-ui/core";
 import {Delete, Image} from "@material-ui/icons";
+
 import {CanvasObjectTemplateConfiguration, ICanvasObjectTemplateConfigurationExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectTemplateConfiguration";
 
 import {canvasObjectsConfigurationTabStyle} from "./CanvasObjectsConfigurationTab.Style";
@@ -85,19 +86,30 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
               }
 
               return (
-                <ListItem key={idx} className={(item === selectedObject ? classes.objectListItemSelected : classes.objectListItem)}
-                          onClick={() => this.onConfigurableObjectSelected(item)}>
+                <ListItem
+                  key={item.getId()}
+                  className={(item === selectedObject ? classes.objectListItemSelected : classes.objectListItem)}
+                  onClick={() => this.onConfigurableObjectSelected(item)}>
 
                   <Avatar>
                     <Image/>
                   </Avatar>
 
-                  <ListItemText primary={descriptor.name} secondary={descriptor.description} />
+                  <ListItemText primary={descriptor.name}/>
 
                   <ListItemSecondaryAction>
-                    <Button onClick={() => this.onGraphicsItemRemoveClicked(item)}>
-                      <Delete className={classes.objectListItemSecondary}/>
-                    </Button>
+
+                    <Checkbox
+                      color={"primary"}
+                      onChange={() => {
+                        item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
+                        this.forceUpdate();
+                      }}
+                      checked={!item.isDisabled()}
+                    />
+
+                    <IconButton onClick={() => this.onGraphicsItemRemoveClicked(item)}> <Delete fontSize="small" /> </IconButton>
+
                   </ListItemSecondaryAction>
 
                 </ListItem>
@@ -111,16 +123,25 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
   private renderSelectedObjectConfigBlock(): Optional<JSX.Element> {
 
+    const {graphicsState: {objects}, graphicsActions: {swapObjectsByIndex}} = this.props;
     const {selectedObject} = this.state;
 
     if (!selectedObject) {
       return null;
     }
 
-    return <CanvasObjectTemplateConfiguration object={selectedObject}
-                                              onCancelSelection={this.onSelectionCanceled}
-                                              onSelectedRemove={this.onGraphicsItemRemoveClicked}
-                                              {...{} as ICanvasObjectTemplateConfigurationExternalProps}/>;
+    return (
+      <CanvasObjectTemplateConfiguration
+        index={objects.indexOf(selectedObject)}
+        maxIndex={objects.length - 1}
+        object={selectedObject}
+        onObjectIndexSwap={swapObjectsByIndex}
+        onCancelSelection={this.onSelectionCanceled}
+        onChangesApply={this.onObjectChangesApply}
+        onSelectedRemove={this.onGraphicsItemRemoveClicked}
+        {...{} as ICanvasObjectTemplateConfigurationExternalProps}
+      />
+    );
   }
 
   @Bind()
@@ -141,6 +162,18 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
   @Bind()
   private onSelectionCanceled(): void {
     this.setState({selectedObject: null});
+  }
+
+  @Bind()
+  private onObjectChangesApply(object: CanvasGraphicsRenderObject): void {
+
+    const {selectedObject} = this.state;
+
+    if (selectedObject) {
+      selectedObject.configuration = Object.assign({}, selectedObject.configuration, object.configuration);
+    } else {
+      throw new Error("Could not apply settings for unknown object, none is selected.");
+    }
   }
 
 }
