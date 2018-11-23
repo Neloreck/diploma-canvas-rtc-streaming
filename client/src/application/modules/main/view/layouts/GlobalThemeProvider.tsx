@@ -4,12 +4,12 @@ import {PureComponent} from "react";
 
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 
-import {themeContext} from "@Main/data/store";
-import {IThemeContextState} from "@Main/data/store/theme/ThemeContext";
+import {themeContextManager} from "@Main/data/store";
+import {IThemeContext} from "@Main/data/store/theme/ThemeContextManager";
 
-export interface IGlobalThemeProviderProps extends IThemeContextState {}
+export interface IGlobalThemeProviderProps extends IThemeContext {}
 
-@Consume<IThemeContextState, IGlobalThemeProviderProps>(themeContext)
+@Consume<IThemeContext, IGlobalThemeProviderProps>(themeContextManager)
 export class GlobalThemeProvider extends PureComponent<IGlobalThemeProviderProps> {
 
   public render(): JSX.Element {

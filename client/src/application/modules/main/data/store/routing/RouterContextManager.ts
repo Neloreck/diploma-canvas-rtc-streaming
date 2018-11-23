@@ -2,7 +2,7 @@ import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import {createBrowserHistory, History} from "history";
 
-export interface IRouterContextState {
+export interface IRouterContext {
   routingActions: {
     replace: (path: string) => void;
     push: (path: string) => void;
@@ -12,9 +12,9 @@ export interface IRouterContextState {
   };
 }
 
-export class RouterContext extends ReactContextManager<IRouterContextState> {
+export class RouterContextManager extends ReactContextManager<IRouterContext> {
 
-  protected state: IRouterContextState = {
+  protected context: IRouterContext = {
     routingActions: {
       push: this.push,
       replace: this.replace
@@ -26,12 +26,12 @@ export class RouterContext extends ReactContextManager<IRouterContextState> {
 
   @Bind()
   protected replace(path: string): void {
-    this.state.routingState.history.replace(path);
+    this.context.routingState.history.replace(path);
   }
 
   @Bind()
   protected push(path: string): void {
-    this.state.routingState.history.push(path);
+    this.context.routingState.history.push(path);
   }
 
 }

@@ -5,7 +5,7 @@ import {Component} from "react";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store";
+import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
 import {Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
@@ -16,11 +16,11 @@ export interface IPreviewStatsBlockState {
   showStatsConfiguration: boolean;
 }
 
-export interface IPreviewStatsBlockExternalProps extends WithStyles<typeof previewStatsBlockStyle>, IGraphicsContextState {}
+export interface IPreviewStatsBlockExternalProps extends WithStyles<typeof previewStatsBlockStyle>, IGraphicsContext {}
 export interface IPreviewStatsBlockOwnProps {}
 export interface IPreviewStatsBlockProps extends IPreviewStatsBlockOwnProps, IPreviewStatsBlockExternalProps {}
 
-@Consume<IGraphicsContextState, IPreviewStatsBlockProps>(graphicsContext)
+@Consume<IGraphicsContext, IPreviewStatsBlockProps>(graphicsContextManager)
 @Styled(previewStatsBlockStyle)
 export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPreviewStatsBlockState> {
 

@@ -6,14 +6,14 @@ import {PureComponent} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
-import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store/index";
+import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/index";
 
 import {Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, WithStyles} from "@material-ui/core";
 import {Add} from "@material-ui/icons";
 
 import {canvasObjectAdditionButtonTooltipContentStyle} from "./CanvasObjectAdditionButtonTooltipContent.Style";
 
-export interface ICanvasObjectAdditionButtonTooltipContentExternalProps extends WithStyles<typeof canvasObjectAdditionButtonTooltipContentStyle>, IGraphicsContextState {}
+export interface ICanvasObjectAdditionButtonTooltipContentExternalProps extends WithStyles<typeof canvasObjectAdditionButtonTooltipContentStyle>, IGraphicsContext {}
 
 export interface ICanvasObjectAdditionButtonTooltipContentOwnProps {}
 
@@ -22,7 +22,7 @@ export interface ICanvasObjectAdditionButtonTooltipContentProps extends ICanvasO
 /*
  * Object addition button menu content list.
  */
-@Consume<IGraphicsContextState, ICanvasObjectAdditionButtonTooltipContentProps>(graphicsContext)
+@Consume<IGraphicsContext, ICanvasObjectAdditionButtonTooltipContentProps>(graphicsContextManager)
 @Styled(canvasObjectAdditionButtonTooltipContentStyle)
 export class CanvasObjectAdditionButtonTooltipContent extends PureComponent<ICanvasObjectAdditionButtonTooltipContentProps> {
 

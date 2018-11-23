@@ -3,7 +3,7 @@ import {Bind} from "@redux-cbd/utils";
 
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
-export interface IGraphicsContextState {
+export interface IGraphicsContext {
   graphicsState: {
     addVisibleObjects: boolean;
     objects: Array<CanvasGraphicsRenderObject>;
@@ -24,9 +24,9 @@ export interface IGraphicsContextState {
   };
 }
 
-export class GraphicsContext extends ReactContextManager<IGraphicsContextState> {
+export class GraphicsContextManager extends ReactContextManager<IGraphicsContext> {
 
-  protected state: IGraphicsContextState = {
+  protected context: IGraphicsContext = {
     graphicsActions: {
       addObject: this.addObject,
       removeObject: this.removeObject,
@@ -50,17 +50,17 @@ export class GraphicsContext extends ReactContextManager<IGraphicsContextState> 
   @Bind()
   protected addObject(object: CanvasGraphicsRenderObject): void {
 
-    if (!this.state.graphicsState.addVisibleObjects) {
+    if (!this.context.graphicsState.addVisibleObjects) {
       object.setDisabled(true);
     }
 
-    this.state.graphicsState = { ...this.state.graphicsState, objects: this.state.graphicsState.objects.concat(object)};
+    this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.concat(object)};
     this.update();
   }
 
   @Bind()
   protected removeObject(object: CanvasGraphicsRenderObject): void {
-    this.state.graphicsState = { ...this.state.graphicsState, objects: this.state.graphicsState.objects.filter((it) => it !== object)};
+    this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.filter((it) => it !== object)};
     this.update();
 
     object.dispose();
@@ -68,43 +68,43 @@ export class GraphicsContext extends ReactContextManager<IGraphicsContextState> 
 
   @Bind()
   protected setAdditionVisibility(addVisibleObjects: boolean): void {
-    this.state.graphicsState = { ...this.state.graphicsState, addVisibleObjects };
+    this.context.graphicsState = { ...this.context.graphicsState, addVisibleObjects };
     this.update();
   }
 
   @Bind()
   protected setMainVideoDisplay(showMainVideo: boolean): void {
-    this.state.graphicsState = { ...this.state.graphicsState, showMainVideo };
+    this.context.graphicsState = { ...this.context.graphicsState, showMainVideo };
     this.update();
   }
 
   @Bind()
   protected setGridDisplay(showGrid: boolean): void {
-    this.state.graphicsState = { ...this.state.graphicsState, showGrid };
+    this.context.graphicsState = { ...this.context.graphicsState, showGrid };
     this.update();
   }
 
   @Bind()
   protected setGraphicsDisplay(showGraphics: boolean): void {
-    this.state.graphicsState = { ...this.state.graphicsState, showGraphics };
+    this.context.graphicsState = { ...this.context.graphicsState, showGraphics };
     this.update();
   }
 
   @Bind()
   protected setPreviewDisplay(showPreview: boolean): void {
-    this.state.graphicsState = { ...this.state.graphicsState, showPreview };
+    this.context.graphicsState = { ...this.context.graphicsState, showPreview };
     this.update();
   }
 
   @Bind()
   protected swapObjectsByIndex(firstIndex: number, secondIndex: number): void {
 
-    const buffer: CanvasGraphicsRenderObject = this.state.graphicsState.objects[firstIndex];
+    const buffer: CanvasGraphicsRenderObject = this.context.graphicsState.objects[firstIndex];
 
-    this.state.graphicsState.objects[firstIndex] = this.state.graphicsState.objects[secondIndex];
-    this.state.graphicsState.objects[secondIndex] = buffer;
+    this.context.graphicsState.objects[firstIndex] = this.context.graphicsState.objects[secondIndex];
+    this.context.graphicsState.objects[secondIndex] = buffer;
 
-    this.state.graphicsState = { ...this.state.graphicsState, objects: [...this.state.graphicsState.objects] };
+    this.context.graphicsState = { ...this.context.graphicsState, objects: [...this.context.graphicsState.objects] };
     this.update();
   }
 

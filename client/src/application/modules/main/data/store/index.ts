@@ -1,11 +1,11 @@
-import {AuthContext} from "@Main/data/store/auth/AuthContext";
-import {RouterContext} from "@Main/data/store/routing/RouterContext";
-import {ThemeContext} from "@Main/data/store/theme/ThemeContext";
+import {AuthContextManager} from "@Main/data/store/auth/AuthContextManager";
+import {RouterContextManager} from "@Main/data/store/routing/RouterContextManager";
+import {ThemeContextManager} from "@Main/data/store/theme/ThemeContextManager";
 
-export const authContext: AuthContext = new AuthContext();
-export const themeContext: ThemeContext = new ThemeContext();
-export const routerContext: RouterContext = new RouterContext();
+export const authContextManager: AuthContextManager = new AuthContextManager();
+export const themeContextManager: ThemeContextManager = new ThemeContextManager();
+export const routerContextManager: RouterContextManager = new RouterContextManager();
 
-export {AuthContext, IAuthContextState} from "@Main/data/store/auth/AuthContext";
-export {ThemeContext, IThemeContextState} from "@Main/data/store/theme/ThemeContext";
-export {RouterContext, IRouterContextState} from "@Main/data/store/routing/RouterContext";
+export {AuthContextManager, IAuthContext} from "@Main/data/store/auth/AuthContextManager";
+export {ThemeContextManager, IThemeContext} from "@Main/data/store/theme/ThemeContextManager";
+export {RouterContextManager, IRouterContext} from "@Main/data/store/routing/RouterContextManager";

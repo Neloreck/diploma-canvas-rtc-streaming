@@ -7,7 +7,7 @@ import {Switch} from "react-router-dom";
 
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
-import {authContext, IRouterContextState, routerContext, themeContext} from "@Main/data/store";
+import {authContextManager, IRouterContext, routerContextManager, themeContextManager} from "@Main/data/store";
 
 import {GlobalThemeProvider, IGlobalThemeProviderProps} from "@Main/view/layouts/GlobalThemeProvider";
 
@@ -18,13 +18,15 @@ export const StreamModule = lazyLoadComponentFactory.getComponent(() => import(/
 
 /* Router: */
 
-@Provide(authContext)
-@Provide(routerContext)
-@Provide(themeContext)
+export interface IApplicationRouterProps extends IRouterContext, IGlobalThemeProviderProps {}
 
-@Consume<IRouterContextState, IRouterContextState>(routerContext)
-@Wrapped<IGlobalThemeProviderProps, IRouterContextState>(GlobalThemeProvider)
-export class ApplicationRouter extends PureComponent<IRouterContextState> {
+@Provide(authContextManager)
+@Provide(routerContextManager)
+@Provide(themeContextManager)
+
+@Consume<IRouterContext, IApplicationRouterProps>(routerContextManager)
+@Wrapped<IGlobalThemeProviderProps, IApplicationRouterProps>(GlobalThemeProvider)
+export class ApplicationRouter extends PureComponent<IApplicationRouterProps> {
 
   public render(): JSX.Element {
     const {routingState: {history}} = this.props;

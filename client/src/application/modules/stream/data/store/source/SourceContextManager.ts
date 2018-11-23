@@ -5,7 +5,7 @@ import {Optional} from "@Lib/ts/type";
 
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
-export interface ISourceContextState {
+export interface ISourceContext {
   sourceActions: {
     updateInputStreamAndSources: (stream: MediaStream, devices: IInputSourceDevices) => void;
     updateInputSources: (devices: IInputSourceDevices) => void;
@@ -17,9 +17,9 @@ export interface ISourceContextState {
   };
 }
 
-export class SourceContext extends ReactContextManager<ISourceContextState> {
+export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
-  protected state: ISourceContextState = {
+  protected context: ISourceContext = {
     sourceActions: {
       updateInputSources: this.updateInputSources,
       updateInputStreamAndSources: this.updateStreamAndSources
@@ -36,13 +36,13 @@ export class SourceContext extends ReactContextManager<ISourceContextState> {
 
   @Bind()
   protected updateInputSources(selectedDevices: IInputSourceDevices): void {
-    this.state.sourceState = { ...this.state.sourceState, selectedDevices };
+    this.context.sourceState = { ...this.context.sourceState, selectedDevices };
     this.update();
   }
 
   @Bind()
   protected updateStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
-    this.state.sourceState = { ...this.state.sourceState, inputStream, selectedDevices };
+    this.context.sourceState = { ...this.context.sourceState, inputStream, selectedDevices };
     this.update();
   }
 

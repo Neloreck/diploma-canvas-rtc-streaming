@@ -8,7 +8,7 @@ import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 import {Optional} from "@Lib/ts/type";
 
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
-import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store";
+import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
 import {Avatar, Checkbox, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography, WithStyles} from "@material-ui/core";
 import {Delete, Image} from "@material-ui/icons";
@@ -21,13 +21,13 @@ export interface ICanvasObjectsConfigurationTabState {
   selectedObject: Optional<CanvasGraphicsRenderObject>;
 }
 
-export interface ICanvasObjectsConfigurationTabExternalProps extends WithStyles<typeof canvasObjectsConfigurationTabStyle>, IGraphicsContextState {}
+export interface ICanvasObjectsConfigurationTabExternalProps extends WithStyles<typeof canvasObjectsConfigurationTabStyle>, IGraphicsContext {}
 
 export interface ICanvasObjectsConfigurationTabOwnProps {}
 
 export interface ICanvasObjectsConfigurationTabProps extends ICanvasObjectsConfigurationTabOwnProps, ICanvasObjectsConfigurationTabExternalProps {}
 
-@Consume<IGraphicsContextState, ICanvasObjectsConfigurationTabProps>(graphicsContext)
+@Consume<IGraphicsContext, ICanvasObjectsConfigurationTabProps>(graphicsContextManager)
 @Styled(canvasObjectsConfigurationTabStyle)
 export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfigurationTabProps, ICanvasObjectsConfigurationTabState> {
 

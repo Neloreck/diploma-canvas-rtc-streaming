@@ -6,7 +6,7 @@ import {Component} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {localMediaService} from "@Module/stream/data/services/local_media";
-import {graphicsContext, IGraphicsContextState, ISourceContextState, sourceContext} from "@Module/stream/data/store";
+import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContext} from "@Module/stream/data/store";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 import {Button, Grid, SwipeableDrawer, Tooltip, WithStyles} from "@material-ui/core";
@@ -20,14 +20,14 @@ export interface IInputSourcesDrawerButtonTooltipState {
   showDrawer: boolean;
 }
 
-export interface IInputSourcesDrawerButtonTooltipExternalProps extends WithStyles<typeof inputSourcesDrawerButtonTooltipStyle>, ISourceContextState, IGraphicsContextState {}
+export interface IInputSourcesDrawerButtonTooltipExternalProps extends WithStyles<typeof inputSourcesDrawerButtonTooltipStyle>, ISourceContext, IGraphicsContext {}
 
 export interface IInputSourcesDrawerButtonTooltipOwnProps {}
 
 export interface IInputSourcesDrawerButtonTooltipProps extends IInputSourcesDrawerButtonTooltipOwnProps, IInputSourcesDrawerButtonTooltipExternalProps {}
 
-@Consume<IGraphicsContextState, IInputSourcesDrawerButtonTooltipProps>(graphicsContext)
-@Consume<ISourceContextState, IInputSourcesDrawerButtonTooltipProps>(sourceContext)
+@Consume<IGraphicsContext, IInputSourcesDrawerButtonTooltipProps>(graphicsContextManager)
+@Consume<ISourceContext, IInputSourcesDrawerButtonTooltipProps>(sourceContext)
 @Styled(inputSourcesDrawerButtonTooltipStyle)
 export class InputSourcesDrawerButtonTooltip extends Component<IInputSourcesDrawerButtonTooltipProps, IInputSourcesDrawerButtonTooltipState> {
 

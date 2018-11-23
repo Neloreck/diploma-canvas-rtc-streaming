@@ -4,7 +4,7 @@ import {Optional} from "@Lib/ts/type";
 
 import {IUserAuthData} from "./models/IUserAuthData";
 
-export interface IAuthContextState {
+export interface IAuthContext {
   authActions: {
   };
   authState: {
@@ -13,9 +13,9 @@ export interface IAuthContextState {
   };
 }
 
-export class AuthContext extends ReactContextManager<IAuthContextState> {
+export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
-  protected state: IAuthContextState = {
+  protected context: IAuthContext = {
     authActions: {},
     authState: {
       authData: null,

@@ -5,7 +5,7 @@ import {ChangeEvent, Component} from "react";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {graphicsContext, IGraphicsContextState} from "@Module/stream//data/store";
+import {graphicsContextManager, IGraphicsContext} from "@Module/stream//data/store";
 
 import {Divider, FormControlLabel, Grid, Grow, IconButton, Switch, Typography, WithStyles} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
@@ -16,11 +16,11 @@ export interface IPreviewConfigurationBlockState {
   showPreviewConfiguration: boolean;
 }
 
-export interface IPreviewConfigurationBlockExternalProps extends WithStyles<typeof previewConfigurationBlockStyle>, IGraphicsContextState {}
+export interface IPreviewConfigurationBlockExternalProps extends WithStyles<typeof previewConfigurationBlockStyle>, IGraphicsContext {}
 export interface IPreviewConfigurationBlockOwnProps {}
 export interface IPreviewConfigurationBlockProps extends IPreviewConfigurationBlockOwnProps, IPreviewConfigurationBlockExternalProps {}
 
-@Consume<IGraphicsContextState, IPreviewConfigurationBlockProps>(graphicsContext)
+@Consume<IGraphicsContext, IPreviewConfigurationBlockProps>(graphicsContextManager)
 @Styled(previewConfigurationBlockStyle)
 export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBlockProps, IPreviewConfigurationBlockState> {
 

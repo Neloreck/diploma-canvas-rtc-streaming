@@ -4,10 +4,10 @@ import {PureComponent} from "react";
 
 import {log} from "@Lib/util/logger";
 
-import {graphicsContext, sourceContext} from "@Module/stream/data/store";
+import {graphicsContextManager, sourceContext} from "@Module/stream/data/store";
 import {ModuleRouter} from "@Module/stream/ModuleRouter";
 
-@Provide(graphicsContext)
+@Provide(graphicsContextManager)
 @Provide(sourceContext)
 export class Module extends PureComponent {
 

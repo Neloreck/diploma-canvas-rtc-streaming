@@ -8,14 +8,14 @@ import {Optional} from "@Lib/ts/type";
 
 import {Grid, WithStyles} from "@material-ui/core";
 
-import {graphicsContext, IGraphicsContextState} from "@Module/stream/data/store/index";
+import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/index";
 import {CanvasObjectAdditionButtonTooltip, ICanvasObjectAdditionButtonTooltipExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectAdditionButtonTooltip";
 import {IStreamingHelpButtonTooltipExternalProps, StreamingHelpButtonTooltip} from "@Module/stream/view/components/canvas_objects_management/StreamingHelpButtonTooltip";
 import {IInputSourcesDrawerButtonTooltipExternalProps, InputSourcesDrawerButtonTooltip} from "@Module/stream/view/components/input_source/InputSourcesDrawerButtonTooltip/index";
 
 import {renderingVideoPreviewControlBlockStyle} from "./RenderingVideoPreviewControlBlock.Style";
 
-export interface IRenderingVideoPreviewControlBlockExternalProps extends WithStyles<typeof renderingVideoPreviewControlBlockStyle>, IGraphicsContextState {}
+export interface IRenderingVideoPreviewControlBlockExternalProps extends WithStyles<typeof renderingVideoPreviewControlBlockStyle>, IGraphicsContext {}
 
 export interface IRenderingVideoPreviewControlBlockOwnProps {
   stream: Optional<MediaStream>;
@@ -23,7 +23,7 @@ export interface IRenderingVideoPreviewControlBlockOwnProps {
 
 export interface IRenderingVideoPreviewControlBlockProps extends IRenderingVideoPreviewControlBlockOwnProps, IRenderingVideoPreviewControlBlockExternalProps {}
 
-@Consume<IGraphicsContextState, IRenderingVideoPreviewControlBlockProps>(graphicsContext)
+@Consume<IGraphicsContext, IRenderingVideoPreviewControlBlockProps>(graphicsContextManager)
 @Styled(renderingVideoPreviewControlBlockStyle)
 export class RenderingVideoPreviewControlBlock extends PureComponent<IRenderingVideoPreviewControlBlockProps> {
 

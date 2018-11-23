@@ -6,7 +6,7 @@ import {ChangeEvent, Component, Fragment, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 import {localMediaService} from "@Module/stream/data/services/local_media";
-import {graphicsContext, IGraphicsContextState, ISourceContextState, sourceContext} from "@Module/stream/data/store";
+import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContext} from "@Module/stream/data/store";
 
 import {AppBar, Grid, Tab, Tabs, WithStyles} from "@material-ui/core";
 
@@ -21,14 +21,14 @@ export interface IStreamConfigurationPageState {
   currentTab: number;
 }
 
-export interface IStreamConfigurationPageExternalProps extends ISourceContextState, IGraphicsContextState, WithStyles<typeof streamConfigurationPageStyle> {}
+export interface IStreamConfigurationPageExternalProps extends ISourceContext, IGraphicsContext, WithStyles<typeof streamConfigurationPageStyle> {}
 
 export interface IStreamConfigurationPageOwnProps {}
 
 export interface IStreamConfigurationPageProps extends IStreamConfigurationPageOwnProps, IStreamConfigurationPageExternalProps {}
 
-@Consume<IGraphicsContextState, IStreamConfigurationPageProps>(graphicsContext)
-@Consume<ISourceContextState, IStreamConfigurationPageProps>(sourceContext)
+@Consume<IGraphicsContext, IStreamConfigurationPageProps>(graphicsContextManager)
+@Consume<ISourceContext, IStreamConfigurationPageProps>(sourceContext)
 @Styled(streamConfigurationPageStyle)
 export class StreamConfigurationPage extends Component<IStreamConfigurationPageProps, IStreamConfigurationPageState> {
 

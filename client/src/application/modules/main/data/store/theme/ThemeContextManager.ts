@@ -1,16 +1,16 @@
 import {ThemeOptions} from "@material-ui/core/styles/createMuiTheme";
 import {ReactContextManager} from "@redux-cbd/context";
 
-export interface IThemeContextState {
+export interface IThemeContext {
   themeActions: {};
   themeState: {
     options: ThemeOptions;
   };
 }
 
-export class ThemeContext extends ReactContextManager<IThemeContextState> {
+export class ThemeContextManager extends ReactContextManager<IThemeContext> {
 
-  protected state: IThemeContextState = {
+  protected context: IThemeContext = {
     themeActions: {},
     themeState: {
       options: {

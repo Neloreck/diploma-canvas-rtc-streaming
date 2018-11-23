@@ -5,7 +5,7 @@ import {Component, createRef, RefObject} from "react";
 
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {ISourceContextState, sourceContext} from "@Module/stream/data/store";
+import {ISourceContext, sourceContext} from "@Module/stream/data/store";
 import {CanvasObjectAdditionButtonTooltipContent, ICanvasObjectAdditionButtonTooltipContentExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectAdditionButtonTooltipContent";
 
 import {Button, Collapse, Tooltip, WithStyles} from "@material-ui/core";
@@ -17,7 +17,7 @@ export interface ICanvasObjectAdditionButtonTooltipState {
   showAdditionWindow: boolean;
 }
 
-export interface ICanvasObjectAdditionButtonTooltipExternalProps extends ISourceContextState, WithStyles<typeof canvasObjectAdditionButtonTooltipStyle> {}
+export interface ICanvasObjectAdditionButtonTooltipExternalProps extends ISourceContext, WithStyles<typeof canvasObjectAdditionButtonTooltipStyle> {}
 
 export interface ICanvasObjectAdditionButtonTooltipOwnProps {}
 
@@ -26,7 +26,7 @@ export interface ICanvasObjectAdditionButtonTooltipProps extends ICanvasObjectAd
 /*
  * Object addition button with menu.
  */
-@Consume<ISourceContextState, ICanvasObjectAdditionButtonTooltipProps>(sourceContext)
+@Consume<ISourceContext, ICanvasObjectAdditionButtonTooltipProps>(sourceContext)
 @Styled(canvasObjectAdditionButtonTooltipStyle)
 export class CanvasObjectAdditionButtonTooltip extends Component<ICanvasObjectAdditionButtonTooltipProps, ICanvasObjectAdditionButtonTooltipState> {
 
