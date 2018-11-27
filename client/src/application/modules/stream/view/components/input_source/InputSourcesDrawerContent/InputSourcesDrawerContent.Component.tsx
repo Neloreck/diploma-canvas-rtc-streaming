@@ -20,10 +20,7 @@ import {inputSourcesDrawerContentStyle} from "./InputSourcesDrawerContent.Style"
 // Props.
 export interface IInputSourcesDrawerContentState {
   previewStream: Optional<MediaStream>;
-  selectedInputSources: {
-    audioInput: Optional<MediaDeviceInfo>,
-    videoInput: Optional<MediaDeviceInfo>
-  };
+  selectedInputSources: IInputSourceDevices;
   audioInputSources: Array<MediaDeviceInfo>;
   videoInputSources: Array<MediaDeviceInfo>;
 }
@@ -31,6 +28,7 @@ export interface IInputSourcesDrawerContentState {
 export interface IInputSourcesDrawerContentExternalProps extends WithStyles<typeof inputSourcesDrawerContentStyle> {}
 
 export interface IInputSourcesDrawerContentOwnProps {
+  selectedDevices: IInputSourceDevices;
   onInputSourcesChange: (sources: IInputSourceDevices) => void;
 }
 
@@ -39,22 +37,24 @@ export interface IInputSourcesDrawerContentProps extends IInputSourcesDrawerCont
 @Styled(inputSourcesDrawerContentStyle)
 export class InputSourcesDrawerContent extends Component<IInputSourcesDrawerContentProps, IInputSourcesDrawerContentState> {
 
-  public readonly state = {
+  public readonly state: IInputSourcesDrawerContentState = {
     previewStream: null,
 
     selectedInputSources: {
-      audioInput: null as Optional<MediaDeviceInfo>,
-      videoInput: null as Optional<MediaDeviceInfo>
+      audioInput: null,
+      videoInput: null
     },
 
-    audioInputSources: [] as Array<MediaDeviceInfo>,
-    videoInputSources: [] as Array<MediaDeviceInfo>
+    audioInputSources: [],
+    videoInputSources: []
   };
 
   public componentWillMount(): void {
+    const {selectedDevices} = this.props;
+
     this.onUpdateMediaDevices()
       .then((inputSources: IInputDevicesBundle): void => {
-        this.updatePreviewStream(inputSources.video[0], inputSources.audio[0]);
+        this.updatePreviewStream(selectedDevices.videoInput || inputSources.video[0], selectedDevices.audioInput || inputSources.audio[0]);
       });
   }
 

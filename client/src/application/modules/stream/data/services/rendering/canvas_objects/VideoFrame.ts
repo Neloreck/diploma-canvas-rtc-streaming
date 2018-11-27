@@ -1,6 +1,8 @@
+// Lib.
 import {AbstractMovableRectangleObject} from "@Lib/react_lib/canvas_video_graphics";
 import {ICanvasGraphicsSizingContext} from "@Lib/react_lib/canvas_video_graphics/rendering/context";
 
+// Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 
 export class VideoFrame extends AbstractMovableRectangleObject {

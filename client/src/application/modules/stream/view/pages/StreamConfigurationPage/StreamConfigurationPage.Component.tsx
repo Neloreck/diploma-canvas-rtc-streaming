@@ -139,7 +139,7 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
 
   private async getDefaultVideo(): Promise<void> {
     const {sourceActions: {updateInputStreamAndSources}, sourceState: {selectedDevices}} = this.props;
-    const stream: MediaStream = await localMediaService.getUserMedia(true, false);
+    const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput || true, selectedDevices.audioInput);
 
     updateInputStreamAndSources(stream, selectedDevices);
   }

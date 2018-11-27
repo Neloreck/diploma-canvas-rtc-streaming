@@ -19,7 +19,7 @@ export class LocalMediaService {
     height: { min: 360, max: 1080 }
   };
 
-  private log: Logger = new Logger("[🕳️LMS]");
+  private log: Logger = new Logger("[🕳️LMS]", false);
 
   public async getDevices(): Promise<Array<MediaDeviceInfo>>  {
     return await navigator.mediaDevices.enumerateDevices();

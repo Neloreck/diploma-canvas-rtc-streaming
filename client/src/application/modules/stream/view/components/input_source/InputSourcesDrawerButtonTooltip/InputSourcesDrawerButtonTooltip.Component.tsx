@@ -39,7 +39,7 @@ export class InputSourcesDrawerButtonTooltip extends Component<IInputSourcesDraw
 
   public render(): JSX.Element {
 
-    const {classes} = this.props;
+    const {classes, sourceState: {selectedDevices}} = this.props;
     const {showDrawer} = this.state;
 
     return (
@@ -56,7 +56,11 @@ export class InputSourcesDrawerButtonTooltip extends Component<IInputSourcesDraw
           onClose={this.onHideModal}
           onOpen={this.onShowModal}
         >
-          <InputSourcesDrawerContent onInputSourcesChange={this.onSourcesUpdate}{...{} as IInputSourcesDrawerContentExternalProps}/>
+          <InputSourcesDrawerContent
+            selectedDevices={selectedDevices}
+            onInputSourcesChange={this.onSourcesUpdate}
+            {...{} as IInputSourcesDrawerContentExternalProps}
+          />
         </SwipeableDrawer>
 
       </Grid>
