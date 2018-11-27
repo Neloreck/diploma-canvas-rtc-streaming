@@ -47,6 +47,14 @@ export class LocalMediaService {
     };
   }
 
+  public moveTracks(to: MediaStream, from: MediaStream): void {
+    this.purgeStream(to);
+    from.getTracks().forEach((track) => {
+      to.addTrack(track);
+      from.removeTrack(track);
+    });
+  }
+
   public killStream(stream: Optional<MediaStream>): void {
 
     if (stream === null) {
@@ -67,6 +75,11 @@ export class LocalMediaService {
     if (typeof stream.stop === "function") {
       stream.stop();
     }
+  }
+
+  public purgeStream(stream: MediaStream): void {
+    this.killStream(stream);
+    stream.getTracks().forEach((track) => stream.removeTrack(track));
   }
 
   public async getUserMedia(videoInput: Optional<MediaDeviceInfo> | boolean, audioInput: Optional<MediaDeviceInfo> | boolean) {

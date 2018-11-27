@@ -1,14 +1,18 @@
 import {AbstractMovableRectangleObject} from "@Lib/react_lib/canvas_video_graphics";
 import {ICanvasGraphicsSizingContext} from "@Lib/react_lib/canvas_video_graphics/rendering/context";
 
+import {localMediaService} from "@Module/stream/data/services/local_media";
+
 export class VideoFrame extends AbstractMovableRectangleObject {
 
   public configuration = {
+    audioDevice: "default",
     backgroundColor: "#dadada",
     borderColor: "#24242b",
     borderWidth: 4,
     renderBackground: true,
-    renderBorder: true
+    renderBorder: true,
+    videoDevice: "default"
   };
 
   private mediaStream: MediaStream = new MediaStream();
@@ -20,12 +24,16 @@ export class VideoFrame extends AbstractMovableRectangleObject {
     super();
 
     this.hiddenVideoRenderer.srcObject = this.mediaStream;
-    this.startVideo().then();
+    this.startVideo().then(() => this.getDefaultVideo());
+  }
+
+  public async getDefaultVideo(): Promise<void> {
+    const mediaStream: MediaStream = await localMediaService.getUserMedia(true, false);
+    this.updateMediaStream(mediaStream);
   }
 
   public updateMediaStream(stream: MediaStream): void {
-    stream.getVideoTracks().forEach((track) => { track.stop(); this.mediaStream.removeTrack(track); });
-    stream.getVideoTracks().forEach((track) => stream.addTrack(track));
+    localMediaService.moveTracks(this.mediaStream, stream);
   }
 
   public renderSelf(): void {
@@ -56,9 +64,8 @@ export class VideoFrame extends AbstractMovableRectangleObject {
   }
 
   private async startVideo(): Promise<void> {
-
     if (this.isVideoRendering === false) {
-      await this.hiddenVideoRenderer.play();
+      this.hiddenVideoRenderer.play();
       this.isVideoRendering = true;
     }
   }
