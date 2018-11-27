@@ -2,19 +2,21 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
+import {AbstractMovableCircleObject, AbstractMovableRectangleObject, CanvasGraphicsRenderObject, CanvasGraphicsSingleObjectPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
 import {GeneralUtility} from "@Lib/util/GeneralUtility";
 
-import {AbstractMovableCircleObject, AbstractMovableRectangleObject, CanvasGraphicsRenderObject, CanvasGraphicsSingleObjectPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
-
+// Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
 
+// View.
 import {Button, Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
 import {ArrowDownward, ArrowUpward, Close, Delete} from "@material-ui/icons";
 import {CanvasObjectDescriptorConfigurationMenu, ICanvasObjectDescriptorConfigurationMenuExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectDescriptorConfigurationMenu";
-
 import {canvasObjectTemplateConfigurationStyle} from "./CanvasObjectTemplateConfiguration.Style";
 
+// Props.
 export interface ICanvasObjectTemplateConfigurationState {
   localObjectCopy: CanvasGraphicsRenderObject;
   objectDescriptor: ICanvasObjectDescriptor<any>;

@@ -1,13 +1,15 @@
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// View.
 import {Button, Collapse, Grid, Tooltip, WithStyles} from "@material-ui/core";
 import {Help} from "@material-ui/icons";
-
 import {streamingHelpButtonTooltipStyle} from "./StreamingHelpButtonTooltip.Style";
 
+// Props.
 export interface IStreamingHelpButtonTooltipExternalProps extends WithStyles<typeof streamingHelpButtonTooltipStyle> {}
 
 export interface IStreamingHelpButtonTooltipOwnProps {}

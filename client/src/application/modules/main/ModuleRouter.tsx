@@ -1,13 +1,12 @@
 import * as React from "react";
 import {PureComponent} from "react";
-
 import {Route} from "react-router";
 import {Switch} from "react-router-dom";
 
+// Lib.
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
-/* Main routes: */
-
+// Main routes.
 import {ErrorPage} from "@Main/view/containers/ErrorPage";
 
 const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@home-page" */"modules/main/view/containers/HomePage/index"));

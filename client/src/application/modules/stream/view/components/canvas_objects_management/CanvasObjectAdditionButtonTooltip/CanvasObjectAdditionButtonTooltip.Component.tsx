@@ -3,16 +3,19 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Component, createRef, RefObject} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// Data.
 import {ISourceContext, sourceContext} from "@Module/stream/data/store";
 import {CanvasObjectAdditionButtonTooltipContent, ICanvasObjectAdditionButtonTooltipContentExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectAdditionButtonTooltipContent";
 
+// View.
 import {Button, Collapse, Tooltip, WithStyles} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
-
 import {canvasObjectAdditionButtonTooltipStyle} from "./CanvasObjectAdditionButtonTooltip.Style";
 
+// Props.
 export interface ICanvasObjectAdditionButtonTooltipState {
   showAdditionWindow: boolean;
 }

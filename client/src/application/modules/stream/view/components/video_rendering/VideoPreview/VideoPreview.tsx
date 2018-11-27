@@ -1,8 +1,10 @@
 import * as React from "react";
 import {createRef, PureComponent, RefObject} from "react";
 
+// Lib.
 import {Optional} from "@Lib/ts/type";
 
+// Props.
 export interface IVideoPreviewProps {
   className?: string;
   stream: Optional<MediaStream>;

@@ -3,15 +3,18 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// Data.
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
-import {Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
+// View.
+import {Grid, Typography, WithStyles} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
-
 import {previewStatsBlockStyle} from "./PreviewStatsBlock.Style";
 
+// Props.
 export interface IPreviewStatsBlockState {
   showStatsConfiguration: boolean;
 }

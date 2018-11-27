@@ -2,20 +2,22 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {Optional} from "@Lib/ts/type";
 
+// Data.
 import {EDeviceKind, localMediaService} from "@Module/stream/data/services/local_media";
 import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
+// View.
 import {Button, Divider, FormControl, Grid, Input, InputLabel, MenuItem, Select, Typography, WithStyles} from "@material-ui/core";
 import {Check, Refresh} from "@material-ui/icons";
-
 import {VideoPreview} from "@Module/stream/view/components/video_rendering/VideoPreview";
-
 import {inputSourcesDrawerContentStyle} from "./InputSourcesDrawerContent.Style";
 
+// Props.
 export interface IInputSourcesDrawerContentState {
   previewStream: Optional<MediaStream>;
   selectedInputSources: {

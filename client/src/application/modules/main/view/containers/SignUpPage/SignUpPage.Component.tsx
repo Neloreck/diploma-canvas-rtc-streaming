@@ -1,21 +1,21 @@
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {Grid, WithStyles} from "@material-ui/core";
-
+// View.
 import {ISignUpFormExternalProps, SignUpForm} from "@Main/view/components/SignUpForm";
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
-
+import {Grid, WithStyles} from "@material-ui/core";
 import {signUpPageStyle} from "./SignUpPage.Style";
 
+// Props.
 export interface ISignUpPageOwnProps {}
 
 export interface ISignUpPageExternalProps extends WithStyles<typeof signUpPageStyle> {}
 
-export interface ISignUpPageProps extends ISignUpPageOwnProps, ISignUpPageExternalProps {
-}
+export interface ISignUpPageProps extends ISignUpPageOwnProps, ISignUpPageExternalProps {}
 
 @Styled(signUpPageStyle)
 export class SignUpPage extends Component<ISignUpPageProps> {

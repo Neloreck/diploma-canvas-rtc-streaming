@@ -1,14 +1,15 @@
 import * as React from "react";
 import {Component} from "react";
 
-import {Grid, WithStyles} from "@material-ui/core";
-
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// View.
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
-
+import {Grid, WithStyles} from "@material-ui/core";
 import {homePageStyle} from "./HomePage.Style";
 
+// Props.
 export interface IHomePageOwnProps {}
 
 export interface IHomePageExternalProps extends WithStyles<typeof homePageStyle> {}

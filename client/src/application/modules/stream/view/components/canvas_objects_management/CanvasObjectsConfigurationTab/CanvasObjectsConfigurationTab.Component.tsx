@@ -3,20 +3,22 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 import {Optional} from "@Lib/ts/type";
 
+// Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
+// View.
 import {Avatar, Checkbox, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography, WithStyles} from "@material-ui/core";
 import {Delete, Image} from "@material-ui/icons";
-
 import {CanvasObjectTemplateConfiguration, ICanvasObjectTemplateConfigurationExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectTemplateConfiguration";
-
 import {canvasObjectsConfigurationTabStyle} from "./CanvasObjectsConfigurationTab.Style";
 
+// Props.
 export interface ICanvasObjectsConfigurationTabState {
   selectedObject: Optional<CanvasGraphicsRenderObject>;
 }

@@ -3,15 +3,18 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {ChangeEvent, Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
-import {graphicsContextManager, IGraphicsContext} from "@Module/stream//data/store";
+// Data.
+import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
-import {Divider, FormControlLabel, Grid, Grow, IconButton, Switch, Typography, WithStyles} from "@material-ui/core";
+// View.
+import {Divider, FormControlLabel, Grid, Grow, Switch, Typography, WithStyles} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
-
 import {previewConfigurationBlockStyle} from "./PreviewConfigurationBlock.Style";
 
+// Props.
 export interface IPreviewConfigurationBlockState {
   showPreviewConfiguration: boolean;
 }

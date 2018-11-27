@@ -3,16 +3,19 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {PureComponent} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/index";
 
+// View.
 import {Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, WithStyles} from "@material-ui/core";
 import {Add} from "@material-ui/icons";
-
 import {canvasObjectAdditionButtonTooltipContentStyle} from "./CanvasObjectAdditionButtonTooltipContent.Style";
 
+// Props.
 export interface ICanvasObjectAdditionButtonTooltipContentExternalProps extends WithStyles<typeof canvasObjectAdditionButtonTooltipContentStyle>, IGraphicsContext {}
 
 export interface ICanvasObjectAdditionButtonTooltipContentOwnProps {}

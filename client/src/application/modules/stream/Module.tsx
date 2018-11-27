@@ -2,9 +2,13 @@ import {Provide} from "@redux-cbd/context";
 import * as React from "react";
 import {PureComponent} from "react";
 
+// Lib.
 import {log} from "@Lib/util/logger";
 
+// Data.
 import {graphicsContextManager, sourceContext} from "@Module/stream/data/store";
+
+// View.
 import {ModuleRouter} from "@Module/stream/ModuleRouter";
 
 @Provide(graphicsContextManager)

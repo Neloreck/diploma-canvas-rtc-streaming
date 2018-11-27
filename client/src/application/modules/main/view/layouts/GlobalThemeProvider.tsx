@@ -1,9 +1,9 @@
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import {Consume} from "@redux-cbd/context";
 import * as React from "react";
 import {PureComponent} from "react";
 
-import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
-
+// Data.
 import {themeContextManager} from "@Main/data/store";
 import {IThemeContext} from "@Main/data/store/theme/ThemeContextManager";
 

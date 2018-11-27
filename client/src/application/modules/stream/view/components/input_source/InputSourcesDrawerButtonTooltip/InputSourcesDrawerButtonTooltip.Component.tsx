@@ -3,19 +3,21 @@ import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContext} from "@Module/stream/data/store";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
+// View.
 import {Button, Grid, SwipeableDrawer, Tooltip, WithStyles} from "@material-ui/core";
 import {MoreVert} from "@material-ui/icons";
-
 import {IInputSourcesDrawerContentExternalProps, InputSourcesDrawerContent} from "../InputSourcesDrawerContent";
-
 import {inputSourcesDrawerButtonTooltipStyle} from "./InputSourcesDrawerButtonTooltip.Style";
 
+// Props.
 export interface IInputSourcesDrawerButtonTooltipState {
   showDrawer: boolean;
 }

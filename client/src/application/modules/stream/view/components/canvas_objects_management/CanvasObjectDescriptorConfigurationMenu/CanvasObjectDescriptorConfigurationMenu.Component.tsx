@@ -1,17 +1,17 @@
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
-import {ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
-
+// View.
 import {Grid, Input, WithStyles} from "@material-ui/core";
-
+import {ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
 import {canvasObjectDescriptorConfigurationMenuStyle} from "./CanvasObjectDescriptorConfigurationMenu.Style";
 
-export interface ICanvasObjectDescriptorConfigurationMenuState {
-}
+// Props.
+export interface ICanvasObjectDescriptorConfigurationMenuState {}
 
 export interface ICanvasObjectDescriptorConfigurationMenuExternalProps extends WithStyles<typeof canvasObjectDescriptorConfigurationMenuStyle> {}
 

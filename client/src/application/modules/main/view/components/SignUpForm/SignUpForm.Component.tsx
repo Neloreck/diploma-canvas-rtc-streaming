@@ -1,12 +1,14 @@
 import * as React from "react";
 import {Component} from "react";
 
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// View.
 import {Button, Card, Grid, LinearProgress, TextField, WithStyles} from "@material-ui/core";
-
 import {signUpFormStyle} from "./SignUpForm.Style";
 
+// Props.
 export interface ISignUpFormExternalProps extends WithStyles<typeof signUpFormStyle> {}
 
 export interface ISignUpFormOwnProps {}

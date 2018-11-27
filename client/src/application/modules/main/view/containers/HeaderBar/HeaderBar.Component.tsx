@@ -1,12 +1,14 @@
 import * as React from "react";
 import {PureComponent} from "react";
 
-import {AppBar, Button, Grid, Toolbar, Typography, WithStyles} from "@material-ui/core";
-
+// Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
+// View.
+import {AppBar, Button, Grid, Toolbar, Typography, WithStyles} from "@material-ui/core";
 import {headerBarStyle} from "./HeaderBar.Style";
 
+// Props.
 export interface IHeaderBarOwnProps {}
 
 export interface IHeaderBarExternalProps extends WithStyles<typeof headerBarStyle>  {}
