@@ -51,7 +51,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
               <Grid container direction={"column"}>
 
                 <FormControlLabel
-                  label={"Preview mode"}
+                  label={"Lock Preview Mode"}
                   control={<Switch checked={showPreview} color={"primary"} onChange={this.onPreviewToggle}/>}
                 />
 
@@ -63,12 +63,12 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                 />
 
                 <FormControlLabel
-                  label={"Show graphics"}
+                  label={"Show Graphics"}
                   control={<Switch checked={showGraphics} color={"primary"} onChange={this.onGraphicsToggle}/>}
                 />
 
                 <FormControlLabel
-                  label={"Show Grid"}
+                  label={"Show Preview Grid"}
                   control={<Switch checked={showGrid} color={"primary"}  onChange={this.onGridToggle}/>}
                 />
 
@@ -80,7 +80,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                 />
 
                 <FormControlLabel
-                  label={"Propagate canvas service events"}
+                  label={"Propagate Canvas Events"}
                   control={<Switch checked={propagateRendererEvents} color={"primary"}  onChange={this.onRenderEventsPropagationToggle}/>}
                 />
 

@@ -13,6 +13,7 @@ import "../canvasStyling.scss";
 // Props.
 export interface ICanvasGraphicsSingleObjectRendererProps {
   object: CanvasGraphicsRenderObject;
+  aspectRatio?: number;
 }
 
 export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGraphicsSingleObjectRendererProps> {
@@ -113,7 +114,7 @@ export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGra
   @Bind()
   private resize(width: number, height: number): void {
 
-    const sizing: { width: number, height: number } = DomSizingUtils.recalculateToRatio(width, height, CanvasGraphicsSingleObjectRenderer.DEFAULT_ASPECT_RATIO);
+    const sizing: { width: number, height: number } = DomSizingUtils.recalculateToRatio(width, height, this.props.aspectRatio || CanvasGraphicsSingleObjectRenderer.DEFAULT_ASPECT_RATIO);
 
     // Update sizing for layout.
 

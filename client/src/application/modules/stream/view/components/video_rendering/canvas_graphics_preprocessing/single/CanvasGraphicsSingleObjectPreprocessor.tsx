@@ -9,12 +9,13 @@ import {CanvasGraphicsSingleObjectRenderer} from "./CanvasGraphicsSingleObjectRe
 
 export interface ICanvasGraphicsSingleObjectPreprocessorProps {
   object: CanvasGraphicsRenderObject;
+  aspectRatio?: number;
 }
 
 export class CanvasGraphicsSingleObjectPreprocessor extends PureComponent<ICanvasGraphicsSingleObjectPreprocessorProps> {
 
   public render(): JSX.Element {
-    return <CanvasGraphicsSingleObjectRenderer object={this.props.object}/>;
+    return <CanvasGraphicsSingleObjectRenderer object={this.props.object} aspectRatio={this.props.aspectRatio}/>;
   }
 
 }
