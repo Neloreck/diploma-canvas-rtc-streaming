@@ -7,6 +7,7 @@ import {ChangeEvent, Component, Fragment} from "react";
 import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {Optional} from "@Lib/ts/type";
+import {GeneralUtils} from "@Lib/util/GeneralUtils";
 
 // Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
@@ -17,7 +18,7 @@ import {
   Checkbox, FormControlLabel, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Switch,
   Typography, WithStyles
 } from "@material-ui/core";
-import {ArrowDownward, ArrowUpward, Delete} from "@material-ui/icons";
+import {ArrowDownward, ArrowUpward, Delete, FileCopy} from "@material-ui/icons";
 import {CanvasObjectTemplateConfiguration, ICanvasObjectTemplateConfigurationExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectTemplateConfiguration";
 import {canvasObjectsConfigurationTabStyle} from "./CanvasObjectsConfigurationTab.Style";
 
@@ -108,25 +109,30 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
                     {
                       showLayerControls
-                        ? <Fragment>
+                        ?
+                        <Fragment>
+
                           <IconButton onClick={() => swapObjectsByIndex(idx, idx + 1)} disabled={idx === objects.length - 1}>
                             <ArrowUpward fontSize="small"/>
                           </IconButton>
+
                           <IconButton onClick={() => swapObjectsByIndex(idx, idx - 1)} disabled={idx === 0}>
                             <ArrowDownward fontSize="small"/>
                           </IconButton>
+
+                          <Checkbox
+                            color={"primary"}
+                            onChange={() => {
+                              item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
+                              this.forceUpdate();
+                            }}
+                            checked={!item.isDisabled()}
+                          />
+
+                          <IconButton onClick={() => this.onGraphicsItemCopyClicked(item)}> <FileCopy fontSize="small" /> </IconButton>
                         </Fragment>
                         : null
                     }
-
-                    <Checkbox
-                      color={"primary"}
-                      onChange={() => {
-                        item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
-                        this.forceUpdate();
-                      }}
-                      checked={!item.isDisabled()}
-                    />
 
                     <IconButton onClick={() => this.onGraphicsItemRemoveClicked(item)}> <Delete fontSize="small" /> </IconButton>
 
@@ -166,6 +172,11 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
   @Bind()
   private onGraphicsItemRemoveClicked(object: CanvasGraphicsRenderObject): void {
     this.props.graphicsActions.removeObject(object);
+  }
+
+  @Bind()
+  private onGraphicsItemCopyClicked(object: CanvasGraphicsRenderObject): void {
+    this.props.graphicsActions.addObject(GeneralUtils.copyInstance(object));
   }
 
   @Bind()

@@ -47,7 +47,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
     // Show grid for preview.
     if (showGrid === true && showPreview === false) {
-      previewItems.push(new GridLayoutRO(1, 1));
+      previewItems.push(new GridLayoutRO(3, 3));
     }
 
     // Grid and other rendering objects.
