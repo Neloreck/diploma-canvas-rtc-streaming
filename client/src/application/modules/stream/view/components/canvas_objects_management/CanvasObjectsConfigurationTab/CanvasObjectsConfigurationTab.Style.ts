@@ -1,6 +1,9 @@
 import {createStyles, Theme} from "@material-ui/core/styles";
 
 export const canvasObjectsConfigurationTabStyle = (theme: Theme) => createStyles({
+  itemListControlsBlock: {
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 3}px`
+  },
   noGraphicsMessage: {
     height: "100%"
   },
@@ -19,7 +22,8 @@ export const canvasObjectsConfigurationTabStyle = (theme: Theme) => createStyles
     backgroundColor: theme.palette.secondary.dark
   },
   objectsConfigurationBlock: {
-    flexGrow: 10
+    flexGrow: 10,
+    minWidth: theme.spacing.unit * 45
   },
   objectsList: {
     backgroundColor: theme.palette.secondary.light,

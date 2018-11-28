@@ -3,9 +3,9 @@ import * as React from "react";
 import {Component} from "react";
 
 // Lib.
+import {AbstractMovableCircleObject, AbstractMovableRectangleObject, CanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
-import {AbstractMovableCircleObject, AbstractMovableRectangleObject, CanvasGraphicsRenderObject, CanvasGraphicsSingleObjectPreprocessor} from "@Lib/react_lib/canvas_video_graphics";
-import {GeneralUtility} from "@Lib/util/GeneralUtility";
+import {GeneralUtils} from "@Lib/util/GeneralUtils";
 
 // Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
@@ -14,6 +14,7 @@ import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/ser
 import {Button, Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
 import {ArrowDownward, ArrowUpward, Close, Delete} from "@material-ui/icons";
 import {CanvasObjectDescriptorConfigurationMenu, ICanvasObjectDescriptorConfigurationMenuExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectDescriptorConfigurationMenu";
+import {CanvasGraphicsSingleObjectPreprocessor} from "@Module/stream/view/components/video_rendering/canvas_graphics_preprocessing";
 import {canvasObjectTemplateConfigurationStyle} from "./CanvasObjectTemplateConfiguration.Style";
 
 // Props.
@@ -125,7 +126,7 @@ export class CanvasObjectTemplateConfiguration extends Component<ICanvasObjectTe
 
   private getLocalCopyForPreview(object: CanvasGraphicsRenderObject): CanvasGraphicsRenderObject {
 
-    const newObject = GeneralUtility.copyInstance(object);
+    const newObject = GeneralUtils.copyInstance(object);
 
     newObject.setDisabled(false);
 

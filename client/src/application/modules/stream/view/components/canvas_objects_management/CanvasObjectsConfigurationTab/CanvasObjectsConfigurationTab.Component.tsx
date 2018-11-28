@@ -1,11 +1,11 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component} from "react";
+import {ChangeEvent, Component, Fragment} from "react";
 
 // Lib.
+import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 import {Optional} from "@Lib/ts/type";
 
 // Data.
@@ -13,14 +13,17 @@ import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/ser
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
 // View.
-import {Avatar, Checkbox, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Typography, WithStyles} from "@material-ui/core";
-import {Delete, Image} from "@material-ui/icons";
+import {
+  Checkbox, FormControlLabel, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Switch,
+  Typography, WithStyles
+} from "@material-ui/core";
+import {ArrowDownward, ArrowUpward, Delete} from "@material-ui/icons";
 import {CanvasObjectTemplateConfiguration, ICanvasObjectTemplateConfigurationExternalProps} from "@Module/stream/view/components/canvas_objects_management/CanvasObjectTemplateConfiguration";
 import {canvasObjectsConfigurationTabStyle} from "./CanvasObjectsConfigurationTab.Style";
 
 // Props.
 export interface ICanvasObjectsConfigurationTabState {
-  selectedObject: Optional<CanvasGraphicsRenderObject>;
+  showLayerControls: boolean;
 }
 
 export interface ICanvasObjectsConfigurationTabExternalProps extends WithStyles<typeof canvasObjectsConfigurationTabStyle>, IGraphicsContext {}
@@ -34,13 +37,12 @@ export interface ICanvasObjectsConfigurationTabProps extends ICanvasObjectsConfi
 export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfigurationTabProps, ICanvasObjectsConfigurationTabState> {
 
   public state: ICanvasObjectsConfigurationTabState = {
-    selectedObject: null
+    showLayerControls: false
   };
 
   public render(): JSX.Element {
 
-    const {selectedObject} = this.state;
-    const {classes} = this.props;
+    const {classes, graphicsState: {selectedObject}} = this.props;
 
     return (
       <Grid className={classes.root} container>
@@ -64,8 +66,8 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
   private renderObjectsList(): JSX.Element {
 
-    const {classes, graphicsState: {objects}} = this.props;
-    const {selectedObject} = this.state;
+    const {classes, graphicsState: {objects, selectedObject}, graphicsActions: {swapObjectsByIndex}} = this.props;
+    const {showLayerControls} = this.state;
 
     if (objects.length === 0) {
       return (
@@ -77,7 +79,14 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
     return (
       <Grow in={true}>
+
         <List>
+          <Grid className={classes.itemListControlsBlock} container alignItems={"center"}>
+            <FormControlLabel
+              label={"Show Layer Controls"}
+              control={<Switch checked={showLayerControls} color={"primary"}  onChange={this.onLayerControlsShowToggle}/>}
+            />
+          </Grid>
           {
             objects.map((item, idx) => {
 
@@ -93,13 +102,22 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
                   className={(item === selectedObject ? classes.objectListItemSelected : classes.objectListItem)}
                   onClick={() => this.onConfigurableObjectSelected(item)}>
 
-                  <Avatar>
-                    <Image/>
-                  </Avatar>
-
                   <ListItemText primary={descriptor.name}/>
 
                   <ListItemSecondaryAction>
+
+                    {
+                      showLayerControls
+                        ? <Fragment>
+                          <IconButton onClick={() => swapObjectsByIndex(idx, idx + 1)} disabled={idx === objects.length - 1}>
+                            <ArrowUpward fontSize="small"/>
+                          </IconButton>
+                          <IconButton onClick={() => swapObjectsByIndex(idx, idx - 1)} disabled={idx === 0}>
+                            <ArrowDownward fontSize="small"/>
+                          </IconButton>
+                        </Fragment>
+                        : null
+                    }
 
                     <Checkbox
                       color={"primary"}
@@ -125,8 +143,7 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
   private renderSelectedObjectConfigBlock(): Optional<JSX.Element> {
 
-    const {graphicsState: {objects}, graphicsActions: {swapObjectsByIndex}} = this.props;
-    const {selectedObject} = this.state;
+    const {graphicsState: {objects, selectedObject}, graphicsActions: {swapObjectsByIndex}} = this.props;
 
     if (!selectedObject) {
       return null;
@@ -148,34 +165,34 @@ export class CanvasObjectsConfigurationTab extends Component<ICanvasObjectsConfi
 
   @Bind()
   private onGraphicsItemRemoveClicked(object: CanvasGraphicsRenderObject): void {
-
-    if (object === this.state.selectedObject) {
-      this.setState({selectedObject: null});
-    }
-
     this.props.graphicsActions.removeObject(object);
   }
 
   @Bind()
   private onConfigurableObjectSelected(object: CanvasGraphicsRenderObject) {
-    this.setState({selectedObject: object});
+    this.props.graphicsActions.selectObject(object);
   }
 
   @Bind()
   private onSelectionCanceled(): void {
-    this.setState({selectedObject: null});
+    this.props.graphicsActions.selectObject(null);
   }
 
   @Bind()
   private onObjectChangesApply(object: CanvasGraphicsRenderObject): void {
 
-    const {selectedObject} = this.state;
+    const {graphicsState: {selectedObject}} = this.props;
 
     if (selectedObject) {
       selectedObject.configuration = Object.assign({}, selectedObject.configuration, object.configuration);
     } else {
       throw new Error("Could not apply settings for unknown object, none is selected.");
     }
+  }
+
+  @Bind()
+  private onLayerControlsShowToggle(event: ChangeEvent): void {
+    this.setState({ showLayerControls: (event.target as any).checked });
   }
 
 }

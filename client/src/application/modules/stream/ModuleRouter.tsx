@@ -10,7 +10,7 @@ import {ErrorPage} from "@Main/view/containers/ErrorPage";
 
 /* Stream routes: */
 
-const StreamConfigurationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-configuration-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
+const StreamingPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-configuration-page" */"@Module/stream/view/pages/StreamingPage"));
 
 export class ModuleRouter extends PureComponent {
 
@@ -23,8 +23,7 @@ export class ModuleRouter extends PureComponent {
 
         <Switch>
 
-          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}`} component={StreamConfigurationPage}/>
-          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}/test`} component={StreamConfigurationPage}/>
+          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}/`} component={StreamingPage}/>
           <Route exact={true} path={"*"} component={ErrorPage}/>
 
         </Switch>

@@ -50,12 +50,7 @@ export class InputSourcesDrawerContent extends Component<IInputSourcesDrawerCont
   };
 
   public componentWillMount(): void {
-    const {selectedDevices} = this.props;
-
-    this.onUpdateMediaDevices()
-      .then((inputSources: IInputDevicesBundle): void => {
-        this.updatePreviewStream(selectedDevices.videoInput || inputSources.video[0], selectedDevices.audioInput || inputSources.audio[0]);
-      });
+    this.onUpdateMediaDevices().then();
   }
 
   public componentWillUnmount(): void {
@@ -131,23 +126,27 @@ export class InputSourcesDrawerContent extends Component<IInputSourcesDrawerCont
   private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
     const inputSources: IInputDevicesBundle = await localMediaService.getInputDevicesBundled();
+    const {selectedDevices} = this.props;
     const {selectedInputSources: {videoInput, audioInput}} = this.state;
 
     const newState = {
       ...this.state,
       audioInputSources: inputSources.audio,
+      selectedInputSources: { ...this.state.selectedInputSources },
       videoInputSources: inputSources.video,
     };
 
     if (videoInput === null ||
       !inputSources.video.find((videoDevice) => videoDevice.deviceId === videoInput.deviceId)) {
-      newState.selectedInputSources.videoInput = inputSources.video[0] || null;
+      newState.selectedInputSources.videoInput = selectedDevices.videoInput || inputSources.video[0] || null;
     }
 
     if (audioInput === null ||
       !inputSources.audio.find((audioDevice) => audioDevice.deviceId === audioInput.deviceId)) {
-      newState.selectedInputSources.audioInput = inputSources.audio[0] || null;
+      newState.selectedInputSources.audioInput = selectedDevices.audioInput || inputSources.audio[0] || null;
     }
+
+    // Update preview stream, if modal does not have anything selected.
 
     const {selectedInputSources} = newState;
 

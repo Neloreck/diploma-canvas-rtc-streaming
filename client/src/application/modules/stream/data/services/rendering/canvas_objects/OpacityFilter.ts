@@ -1,4 +1,4 @@
-import {AbstractMovableCircleObject} from "@Lib/react_lib/canvas_video_graphics";
+import {AbstractMovableCircleObject} from "@Lib/graphics";
 
 export class OpacityFilter extends AbstractMovableCircleObject {
 

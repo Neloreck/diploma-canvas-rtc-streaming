@@ -2,8 +2,8 @@ import * as React from "react";
 import {Component} from "react";
 
 // Lib.
+import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
 
 // View.
 import {Grid, Input, WithStyles} from "@material-ui/core";

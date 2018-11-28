@@ -48,7 +48,7 @@ export const canvasObjectTemplateConfigurationStyle = (theme: Theme) => createSt
     backgroundColor: theme.palette.secondary.light,
     borderLeft: "2px solid " + theme.palette.secondary.dark,
     height: "100%",
-    minWidth: theme.spacing.unit * 44,
+    minWidth: theme.spacing.unit * 45,
     overflowX: "auto",
     overflowY: "hidden",
     padding: theme.spacing.unit,

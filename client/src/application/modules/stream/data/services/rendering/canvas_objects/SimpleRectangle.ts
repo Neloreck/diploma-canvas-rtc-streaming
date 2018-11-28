@@ -1,4 +1,4 @@
-import {AbstractMovableRectangleObject} from "@Lib/react_lib/canvas_video_graphics";
+import {AbstractMovableRectangleObject} from "@Lib/graphics";
 
 export class SimpleRectangle extends AbstractMovableRectangleObject {
 

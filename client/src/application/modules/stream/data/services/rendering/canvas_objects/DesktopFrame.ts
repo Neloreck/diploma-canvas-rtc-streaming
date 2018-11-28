@@ -1,19 +1,29 @@
 // Lib.
-import {AbstractMovableRectangleObject, ICanvasGraphicsSizingContext} from "@Lib/graphics";
+import {AbstractMovableRectangleObject} from "@Lib/graphics";
+import {ICanvasGraphicsSizingContext} from "@Lib/graphics";
 
 // Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 
-export class VideoFrame extends AbstractMovableRectangleObject {
+export class DesktopFrame extends AbstractMovableRectangleObject {
+
+  private static DESKTOP_CAPTURING_CONSTRAINT = {
+    video: {
+      frameRate: {max: "30"},
+      height: {max: "1080"},
+      mediaSource: "screen", // whole screen sharing
+      // mediaSource: "window", // choose a window to share
+      // mediaSource: "application", // choose a window to share
+      width: {max: "1920"}
+    }
+  };
 
   public configuration = {
-    audioDevice: "default",
     backgroundColor: "#dadada",
     borderColor: "#24242b",
     borderWidth: 4,
     renderBackground: true,
-    renderBorder: true,
-    videoDevice: "default"
+    renderBorder: true
   };
 
   private mediaStream: MediaStream = new MediaStream();
@@ -29,12 +39,7 @@ export class VideoFrame extends AbstractMovableRectangleObject {
   }
 
   public async getDefaultVideo(): Promise<void> {
-    const mediaStream: MediaStream = await localMediaService.getUserMedia(true, false);
-    this.updateMediaStream(mediaStream);
-  }
-
-  public updateMediaStream(stream: MediaStream): void {
-    localMediaService.moveTracks(this.mediaStream, stream);
+    // todo: Frame widget there.
   }
 
   public renderSelf(): void {

@@ -2,6 +2,9 @@ import {Provide} from "@redux-cbd/context";
 import * as React from "react";
 import {PureComponent} from "react";
 
+// Globals.
+// Todo: AdapterJS injection.
+
 // Lib.
 import {log} from "@Lib/util/logger";
 

@@ -1,12 +1,17 @@
 import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
+// Lib.
+import {CanvasGraphicsRenderObject} from "@Lib/graphics";
+import {Optional} from "@Lib/ts/type";
 
+// Props.
 export interface IGraphicsContext {
   graphicsState: {
     addVisibleObjects: boolean;
     objects: Array<CanvasGraphicsRenderObject>;
+    propagateRendererEvents: boolean;
+    selectedObject: Optional<CanvasGraphicsRenderObject>;
     showMainVideo: boolean;
     showGraphics: boolean;
     showGrid: boolean;
@@ -16,7 +21,9 @@ export interface IGraphicsContext {
     addObject: (object: CanvasGraphicsRenderObject) => void,
     swapObjectsByIndex: (firstIndex: number, secondIndex: number) => void,
     removeObject: (object: CanvasGraphicsRenderObject) => void,
+    selectObject: (object: Optional<CanvasGraphicsRenderObject>) => void,
     setAdditionVisibility: (param: boolean) => void;
+    setRendererEventsPropagation: (param: boolean) => void;
     setMainVideoDisplay: (param: boolean) => void;
     setGridDisplay: (param: boolean) => void;
     setGraphicsDisplay: (param: boolean) => void;
@@ -30,16 +37,20 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     graphicsActions: {
       addObject: this.addObject,
       removeObject: this.removeObject,
+      selectObject: this.selectObject,
       setAdditionVisibility: this.setAdditionVisibility,
       setGraphicsDisplay: this.setGraphicsDisplay,
       setGridDisplay: this.setGridDisplay,
       setMainVideoDisplay: this.setMainVideoDisplay,
       setPreviewDisplay: this.setPreviewDisplay,
+      setRendererEventsPropagation: this.setRendererEventsPropagation,
       swapObjectsByIndex: this.swapObjectsByIndex
     },
     graphicsState: {
       addVisibleObjects: true,
       objects: [],
+      propagateRendererEvents: false,
+      selectedObject: null,
       showGraphics: true,
       showGrid: false,
       showMainVideo: true,
@@ -61,9 +72,19 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected removeObject(object: CanvasGraphicsRenderObject): void {
     this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.filter((it) => it !== object)};
-    this.update();
 
+    if (object === this.context.graphicsState.selectedObject) {
+      this.context.graphicsState.selectedObject = null;
+    }
+
+    this.update();
     object.dispose();
+  }
+
+  @Bind()
+  protected selectObject(selectedObject: Optional<CanvasGraphicsRenderObject>): void {
+    this.context.graphicsState = { ...this.context.graphicsState, selectedObject };
+    this.update();
   }
 
   @Bind()
@@ -93,6 +114,12 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected setPreviewDisplay(showPreview: boolean): void {
     this.context.graphicsState = { ...this.context.graphicsState, showPreview };
+    this.update();
+  }
+
+  @Bind()
+  protected setRendererEventsPropagation(propagateRendererEvents: boolean): void {
+    this.context.graphicsState = { ...this.context.graphicsState, propagateRendererEvents };
     this.update();
   }
 

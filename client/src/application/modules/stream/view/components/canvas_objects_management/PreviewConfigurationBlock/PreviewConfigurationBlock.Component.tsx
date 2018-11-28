@@ -33,7 +33,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
   public render(): JSX.Element {
 
-    const {classes, graphicsState: {addVisibleObjects, showPreview, showGrid, showGraphics, showMainVideo}} = this.props;
+    const {classes, graphicsState: {addVisibleObjects, showPreview, showGrid, showGraphics, showMainVideo, propagateRendererEvents}} = this.props;
     const {showPreviewConfiguration} = this.state;
 
     return (
@@ -79,6 +79,11 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                   control={<Switch checked={addVisibleObjects} color={"primary"}  onChange={this.onAdditionObjectsVisibilityToggle}/>}
                 />
 
+                <FormControlLabel
+                  label={"Propagate canvas service events"}
+                  control={<Switch checked={propagateRendererEvents} color={"primary"}  onChange={this.onRenderEventsPropagationToggle}/>}
+                />
+
               </Grid>
             : <span/>
           }
@@ -92,6 +97,11 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
   @Bind()
   private onPreviewBlockViewToggle(): void {
     this.setState({ showPreviewConfiguration: !this.state.showPreviewConfiguration });
+  }
+
+  @Bind()
+  private onRenderEventsPropagationToggle(event: ChangeEvent): void {
+    this.props.graphicsActions.setRendererEventsPropagation((event.target as any).checked);
   }
 
   @Bind()

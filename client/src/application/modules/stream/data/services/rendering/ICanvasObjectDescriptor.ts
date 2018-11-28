@@ -1,4 +1,4 @@
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
+import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 
 export interface ICanvasObjectDescriptor<PrototypeType extends CanvasGraphicsRenderObject> {
   name: string;

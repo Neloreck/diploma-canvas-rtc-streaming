@@ -1,6 +1,9 @@
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
+// Lib.
+import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 
+// Data.
 import {OpacityFilter, SimpleCircle, SimpleRectangle, VideoFrame} from "@Module/stream/data/services/rendering/canvas_objects";
+import {DesktopFrame} from "@Module/stream/data/services/rendering/canvas_objects/DesktopFrame";
 
 export class RenderingService {
 
@@ -17,7 +20,11 @@ export class RenderingService {
       description: "Additional Input",
       name: "Video Frame",
       prototype: VideoFrame.prototype
-    }
+    }, {
+      description: "Desktop Cast",
+      name: "Desktop Sharing",
+      prototype: DesktopFrame.prototype
+    },
   ];
 
   public getRenderingDescriptors()/*: Array<ICanvasObjectDescriptor> */ {
