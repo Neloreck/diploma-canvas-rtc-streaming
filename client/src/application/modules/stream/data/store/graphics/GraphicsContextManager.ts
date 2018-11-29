@@ -128,10 +128,10 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
     const buffer: CanvasGraphicsRenderObject = this.context.graphicsState.objects[firstIndex];
 
+    this.context.graphicsState = { ...this.context.graphicsState };
     this.context.graphicsState.objects[firstIndex] = this.context.graphicsState.objects[secondIndex];
     this.context.graphicsState.objects[secondIndex] = buffer;
 
-    this.context.graphicsState = { ...this.context.graphicsState, objects: [...this.context.graphicsState.objects] };
     this.update();
   }
 

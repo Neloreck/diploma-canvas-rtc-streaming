@@ -1,1 +1,0 @@
-export {CanvasObjectDescriptorConfigurationMenu, ICanvasObjectDescriptorConfigurationMenuExternalProps} from "./CanvasObjectDescriptorConfigurationMenu.Component";

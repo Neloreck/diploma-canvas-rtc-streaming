@@ -1,14 +1,6 @@
 import {createStyles, Theme} from "@material-ui/core";
 
 export const streamingPageStyle = (theme: Theme) => createStyles({
-  configSidebar: {
-    backgroundColor: theme.palette.secondary.light,
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-    minWidth: 250,
-    padding: theme.spacing.unit * 2
-  },
   content: {
     flexDirection: "column",
     flexGrow: 75,
@@ -20,28 +12,24 @@ export const streamingPageStyle = (theme: Theme) => createStyles({
     width: "100%"
   },
   streamingVideo: {
-    "@media (max-width: 1225px)": {
-      width: "100%",
-    },
-    "@media (min-width: 1225px)": {
-      width: "75%",
-    },
     backgroundColor: theme.palette.secondary.light,
     display: "flex",
     flexDirection: "column",
     minHeight: 350,
-    minWidth: "75%",
+    minWidth: "100%",
     padding: theme.spacing.unit * 2,
-    position: "relative"
+    position: "relative",
+    width: "100%"
   },
   streamingVideoSection: {
+    backgroundColor: theme.palette.secondary.light,
     justifyContent: "center",
-    minHeight: theme.spacing.unit * 65,
+    minHeight: "55vh",
     overflow: "auto",
     width: "100%"
   },
   tabsContent: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.secondary.light,
     flexGrow: 1,
     position: "relative"
   },

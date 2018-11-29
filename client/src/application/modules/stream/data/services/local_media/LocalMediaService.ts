@@ -9,7 +9,7 @@ import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInp
 @Single()
 export class LocalMediaService {
 
-  private readonly DEFAULT_VIDEO_CONSTRAINTS = {
+  private static readonly DEFAULT_VIDEO_CONSTRAINTS = {
     advanced: [
       { aspectRatio: { min: 16 / 9, exact: 16 / 9 } },
       { width: { min: 640, max: 1920 } }
@@ -18,6 +18,8 @@ export class LocalMediaService {
     frameRate: { min: 24, ideal: 30, max: 60 },
     height: { min: 360, max: 1080 }
   };
+
+  private static readonly OUTPUT_FRAMERATE: number = 60;
 
   private log: Logger = new Logger("[🕳️LMS]", false);
 
@@ -91,7 +93,7 @@ export class LocalMediaService {
           : false,
       video:
         videoInput
-        ? { ...this.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: videoInput.deviceId} }
+        ? { ...LocalMediaService.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: videoInput.deviceId} }
         : false
     };
 
@@ -100,6 +102,11 @@ export class LocalMediaService {
     this.log.info("Got media stream from devices:", constraints, stream);
 
     return stream;
+  }
+
+  public captureStreamFromCanvas(canvasElement: HTMLCanvasElement): MediaStream {
+    // @ts-ignore because is still experimental:
+    return canvasElement.captureStream(LocalMediaService.OUTPUT_FRAMERATE);
   }
 
 }

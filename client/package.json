@@ -56,7 +56,7 @@
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
-    "@redux-cbd/context": "^1.0.7",
+    "@redux-cbd/context": "^1.0.9",
     "@redux-cbd/utils": "^1.0.7",
     "history": "^4.7.2",
     "lodash": "^4.17.11",

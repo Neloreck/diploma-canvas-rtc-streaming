@@ -1,1 +1,0 @@
-export {RenderingVideoPreviewConfigurationBlock, IRenderingVideoPreviewConfigurationBlockExternalProps} from "./PreviewConfigurationBlock.Component";

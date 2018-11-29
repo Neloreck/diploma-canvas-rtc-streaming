@@ -2,7 +2,7 @@ import {GraphicsContextManager} from "@Module/stream/data/store/graphics/Graphic
 import {SourceContextManager} from "@Module/stream/data/store/source/SourceContextManager";
 
 export const graphicsContextManager: GraphicsContextManager = new GraphicsContextManager();
-export const sourceContext: SourceContextManager = new SourceContextManager();
+export const sourceContextManager: SourceContextManager = new SourceContextManager();
 
 export {GraphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/graphics/GraphicsContextManager";
 export {SourceContextManager, ISourceContext} from "@Module/stream/data/store/source/SourceContextManager";

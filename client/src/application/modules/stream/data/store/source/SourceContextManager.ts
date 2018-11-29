@@ -9,6 +9,7 @@ export interface ISourceContext {
   sourceActions: {
     updateInputStreamAndSources: (stream: MediaStream, devices: IInputSourceDevices) => void;
     updateInputSources: (devices: IInputSourceDevices) => void;
+    updateOutputStream: (stream: Optional<MediaStream>) => void;
   };
   sourceState: {
     inputStream: Optional<MediaStream>;
@@ -22,7 +23,8 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   protected context: ISourceContext = {
     sourceActions: {
       updateInputSources: this.updateInputSources,
-      updateInputStreamAndSources: this.updateStreamAndSources
+      updateInputStreamAndSources: this.updateStreamAndSources,
+      updateOutputStream: this.updateOutputStream
     },
     sourceState: {
       inputStream: null,
@@ -36,14 +38,29 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   @Bind()
   protected updateInputSources(selectedDevices: IInputSourceDevices): void {
-    this.context.sourceState = { ...this.context.sourceState, selectedDevices };
+    this.updateStateRef();
+    this.context.sourceState.selectedDevices = selectedDevices;
     this.update();
   }
 
   @Bind()
   protected updateStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
-    this.context.sourceState = { ...this.context.sourceState, inputStream, selectedDevices };
+    this.updateStateRef();
+    this.context.sourceState.inputStream = inputStream;
+    this.context.sourceState.selectedDevices = selectedDevices;
     this.update();
+  }
+
+  @Bind()
+  protected updateOutputStream(outputStream: Optional<MediaStream>): void {
+    this.updateStateRef();
+    this.context.sourceState.outputStream = outputStream;
+    this.update();
+  }
+
+  @Bind()
+  protected updateStateRef(): void {
+    this.context.sourceState = Object.assign({}, this.context.sourceState);
   }
 
 }

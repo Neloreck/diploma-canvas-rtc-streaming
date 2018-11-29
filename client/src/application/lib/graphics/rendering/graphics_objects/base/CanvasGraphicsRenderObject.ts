@@ -8,6 +8,7 @@ export abstract class CanvasGraphicsRenderObject {
   protected readonly createdAt: number = Date.now();
 
   private id: string = "0";
+  private name: string | null = null;
   private disabled: boolean = false;
   private context: CanvasRenderingContext2D = null as any;
   private sizing: ICanvasGraphicsSizingContext = null as any;
@@ -18,6 +19,14 @@ export abstract class CanvasGraphicsRenderObject {
 
   public getId(): string {
     return this.id;
+  }
+
+  public getName(): string | null {
+    return this.name;
+  }
+
+  public setName(name: string | null): void {
+    this.name = name;
   }
 
   public setContext(context: CanvasRenderingContext2D): void {
