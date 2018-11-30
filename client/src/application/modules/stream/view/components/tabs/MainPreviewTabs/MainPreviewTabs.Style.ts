@@ -8,7 +8,8 @@ export const mainPreviewTabsStyle = (theme: Theme) => createStyles({
   root: {
     height: "40vh",
     minHeight: theme.spacing.unit * 7,
-    position: "relative"
+    position: "relative",
+    transition: "all 100ms ease-out 0s"
   },
   tabContent: {
     backgroundColor: theme.palette.secondary.light,

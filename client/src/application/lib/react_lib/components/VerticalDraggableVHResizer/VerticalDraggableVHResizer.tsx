@@ -6,7 +6,7 @@ import {MouseEvent} from "react";
 import {DocumentUtils} from "@Lib/util/DocumentUtils";
 
 // Props.
-export interface IHorizontalVHDraggableResizerProps {
+export interface IVerticalDraggableVHResizer {
   className?: string;
   onHeightResize: (newHeight: number) => void;
   target?: HTMLElement;
@@ -14,12 +14,12 @@ export interface IHorizontalVHDraggableResizerProps {
 
 const style = {
   wrapper: {
-    cursor: "ns-resize",
+    cursor: "ew-resize",
     position: "relative" as "relative"
   }
 };
 
-export class HorizontalDraggableVHResizer extends PureComponent<IHorizontalVHDraggableResizerProps> {
+export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggableVHResizer> {
 
   private divElementRef: RefObject<HTMLDivElement> = createRef();
   private isMouseDown: boolean = false;
@@ -42,7 +42,7 @@ export class HorizontalDraggableVHResizer extends PureComponent<IHorizontalVHDra
     return (
       <div
         className={this.props.className}
-        style={{ ...style.wrapper, minHeight: "4px"}}
+        style={{ ...style.wrapper, minWidth: "4px"}}
         ref={this.divElementRef}
         onMouseMove={this.handleMouseMove}
         onMouseDown={this.handleMouseDown}
@@ -54,7 +54,8 @@ export class HorizontalDraggableVHResizer extends PureComponent<IHorizontalVHDra
   @Bind()
   private handleMouseMove(event: MouseEvent<HTMLDivElement>): void {
     if (this.isMouseDown) {
-      this.props.onHeightResize(this.getTargetSizings().height - event.pageY + this.getResizerSizings().height / 2);
+      this.props.onHeightResize(event.pageX - this.getTargetSizings().left - this.getResizerSizings().width / 2);
+      DocumentUtils.removeAnyPageTextSelection();
     }
   }
 
@@ -66,7 +67,6 @@ export class HorizontalDraggableVHResizer extends PureComponent<IHorizontalVHDra
   @Bind()
   private handleMouseDown(event: MouseEvent<HTMLDivElement>): void {
     this.isMouseDown = true;
-    DocumentUtils.removeAnyPageTextSelection();
   }
 
   private getTargetSizings(): ClientRect {

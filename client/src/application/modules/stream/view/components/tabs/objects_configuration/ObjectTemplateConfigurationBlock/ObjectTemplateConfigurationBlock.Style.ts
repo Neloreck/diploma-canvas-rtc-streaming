@@ -49,7 +49,6 @@ export const objectTemplateConfigurationBlockStyle = (theme: Theme) => createSty
   },
   root: {
     backgroundColor: theme.palette.secondary.light,
-    borderLeft: "2px solid " + theme.palette.secondary.dark,
     height: "100%",
     overflowX: "auto",
     overflowY: "auto",

@@ -6,6 +6,7 @@ import {ChangeEvent, Component, Fragment} from "react";
 // Lib.
 import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
+import {VerticalDraggableVHResizer} from "@Lib/react_lib/components";
 import {Optional} from "@Lib/ts/type";
 import {GeneralUtils} from "@Lib/util/GeneralUtils";
 
@@ -28,6 +29,7 @@ import {objectsConfigurationTabStyle} from "./ObjectsConfigurationTab.Style";
 // Props.
 export interface IObjectsConfigurationTabState {
   showLayerControls: boolean;
+  listWidth?: number;
 }
 
 export interface IObjectsConfigurationTabExternalProps extends WithStyles<typeof objectsConfigurationTabStyle>, IGraphicsContext {}
@@ -41,24 +43,32 @@ export interface IObjectsConfigurationTabProps extends IObjectsConfigurationTabO
 export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabProps, IObjectsConfigurationTabState> {
 
   public state: IObjectsConfigurationTabState = {
+    listWidth: undefined,
     showLayerControls: false
   };
 
   public render(): JSX.Element {
 
     const {classes, graphicsState: {selectedObject}} = this.props;
+    const {listWidth} = this.state;
 
     return (
       <Grid className={classes.root} wrap={"nowrap"} container>
 
-        <Grid className={classes.objectsList}>
+        <Grid
+          className={classes.objectsList}
+          style={{ width: selectedObject !== null && listWidth ? listWidth : undefined}}
+        >
           {this.renderObjectsList()}
         </Grid>
 
         {
           selectedObject !== null
             ?
+            <Fragment>
+              <VerticalDraggableVHResizer className={classes.resizer} onHeightResize={this.onListResized}/>
               <Grid className={classes.objectsConfigurationBlock}> {this.renderSelectedObjectConfigBlock()} </Grid>
+            </Fragment>
             : null
         }
 
@@ -108,32 +118,28 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
 
                   <ListItemSecondaryAction>
 
-                    {
-                      showLayerControls
-                        ?
-                        <Fragment>
+                    <Grow in={showLayerControls}>
+                      <Grid className={classes.additionalListControlButtonsBlock}>
+                        <IconButton onClick={() => swapObjectsByIndex(idx, idx + 1)} disabled={idx === objects.length - 1}>
+                          <ArrowUpward fontSize="small"/>
+                        </IconButton>
 
-                          <IconButton onClick={() => swapObjectsByIndex(idx, idx + 1)} disabled={idx === objects.length - 1}>
-                            <ArrowUpward fontSize="small"/>
-                          </IconButton>
+                        <IconButton onClick={() => swapObjectsByIndex(idx, idx - 1)} disabled={idx === 0}>
+                          <ArrowDownward fontSize="small"/>
+                        </IconButton>
 
-                          <IconButton onClick={() => swapObjectsByIndex(idx, idx - 1)} disabled={idx === 0}>
-                            <ArrowDownward fontSize="small"/>
-                          </IconButton>
+                        <Checkbox
+                          color={"primary"}
+                          onChange={() => {
+                            item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
+                            this.forceUpdate();
+                          }}
+                          checked={!item.isDisabled()}
+                        />
 
-                          <Checkbox
-                            color={"primary"}
-                            onChange={() => {
-                              item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
-                              this.forceUpdate();
-                            }}
-                            checked={!item.isDisabled()}
-                          />
-
-                          <IconButton onClick={() => this.onGraphicsItemCopyClicked(item)}> <FileCopy fontSize="small" /> </IconButton>
-                        </Fragment>
-                        : null
-                    }
+                        <IconButton onClick={() => this.onGraphicsItemCopyClicked(item)}> <FileCopy fontSize="small" /> </IconButton>
+                      </Grid>
+                    </Grow>
 
                     <IconButton onClick={() => this.onGraphicsItemRemoveClicked(item)}> <Delete fontSize="small" /> </IconButton>
 
@@ -168,6 +174,11 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
         {...{} as IObjectTemplateConfigurationBlockExternalProps}
       />
     );
+  }
+
+  @Bind()
+  private onListResized(newWidth: number): void {
+    this.setState({ listWidth: newWidth });
   }
 
   @Bind()

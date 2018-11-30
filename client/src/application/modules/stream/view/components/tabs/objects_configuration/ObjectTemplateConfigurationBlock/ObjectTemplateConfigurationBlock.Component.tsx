@@ -11,7 +11,7 @@ import {GeneralUtils} from "@Lib/util/GeneralUtils";
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
 
 // View.
-import {Button, Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
+import {Button, Checkbox, Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
 import {ArrowDownward, ArrowUpward, Close, Delete} from "@material-ui/icons";
 import {CanvasGraphicsSingleObjectPreprocessor} from "@Module/stream/view/components/preview/graphics_preprocessing";
 import {
@@ -73,6 +73,14 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
           </Grid>
 
           <Grid>
+            <Checkbox
+              color={"primary"}
+              onChange={() => {
+                object.isDisabled() ? object.setDisabled(false) : object.setDisabled(true);
+                this.forceUpdate();
+              }}
+              checked={!object.isDisabled()}
+            />
             <Button onClick={() => onSelectedRemove(object)}><Delete/></Button>
             <Button onClick={onCancelSelection}><Close/></Button>
           </Grid>

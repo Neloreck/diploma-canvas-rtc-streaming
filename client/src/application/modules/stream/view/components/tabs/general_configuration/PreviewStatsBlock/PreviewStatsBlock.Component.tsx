@@ -8,10 +8,7 @@ import {Styled} from "@Lib/react_lib/@material_ui";
 
 // Data.
 import {
-  graphicsContextManager,
-  IGraphicsContext,
-  ISourceContext,
-  sourceContextManager
+  graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextManager
 } from "@Module/stream/data/store";
 
 // View.
@@ -56,15 +53,17 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
 
         <Grow in={showStatsConfiguration}>
 
-          { showStatsConfiguration
+          {
+            showStatsConfiguration
             ?
-            <Grid container direction={"column"}>
+              <Grid container direction={"column"}>
 
-              {this.renderInputStreamDetails()}
-              {this.renderOutputStreamDetails()}
+                {this.renderInputStreamDetails()}
+                {this.renderOutputStreamDetails()}
 
-            </Grid>
-            : <span/>
+              </Grid>
+            :
+              <span/>
           }
 
         </Grow>
