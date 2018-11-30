@@ -10,13 +10,11 @@ export const mainPreviewTabsStyle = (theme: Theme) => createStyles({
     minHeight: theme.spacing.unit * 7,
     position: "relative"
   },
-
   tabContent: {
     backgroundColor: theme.palette.secondary.light,
-    height: "100%",
+    flexGrow: 1,
     maxHeight: "100%",
     overflowY: "auto",
-    position: "absolute",
-    width: "100%"
+    position: "relative"
   }
 });

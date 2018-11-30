@@ -3,6 +3,7 @@ import {Bind} from "@redux-cbd/utils";
 
 import {Optional} from "@Lib/ts/type";
 
+import {localMediaService} from "@Module/stream/data/services/local_media";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 export interface ISourceContext {
@@ -46,6 +47,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   @Bind()
   protected updateStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
     this.updateStateRef();
+    localMediaService.killStream(this.context.sourceState.inputStream);
     this.context.sourceState.inputStream = inputStream;
     this.context.sourceState.selectedDevices = selectedDevices;
     this.update();

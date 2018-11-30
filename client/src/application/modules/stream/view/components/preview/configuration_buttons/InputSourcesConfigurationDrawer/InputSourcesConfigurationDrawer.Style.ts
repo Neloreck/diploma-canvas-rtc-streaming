@@ -23,6 +23,7 @@ export const inputSourcesConfigurationDrawerStyle = (theme: Theme) => createStyl
     width: "100%"
   },
   videoPreview: {
+    backgroundColor: theme.palette.secondary.light,
     height: 168,
     marginBottom: theme.spacing.unit * 3,
     width: 300

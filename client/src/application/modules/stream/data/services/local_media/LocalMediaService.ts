@@ -16,7 +16,7 @@ export class LocalMediaService {
     ],
     aspectRatio: { exact: 16 / 9, ideal: 16 / 9 },
     frameRate: { min: 24, ideal: 30, max: 60 },
-    height: { min: 360, max: 1080 }
+    height: { min: 360, ideal: 720, max: 1080 }
   };
 
   private static readonly OUTPUT_FRAMERATE: number = 60;

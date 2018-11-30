@@ -62,9 +62,9 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     const {objectDescriptor, localObjectCopy} = this.state;
 
     return (
-      <Grid className={classes.root} container={true} direction={"column"}>
+      <Grid className={classes.root} container={true} direction={"column"} wrap={"nowrap"}>
 
-        <Grid className={classes.objectHeading} container justify={"space-between"}>
+        <Grid className={classes.objectHeading} container justify={"space-between"} wrap={"nowrap"}>
 
           <Grid className={classes.objectHeadingTitle}>
             <Typography variant={"h6"}>{objectDescriptor.name} </Typography>
@@ -79,7 +79,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
         </Grid>
 
-        <Grid className={classes.objectEditingMenu} container justify={"space-between"}>
+        <Grid className={classes.objectEditingMenu} container justify={"space-between"} wrap={"nowrap"}>
 
           <Grid className={classes.objectEditingMenuContent} container wrap={"nowrap"}>
 

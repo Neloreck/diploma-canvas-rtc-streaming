@@ -69,7 +69,13 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
     }
 
     return (
-      <Grid className={classes.root} style={tabsHeight ? { height: `${tabsHeight}px` } : undefined}>
+      <Grid
+        className={classes.root}
+        style={tabsHeight ? { height: `${tabsHeight}px` } : undefined}
+        direction={"column"}
+        wrap={"nowrap"}
+        container
+      >
 
         <HorizontalDraggableVHResizer className={classes.resizer} onHeightResize={this.onTabResize}/>
 
@@ -88,7 +94,7 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
 
         </AppBar>
 
-        <Grid className={classes.tabContent}>
+        <Grid className={classes.tabContent} container>
           {tabContent}
         </Grid>
 

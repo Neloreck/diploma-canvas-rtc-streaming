@@ -54,7 +54,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
     }
 
     // Grid and other rendering objects.
-    return previewItems.concat(renderingObjects);
+    return renderingObjects.concat(previewItems);
   }
 
   /* Everything visible on output. */

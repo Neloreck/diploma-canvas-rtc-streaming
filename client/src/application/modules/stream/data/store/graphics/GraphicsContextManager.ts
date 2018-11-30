@@ -4,6 +4,7 @@ import {Bind} from "@redux-cbd/utils";
 // Lib.
 import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Optional} from "@Lib/ts/type";
+import {Logger} from "@Lib/util/logger";
 
 // Props.
 export interface IGraphicsContext {
@@ -58,8 +59,12 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     }
   };
 
+  private logger: Logger = new Logger("[GC]", true);
+
   @Bind()
   protected addObject(object: CanvasGraphicsRenderObject): void {
+
+    this.logger.info("Adding new object:", object);
 
     if (!this.context.graphicsState.addVisibleObjects) {
       object.setDisabled(true);
@@ -71,6 +76,9 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
   @Bind()
   protected removeObject(object: CanvasGraphicsRenderObject): void {
+
+    this.logger.info("Removing object:", object);
+
     this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.filter((it) => it !== object)};
 
     if (object === this.context.graphicsState.selectedObject) {
@@ -83,6 +91,9 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
   @Bind()
   protected selectObject(selectedObject: Optional<CanvasGraphicsRenderObject>): void {
+
+    this.logger.info("Selected object:", selectedObject);
+
     this.context.graphicsState = { ...this.context.graphicsState, selectedObject };
     this.update();
   }
@@ -126,9 +137,11 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected swapObjectsByIndex(firstIndex: number, secondIndex: number): void {
 
+    this.logger.info(`Swapping object layout order: ${firstIndex} <-> ${secondIndex}.`);
+
     const buffer: CanvasGraphicsRenderObject = this.context.graphicsState.objects[firstIndex];
 
-    this.context.graphicsState = { ...this.context.graphicsState };
+    this.context.graphicsState = { ...this.context.graphicsState, objects: [...this.context.graphicsState.objects] };
     this.context.graphicsState.objects[firstIndex] = this.context.graphicsState.objects[secondIndex];
     this.context.graphicsState.objects[secondIndex] = buffer;
 

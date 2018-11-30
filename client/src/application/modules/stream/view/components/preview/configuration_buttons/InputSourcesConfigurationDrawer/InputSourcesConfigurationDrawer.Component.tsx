@@ -61,8 +61,8 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
     // Unmount.
     if (nextProps.show === false && this.props.show === true) {
-      this.setState({ selectedInputSources: { audioInput: null, videoInput: null }});
       localMediaService.killStream(this.state.previewStream);
+      this.setState({ previewStream: null, selectedInputSources: { audioInput: null, videoInput: null }});
     }
   }
 

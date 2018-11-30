@@ -5,11 +5,13 @@ export const objectTemplateConfigurationBlockStyle = (theme: Theme) => createSty
     "& button": {
       marginLeft: theme.spacing.unit * 2
     },
+    minHeight: theme.spacing.unit * 7.5,
     padding: theme.spacing.unit * 2,
     width: "100%"
   },
   objectEditingMenu: {
     flexGrow: 1,
+    minHeight: theme.spacing.unit * 20,
     position: "relative",
     width: "100%"
   },
@@ -22,12 +24,13 @@ export const objectTemplateConfigurationBlockStyle = (theme: Theme) => createSty
     "& button": {
       marginLeft: theme.spacing.unit
     },
+    minHeight: theme.spacing.unit * 5,
     padding: theme.spacing.unit,
     width: "100%"
   },
   objectHeadingTitle: {
     alignItems: "center",
-    display: "flex"
+    display: "flex",
   },
   objectPreviewConfiguration: {
     boxSizing: "border-box",
