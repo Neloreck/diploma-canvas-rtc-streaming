@@ -52,12 +52,18 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
     videoInputSources: []
   };
 
-  public componentWillMount(): void {
-    this.onUpdateMediaDevices().then();
-  }
+  public componentWillReceiveProps(nextProps: IInputSourcesConfigurationDrawerProps): void {
 
-  public componentWillUnmount(): void {
-    localMediaService.killStream(this.state.previewStream);
+    // Mount.
+    if (nextProps.show === true && this.props.show === false) {
+      this.onUpdateMediaDevices().then();
+    }
+
+    // Unmount.
+    if (nextProps.show === false && this.props.show === true) {
+      this.setState({ selectedInputSources: { audioInput: null, videoInput: null }});
+      localMediaService.killStream(this.state.previewStream);
+    }
   }
 
   public render(): JSX.Element {

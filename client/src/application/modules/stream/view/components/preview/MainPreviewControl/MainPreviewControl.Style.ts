@@ -11,11 +11,16 @@ export const mainPreviewControlStyle = (theme: Theme) => createStyles({
     flexBasis: "20rem",
     flexGrow: 1,
     height: "100%",
-    position: "relative",
+    position: "absolute",
     width: "100%",
 
     "& canvas": {
       background: `linear-gradient(to bottom, ${theme.palette.primary.light} 15%, ${theme.palette.primary.dark} 95%);`
     }
+  },
+  videoContainer: {
+    height: "100%",
+    padding: theme.spacing.unit * 2,
+    width: "100%"
   }
 });

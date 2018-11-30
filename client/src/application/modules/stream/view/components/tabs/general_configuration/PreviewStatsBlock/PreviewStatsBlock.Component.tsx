@@ -43,7 +43,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     const {showStatsConfiguration} = this.state;
 
     return (
-      <Grid className={classes.root} direction={"column"} container>
+      <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
         <Grid
           className={classes.heading}
@@ -91,7 +91,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     const audioTracks: Array<MediaStreamTrack> = inputStream.getAudioTracks();
 
     return (
-      <Grid className={classes.statBlock}>
+      <Grid className={classes.statBlock} wrap={"nowrap"}>
 
         <Typography variant={"subtitle1"}> Input. </Typography>
         <Divider/>
@@ -123,7 +123,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     const audioTracks: Array<MediaStreamTrack> = outputStream.getAudioTracks();
 
     return (
-      <Grid className={classes.statBlock}>
+      <Grid className={classes.statBlock} wrap={"nowrap"}>
 
         <Typography variant={"subtitle1"}> Output. </Typography>
         <Divider/>

@@ -48,9 +48,8 @@ export const objectTemplateConfigurationBlockStyle = (theme: Theme) => createSty
     backgroundColor: theme.palette.secondary.light,
     borderLeft: "2px solid " + theme.palette.secondary.dark,
     height: "100%",
-    minWidth: theme.spacing.unit * 45,
     overflowX: "auto",
-    overflowY: "hidden",
+    overflowY: "auto",
     padding: theme.spacing.unit,
     width: "100%"
   }

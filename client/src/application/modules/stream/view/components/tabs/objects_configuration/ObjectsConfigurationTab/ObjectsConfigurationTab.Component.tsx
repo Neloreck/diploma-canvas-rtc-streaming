@@ -49,7 +49,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     const {classes, graphicsState: {selectedObject}} = this.props;
 
     return (
-      <Grid className={classes.root} container>
+      <Grid className={classes.root} wrap={"nowrap"} container>
 
         <Grid className={classes.objectsList}>
           {this.renderObjectsList()}
@@ -58,9 +58,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
         {
           selectedObject !== null
             ?
-            <Grow in={true}>
               <Grid className={classes.objectsConfigurationBlock}> {this.renderSelectedObjectConfigBlock()} </Grid>
-            </Grow>
             : null
         }
 

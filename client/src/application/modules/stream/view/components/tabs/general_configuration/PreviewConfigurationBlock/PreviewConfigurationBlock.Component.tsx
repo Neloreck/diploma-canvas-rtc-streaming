@@ -37,9 +37,14 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
     const {showPreviewConfiguration} = this.state;
 
     return (
-      <Grid className={classes.root} direction={"column"} container>
+      <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
-        <Grid className={classes.heading} container justify={"space-between"} alignItems={"center"} onClick={this.onPreviewBlockViewToggle}>
+        <Grid
+          className={classes.heading}
+          container justify={"space-between"}
+          alignItems={"center"}
+          onClick={this.onPreviewBlockViewToggle}
+        >
           <Typography variant={"h6"}> View Configuration </Typography>
           { showPreviewConfiguration ? <Remove fontSize={"small"}/> : <Add fontSize={"small"}/>}
         </Grid>
@@ -48,9 +53,10 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
           { showPreviewConfiguration
             ?
-              <Grid container direction={"column"}>
+              <Grid container direction={"column"} wrap={"nowrap"}>
 
                 <FormControlLabel
+                  className={classes.configItem}
                   label={"Lock Preview Mode"}
                   control={<Switch checked={showPreview} color={"primary"} onChange={this.onPreviewToggle}/>}
                 />
@@ -58,16 +64,19 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                 <Divider/>
 
                 <FormControlLabel
+                  className={classes.configItem}
                   label={"Show Main Video"}
                   control={<Switch checked={showMainVideo} color={"primary"} onChange={this.onMainVideoDisplayToggle}/>}
                 />
 
                 <FormControlLabel
+                  className={classes.configItem}
                   label={"Show Graphics"}
                   control={<Switch checked={showGraphics} color={"primary"} onChange={this.onGraphicsToggle}/>}
                 />
 
                 <FormControlLabel
+                  className={classes.configItem}
                   label={"Show Preview Grid"}
                   control={<Switch checked={showGrid} color={"primary"}  onChange={this.onGridToggle}/>}
                 />
@@ -75,11 +84,13 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                 <Divider/>
 
                 <FormControlLabel
+                  className={classes.configItem}
                   label={"Create Visible Objects"}
                   control={<Switch checked={addVisibleObjects} color={"primary"}  onChange={this.onAdditionObjectsVisibilityToggle}/>}
                 />
 
                 <FormControlLabel
+                  className={classes.configItem}
                   label={"Propagate Canvas Events"}
                   control={<Switch checked={propagateRendererEvents} color={"primary"}  onChange={this.onRenderEventsPropagationToggle}/>}
                 />

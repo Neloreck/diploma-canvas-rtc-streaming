@@ -52,15 +52,17 @@ export class MainPreviewControl extends PureComponent<IMainPreviewControlProps> 
     return (
       <Grid className={classes.root} justify={"center"} alignItems={"center"} container>
 
-        <CanvasGraphicsPreprocessor
-          stream={inputStream}
-          showMainVideo={showMainVideo}
-          renderingObjects={objects}
-          showGrid={showGrid}
-          showGraphics={showGraphics}
-          showPreview={showPreview}
-          onOutputStreamReady={updateOutputStream}
-        />
+        <Grid className={classes.videoContainer} justify={"center"} alignItems={"center"} container>
+          <CanvasGraphicsPreprocessor
+            stream={inputStream}
+            showMainVideo={showMainVideo}
+            renderingObjects={objects}
+            showGrid={showGrid}
+            showGraphics={showGraphics}
+            showPreview={showPreview}
+            onOutputStreamReady={updateOutputStream}
+          />
+        </Grid>
 
         {this.renderHelpingControlTooltipButtons()}
 

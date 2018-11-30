@@ -36,7 +36,6 @@ export const objectsConfigurationTabStyle = (theme: Theme) => createStyles({
     width: "100%"
   },
   root: {
-    flexWrap: "nowrap",
     height: "100%",
     position: "absolute",
     width: "100%"

@@ -123,23 +123,6 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
     this.props.onOutputStreamReady(null);
   }
 
-  /* Stream getters for ref: */
-
-  public getInternalStream(): MediaStream {
-    // @ts-ignore
-    return this.getInternalPreRenderer().captureStream();
-  }
-
-  public getExternalStream(): MediaStream {
-    // @ts-ignore
-    return this.getExternalPreRenderer().captureStream();
-  }
-
-  public getComposedStream(): MediaStream {
-    // @ts-ignore
-    return this.getComposedRenderer().captureStream();
-  }
-
   public render(): JSX.Element {
     return (
       <Fragment>
@@ -151,6 +134,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
           onMouseLeave={this.handleLayoutMouseLeave}
           onMouseDown={this.handleLayoutMouseDown}
           onMouseUp={this.handleLayoutMouseUp}
+          onContextMenu={this.handleContextMenu}
         >
           <canvas ref={this.internalPreRendererCanvas} className={"canvas-prerenderer-internal"} hidden/>
           <canvas ref={this.externalPreRendererCanvas} className={"canvas-prerenderer-external"} hidden />
@@ -160,7 +144,7 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
         <ReactResizeDetector
           onResize={this.resize}
           refreshMode={"throttle"}
-          refreshRate={250}
+          refreshRate={300}
           handleHeight handleWidth
         />
 
@@ -203,6 +187,13 @@ export class CanvasGraphicsRenderer extends PureComponent<ICanvasGraphicsRendere
   @Bind()
   private handleLayoutMouseDown(event: MouseEvent): void {
     this.internalRenderingService.handleMouseDown(event);
+  }
+
+  @Bind()
+  private handleContextMenu(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.internalRenderingService.setSelectedObject(null);
   }
 
   @Bind()
