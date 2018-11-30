@@ -13,9 +13,18 @@ import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextM
 // View.
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
 import {AppBar, Grid, Tab, Tabs, WithStyles} from "@material-ui/core";
-import {IMainPreviewControlExternalProps, MainPreviewControl} from "@Module/stream/view/components/canvas_objects_management/preview/MainPreviewControl";
-import {GeneralConfigurationTab, IGeneralConfigurationTabExternalProps} from "@Module/stream/view/components/canvas_objects_management/tabs/general_configuration/GeneralConfigurationTab";
-import {IObjectsConfigurationTabExternalProps, ObjectsConfigurationTab} from "@Module/stream/view/components/canvas_objects_management/tabs/objects_configuration/ObjectsConfigurationTab";
+import {
+  IMainPreviewControlExternalProps,
+  MainPreviewControl
+} from "@Module/stream/view/components/preview/MainPreviewControl";
+import {
+  GeneralConfigurationTab,
+  IGeneralConfigurationTabExternalProps
+} from "@Module/stream/view/components/tabs/general_configuration/GeneralConfigurationTab";
+import {
+  IObjectsConfigurationTabExternalProps,
+  ObjectsConfigurationTab
+} from "@Module/stream/view/components/tabs/objects_configuration/ObjectsConfigurationTab";
 import {streamingPageStyle} from "./StreamingPage.Style";
 
 // Props.

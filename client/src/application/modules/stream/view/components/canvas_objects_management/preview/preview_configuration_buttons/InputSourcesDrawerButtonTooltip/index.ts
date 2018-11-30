@@ -1,1 +1,0 @@
-export {InputSourcesDrawerButtonTooltip, IInputSourcesDrawerButtonTooltipExternalProps} from "./InputSourcesDrawerButtonTooltip.Component";

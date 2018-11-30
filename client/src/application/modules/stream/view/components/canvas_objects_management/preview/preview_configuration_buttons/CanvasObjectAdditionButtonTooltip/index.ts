@@ -1,1 +1,0 @@
-export {CanvasObjectAdditionButtonTooltip, ICanvasObjectAdditionButtonTooltipExternalProps} from "./CanvasObjectAdditionButtonTooltip.Component";
