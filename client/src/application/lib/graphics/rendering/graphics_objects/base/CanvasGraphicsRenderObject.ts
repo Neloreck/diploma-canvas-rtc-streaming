@@ -49,6 +49,10 @@ export abstract class CanvasGraphicsRenderObject {
     this.disabled = disabled;
   }
 
+  public isEnabled(): boolean {
+    return !this.disabled;
+  }
+
   public isDisabled(): boolean {
     return this.disabled;
   }

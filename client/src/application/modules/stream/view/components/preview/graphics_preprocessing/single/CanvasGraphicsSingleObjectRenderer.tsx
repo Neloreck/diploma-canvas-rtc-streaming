@@ -34,7 +34,6 @@ export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGra
 
     const renderingCanvas: HTMLCanvasElement = this.getRenderingCanvas();
 
-    this.renderingService.setRenderContext(renderingCanvas.getContext("2d") as CanvasRenderingContext2D);
     this.renderingService.setRenderObjects([this.props.object]);
     this.renderingService.disableInteraction();
 
@@ -88,27 +87,22 @@ export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGra
 
   @Bind()
   private handleLayoutMouseDown(event: MouseEvent): void {
-    this.renderingService.handleMouseDown(event);
   }
 
   @Bind()
   private handleLayoutMouseUp(event: MouseEvent): void {
-    this.renderingService.handleMouseUp(event);
   }
 
   @Bind()
   private handleLayoutMouseMove(event: MouseEvent): void {
-    this.renderingService.handleMouseMove(event);
   }
 
   @Bind()
   private handleLayoutMouseEnter(event: MouseEvent): void {
-    this.renderingService.handleMouseEnter(event);
   }
 
   @Bind()
   private handleLayoutMouseLeave(event: MouseEvent): void {
-    this.renderingService.handleMouseLeave(event);
   }
 
   @Bind()
@@ -116,24 +110,6 @@ export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGra
 
     const sizing: { width: number, height: number } = DomSizingUtils.recalculateToRatio(width, height, this.props.aspectRatio || CanvasGraphicsSingleObjectRenderer.DEFAULT_ASPECT_RATIO);
 
-    // Update sizing for layout.
-
-    const renderingCanvas: HTMLCanvasElement = this.getRenderingCanvas();
-    const boundingRect: ClientRect = renderingCanvas.getBoundingClientRect();
-
-    renderingCanvas.width = sizing.width;
-    renderingCanvas.height = sizing.height;
-
-    // Update sizing context for renderer.
-
-    const sizingContext: ICanvasGraphicsSizingContext = {
-      height: sizing.height,
-      offsetX: boundingRect.left,
-      offsetY: boundingRect.top,
-      width: sizing.width
-    };
-
-    this.renderingService.setSizing(sizingContext);
   }
 
 }

@@ -41,53 +41,48 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
   private getPreviewRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
     const {showGraphics, showGrid, showPreview, renderingObjects} = this.props;
-    const previewItems: Array<CanvasGraphicsRenderObject> = [];
-
-    // Nothing to show there.
-    if (showGraphics === false) {
-      return [];
-    }
+    let previewItems: Array<CanvasGraphicsRenderObject> = [this.getMainVideoRenderer()];
 
     // Show grid for preview.
-    if (showGrid === true && showPreview === false) {
-      previewItems.push(new GridLayoutRO(3, 3));
+    if (showGraphics === true && showPreview === false) {
+
+      if (showGrid) {
+        previewItems.push(new GridLayoutRO(3, 3));
+      }
+
+      previewItems = previewItems.concat(renderingObjects);
     }
 
-    // Grid and other rendering objects.
-    return renderingObjects.concat(previewItems);
+    return previewItems;
   }
 
   /* Everything visible on output. */
   private getOutputRenderingObjectsContext(): Array<CanvasGraphicsRenderObject> {
 
-    const {stream, showMainVideo, showGraphics, renderingObjects} = this.props;
-    const outputItems: Array<CanvasGraphicsRenderObject> = [];
+    const {showGraphics, renderingObjects} = this.props;
+    const outputItems: Array<CanvasGraphicsRenderObject> = [this.getMainVideoRenderer()];
+
+    // Output video and canvas items for external.
+    return showGraphics === true ?  outputItems.concat(renderingObjects) : outputItems;
+  }
+
+  private getMainVideoRenderer(): CanvasGraphicsRenderObject {
+
+    const {stream, showMainVideo} = this.props;
 
     // If 'display' webcam video.
     if (showMainVideo) {
       if (stream === null) {
-        return [
-          new CenteredTextRO("Waiting for input stream.", 7, "#FFF")
-        ];
+        return new CenteredTextRO("Waiting for input stream.", 7, "#FFF");
       }
 
       if (stream.getVideoTracks().length === 0) {
-        return [
-          new CenteredTextRO("Waiting for video.", 7, "#FFF")
-        ];
+        return new CenteredTextRO("Waiting for video.", 7, "#FFF");
       }
-
-      outputItems.push(new DomVideoRO(stream));
+      return new DomVideoRO(stream);
     } else {
-      outputItems.push(new ContextCleanerRO());
+      return new ContextCleanerRO();
     }
-
-    // Concat graphics for output service.
-    if (showGraphics === true) {
-      return outputItems.concat(renderingObjects);
-    }
-
-    return outputItems;
   }
 
 }

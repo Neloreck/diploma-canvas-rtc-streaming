@@ -5,7 +5,6 @@ import {PureComponent} from "react";
 import {CanvasGraphicsRenderObject} from "@Lib/graphics";
 
 // View.
-import {CanvasGraphicsSingleObjectRenderer} from "./CanvasGraphicsSingleObjectRenderer";
 
 export interface ICanvasGraphicsSingleObjectPreprocessorProps {
   object: CanvasGraphicsRenderObject;
@@ -15,7 +14,7 @@ export interface ICanvasGraphicsSingleObjectPreprocessorProps {
 export class CanvasGraphicsSingleObjectPreprocessor extends PureComponent<ICanvasGraphicsSingleObjectPreprocessorProps> {
 
   public render(): JSX.Element {
-    return <CanvasGraphicsSingleObjectRenderer object={this.props.object} aspectRatio={this.props.aspectRatio}/>;
+    return <div> todo </div>;
   }
 
 }

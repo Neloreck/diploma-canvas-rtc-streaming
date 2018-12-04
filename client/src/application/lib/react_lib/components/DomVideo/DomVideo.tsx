@@ -4,6 +4,8 @@ import {createRef, PureComponent, RefObject} from "react";
 // Props.
 export interface IDomVideoProps {
   className?: string;
+  width?: number;
+  height?: number;
   stream: MediaStream | null;
 }
 
@@ -15,27 +17,36 @@ export class DomVideo extends PureComponent<IDomVideoProps> {
     this.setVideoSource(this.props.stream);
   }
 
-  public componentDidUpdate(prevProps: IDomVideoProps): void {
-
-    if (prevProps.stream !== this.props.stream) {
-      this.setVideoSource(this.props.stream);
+  public componentWillReceiveProps(nextProps: IDomVideoProps): void {
+    if (nextProps.stream !== this.props.stream) {
+      this.setVideoSource(nextProps.stream);
     }
   }
 
   public render(): JSX.Element {
+
+    const {width, height} = this.props;
+
+    const style = {
+      height: height !== undefined ? height + "px" : undefined,
+      width: width !== undefined ? width + "px" : undefined
+    };
+
     return (
-      <video className={this.props.className} ref={this.videoElementRef} autoPlay/>
+      <video className={this.props.className} ref={this.videoElementRef} style={style} autoPlay/>
     );
   }
 
   private setVideoSource(stream: MediaStream | null): void {
 
-    const videoElement: HTMLVideoElement | null = this.videoElementRef.current;
+    setTimeout(() => {
+      const videoElement: HTMLVideoElement | null = this.videoElementRef.current;
 
-    if (videoElement) {
-      videoElement.srcObject = null;
-      videoElement.srcObject = stream;
-    }
+      if (videoElement) {
+        videoElement.srcObject = null;
+        videoElement.srcObject = stream;
+      }
+    });
   }
 
 }

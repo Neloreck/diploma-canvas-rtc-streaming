@@ -1,6 +1,7 @@
 export {CanvasGraphicsRenderObject} from "./base/CanvasGraphicsRenderObject";
 export {CanvasGraphicsInteractiveObject} from "./base/CanvasGraphicsInteractiveObject";
 export {CanvasGraphicsMovableObject} from "./base/CanvasGraphicsMovableObject";
+export {CanvasGraphicsResizableObject} from "./base/CanvasGraphicsResizableObject";
 export {CanvasGraphicsMovableCircleObject} from "./base/CanvasGraphicsMovableCircleObject";
 
 export {DomCanvasShadowRO} from "./static/dom/DomCanvasShadowRO";

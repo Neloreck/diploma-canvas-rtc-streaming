@@ -104,9 +104,4 @@ export class LocalMediaService {
     return stream;
   }
 
-  public captureStreamFromCanvas(canvasElement: HTMLCanvasElement): MediaStream {
-    // @ts-ignore because is still experimental:
-    return canvasElement.captureStream(LocalMediaService.OUTPUT_FRAMERATE);
-  }
-
 }
