@@ -16,6 +16,7 @@ import {DomSizingUtils} from "@Lib/util/DomSizingUtils";
 import {Logger} from "@Lib/util/logger";
 
 // Data.
+import {appConfig} from "@Main/config";
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
@@ -50,8 +51,8 @@ export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererPro
   private videoContainerRef: RefObject<HTMLDivElement> = createRef();
   private internalStream: Optional<MediaStream> = null;
 
-  private readonly ASPECT_RATIO: number = 1.77;
-  private readonly OUTPUT_FRAME_RATE: number = 60;
+  private readonly ASPECT_RATIO: number = appConfig.defaultVideoScale;
+  private readonly OUTPUT_FRAME_RATE: number = appConfig.defaultVideoCapturingFramerate;
 
   /* Rendering services. */
   private readonly internalRenderingService: CommonRenderingService = new CommonRenderingService();
@@ -82,8 +83,8 @@ export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererPro
       this.internalRenderingService.enableInteraction();
     }
 
+    this.internalRenderingService.disableContextCleanup();
     this.externalRenderingService.disableInteraction();
-    // todo:
     this.externalRenderingService.disableContextCleanup();
 
     this.internalRenderingService.render();
@@ -223,7 +224,7 @@ export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererPro
     const contextSizing: ICanvasGraphicsSizingContext = this.internalRenderingService.getSizing();
 
     const absoluteX: number = (event.pageX - clientRect.left);
-    const absoluteY: number = ( event.pageY - clientRect.top);
+    const absoluteY: number = (event.pageY - clientRect.top);
 
     return { x: absoluteX * contextSizing.width / clientRect.width, y: absoluteY * contextSizing.height / clientRect.height };
   }

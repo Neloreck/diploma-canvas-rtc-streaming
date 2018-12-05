@@ -58,21 +58,21 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
   public handleMouseEnter(point: IPoint): void {
     if (this.interactionEnabled) {
-      this.resizing = false;
+      this.resizing = null;
       this.mouseDown = false;
     }
   }
 
   public handleMouseLeave(point: IPoint): void {
     if (this.interactionEnabled) {
-      this.resizing = false;
+      this.resizing = null;
       this.mouseDown = false;
     }
   }
 
   public handleMouseUp(point: IPoint): void {
     if (this.interactionEnabled) {
-      this.resizing = false;
+      this.resizing = null;
       this.mouseDown = false;
     }
   }
@@ -122,7 +122,7 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
     if (interactiveSelectedObject !== null) {
 
       if (this.resizing === null) {
-        this.setResizing(interactiveSelectedObject.isInResizeBounds(point));
+        this.resizing = interactiveSelectedObject.isInResizeBounds(point);
       }
 
       if (this.resizing === true) {

@@ -44,9 +44,9 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
     let previewItems: Array<CanvasGraphicsRenderObject> = [this.getMainVideoRenderer()];
 
     // Show grid for preview.
-    if (showGraphics === true && showPreview === false) {
+    if (showGraphics === true) {
 
-      if (showGrid) {
+      if (showPreview === false && showGrid === true) {
         previewItems.push(new GridLayoutRO(3, 3));
       }
 

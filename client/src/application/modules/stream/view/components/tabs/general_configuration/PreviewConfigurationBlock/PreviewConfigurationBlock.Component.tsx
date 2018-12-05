@@ -7,7 +7,12 @@ import {ChangeEvent, Component} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 // Data.
-import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
+import {
+  graphicsContextManager,
+  IGraphicsContext,
+  ISourceContext,
+  sourceContextManager
+} from "@Module/stream/data/store";
 
 // View.
 import {Divider, FormControlLabel, Grid, Grow, Switch, Typography, WithStyles} from "@material-ui/core";
@@ -19,10 +24,11 @@ export interface IPreviewConfigurationBlockState {
   showPreviewConfiguration: boolean;
 }
 
-export interface IPreviewConfigurationBlockExternalProps extends WithStyles<typeof previewConfigurationBlockStyle>, IGraphicsContext {}
+export interface IPreviewConfigurationBlockExternalProps extends WithStyles<typeof previewConfigurationBlockStyle>, IGraphicsContext, ISourceContext {}
 export interface IPreviewConfigurationBlockOwnProps {}
 export interface IPreviewConfigurationBlockProps extends IPreviewConfigurationBlockOwnProps, IPreviewConfigurationBlockExternalProps {}
 
+@Consume<ISourceContext, IPreviewConfigurationBlockProps>(sourceContextManager)
 @Consume<IGraphicsContext, IPreviewConfigurationBlockProps>(graphicsContextManager)
 @Styled(previewConfigurationBlockStyle)
 export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBlockProps, IPreviewConfigurationBlockState> {
@@ -126,6 +132,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
   @Bind()
   private onMainVideoDisplayToggle(event: ChangeEvent): void {
     this.props.graphicsActions.setMainVideoDisplay((event.target as any).checked);
+    this.props.sourceActions.updateInputStream(null);
   }
 
   @Bind()

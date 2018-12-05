@@ -5,6 +5,7 @@
 echo "Building SPA bundle (production).";
 (cd ./client && npm run build);
 
+# CAN BE CHANGED, NOTE:
 echo "Moving SPA bundle into resources folder.";
 cp -r ./client/target/dist/* ./server/src/main/resources/public/spa/;
 
