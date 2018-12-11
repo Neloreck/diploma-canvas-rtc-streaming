@@ -1,5 +1,5 @@
 // Lib.
-import {AbstractBaseRectangleObject} from "@Lib/graphics";
+import {AbstractBaseRectangleObject, IRectSizing} from "@Lib/graphics";
 import {ICanvasGraphicsSizingContext} from "@Lib/graphics";
 
 // Data.
@@ -43,8 +43,10 @@ export class DesktopFrame extends AbstractBaseRectangleObject {
   }
 
   public renderSelf(): void {
+
     const context: CanvasRenderingContext2D = this.getContext();
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
+    const absoluteRect: IRectSizing = this.getAbsoluteSizing();
 
     const configuration = this.configuration;
 
@@ -55,17 +57,17 @@ export class DesktopFrame extends AbstractBaseRectangleObject {
 
     if (configuration.renderBackground) {
       context.fillStyle = configuration.backgroundColor;
-      context.fillRect(this.percentsToAbsoluteWidth(this.left), this.percentsToAbsoluteHeight(this.top), this.percentsToAbsoluteWidth(this.width), this.percentsToAbsoluteHeight(this.height));
+      context.fillRect(absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
     }
 
     if (configuration.renderBorder) {
       context.lineWidth = configuration.borderWidth;
       context.strokeStyle = configuration.borderColor;
-      context.fillRect(this.percentsToAbsoluteWidth(this.left), this.percentsToAbsoluteHeight(this.top), this.percentsToAbsoluteWidth(this.width), this.percentsToAbsoluteHeight(this.height));
+      context.fillRect(absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
       context.stroke();
     }
 
-    context.drawImage(this.hiddenVideoRenderer, this.percentsToAbsoluteWidth(this.left), this.percentsToAbsoluteHeight(this.top), this.percentsToAbsoluteWidth(this.width), this.percentsToAbsoluteHeight(this.height));
+    context.drawImage(this.hiddenVideoRenderer, absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
     context.closePath();
   }
 

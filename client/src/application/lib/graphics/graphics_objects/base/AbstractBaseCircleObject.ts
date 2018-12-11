@@ -1,12 +1,13 @@
-import {IPoint} from "../../types";
+import {ICanvasGraphicsSizingContext, IPoint} from "../../types";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
+import {ResizeHandler} from "./ResizeHandler";
 
 export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsResizableObject {
 
   public radius: number = 10;
   public center: IPoint = { x: 50, y: 50 };
 
-  protected resizeControlsSize: number = 10;
+  protected resizeControl: ResizeHandler = new ResizeHandler(0, this);
 
   // private readonly resizeControl: ResizeControl = new ResizeControl();
 
@@ -19,6 +20,20 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
     this.center = center || this.center;
   }
 
+  // Base setters for context.
+
+  public setContext(context: CanvasRenderingContext2D): void {
+    this.resizeControl.setContext(context);
+    super.setContext(context);
+  }
+
+  public setSizing(sizing: ICanvasGraphicsSizingContext): void {
+    this.resizeControl.setSizing(sizing);
+    super.setSizing(sizing);
+
+    this.updateResizerPosition();
+  }
+
   /* Complex checks. */
 
   public isInBounds(targetPoint: IPoint): boolean {
@@ -29,7 +44,7 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
     // Cast to avoid scale related things.
 
     return (
-      Math.sqrt(Math.pow(targetPoint.x * pWidth - center.x * pWidth, 2) + Math.pow(pHeight * targetPoint.y - pHeight * center.y, 2))
+      Math.sqrt(Math.pow((targetPoint.x - center.x) * pWidth, 2) + Math.pow((targetPoint.y - center.y) * pHeight, 2))
       <
       pWidth * this.getBoundsRadius()
     );
@@ -41,8 +56,12 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
     const distance: number = Math.sqrt(Math.pow(target.x - this.percentsToAbsoluteWidth(this.center.x), 2) + Math.pow(target.y - this.percentsToAbsoluteWidth(this.center.y), 2));
     const isResizingOverBorder: boolean = (this.selected && Math.abs(this.percentsToAbsoluteWidth(this.radius) - distance) < 4);
 
-    return false;
-    // return (isResizingOverBorder || this.resizeControl.isInBounds(target));
+    return (isResizingOverBorder || this.resizeControl.isInBounds(target));
+  }
+
+  public dispose(): void {
+    super.dispose();
+    this.resizeControl.dispose();
   }
 
   /* Selection and interaction rendering. */
@@ -87,34 +106,29 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
   }
 
   protected renderResizeControls(): void {
-
-    const resizeSize: number = this.resizeControlsSize;
-/*
-    this.resizeControl.setContext(this.getContext());
-    this.resizeControl.setSizing(this.getSizing());
-    this.resizeControl.updateAbsoluteSizing(this.percentsToAbsoluteWidth(this.center.x) - resizeSize / 2, this.percentsToAbsoluteHeight(this.center.y - this.percentsToAbsoluteHeight(this.radius)) , resizeSize, resizeSize);
-    this.resizeControl.renderSelf();*/
+    this.resizeControl.render();
   }
 
   /* Moving. */
 
   protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
 
-    const center: IPoint = this.center;
+    this.setBoundsCenter({
+      x: this.center.x + (moveTo.x - moveFrom.x),
+      y: this.center.y + (moveTo.y - moveFrom.y)
+    });
 
-    const newPosition: IPoint = {
-      x: center.x + (moveTo.x - moveFrom.x),
-      y: center.y + (moveTo.y - moveFrom.y)
-    };
-
-    this.setBoundsCenter(newPosition);
+    this.updateResizerPosition();
   }
 
   /* Resizing. */
 
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
-    const distance: number = Math.sqrt(Math.pow(resizeTo.x - this.center.x, 2) + Math.pow(resizeTo.y - this.center.y, 2));
-    this.radius = Math.max(this.resizeControlsSize + 2, distance);
+
+    const {heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
+    const distance: number = Math.sqrt(Math.pow(pWidth * (resizeTo.x - this.center.x), 2) + Math.pow(pHeight * (resizeTo.y - this.center.y), 2));
+
+    this.radius = Math.max(this.absoluteToPercentsWidth(this.resizeControl.absoluteSize), this.absoluteToPercentsWidth(distance));
   }
 
   // Setters <-> Getters.
@@ -133,6 +147,15 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
 
   protected getBoundsCenter(): IPoint {
     return this.center;
+  }
+
+  // For resizers.
+
+  private updateResizerPosition(): void {
+    this.resizeControl.setRoot({
+      x: this.center.x - this.absoluteToPercentsWidth(this.resizeControl.absoluteSize) / 2,
+      y: this.center.y - this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(this.radius))
+    });
   }
 
 }

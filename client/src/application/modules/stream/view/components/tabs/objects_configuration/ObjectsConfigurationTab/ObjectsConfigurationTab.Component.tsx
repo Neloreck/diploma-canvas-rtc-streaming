@@ -8,7 +8,6 @@ import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {VerticalDraggableVHResizer} from "@Lib/react_lib/components";
 import {Optional} from "@Lib/ts/types";
-import {GeneralUtils} from "@Lib/utils";
 
 // Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
@@ -188,7 +187,11 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
 
   @Bind()
   private onGraphicsItemCopyClicked(object: AbstractCanvasGraphicsRenderObject): void {
-    this.props.graphicsActions.addObject(GeneralUtils.copyInstance(object));
+
+    const copy: AbstractCanvasGraphicsRenderObject = object.getCopy();
+
+    this.props.graphicsActions.addObject(copy);
+    this.props.graphicsActions.selectObject(copy);
   }
 
   @Bind()

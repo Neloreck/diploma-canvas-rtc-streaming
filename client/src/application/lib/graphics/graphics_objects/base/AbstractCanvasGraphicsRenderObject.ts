@@ -1,3 +1,4 @@
+import {cloneDeep} from "lodash";
 import {ICanvasGraphicsSizingContext} from "../../types";
 import {generateUUID} from "../../utils";
 
@@ -91,6 +92,10 @@ export abstract class AbstractCanvasGraphicsRenderObject {
 
   public dispose(): void {
     /* Some objects need destruction */
+  }
+
+  public getCopy(): AbstractCanvasGraphicsRenderObject {
+    return Object.assign(Object.create(Object.getPrototypeOf(this)), cloneDeep(this), { id: generateUUID() });
   }
 
   protected beforeRender(): void {

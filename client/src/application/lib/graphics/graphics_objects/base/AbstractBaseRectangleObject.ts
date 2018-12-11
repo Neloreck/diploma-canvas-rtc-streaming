@@ -1,4 +1,4 @@
-import {IBoundingRect, ICanvasGraphicsSizingContext, IPoint} from "../../types";
+import {IBoundingRect, ICanvasGraphicsSizingContext, IPoint, IRectSizing} from "../../types";
 import {GeometricUtils} from "../../utils/GeometricUtils";
 import {RenderUtils} from "../../utils/RenderUtils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
@@ -6,7 +6,7 @@ import {ResizeHandler} from "./ResizeHandler";
 
 export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphicsResizableObject {
 
-  public rectSize = {
+  public rectSize: IRectSizing = {
     height: 20,
     left: 40,
     top: 40,
@@ -115,6 +115,11 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
     this.renderResizeControls();
   }
 
+  public dispose(): void {
+    super.dispose();
+    this.resizeControls.forEach((control: ResizeHandler): void => control.dispose());
+  }
+
   protected renderSelectionOverElement(): void {
 
     const absoluteBoundingRect: IBoundingRect = this.getAbsoluteSizingBoundingRect();
@@ -205,6 +210,18 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
       botRight: { x: (this.rectSize.left + this.rectSize.width) * pWidth, y: (this.rectSize.top + this.rectSize.height) * pHeight },
       topLeft: { x: (this.rectSize.left) * pWidth , y: (this.rectSize.top) * pHeight },
       topRight: { x: (this.rectSize.left + this.rectSize.width) * pWidth, y: (this.rectSize.top) * pHeight }
+    };
+  }
+
+  protected getAbsoluteSizing(): IRectSizing {
+
+    const {heightPercent: pHeight, widthPercent: pWidth} = this.getBasePercentSizing();
+
+    return {
+      height: this.rectSize.height * pHeight,
+      left: this.rectSize.left * pWidth,
+      top: this.rectSize.top * pHeight,
+      width: this.rectSize.width * pWidth
     };
   }
 

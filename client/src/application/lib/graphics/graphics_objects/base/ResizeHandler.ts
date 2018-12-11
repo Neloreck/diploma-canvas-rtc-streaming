@@ -47,6 +47,12 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
     this.rectRoot.top = rootPoint.y;
   }
 
+  public dispose(): void {
+    super.dispose();
+    // @ts-ignore for dispose
+    this.owner = null;
+  }
+
   protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
     this.setRoot({
       x: moveTo.x -  this.absoluteToPercentsWidth(this.absoluteSize) / 2,
