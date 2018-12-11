@@ -35,6 +35,7 @@ export abstract class AbstractRenderingService {
 
   public setRenderObjects(rendererObjects: Array<AbstractCanvasGraphicsRenderObject>): void {
     this.rendererObjects = rendererObjects;
+    this.rendererObjects.forEach((object: AbstractCanvasGraphicsRenderObject) => object.setSizing(this.sizingContext));
   }
 
   public getRenderObjects(): Array<AbstractCanvasGraphicsRenderObject> {
@@ -89,6 +90,7 @@ export abstract class AbstractRenderingService {
     this.sizingContext = sizingContext;
     this.internalWebGLRenderer.width = sizingContext.width;
     this.internalWebGLRenderer.height = sizingContext.height;
+    this.rendererObjects.forEach((object: AbstractCanvasGraphicsRenderObject): void => object.setSizing(sizingContext));
   }
 
   public getSizing(): ICanvasGraphicsSizingContext {

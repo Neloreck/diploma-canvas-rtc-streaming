@@ -103,6 +103,12 @@ export class CanvasGraphicsRenderer
     if (nextProps.graphicsState.selectedObject !== this.props.graphicsState.selectedObject) {
       this.internalRenderingService.setSelectedObject(nextProps.graphicsState.selectedObject);
     }
+
+    // Apply render changes.
+    if (nextProps.graphicsState.objects !== this.props.graphicsState.objects) {
+      this.internalRenderingService.setRenderObjects(nextProps.graphicsState.objects);
+      this.externalRenderingService.setRenderObjects(nextProps.graphicsState.objects);
+    }
   }
 
   public componentDidUpdate(): void {

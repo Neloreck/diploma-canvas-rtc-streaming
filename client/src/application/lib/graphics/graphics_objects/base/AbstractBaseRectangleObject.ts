@@ -34,16 +34,9 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
 
   /* Base context interaction. */
 
-  public setContext(context: CanvasRenderingContext2D): void {
-    this.resizeControls.forEach((control: ResizeHandler): void => control.setContext(context));
-    super.setContext(context);
-  }
-
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
     this.resizeControls.forEach((control: ResizeHandler): void => control.setSizing(sizing));
     super.setSizing(sizing);
-
-    this.updateResizersPositions();
   }
 
   /* Complex checks. */
@@ -104,7 +97,6 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
 
       default:
         throw new Error("Unknown corner: " + index);
-
     }
   }
 
@@ -148,7 +140,7 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
   }
 
   protected renderResizeControls(): void {
-    this.resizeControls.forEach((control: ResizeHandler): void => control.render());
+    this.resizeControls.forEach((control: ResizeHandler): void => control.render(this.getContext()));
   }
 
   /* Moving. */
@@ -181,6 +173,10 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
     } else {
       this.resizeControls[3].move(resizeTo, resizeFrom);
     }
+  }
+
+  protected afterResize(): void {
+    this.updateResizersPositions();
   }
 
   /*

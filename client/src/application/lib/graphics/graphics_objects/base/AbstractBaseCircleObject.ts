@@ -22,16 +22,9 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
 
   // Base setters for context.
 
-  public setContext(context: CanvasRenderingContext2D): void {
-    this.resizeControl.setContext(context);
-    super.setContext(context);
-  }
-
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
     this.resizeControl.setSizing(sizing);
     super.setSizing(sizing);
-
-    this.updateResizerPosition();
   }
 
   /* Complex checks. */
@@ -52,12 +45,15 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
 
   public isInResizeBounds(target: IPoint): boolean {
 
-    // todo: Magic removed.
-    const distance: number = Math.sqrt(Math.pow(target.x - this.percentsToAbsoluteWidth(this.center.x), 2) + Math.pow(target.y - this.percentsToAbsoluteWidth(this.center.y), 2));
-    const isResizingOverBorder: boolean = (this.selected && Math.abs(this.percentsToAbsoluteWidth(this.radius) - distance) < 4);
+    const {heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
+
+    const distance: number = Math.sqrt(Math.pow(pWidth * (target.x - this.center.x), 2) + Math.pow(pHeight * (target.y - this.center.y), 2));
+    const isResizingOverBorder: boolean = (this.selected && Math.abs(this.radius * pWidth - distance) < 4);
 
     return (isResizingOverBorder || this.resizeControl.isInBounds(target));
   }
+
+  /* Dispose everything */
 
   public dispose(): void {
     super.dispose();
@@ -106,7 +102,7 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
   }
 
   protected renderResizeControls(): void {
-    this.resizeControl.render();
+    this.resizeControl.render(this.getContext());
   }
 
   /* Moving. */
@@ -131,11 +127,11 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
     this.radius = Math.max(this.absoluteToPercentsWidth(this.resizeControl.absoluteSize), this.absoluteToPercentsWidth(distance));
   }
 
-  // Setters <-> Getters.
-
-  protected setBoundsRadius(radius: number): void {
-    this.radius = radius;
+  protected afterResize(): void {
+    this.updateResizerPosition();
   }
+
+  // Setters <-> Getters.
 
   protected getBoundsRadius(): number {
     return this.radius + 0.05;

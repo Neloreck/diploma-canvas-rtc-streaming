@@ -3,7 +3,7 @@ import {
   AbstractCanvasGraphicsMovableObject,
   AbstractCanvasGraphicsRenderObject,
   AbstractCanvasGraphicsResizableObject
-} from "../graphics_objects/index";
+} from "../graphics_objects";
 import {AbstractRenderingService} from "./AbstractRenderingService";
 
 import {IPoint} from "../types";

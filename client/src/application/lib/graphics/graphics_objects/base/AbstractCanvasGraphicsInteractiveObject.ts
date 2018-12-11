@@ -21,6 +21,6 @@ export abstract class AbstractCanvasGraphicsInteractiveObject extends AbstractCa
   // Is shape in coordinate bounds.
   public abstract isInBounds(checkPoint: IPoint): boolean;
 
-  public abstract renderInteraction(): void;
+  public abstract renderInteraction(context: CanvasRenderingContext2D): void;
 
 }

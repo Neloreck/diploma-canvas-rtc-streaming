@@ -83,7 +83,8 @@ export abstract class AbstractCanvasGraphicsRenderObject {
 
   // Cleanup lifecycle related.
 
-  public render(): void {
+  public render(context: CanvasRenderingContext2D): void {
+    this.setContext(context);
     this.beforeRender();
     this.renderSelf();
     this.afterRender();
