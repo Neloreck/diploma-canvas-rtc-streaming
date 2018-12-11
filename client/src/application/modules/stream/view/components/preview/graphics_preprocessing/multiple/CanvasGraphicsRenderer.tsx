@@ -6,17 +6,14 @@ import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
 import {
-  CanvasGraphicsRenderObject,
-  CommonRenderingService,
-  ERenderingServiceEvent, ICanvasGraphicsSizingContext, IPoint
+  AbstractCanvasGraphicsRenderObject, CommonRenderingService, ERenderingServiceEvent, IGraphicsRendererReactComponent, IPoint
 } from "@Lib/graphics";
 import {DomVideo} from "@Lib/react_lib/components";
-import {Optional} from "@Lib/ts/type";
-import {DomSizingUtils} from "@Lib/util/DomSizingUtils";
-import {Logger} from "@Lib/util/logger";
+import {Optional} from "@Lib/ts/types";
+import {DomSizingUtils, Logger} from "@Lib/utils";
 
 // Data.
-import {appConfig} from "@Main/config";
+import {applicationConfig} from "@Main/data/config";
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
@@ -31,8 +28,8 @@ export interface ICanvasGraphicsRendererState {
 export interface ICanvasGraphicsRendererOwnProps {
   onOutputStreamReady: (stream: Optional<MediaStream>) => void;
   previewMode: boolean;
-  internalRenderingItems: Array<CanvasGraphicsRenderObject>;
-  externalRenderingItems: Array<CanvasGraphicsRenderObject>;
+  internalRenderingItems: Array<AbstractCanvasGraphicsRenderObject>;
+  externalRenderingItems: Array<AbstractCanvasGraphicsRenderObject>;
 }
 
 export interface ICanvasGraphicsRendererExternalProps extends IGraphicsContext {}
@@ -40,25 +37,31 @@ export interface ICanvasGraphicsRendererExternalProps extends IGraphicsContext {
 export interface ICanvasGraphicsRendererProps extends ICanvasGraphicsRendererOwnProps, ICanvasGraphicsRendererExternalProps {}
 
 @Consume<IGraphicsContext, ICanvasGraphicsRendererProps>(graphicsContextManager)
-export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererProps, ICanvasGraphicsRendererState> {
+export class CanvasGraphicsRenderer
+  extends Component<ICanvasGraphicsRendererProps, ICanvasGraphicsRendererState> implements IGraphicsRendererReactComponent {
 
   public state = {
     videoSizing: { width: undefined, height: undefined }
   };
 
-  private log: Logger = new Logger("[CGR]", true);
+  private readonly ASPECT_RATIO: number = applicationConfig.defaultVideoScale;
+  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.defaultVideoCapturingFramerate;
 
-  private videoContainerRef: RefObject<HTMLDivElement> = createRef();
+  private readonly log: Logger = new Logger("[CGR]", true);
+  private readonly videoContainerRef: RefObject<HTMLDivElement> = createRef();
+
+  /*
+   * Rendering services.
+   */
+
   private internalStream: Optional<MediaStream> = null;
 
-  private readonly ASPECT_RATIO: number = appConfig.defaultVideoScale;
-  private readonly OUTPUT_FRAME_RATE: number = appConfig.defaultVideoCapturingFramerate;
-
-  /* Rendering services. */
   private readonly internalRenderingService: CommonRenderingService = new CommonRenderingService();
   private readonly externalRenderingService: CommonRenderingService = new CommonRenderingService();
 
-  constructor(props: ICanvasGraphicsRendererProps) {
+  // Constructing.
+
+  public constructor(props: ICanvasGraphicsRendererProps) {
     super(props);
 
     // Handlers for outside emitting.
@@ -127,8 +130,14 @@ export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererPro
     this.internalStream = null;
   }
 
+  /*
+   * Rendering.
+   */
+
   public render(): JSX.Element {
+
     const { videoSizing } = this.state;
+
     return (
       <Fragment>
 
@@ -140,7 +149,7 @@ export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererPro
           onMouseLeave={this.handleLayoutMouseLeave}
           onMouseDown={this.handleLayoutMouseDown}
           onMouseUp={this.handleLayoutMouseUp}
-          onContextMenu={this.handleContextMenu}
+          onContextMenu={this.handleContextDown}
         >
           <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height}/>
         </div>
@@ -156,15 +165,67 @@ export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererPro
     );
   }
 
-  /* SERVICE events related methods: */
+  /*
+   * Handle DOM events:
+   */
 
   @Bind()
-  private attachServiceHandlers(): void {
-    this.internalRenderingService.addEventListener(ERenderingServiceEvent.OBJECT_SELECTED, this.onRenderingObjectSelected);
+  public handleContextDown(event: MouseEvent): void {
+    event.preventDefault();
+    this.internalRenderingService.handleContextDown(this.getPercentageMouseEventCoordinate(event));
   }
 
   @Bind()
-  private onRenderingObjectSelected(object: Optional<CanvasGraphicsRenderObject>): void {
+  public handleLayoutMouseDown(event: MouseEvent): void {
+    this.internalRenderingService.handleMouseDown(this.getPercentageMouseEventCoordinate(event));
+  }
+
+  @Bind()
+  public handleLayoutMouseUp(event: MouseEvent): void {
+    this.internalRenderingService.handleMouseUp(this.getPercentageMouseEventCoordinate(event));
+  }
+
+  @Bind()
+  public handleLayoutMouseMove(event: MouseEvent): void {
+    this.internalRenderingService.handleMouseMove(this.getPercentageMouseEventCoordinate(event));
+  }
+
+  @Bind()
+  public handleLayoutMouseEnter(event: MouseEvent): void {
+    this.internalRenderingService.handleMouseEnter(this.getPercentageMouseEventCoordinate(event));
+  }
+
+  @Bind()
+  public handleLayoutMouseLeave(event: MouseEvent): void {
+    this.internalRenderingService.handleMouseLeave(this.getPercentageMouseEventCoordinate(event));
+  }
+
+  @Bind()
+  public getPercentageMouseEventCoordinate(event: MouseEvent): IPoint {
+
+    const clientRect: ClientRect = ((this.videoContainerRef.current as HTMLDivElement).firstChild as HTMLVideoElement).getBoundingClientRect();
+
+    const newX: number = (event.pageX - clientRect.left)  * 100 / clientRect.width;
+    const newY: number = (event.pageY - clientRect.top) * 100 / clientRect.height;
+
+    return { x: newX > 100 ? 100 : (newX < 0 ? 0 : newX), y: newY > 100 ? 100 : (newY < 0 ? 0 : newY) };
+  }
+
+  /*
+   * Sizing related:
+   */
+
+  @Bind()
+  public resize(width: number, height: number): void {
+    this.setState({ videoSizing: DomSizingUtils.recalculateToRatio(width, height, this.ASPECT_RATIO) });
+  }
+
+  /*
+   * Service events related methods:
+   */
+
+  @Bind()
+  public onRenderingObjectSelected(object: Optional<AbstractCanvasGraphicsRenderObject>): void {
 
     const {graphicsState: {propagateRendererEvents}, graphicsActions: {selectObject}} = this.props;
 
@@ -173,60 +234,9 @@ export class CanvasGraphicsRenderer extends Component<ICanvasGraphicsRendererPro
     }
   }
 
-  /* DOM events related methods: */
-
   @Bind()
-  private handleLayoutMouseDown(event: MouseEvent): void {
-    this.internalRenderingService.handleMouseDown(this.getAbsoluteServiceMouseEventCoordinate(event));
-  }
-
-  @Bind()
-  private handleContextMenu(event: MouseEvent): void {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.internalRenderingService.setSelectedObject(null);
-  }
-
-  @Bind()
-  private handleLayoutMouseUp(event: MouseEvent): void {
-    this.internalRenderingService.handleMouseUp(this.getAbsoluteServiceMouseEventCoordinate(event));
-  }
-
-  @Bind()
-  private handleLayoutMouseMove(event: MouseEvent): void {
-    this.internalRenderingService.handleMouseMove(this.getAbsoluteServiceMouseEventCoordinate(event));
-  }
-
-  @Bind()
-  private handleLayoutMouseEnter(event: MouseEvent): void {
-    this.internalRenderingService.handleMouseEnter(this.getAbsoluteServiceMouseEventCoordinate(event));
-  }
-
-  @Bind()
-  private handleLayoutMouseLeave(event: MouseEvent): void {
-    this.internalRenderingService.handleMouseLeave(this.getAbsoluteServiceMouseEventCoordinate(event));
-  }
-
-  /* Sizing related methods: */
-
-  @Bind()
-  private resize(width: number, height: number): void {
-    this.setState({ videoSizing: DomSizingUtils.recalculateToRatio(width, height, this.ASPECT_RATIO) });
-  }
-
-  private getAbsoluteServiceMouseEventCoordinate(event: MouseEvent): IPoint {
-
-    // todo: Percentage.
-
-    const clientRect: ClientRect = ((this.videoContainerRef.current as HTMLDivElement).firstChild as HTMLVideoElement).getBoundingClientRect();
-    const contextSizing: ICanvasGraphicsSizingContext = this.internalRenderingService.getSizing();
-
-    const absoluteX: number = (event.pageX - clientRect.left);
-    const absoluteY: number = (event.pageY - clientRect.top);
-
-    return { x: absoluteX * contextSizing.width / clientRect.width, y: absoluteY * contextSizing.height / clientRect.height };
+  private attachServiceHandlers(): void {
+    this.internalRenderingService.addEventListener(ERenderingServiceEvent.OBJECT_SELECTED, this.onRenderingObjectSelected);
   }
 
 }

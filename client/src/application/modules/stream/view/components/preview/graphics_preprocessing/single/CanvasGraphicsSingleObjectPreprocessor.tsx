@@ -2,12 +2,12 @@ import * as React from "react";
 import {PureComponent} from "react";
 
 // Lib.
-import {CanvasGraphicsRenderObject} from "@Lib/graphics";
+import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
 // View.
 
 export interface ICanvasGraphicsSingleObjectPreprocessorProps {
-  object: CanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject;
   aspectRatio?: number;
 }
 

@@ -5,7 +5,7 @@ import {Component} from "react";
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {DomVideo} from "@Lib/react_lib/components";
-import {Optional} from "@Lib/ts/type";
+import {Optional} from "@Lib/ts/types";
 
 // Data.
 import {EDeviceKind, localMediaService} from "@Module/stream/data/services/local_media";

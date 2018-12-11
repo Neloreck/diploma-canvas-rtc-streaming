@@ -6,7 +6,7 @@ import {PureComponent} from "react";
 // Todo: AdapterJS injection.
 
 // Lib.
-import {log} from "@Lib/util/logger";
+import {log} from "@Lib/utils";
 
 // Data.
 import {graphicsContextManager, sourceContextManager} from "@Module/stream/data/store";

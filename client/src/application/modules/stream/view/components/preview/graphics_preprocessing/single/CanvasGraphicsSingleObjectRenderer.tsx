@@ -4,15 +4,15 @@ import {createRef, Fragment, MouseEvent, PureComponent, RefObject} from "react";
 import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
-import {AbstractRenderingService, CanvasGraphicsRenderObject, CommonRenderingService, ICanvasGraphicsSizingContext} from "@Lib/graphics";
-import {DomSizingUtils} from "@Lib/util/DomSizingUtils";
+import {AbstractCanvasGraphicsRenderObject, AbstractRenderingService, CommonRenderingService, ICanvasGraphicsSizingContext} from "@Lib/graphics";
+import {DomSizingUtils} from "@Lib/utils/DomSizingUtils";
 
 // View.
 import "../canvasStyling.scss";
 
 // Props.
 export interface ICanvasGraphicsSingleObjectRendererProps {
-  object: CanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject;
   aspectRatio?: number;
 }
 

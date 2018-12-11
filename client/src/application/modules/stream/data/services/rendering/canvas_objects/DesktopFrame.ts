@@ -1,11 +1,11 @@
 // Lib.
-import {AbstractMovableRectangleObject} from "@Lib/graphics";
+import {AbstractBaseRectangleObject} from "@Lib/graphics";
 import {ICanvasGraphicsSizingContext} from "@Lib/graphics";
 
 // Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 
-export class DesktopFrame extends AbstractMovableRectangleObject {
+export class DesktopFrame extends AbstractBaseRectangleObject {
 
   private static DESKTOP_CAPTURING_CONSTRAINT = {
     video: {
@@ -45,7 +45,7 @@ export class DesktopFrame extends AbstractMovableRectangleObject {
   public renderSelf(): void {
     const context: CanvasRenderingContext2D = this.getContext();
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
-    const {width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
+
     const configuration = this.configuration;
 
     this.hiddenVideoRenderer.width = sizing.width;
@@ -55,17 +55,17 @@ export class DesktopFrame extends AbstractMovableRectangleObject {
 
     if (configuration.renderBackground) {
       context.fillStyle = configuration.backgroundColor;
-      context.fillRect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
+      context.fillRect(this.percentsToAbsoluteWidth(this.left), this.percentsToAbsoluteHeight(this.top), this.percentsToAbsoluteWidth(this.width), this.percentsToAbsoluteHeight(this.height));
     }
 
     if (configuration.renderBorder) {
       context.lineWidth = configuration.borderWidth;
       context.strokeStyle = configuration.borderColor;
-      context.rect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
+      context.fillRect(this.percentsToAbsoluteWidth(this.left), this.percentsToAbsoluteHeight(this.top), this.percentsToAbsoluteWidth(this.width), this.percentsToAbsoluteHeight(this.height));
       context.stroke();
     }
 
-    context.drawImage(this.hiddenVideoRenderer, this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
+    context.drawImage(this.hiddenVideoRenderer, this.percentsToAbsoluteWidth(this.left), this.percentsToAbsoluteHeight(this.top), this.percentsToAbsoluteWidth(this.width), this.percentsToAbsoluteHeight(this.height));
     context.closePath();
   }
 

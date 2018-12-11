@@ -4,11 +4,11 @@ import * as React from "react";
 import {ChangeEvent, Component, Fragment} from "react";
 
 // Lib.
-import {CanvasGraphicsRenderObject} from "@Lib/graphics";
+import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
 import {VerticalDraggableVHResizer} from "@Lib/react_lib/components";
-import {Optional} from "@Lib/ts/type";
-import {GeneralUtils} from "@Lib/util/GeneralUtils";
+import {Optional} from "@Lib/ts/types";
+import {GeneralUtils} from "@Lib/utils";
 
 // Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
@@ -182,17 +182,17 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
   }
 
   @Bind()
-  private onGraphicsItemRemoveClicked(object: CanvasGraphicsRenderObject): void {
+  private onGraphicsItemRemoveClicked(object: AbstractCanvasGraphicsRenderObject): void {
     this.props.graphicsActions.removeObject(object);
   }
 
   @Bind()
-  private onGraphicsItemCopyClicked(object: CanvasGraphicsRenderObject): void {
+  private onGraphicsItemCopyClicked(object: AbstractCanvasGraphicsRenderObject): void {
     this.props.graphicsActions.addObject(GeneralUtils.copyInstance(object));
   }
 
   @Bind()
-  private onConfigurableObjectSelected(object: CanvasGraphicsRenderObject) {
+  private onConfigurableObjectSelected(object: AbstractCanvasGraphicsRenderObject) {
     this.props.graphicsActions.selectObject(object);
   }
 
@@ -202,7 +202,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
   }
 
   @Bind()
-  private onObjectChangesApply(object: CanvasGraphicsRenderObject): void {
+  private onObjectChangesApply(object: AbstractCanvasGraphicsRenderObject): void {
 
     const {graphicsState: {selectedObject}} = this.props;
 

@@ -3,7 +3,7 @@ import * as React from "react";
 import {createRef, PureComponent, RefObject} from "react";
 import {MouseEvent} from "react";
 
-import {DocumentUtils} from "@Lib/util/DocumentUtils";
+import {DocumentUtils} from "@Lib/utils";
 
 // Props.
 export interface IVerticalDraggableVHResizer {

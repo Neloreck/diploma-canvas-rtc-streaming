@@ -2,7 +2,7 @@ import * as React from "react";
 import {PureComponent} from "react";
 
 // Liv.
-import {log} from "@Lib/util/logger";
+import {log} from "@Lib/utils";
 
 // View.
 import {ModuleRouter} from "@Main/ModuleRouter";

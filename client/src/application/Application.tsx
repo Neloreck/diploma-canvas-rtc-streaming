@@ -6,7 +6,7 @@ import {ApplicationRouter} from "./ApplicationRouter";
 
 /* Resources and global-scope imports: */
 
-import "@Main/assets/style/global.scss";
+import "@Main/view/assets/style/global.scss";
 import "typeface-roboto";
 
 @EntryPoint()

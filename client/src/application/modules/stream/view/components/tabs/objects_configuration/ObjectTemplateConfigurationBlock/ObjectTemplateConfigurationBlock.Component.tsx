@@ -3,9 +3,9 @@ import * as React from "react";
 import {Component} from "react";
 
 // Lib.
-import {AbstractMovableCircleObject, AbstractMovableRectangleObject, CanvasGraphicsRenderObject} from "@Lib/graphics";
+import {AbstractBaseCircleObject, AbstractBaseRectangleObject, AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
-import {GeneralUtils} from "@Lib/util/GeneralUtils";
+import {GeneralUtils} from "@Lib/utils";
 
 // Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
@@ -21,7 +21,7 @@ import {objectTemplateConfigurationBlockStyle} from "./ObjectTemplateConfigurati
 
 // Props.
 export interface IObjectTemplateConfigurationBlockState {
-  localObjectCopy: CanvasGraphicsRenderObject;
+  localObjectCopy: AbstractCanvasGraphicsRenderObject;
   objectDescriptor: ICanvasObjectDescriptor<any>;
 }
 
@@ -30,11 +30,11 @@ export interface IObjectTemplateConfigurationBlockExternalProps extends WithStyl
 export interface IObjectTemplateConfigurationBlockOwnProps {
   index: number;
   maxIndex: number;
-  object: CanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject;
   onCancelSelection: () => void;
   onObjectIndexSwap: (oldIndex: number, newIndex: number) => void;
-  onChangesApply: (object: CanvasGraphicsRenderObject) => void;
-  onSelectedRemove: (object: CanvasGraphicsRenderObject) => void;
+  onChangesApply: (object: AbstractCanvasGraphicsRenderObject) => void;
+  onSelectedRemove: (object: AbstractCanvasGraphicsRenderObject) => void;
 }
 
 export interface IObjectTemplateConfigurationBlockProps extends IObjectTemplateConfigurationBlockOwnProps, IObjectTemplateConfigurationBlockExternalProps {}
@@ -134,20 +134,20 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     onChangesApply(localObjectCopy);
   }
 
-  private getLocalCopyForPreview(object: CanvasGraphicsRenderObject): CanvasGraphicsRenderObject {
+  private getLocalCopyForPreview(object: AbstractCanvasGraphicsRenderObject): AbstractCanvasGraphicsRenderObject {
 
     const newObject = GeneralUtils.copyInstance(object);
 
     newObject.setDisabled(false);
 
-    if (newObject instanceof AbstractMovableRectangleObject) {
-      (newObject as AbstractMovableRectangleObject).left = 10;
-      (newObject as AbstractMovableRectangleObject).top = 10;
-      (newObject as AbstractMovableRectangleObject).width = 80;
-      (newObject as AbstractMovableRectangleObject).height = 80;
+    if (newObject instanceof AbstractBaseRectangleObject) {
+      (newObject as AbstractBaseRectangleObject).left = 10;
+      (newObject as AbstractBaseRectangleObject).top = 10;
+      (newObject as AbstractBaseRectangleObject).width = 80;
+      (newObject as AbstractBaseRectangleObject).height = 80;
     } else {
-      (newObject as AbstractMovableCircleObject).radius = 45;
-      (newObject as AbstractMovableCircleObject).center = { x: 50, y: 50 };
+      (newObject as AbstractBaseCircleObject).radius = 45;
+      (newObject as AbstractBaseCircleObject).center = { x: 50, y: 50 };
     }
 
     return newObject;

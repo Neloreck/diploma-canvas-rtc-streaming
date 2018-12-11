@@ -1,6 +1,6 @@
-import {AbstractMovableCircleObject} from "@Lib/graphics";
+import {AbstractBaseCircleObject} from "@Lib/graphics";
 
-export class SimpleCircle extends AbstractMovableCircleObject {
+export class SimpleCircle extends AbstractBaseCircleObject {
 
   public configuration = {
     backgroundColor: "#e5e7e9",
@@ -12,7 +12,6 @@ export class SimpleCircle extends AbstractMovableCircleObject {
   public renderSelf(): void {
 
     const context: CanvasRenderingContext2D = this.getContext();
-    const {width: pWidth, height: pHeight}: { width: number, height: number} = this.getPercentageBaseSizing();
     const configuration = this.configuration;
 
     context.strokeStyle = configuration.borderColor;
@@ -20,7 +19,7 @@ export class SimpleCircle extends AbstractMovableCircleObject {
 
     context.beginPath();
 
-    context.arc(this.center.x * pWidth, this.center.y * pHeight, this.radius * pWidth, 0, 2 * Math.PI);
+    context.arc(this.percentsToAbsoluteWidth(this.center.x ), this.percentsToAbsoluteHeight(this.center.y), this.percentsToAbsoluteWidth(this.radius), 0, 2 * Math.PI);
 
     if (configuration.renderBackground) {
       context.fillStyle = configuration.backgroundColor;

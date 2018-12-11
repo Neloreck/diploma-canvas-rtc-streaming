@@ -1,5 +1,5 @@
 // Lib.
-import {CanvasGraphicsRenderObject} from "@Lib/graphics";
+import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
 // Data.
 import {OpacityFilter, SimpleCircle, SimpleRectangle, VideoFrame} from "@Module/stream/data/services/rendering/canvas_objects";
@@ -31,7 +31,7 @@ export class RenderingService {
     return RenderingService.RENDER_DESCRIPTORS;
   }
 
-  public getDescriptor(object: CanvasGraphicsRenderObject) {
+  public getDescriptor(object: AbstractCanvasGraphicsRenderObject) {
     return RenderingService.RENDER_DESCRIPTORS.find(((it) => it.prototype === Object.getPrototypeOf(object))) || null;
   }
 

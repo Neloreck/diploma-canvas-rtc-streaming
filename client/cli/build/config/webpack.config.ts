@@ -3,7 +3,7 @@ import * as path from "path";
 import {TsConfigPathsPlugin} from "awesome-typescript-loader";
 
 // tslint:disable: no-var-requires
-const Dotenv = require("dotenv-webpack");
+const DotEnv = require("DotEnv-webpack");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
@@ -134,7 +134,7 @@ export class WebpackBuildConfig implements Configuration {
     new HtmlWebpackPlugin({
       environment,
       filename: "index.html",
-      favicon: path.resolve(projectRoot, "src/application/modules/main/assets/ico/favicon.ico"),
+      favicon: path.resolve(projectRoot, "src/application/modules/main/view/assets/favicon.ico"),
       inject: true,
       minify: {
         minifyCSS: true,
@@ -145,8 +145,8 @@ export class WebpackBuildConfig implements Configuration {
       },
       template: path.resolve(projectRoot, "src/application/index.hbs")
     }),
-    new Dotenv({
-      path: path.resolve(projectRoot, "cli/build/.env")
+    new DotEnv({
+      path: path.resolve(projectRoot, "cli/build/config/.env")
     }),
     isProduction ? new NoEmitOnErrorsPlugin() : new HotModuleReplacementPlugin()
   ];

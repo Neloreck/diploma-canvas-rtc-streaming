@@ -1,6 +1,6 @@
-import {AbstractMovableCircleObject} from "@Lib/graphics";
+import {AbstractBaseRectangleObject} from "@Lib/graphics";
 
-export class OpacityFilter extends AbstractMovableCircleObject {
+export class OpacityFilter extends AbstractBaseRectangleObject {
 
   public configuration = {
     value: 100

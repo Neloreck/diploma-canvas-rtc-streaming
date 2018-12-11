@@ -1,8 +1,8 @@
 import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 
-import {Optional} from "@Lib/ts/type";
-import {Logger} from "@Lib/util/logger";
+import {Optional} from "@Lib/ts/types";
+import {Logger} from "@Lib/utils";
 
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";

@@ -1,7 +1,7 @@
 import {Single} from "@redux-cbd/utils";
 
-import {Optional} from "@Lib/ts/type";
-import {Logger} from "@Lib/util/logger";
+import {Optional} from "@Lib/ts/types";
+import {Logger} from "@Lib/utils";
 
 import {EDeviceKind} from "@Module/stream/data/services/local_media/EDeviceKind";
 import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
@@ -64,13 +64,13 @@ export class LocalMediaService {
     }
 
     if (typeof stream.getTracks === "function") {
-      stream.getTracks().forEach((track) => track.stop());
+      stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
       return;
     }
 
     if (typeof stream.getAudioTracks === "function" && typeof stream.getVideoTracks === "function") {
-      stream.getAudioTracks().forEach((track) => track.stop());
-      stream.getVideoTracks().forEach((track) => track.stop());
+      stream.getAudioTracks().forEach((track: MediaStreamTrack) => track.stop());
+      stream.getVideoTracks().forEach((track: MediaStreamTrack) => track.stop());
       return;
     }
 

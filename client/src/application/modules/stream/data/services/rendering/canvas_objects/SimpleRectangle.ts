@@ -1,6 +1,6 @@
-import {AbstractMovableRectangleObject} from "@Lib/graphics";
+import {AbstractBaseRectangleObject} from "@Lib/graphics";
 
-export class SimpleRectangle extends AbstractMovableRectangleObject {
+export class SimpleRectangle extends AbstractBaseRectangleObject {
 
   public readonly configuration = {
     backgroundColor: "#e9e5e2",
@@ -12,7 +12,6 @@ export class SimpleRectangle extends AbstractMovableRectangleObject {
   public renderSelf(): void {
 
     const context: CanvasRenderingContext2D = this.getContext();
-    const { width: pWidth, height: pHeight } = this.getPercentageBaseSizing();
 
     const configuration = this.configuration;
 
@@ -23,10 +22,10 @@ export class SimpleRectangle extends AbstractMovableRectangleObject {
 
     if (configuration.renderBackground) {
       context.fillStyle = configuration.backgroundColor;
-      context.fillRect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
+      context.fillRect(this.percentsToAbsoluteWidth(this.rectSize.left), this.percentsToAbsoluteHeight(this.rectSize.top), this.percentsToAbsoluteWidth(this.rectSize.width), this.percentsToAbsoluteHeight(this.rectSize.height));
     }
 
-    context.rect(this.left * pWidth, this.top * pHeight, this.width * pWidth, this.height * pHeight);
+    context.rect(this.percentsToAbsoluteWidth(this.rectSize.left), this.percentsToAbsoluteHeight(this.rectSize.top), this.percentsToAbsoluteWidth(this.rectSize.width), this.percentsToAbsoluteHeight(this.rectSize.height));
     context.stroke();
     context.closePath();
   }

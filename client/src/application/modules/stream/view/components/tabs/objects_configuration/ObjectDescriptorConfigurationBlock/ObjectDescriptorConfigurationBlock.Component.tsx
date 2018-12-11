@@ -2,7 +2,7 @@ import * as React from "react";
 import {Component} from "react";
 
 // Lib.
-import {CanvasGraphicsRenderObject} from "@Lib/graphics";
+import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 // View.
@@ -16,7 +16,7 @@ export interface IObjectDescriptorConfigurationBlockState {}
 export interface IObjectDescriptorConfigurationBlockExternalProps extends WithStyles<typeof objectDescriptorConfigurationBlockStyle> {}
 
 export interface IObjectDescriptorConfigurationBlockOwnProps {
-  object: CanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject;
   descriptor: ICanvasObjectDescriptor<any>;
 }
 

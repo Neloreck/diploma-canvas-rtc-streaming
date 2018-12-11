@@ -1,7 +1,9 @@
 import {ReactContextManager} from "@redux-cbd/context";
 
-import {Optional} from "@Lib/ts/type";
+// Lib.
+import {Optional} from "@Lib/ts/types";
 
+// Data.
 import {IUserAuthData} from "./models/IUserAuthData";
 
 export interface IAuthContext {

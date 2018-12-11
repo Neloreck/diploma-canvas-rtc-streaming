@@ -40,7 +40,9 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
     const {graphicsState: {showMainVideo}} = this.props;
 
     if (showMainVideo) {
-      this.getDefaultVideo();
+      this
+        .getDefaultVideo()
+        .then();
     }
   }
 
@@ -51,7 +53,9 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
     if (nextProps.graphicsState.showMainVideo !== this.props.graphicsState.showMainVideo) {
       if (nextProps.graphicsState.showMainVideo) {
-        this.getDefaultVideo();
+        this
+          .getDefaultVideo()
+          .then();
       } else {
         localMediaService.killStream(inputStream);
       }
