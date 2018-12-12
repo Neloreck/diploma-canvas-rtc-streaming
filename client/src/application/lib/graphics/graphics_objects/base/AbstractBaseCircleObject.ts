@@ -1,4 +1,5 @@
 import {ICanvasGraphicsSizingContext, IPoint} from "../../types";
+import {RelativeRenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
 import {ResizeHandler} from "./ResizeHandler";
 
@@ -62,47 +63,36 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
 
   /* Selection and interaction rendering. */
 
-  public renderInteraction(): void {
-    this.renderSelectionOverElement();
-    this.renderResizeControls();
+  public renderInteraction(context: CanvasRenderingContext2D): void {
+    this.renderSelectionOverElement(context);
+    this.renderResizeControls(context);
   }
 
-  protected renderSelectionOverElement(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-    const center: IPoint = this.getBoundsCenter();
+  protected renderSelectionOverElement(context: CanvasRenderingContext2D): void {
 
     const piOffset: number = (Date.now() - this.createdAt) / 2000 * Math.PI;
-
-    const segmentCount: number = 8;
+    const segmentsCount: number = 8;
     const segmentLengthOffset: number = 0.1 * Math.PI;
 
-    context.strokeStyle = "#5dff71";
-    context.fillStyle = "#5dff71";
-    context.lineWidth = 3;
-
-    // Point on center.
-    context.beginPath();
-    context.arc(this.percentsToAbsoluteWidth(center.x), this.percentsToAbsoluteHeight(center.y),  this.percentsToAbsoluteWidth(0.25), 0, 2 * Math.PI);
-    context.fill();
-    context.closePath();
-
     // Moving around selection.
-    for (let it: number = 0; it < segmentCount; it ++) {
+    for (let it: number = 0; it < segmentsCount; it ++) {
 
-      // Offset for each item spacing.
-      const offset = Math.PI * 2 / segmentCount * it;
+      const offset = Math.PI * 2 / segmentsCount * it;
 
-      context.beginPath();
-      context.arc(this.percentsToAbsoluteWidth(center.x), this.percentsToAbsoluteHeight(center.y), this.percentsToAbsoluteWidth(this.radius) + this.interactionSpacing,
-        offset + piOffset, offset + segmentLengthOffset + piOffset);
-      context.stroke();
-      context.closePath();
+      RelativeRenderUtils.renderCircleSegment(
+        this.getSizing(),
+        context,
+        this.center,
+        this.percentsToAbsoluteWidth(this.radius),
+        offset + piOffset, offset + piOffset + segmentLengthOffset,
+        this.interactionColor,
+        this.absoluteToPercentsWidth(this.interactionAbsoluteSize)
+      );
     }
   }
 
-  protected renderResizeControls(): void {
-    this.resizeControl.render(this.getContext());
+  protected renderResizeControls(context: CanvasRenderingContext2D): void {
+    this.resizeControl.render(context);
   }
 
   /* Moving. */

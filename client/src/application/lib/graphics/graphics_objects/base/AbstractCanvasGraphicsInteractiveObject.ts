@@ -6,6 +6,13 @@ export abstract class AbstractCanvasGraphicsInteractiveObject extends AbstractCa
   protected selected: boolean = false;
   protected readonly interactionSpacing: number = 0;
 
+  protected readonly interactionColor: string = "#33ff33";
+  protected readonly interactionAbsoluteSize: number = 3;
+
+  /*
+   * Interaction related.
+   */
+
   public isInteractive(): boolean {
     return true;
   }
@@ -20,7 +27,6 @@ export abstract class AbstractCanvasGraphicsInteractiveObject extends AbstractCa
 
   // Is shape in coordinate bounds.
   public abstract isInBounds(checkPoint: IPoint): boolean;
-
   public abstract renderInteraction(context: CanvasRenderingContext2D): void;
 
 }

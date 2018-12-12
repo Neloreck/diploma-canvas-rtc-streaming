@@ -1,6 +1,5 @@
 import {IBoundingRect, ICanvasGraphicsSizingContext, IPoint, IRectSizing} from "../../types";
-import {GeometricUtils} from "../../utils/GeometricUtils";
-import {RenderUtils} from "../../utils/RenderUtils";
+import {GeometricUtils, RenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
 import {ResizeHandler} from "./ResizeHandler";
 
@@ -102,9 +101,9 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
 
   /* Selection and interaction rendering. */
 
-  public renderInteraction(): void {
-    this.renderSelectionOverElement();
-    this.renderResizeControls();
+  public renderInteraction(context: CanvasRenderingContext2D): void {
+    this.renderSelectionOverElement(context);
+    this.renderResizeControls(context);
   }
 
   public dispose(): void {
@@ -112,35 +111,28 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
     this.resizeControls.forEach((control: ResizeHandler): void => control.dispose());
   }
 
-  protected renderSelectionOverElement(): void {
+  protected renderSelectionOverElement(context: CanvasRenderingContext2D): void {
 
     const absoluteBoundingRect: IBoundingRect = this.getAbsoluteSizingBoundingRect();
-    const context: CanvasRenderingContext2D = this.getContext();
 
-    /* Default interaction context config: */
-    context.strokeStyle = "#5dff71";
-    context.fillStyle = "#5dff71";
-    context.lineWidth = 3;
-
-    RenderUtils.renderCircle(
-      context,
-      {
-      x: (absoluteBoundingRect.topRight.x - (absoluteBoundingRect.topRight.x - absoluteBoundingRect.topLeft.x) / 2),
-      y: (absoluteBoundingRect.botRight.y - (absoluteBoundingRect.botLeft.y - absoluteBoundingRect.topLeft.y) / 2)
-    },
-      2);
-
-    const renderAnimatedDashedLine = (p1: IPoint, p2: IPoint): void =>
-      RenderUtils.renderDashedLine(context, { x: p1.x, y: p1.y }, { x: p2.x, y: p2.y }, ((Date.now() - this.createdAt) % 2000) / -8);
-
-    renderAnimatedDashedLine(absoluteBoundingRect.topLeft, absoluteBoundingRect.topRight);
-    renderAnimatedDashedLine(absoluteBoundingRect.topRight, absoluteBoundingRect.botRight);
-    renderAnimatedDashedLine(absoluteBoundingRect.botRight, absoluteBoundingRect.botLeft);
-    renderAnimatedDashedLine(absoluteBoundingRect.botLeft, absoluteBoundingRect.topLeft);
+    this.renderAnimatedDashedLine(context, absoluteBoundingRect.topLeft, absoluteBoundingRect.topRight);
+    this.renderAnimatedDashedLine(context, absoluteBoundingRect.topRight, absoluteBoundingRect.botRight);
+    this.renderAnimatedDashedLine(context, absoluteBoundingRect.botRight, absoluteBoundingRect.botLeft);
+    this.renderAnimatedDashedLine(context, absoluteBoundingRect.botLeft, absoluteBoundingRect.topLeft);
   }
 
-  protected renderResizeControls(): void {
-    this.resizeControls.forEach((control: ResizeHandler): void => control.render(this.getContext()));
+  protected renderAnimatedDashedLine(context: CanvasRenderingContext2D, p1: IPoint, p2: IPoint): void {
+    RenderUtils.renderDashedLine(context,
+      { x: p1.x, y: p1.y },
+      { x: p2.x, y: p2.y },
+      ((Date.now() - this.createdAt) % 2000) / -8,
+      this.interactionColor,
+      this.interactionAbsoluteSize
+    );
+  }
+
+  protected renderResizeControls(context: CanvasRenderingContext2D): void {
+    this.resizeControls.forEach((control: ResizeHandler): void => control.render(context));
   }
 
   /* Moving. */

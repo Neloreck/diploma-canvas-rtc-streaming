@@ -1,16 +1,11 @@
 import {IBoundingRect, IPoint} from "../../types";
-import {GeometricUtils} from "../../utils/GeometricUtils";
+import {GeometricUtils, RenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
 
 export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
 
   public configuration: never;
-
-  public rectRoot = {
-    left: 48,
-    top: 48,
-  };
-
+  public rectRoot = { left: 0, top: 0 };
   public absoluteSize: number = 15;
 
   private readonly index: number;
@@ -23,8 +18,12 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
     this.owner = owner;
   }
 
+  // Bounds check.
+
   public isInBounds(targetPoint: IPoint): boolean {
+
     const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
+
     return GeometricUtils.checkPointInTriangle(targetPoint, botLeft, topLeft, topRight) || GeometricUtils.checkPointInTriangle(targetPoint, botLeft, botRight, topRight);
   }
 
@@ -32,14 +31,10 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
     return false;
   }
 
+  // Getters <-> Setters.
+
   public getIndex(): number {
     return this.index;
-  }
-
-  public renderInteraction(): void { return; }
-
-  public afterMove(): void {
-    this.owner.afterResizeControlMoved(this.getBoundingRect(), this.index);
   }
 
   public setRoot(rootPoint: IPoint): void {
@@ -47,11 +42,15 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
     this.rectRoot.top = rootPoint.y;
   }
 
+  public renderInteraction(): void { return; }
+
   public dispose(): void {
     super.dispose();
-    // @ts-ignore for dispose
+    // @ts-ignore for dispose, remove circular ref.
     this.owner = null;
   }
+
+  // Moving handling.
 
   protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
     this.setRoot({
@@ -60,20 +59,17 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
     });
   }
 
+  protected afterMove(): void {
+    this.owner.afterResizeControlMoved(this.getBoundingRect(), this.index);
+  }
+
+  // Resizing handling.
+
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void { return; }
 
-  protected renderSelf(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-
-    context.strokeStyle = "#5dff71";
-    context.lineWidth = 2;
-
-    context.beginPath();
-
-    context.rect(this.percentsToAbsoluteWidth(this.rectRoot.left), this.percentsToAbsoluteHeight(this.rectRoot.top), this.absoluteSize, this.absoluteSize);
-    context.stroke();
-    context.closePath();
+  protected renderSelf(context: CanvasRenderingContext2D): void {
+    const rootPoint: IPoint = { x: this.percentsToAbsoluteWidth(this.rectRoot.left), y: this.percentsToAbsoluteHeight(this.rectRoot.top) };
+    RenderUtils.renderRectangleBorder(context, rootPoint, { x: rootPoint.x + this.absoluteSize, y: rootPoint.y + this.absoluteSize }, "#5dff71", 2);
   }
 
   protected getBoundingRect(): IBoundingRect {

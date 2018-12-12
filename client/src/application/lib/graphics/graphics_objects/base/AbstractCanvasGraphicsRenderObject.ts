@@ -10,7 +10,6 @@ export abstract class AbstractCanvasGraphicsRenderObject {
   protected readonly id: string = "0";
 
   private name: string | null = null;
-
   private disabled: boolean = false;
   private context: CanvasRenderingContext2D = null as any;
   private sizing: ICanvasGraphicsSizingContext = null as any;
@@ -25,17 +24,17 @@ export abstract class AbstractCanvasGraphicsRenderObject {
     return this.id;
   }
 
-  // Naming.
-
   public getName(): string | null {
-    return this.name;
+    return this.name || this.constructor.prototype.name;
   }
 
   public setName(name: string | null): void {
     this.name = name;
   }
 
-  // Rendering context.
+  /*
+   * Rendering context related.
+   */
 
   public setContext(context: CanvasRenderingContext2D): void {
     this.context = context;
@@ -53,7 +52,9 @@ export abstract class AbstractCanvasGraphicsRenderObject {
     return this.sizing;
   }
 
-  // Rendering props.
+  /*
+   * Should render.
+   */
 
   public setDisabled(disabled: boolean): void {
     this.disabled = disabled;
@@ -67,7 +68,9 @@ export abstract class AbstractCanvasGraphicsRenderObject {
     return this.disabled;
   }
 
-  // Sub props related.
+  /*
+   * Type cast related.
+   */
 
   public isMovable(): boolean {
     return false;
@@ -81,23 +84,31 @@ export abstract class AbstractCanvasGraphicsRenderObject {
     return false;
   }
 
-  // Cleanup lifecycle related.
+  /*
+   * Cleanup lifecycle related.
+   */
 
   public render(context: CanvasRenderingContext2D): void {
     this.setContext(context);
     this.beforeRender();
-    this.renderSelf();
+    this.renderSelf(context);
     this.afterRender();
     this.cleanupContext();
   }
 
   public dispose(): void {
-    /* Some objects need destruction */
+    /* Some objects need destruction and memory cleanup. */
   }
 
   public getCopy(): AbstractCanvasGraphicsRenderObject {
     return Object.assign(Object.create(Object.getPrototypeOf(this)), cloneDeep(this), { id: generateUUID() });
   }
+
+  /*
+   * ===================================================================================================================
+   * = Private | Protected                                                                                             =
+   * ===================================================================================================================
+   */
 
   protected beforeRender(): void {
     /* Some objects need handling */
@@ -114,24 +125,26 @@ export abstract class AbstractCanvasGraphicsRenderObject {
     this.context.fillStyle = "#000";
   }
 
-  protected abstract renderSelf(): void;
+  protected abstract renderSelf(context: CanvasRenderingContext2D): void;
 
-  // Private context related implementation.
+  /*
+   * Related sizing.
+   */
 
   protected percentsToAbsoluteWidth(percents: number): number {
-    return this.sizing.width * percents / 100;
+    return (this.sizing.width * percents / 100);
   }
 
   protected percentsToAbsoluteHeight(percents: number): number {
-    return this.sizing.height * percents / 100;
+    return (this.sizing.height * percents / 100);
   }
 
   protected absoluteToPercentsWidth(absolute: number): number {
-    return absolute * 100 / this.sizing.width;
+    return (absolute * 100 / this.sizing.width);
   }
 
   protected absoluteToPercentsHeight(absolute: number): number {
-    return absolute * 100 / this.sizing.height;
+    return (absolute * 100 / this.sizing.height);
   }
 
   protected getBasePercentSizing(): { widthPercent: number; heightPercent: number; } {

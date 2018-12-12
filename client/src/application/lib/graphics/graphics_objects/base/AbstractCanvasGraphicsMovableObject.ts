@@ -16,11 +16,8 @@ export abstract class AbstractCanvasGraphicsMovableObject extends AbstractCanvas
     this.afterMove(moveTo, moveFrom);
   }
 
-  public beforeMove(moveTo: IPoint, moveFrom: IPoint) { /*nothing*/ }
-
-  public afterMove(moveTo: IPoint, moveFrom: IPoint) { /*nothing*/ }
-
-  // Move function for shape.
+  protected beforeMove(moveTo: IPoint, moveFrom: IPoint) { /*nothing*/ }
   protected abstract onMove(moveTo: IPoint, moveFrom: IPoint): void;
+  protected afterMove(moveTo: IPoint, moveFrom: IPoint) { /*nothing*/ }
 
 }

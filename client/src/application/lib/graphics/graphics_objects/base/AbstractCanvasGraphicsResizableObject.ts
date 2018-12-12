@@ -3,7 +3,7 @@ import {AbstractCanvasGraphicsMovableObject} from "./AbstractCanvasGraphicsMovab
 
 export abstract class AbstractCanvasGraphicsResizableObject extends AbstractCanvasGraphicsMovableObject {
 
-  // Mark for casting.
+  // Mark for proper casting.
   public isResizable(): boolean {
     return true;
   }
@@ -16,14 +16,12 @@ export abstract class AbstractCanvasGraphicsResizableObject extends AbstractCanv
     this.afterResize(resizeTo, resizeFrom);
   }
 
-  public afterResizeControlMoved(boundingRect: IBoundingRect, index: number): void { /*nothing*/ }
+  public afterResizeControlMoved(boundingRect: IBoundingRect, index: number): void { return; }
 
   public abstract isInResizeBounds(checkPoint: IPoint): boolean;
 
-  protected beforeResize(resizeTo: IPoint, resizeFrom: IPoint): void { /*nothing*/ }
-
-  protected afterResize(resizeTo: IPoint, resizeFrom: IPoint): void { /*nothing*/ }
-
+  protected beforeResize(resizeTo: IPoint, resizeFrom: IPoint): void { return; }
   protected abstract onResize(resizeTo: IPoint, resizeFrom: IPoint): void;
+  protected afterResize(resizeTo: IPoint, resizeFrom: IPoint): void { return; }
 
 }
