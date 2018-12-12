@@ -11,7 +11,7 @@ import {localMediaService} from "@Module/stream/data/services/local_media";
 import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
 import {Grid, WithStyles} from "@material-ui/core";
 import {
   IMainPreviewControlExternalProps,

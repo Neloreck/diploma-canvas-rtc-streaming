@@ -1,6 +1,6 @@
 import {createStyles, Theme} from "@material-ui/core";
 
-export const signInFormStyle = (theme: Theme) => createStyles({
+export const loginFormStyle = (theme: Theme) => createStyles({
   formWrapper: {
     padding: "1rem 2rem"
   },

@@ -7,11 +7,11 @@ import {Switch} from "react-router-dom";
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
 // Main routes.
-import {ErrorPage} from "@Main/view/containers/ErrorPage";
+import {ErrorPage} from "@Main/view/pages/ErrorPage";
 
-const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@home-page" */"modules/main/view/containers/HomePage/index"));
-const SignInPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@sign-in-page" */"modules/main/view/containers/SignInPage/index"));
-const SignUpPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@sign-up-page" */"modules/main/view/containers/SignUpPage/index"));
+const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@home-page" */"modules/main/view/pages/HomePage"));
+const LoginPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@login-page" */"modules/main/view/pages/LoginPage"));
+const SignUpPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@sign-up-page" */"modules/main/view/pages/SignUpPage"));
 
 export class ModuleRouter extends PureComponent {
 
@@ -21,7 +21,7 @@ export class ModuleRouter extends PureComponent {
 
           <Route exact={true} path={"/"} component={HomePage}/>
           <Route exact={true} path={"/home"} component={HomePage}/>
-          <Route exact={true} path={"/signIn"} component={SignInPage}/>
+          <Route exact={true} path={"/login"} component={LoginPage}/>
           <Route exact={true} path={"/signUp"} component={SignUpPage}/>
 
           <Route component={ErrorPage}/>

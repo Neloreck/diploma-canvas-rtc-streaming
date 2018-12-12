@@ -5,8 +5,8 @@ import {Component} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 // View.
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
 import {ISignUpFormExternalProps, SignUpForm} from "@Main/view/components/SignUpForm";
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
 import {Grid, WithStyles} from "@material-ui/core";
 import {signUpPageStyle} from "./SignUpPage.Style";
 

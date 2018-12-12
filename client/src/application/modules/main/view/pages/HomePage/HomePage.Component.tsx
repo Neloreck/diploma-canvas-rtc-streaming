@@ -5,7 +5,7 @@ import {Component} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
 import {Grid, WithStyles} from "@material-ui/core";
 import {homePageStyle} from "./HomePage.Style";
 

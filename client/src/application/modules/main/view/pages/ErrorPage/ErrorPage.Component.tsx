@@ -1,11 +1,11 @@
 import * as React from "react";
-import {Component} from "react";
+import {PureComponent} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/containers/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
 import {WithStyles} from "@material-ui/core";
 import {errorPageStyle} from "./ErrorPage.Style";
 
@@ -17,7 +17,7 @@ export interface IErrorPageExternalProps extends WithStyles<typeof errorPageStyl
 export interface IErrorPageProps extends IErrorPageOwnProps, IErrorPageExternalProps {}
 
 @Styled(errorPageStyle)
-export class ErrorPage extends Component<IErrorPageProps> {
+export class ErrorPage extends PureComponent<IErrorPageProps> {
 
   public render(): JSX.Element {
     const {classes} = this.props;

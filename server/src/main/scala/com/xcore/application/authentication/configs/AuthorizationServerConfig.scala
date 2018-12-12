@@ -51,19 +51,17 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
      */
 
     clientDetailsServiceConfigurer
-
       .inMemory()
+        .withClient(webSecurityOptions.CLIENT_APPLICATION_ID)
+          .secret(webSecurityOptions.getPasswordEncoder.encode(webSecurityOptions.CLIENT_APPLICATION_SECRET))
+          .resourceIds(webSecurityOptions.SERVER_APPLICATION_ID)
 
-      .withClient(webSecurityOptions.CLIENT_APPLICATION_ID)
-      .secret(webSecurityOptions.getPasswordEncoder.encode(webSecurityOptions.CLIENT_APPLICATION_SECRET))
-      .resourceIds(webSecurityOptions.SERVER_APPLICATION_ID)
+          .authorizedGrantTypes(EAppGrantType.PASSWORD.getType, EAppGrantType.REFRESH_TOKEN.getType)
+          .authorities(EAppAccessLevel.ROLE_APPLICATION.getRole)
+          .scopes(EAppAccessScope.READ.getScope, EAppAccessScope.WRITE.getScope)
 
-      .authorizedGrantTypes(EAppGrantType.PASSWORD.getType, EAppGrantType.PASSWORD.getType, EAppGrantType.REFRESH_TOKEN.getType)
-      .authorities(EAppAccessLevel.ROLE_APPLICATION.getRole)
-      .scopes(EAppAccessScope.READ.getScope, EAppAccessScope.WRITE.getScope)
-
-      .accessTokenValiditySeconds(webSecurityOptions.ACCESS_TOKEN_VALIDITY_SECONDS)
-      .refreshTokenValiditySeconds(webSecurityOptions.REFRESH_TOKEN_VALIDITY_SECONDS);
+          .accessTokenValiditySeconds(webSecurityOptions.ACCESS_TOKEN_VALIDITY_SECONDS)
+          .refreshTokenValiditySeconds(webSecurityOptions.REFRESH_TOKEN_VALIDITY_SECONDS);
   }
 
   @throws[Exception]

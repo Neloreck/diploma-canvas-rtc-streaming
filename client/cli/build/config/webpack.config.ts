@@ -188,6 +188,10 @@ export class WebpackBuildConfig implements Configuration {
       "/api/*": {
         secure: false,
         target: "http://localhost:8080"
+      },
+      "/auth/*": {
+        secure: false,
+        target: "http://localhost:8080"
       }
     },
     publicPath: backendPublicPath,
