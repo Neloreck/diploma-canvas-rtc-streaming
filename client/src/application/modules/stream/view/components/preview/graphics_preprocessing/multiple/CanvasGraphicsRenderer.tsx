@@ -162,8 +162,6 @@ export class CanvasGraphicsRenderer
 
         <ReactResizeDetector
           onResize={this.resize}
-          refreshMode={"throttle"}
-          refreshRate={300}
           handleHeight handleWidth
         />
 

@@ -15,14 +15,15 @@ export const objectsConfigurationTabStyle = (theme: Theme) => createStyles({
       backgroundColor: theme.palette.secondary.main
     },
     cursor: "pointer",
-    transition: "150ms"
+    transition: "500ms"
   },
   objectListItemSecondary: {
     cursor: "pointer",
     padding: theme.spacing.unit
   },
   objectListItemSelected: {
-    backgroundColor: theme.palette.secondary.dark
+    backgroundColor: theme.palette.secondary.dark,
+    transition: "500ms"
   },
   objectsConfigurationBlock: {
     flexGrow: 3,
@@ -31,12 +32,11 @@ export const objectsConfigurationTabStyle = (theme: Theme) => createStyles({
   objectsList: {
     backgroundColor: theme.palette.secondary.light,
     boxSizing: "border-box",
-    maxHeight: "100%",
+    flexGrow: 1,
     minWidth: theme.spacing.unit * 45,
     overflowY: "auto",
     padding: `0 ${theme.spacing.unit}px`,
-    transition: "all 100ms ease-out 0s",
-    width: "100%"
+    transition: "all 100ms ease-out 0s"
   },
   resizer: {
     backgroundColor: theme.palette.primary.dark,

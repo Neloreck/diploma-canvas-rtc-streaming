@@ -83,7 +83,7 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
         this.getSizing(),
         context,
         this.center,
-        this.percentsToAbsoluteWidth(this.radius),
+        this.radius,
         offset + piOffset, offset + piOffset + segmentLengthOffset,
         this.interactionColor,
         this.absoluteToPercentsWidth(this.interactionAbsoluteSize)

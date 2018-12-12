@@ -51,12 +51,14 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     const {classes, graphicsState: {selectedObject}} = this.props;
     const {listWidth} = this.state;
 
+    const sectionSize: number | undefined =  selectedObject !== null && listWidth ? listWidth : undefined;
+
     return (
       <Grid className={classes.root} wrap={"nowrap"} container>
 
         <Grid
           className={classes.objectsList}
-          style={{ width: selectedObject !== null && listWidth ? listWidth : undefined}}
+          style={{width: sectionSize, maxWidth: sectionSize}}
         >
           {this.renderObjectsList()}
         </Grid>

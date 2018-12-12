@@ -34,8 +34,9 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
   /* Base context interaction. */
 
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
-    this.resizeControls.forEach((control: ResizeHandler): void => control.setSizing(sizing));
     super.setSizing(sizing);
+    this.resizeControls.forEach((control: ResizeHandler): void => control.setSizing(sizing));
+    this.updateResizersPositions();
   }
 
   /* Complex checks. */

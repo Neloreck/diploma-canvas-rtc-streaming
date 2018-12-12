@@ -15,7 +15,7 @@ export class DomSizingUtils {
       childWidth = height * aspectRatio;
     }
 
-    return { width: childWidth, height: childHeight };
+    return { width: Math.round(childWidth), height: Math.round(childHeight) };
   }
 
 }

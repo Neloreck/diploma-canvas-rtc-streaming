@@ -69,7 +69,7 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
 
   protected renderSelf(context: CanvasRenderingContext2D): void {
     const rootPoint: IPoint = { x: this.percentsToAbsoluteWidth(this.rectRoot.left), y: this.percentsToAbsoluteHeight(this.rectRoot.top) };
-    RenderUtils.renderRectangleBorder(context, rootPoint, { x: rootPoint.x + this.absoluteSize, y: rootPoint.y + this.absoluteSize }, "#5dff71", 2);
+    RenderUtils.renderFilledRectangle(context, rootPoint, { x: rootPoint.x + this.absoluteSize, y: rootPoint.y + this.absoluteSize }, this.interactionColor, this.interactionColor, 2);
   }
 
   protected getBoundingRect(): IBoundingRect {

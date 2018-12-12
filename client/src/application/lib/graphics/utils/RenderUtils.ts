@@ -52,6 +52,19 @@ export class RenderUtils {
     context.closePath();
   }
 
+  public static renderFilledRectangle(context: CanvasRenderingContext2D, topLeft: IPoint, botRight: IPoint, color: string, fillColor: string, width: number): void {
+
+    context.strokeStyle = color;
+    context.fillStyle = fillColor;
+    context.lineWidth = width;
+
+    context.beginPath();
+    context.rect(topLeft.x, topLeft.y, botRight.x - topLeft.x, botRight.y - topLeft.y);
+    context.stroke();
+    context.fill();
+    context.closePath();
+  }
+
   public static renderCircleSegment(context: CanvasRenderingContext2D, center: IPoint, radius: number, startAngle: number, endAngle: number, color: string, width: number): void {
 
     context.strokeStyle = color;
