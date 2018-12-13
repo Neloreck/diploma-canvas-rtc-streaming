@@ -3,7 +3,7 @@ import * as React from "react";
 import {Component, ReactNode} from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/@material_ui";
+import {Styled} from "@Lib/react_lib/mui";
 import {DomVideo} from "@Lib/react_lib/components";
 import {Optional} from "@Lib/ts/types";
 

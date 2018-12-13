@@ -1,15 +1,11 @@
-import {ERequestMethod} from "./exchange/ERequestMethod";
-import {xCoreClientConfig} from "./index";
+import {xCoreClientConfig} from "@Api/x-core";
 
-import {IXCoreFailedResponse} from "./exchange/IXCoreFailedResponse";
-import {IXCoreRequest} from "./exchange/IXCoreRequest";
-import {IXCoreResponse} from "./exchange/IXCoreResponse";
+import {ERequestMethod} from "@Api/x-core/exchange/ERequestMethod";
+import {IXCoreFailedResponse} from "@Api/x-core/exchange/IXCoreFailedResponse";
+import {IXCoreRequest} from "@Api/x-core/exchange/IXCoreRequest";
+import {IXCoreResponse} from "@Api/x-core/exchange/IXCoreResponse";
 
-export abstract class XCoreClient {
-
-  public async test(): Promise<any> {
-    return await this.get("/api/test");
-  }
+export abstract class ApiClient {
 
   public async get(mapping: string, urlParams?: {}, headers?: Headers): Promise<IXCoreResponse> {
     return this.doRequest(ERequestMethod.GET, mapping);

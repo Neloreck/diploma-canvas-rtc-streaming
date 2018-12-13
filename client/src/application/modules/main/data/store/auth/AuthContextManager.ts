@@ -49,7 +49,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   @Bind()
   protected async initialize(): Promise<void> {
 
-    this.log.info("Trying to check current auth state.");
+    this.log.info("Initialize current auth status.");
 
     if (this.hasAuthToken()) {
 
@@ -60,7 +60,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
         this.log.info("Have valid refresh token, trying to refresh current tokens.");
         await this.refresh();
       } else {
-        this.log.info("No tokens stored currently, continue with normal flow.");
+        this.log.info("No tokens stored currently, continue with default flow.");
       }
     }
   }
@@ -85,7 +85,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     // Do not dup requests.
     if (state.authorizing) {
-      throw new Error("Cannot authorize during another auth request.");
+      throw new Error("Cannot authorize while already authorizing.");
     }
 
     // Set loading state.

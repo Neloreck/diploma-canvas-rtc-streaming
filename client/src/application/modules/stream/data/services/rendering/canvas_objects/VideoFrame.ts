@@ -66,6 +66,14 @@ export class VideoFrame extends AbstractBaseRectangleObject {
     context.closePath();
   }
 
+  public dispose(): void {
+    super.dispose();
+
+    localMediaService.killStream(this.mediaStream);
+    // @ts-ignore dispose item.
+    this.mediaStream = null;
+  }
+
   private async startVideo(): Promise<void> {
     if (this.isVideoRendering === false) {
       this.hiddenVideoRenderer.play();

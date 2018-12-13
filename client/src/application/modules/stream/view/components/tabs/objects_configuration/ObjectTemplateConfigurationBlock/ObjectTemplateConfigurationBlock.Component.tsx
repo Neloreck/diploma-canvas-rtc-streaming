@@ -4,7 +4,7 @@ import {Component, ReactNode} from "react";
 
 // Lib.
 import {AbstractBaseCircleObject, AbstractBaseRectangleObject, AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Styled} from "@Lib/react_lib/@material_ui";
+import {Styled} from "@Lib/react_lib/mui";
 import {GeneralUtils} from "@Lib/utils";
 
 // Data.

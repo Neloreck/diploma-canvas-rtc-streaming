@@ -1,4 +1,4 @@
-import {IXCoreResponse} from "../exchange/IXCoreResponse";
+import {IXCoreResponse} from "@Api/x-core/exchange/IXCoreResponse";
 
 export interface ITokensResponse extends IXCoreResponse {
   access_token: string;

@@ -4,7 +4,7 @@ import * as React from "react";
 import {Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/@material_ui";
+import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";

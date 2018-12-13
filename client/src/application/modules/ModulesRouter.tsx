@@ -14,9 +14,15 @@ import {authContextManager, IRouterContext, routerContextManager, themeContextMa
 // View.
 import {GlobalThemeProvider, IGlobalThemeProviderProps} from "@Main/view/layouts/GlobalThemeProvider";
 
-// Submodules.
+/*
+ * Application submodules:
+ * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+*/
+
 export const MainModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@main" */"@Module/main"));
 export const StreamModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@stream" */"@Module/stream"));
+
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
 // Props.
 export interface IApplicationRouterProps extends IRouterContext, IGlobalThemeProviderProps {}
@@ -25,12 +31,15 @@ export interface IApplicationRouterProps extends IRouterContext, IGlobalThemePro
 @Provide(authContextManager)
 @Provide(routerContextManager)
 @Provide(themeContextManager)
+
 /* Sync router store with router and context with theme provision. */
-@Consume<IRouterContext, IApplicationRouterProps>(routerContextManager)
 @Wrapped<IGlobalThemeProviderProps, IApplicationRouterProps>(GlobalThemeProvider)
-export class ApplicationRouter extends PureComponent<IApplicationRouterProps> {
+@Consume<IRouterContext, IApplicationRouterProps>(routerContextManager)
+
+export class ModulesRouter extends PureComponent<IApplicationRouterProps> {
 
   public render(): ReactNode {
+
     const {routingState: {history}} = this.props;
 
     return (

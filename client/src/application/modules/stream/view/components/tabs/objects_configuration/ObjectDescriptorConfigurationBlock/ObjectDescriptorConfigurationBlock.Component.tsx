@@ -3,7 +3,7 @@ import {Component, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Styled} from "@Lib/react_lib/@material_ui";
+import {Styled} from "@Lib/react_lib/mui";
 
 // View.
 import {Grid, Input, WithStyles} from "@material-ui/core";

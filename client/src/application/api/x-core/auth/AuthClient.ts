@@ -1,11 +1,10 @@
-import {IAuthInfoRequest} from "./IAuthInfoRequest";
-import {IAuthInfoResponse} from "./IAuthInfoResponse";
+import {ApiClient} from "@Api/ApiClient";
+import {xCoreClientConfig} from "@Api/x-core";
+import {IAuthInfoRequest} from "@Api/x-core/auth/IAuthInfoRequest";
+import {IAuthInfoResponse} from "@Api/x-core/auth/IAuthInfoResponse";
+import {ITokensResponse} from "@Api/x-core/auth/ITokensResponse";
 
-import {xCoreClientConfig} from "../index";
-import {XCoreClient} from "../XCoreClient";
-import {ITokensResponse} from "./ITokensResponse";
-
-export class AuthClient extends XCoreClient {
+export class AuthClient extends ApiClient {
 
   private static AUTH_MAPPING: string = "/auth";
 

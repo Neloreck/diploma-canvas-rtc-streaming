@@ -5,7 +5,7 @@ import {ChangeEvent, Component, Fragment, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Styled} from "@Lib/react_lib/@material_ui";
+import {Styled} from "@Lib/react_lib/mui";
 import {VerticalDraggableVHResizer} from "@Lib/react_lib/components";
 import {Optional} from "@Lib/ts/types";
 

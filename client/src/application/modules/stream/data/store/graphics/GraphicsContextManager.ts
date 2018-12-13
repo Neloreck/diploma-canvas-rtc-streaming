@@ -59,12 +59,12 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     }
   };
 
-  private logger: Logger = new Logger("[GC]", true);
+  private logger: Logger = new Logger("[🏭GFX]", true);
 
   @Bind()
   protected addObject(object: AbstractCanvasGraphicsRenderObject): void {
 
-    this.logger.info("Adding new object:", object);
+    this.logger.info(`Adding new object: ${object.getName()}.`);
 
     if (!this.context.graphicsState.addVisibleObjects) {
       object.setDisabled(true);
@@ -77,7 +77,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected removeObject(object: AbstractCanvasGraphicsRenderObject): void {
 
-    this.logger.info("Removing object:", object);
+    this.logger.info(`Removing object: ${object.getName()}.`);
 
     this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.filter((it) => it !== object)};
 
@@ -92,7 +92,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected selectObject(selectedObject: Optional<AbstractCanvasGraphicsRenderObject>): void {
 
-    this.logger.info("Selected object:", selectedObject);
+    this.logger.info(`Selected object: ${selectedObject && selectedObject.getName()}.`);
 
     this.context.graphicsState = { ...this.context.graphicsState, selectedObject };
     this.update();

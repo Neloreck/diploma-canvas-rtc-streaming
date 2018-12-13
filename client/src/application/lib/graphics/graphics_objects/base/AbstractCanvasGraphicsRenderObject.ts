@@ -25,7 +25,7 @@ export abstract class AbstractCanvasGraphicsRenderObject {
   }
 
   public getName(): string | null {
-    return this.name || this.constructor.prototype.name;
+    return this.name || this.constructor.name;
   }
 
   public setName(name: string | null): void {

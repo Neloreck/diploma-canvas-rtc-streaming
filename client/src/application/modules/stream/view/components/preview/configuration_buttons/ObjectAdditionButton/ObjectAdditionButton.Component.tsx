@@ -4,7 +4,7 @@ import * as React from "react";
 import {Component, createRef, ReactNode, RefObject} from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/@material_ui";
+import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
@@ -86,13 +86,8 @@ export class ObjectAdditionTooltip extends Component<IObjectAdditionTooltipProps
 
   @Bind()
   private onToggleShowAdditionWindow(event: React.MouseEvent<any>): void {
-    const {sourceState: {inputStream}} = this.props;
 
     event.stopPropagation();
-
-    if (inputStream === null) {
-      return;
-    }
 
     this.setState({ showAdditionWindow: !this.state.showAdditionWindow });
   }

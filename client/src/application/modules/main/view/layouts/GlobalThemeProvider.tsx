@@ -7,6 +7,7 @@ import {PureComponent, ReactNode} from "react";
 import {themeContextManager} from "@Main/data/store";
 import {IThemeContext} from "@Main/data/store/theme/ThemeContextManager";
 
+// Props.
 export interface IGlobalThemeProviderProps extends IThemeContext {}
 
 @Consume<IThemeContext, IGlobalThemeProviderProps>(themeContextManager)

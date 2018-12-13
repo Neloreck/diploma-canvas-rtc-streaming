@@ -1,9 +1,7 @@
-import {XCoreClient} from "./XCoreClient";
-import {XCoreClientConfig} from "./XCoreClientConfig";
+import {AuthClient} from "@Api/x-core/auth/AuthClient";
+import {XCoreApiConfig} from "@Api/x-core/XCoreApiConfig";
 
-import {AuthClient} from "./auth/AuthClient";
-
-export const xCoreClientConfig: XCoreClientConfig = new XCoreClientConfig();
+export const xCoreClientConfig: XCoreApiConfig = new XCoreApiConfig();
 export const authClient: AuthClient = new AuthClient();
 
-export {AuthClient} from "./auth/AuthClient";
+export {AuthClient} from "@Api/x-core/auth/AuthClient";

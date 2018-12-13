@@ -18,7 +18,7 @@ export interface IRouterContext {
 
 export class RouterContextManager extends ReactContextManager<IRouterContext> {
 
-  protected log: Logger = new Logger("[ROUTER]", true);
+  protected log: Logger = new Logger("[🗺️ROUTER]", true);
 
   protected context: IRouterContext = {
     routingActions: {
@@ -34,7 +34,7 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
   @Bind()
   protected replace(path: string): void {
 
-    this.log.info(`Replacing to path: ${path}.`);
+    this.log.info(`Replace: ${path}.`);
     this.context.routingState.history.replace(path);
     this.update();
   }
@@ -42,7 +42,7 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
   @Bind()
   protected push(path: string): void {
 
-    this.log.info(`Pushing to path: ${path}.`);
+    this.log.info(`Push: ${path}.`);
     this.context.routingState.history.push(path);
     this.update();
   }
