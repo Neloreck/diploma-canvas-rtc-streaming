@@ -1,5 +1,6 @@
 import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
+import {debounce} from "lodash";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
@@ -34,17 +35,19 @@ export interface IGraphicsContext {
 
 export class GraphicsContextManager extends ReactContextManager<IGraphicsContext> {
 
+  private static SENSITIVE_ACTIONS_DELAY: number = 300;
+
   protected context: IGraphicsContext = {
     graphicsActions: {
       addObject: this.addObject,
       removeObject: this.removeObject,
       selectObject: this.selectObject,
-      setAdditionVisibility: this.setAdditionVisibility,
-      setGraphicsDisplay: this.setGraphicsDisplay,
-      setGridDisplay: this.setGridDisplay,
-      setMainVideoDisplay: this.setMainVideoDisplay,
-      setPreviewDisplay: this.setPreviewDisplay,
-      setRendererEventsPropagation: this.setRendererEventsPropagation,
+      setAdditionVisibility: debounce(this.setAdditionVisibility, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setGraphicsDisplay: debounce(this.setGraphicsDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setGridDisplay: debounce(this.setGraphicsDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setMainVideoDisplay: debounce(this.setMainVideoDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setPreviewDisplay: debounce(this.setPreviewDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setRendererEventsPropagation: debounce(this.setRendererEventsPropagation, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
       swapObjectsByIndex: this.swapObjectsByIndex
     },
     graphicsState: {
