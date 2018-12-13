@@ -1,7 +1,7 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {createRef, PureComponent, ReactNode, RefObject} from "react";
-import {MouseEvent} from "react";
+import {MouseEvent as ReactMouseEvent} from "react";
 
 import {DocumentUtils} from "@Lib/utils";
 
@@ -25,16 +25,12 @@ export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggable
   private isMouseDown: boolean = false;
 
   public componentDidMount(): void {
-    // @ts-ignore
     document.addEventListener("mousemove", this.handleMouseMove);
-    // @ts-ignore
     document.addEventListener("mouseup", this.handleMouseUp);
   }
 
   public componentWillUnmount(): void {
-    // @ts-ignore
     document.removeEventListener("mousemove", this.handleMouseMove);
-    // @ts-ignore
     document.removeEventListener("mouseup", this.handleMouseUp);
   }
 
@@ -52,7 +48,7 @@ export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggable
   }
 
   @Bind()
-  private handleMouseMove(event: MouseEvent<HTMLDivElement>): void {
+  private handleMouseMove(event: MouseEvent | ReactMouseEvent): void {
     if (this.isMouseDown) {
       this.props.onHeightResize(event.pageX - this.getTargetSizings().left - this.getResizerSizings().width / 2);
       DocumentUtils.removeAnyPageTextSelection();
@@ -60,12 +56,12 @@ export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggable
   }
 
   @Bind()
-  private handleMouseUp(event: MouseEvent<HTMLDivElement>): void {
+  private handleMouseUp(event: MouseEvent): void {
     this.isMouseDown = false;
   }
 
   @Bind()
-  private handleMouseDown(event: MouseEvent<HTMLDivElement>): void {
+  private handleMouseDown(event: MouseEvent | ReactMouseEvent): void {
     this.isMouseDown = true;
   }
 
