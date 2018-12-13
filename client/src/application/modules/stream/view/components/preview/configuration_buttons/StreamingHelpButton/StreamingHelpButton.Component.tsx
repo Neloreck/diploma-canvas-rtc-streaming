@@ -1,5 +1,5 @@
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -19,7 +19,7 @@ export interface IStreamingHelpButtonProps extends IStreamingHelpButtonOwnProps,
 @Styled(streamingHelpButtonStyle)
 export class StreamingHelpButton extends PureComponent<IStreamingHelpButtonProps> {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes, } = this.props;
 

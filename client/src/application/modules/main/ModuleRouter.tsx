@@ -1,5 +1,5 @@
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 import {Route} from "react-router";
 import {Switch} from "react-router-dom";
 
@@ -15,7 +15,7 @@ const SignUpPage = lazyLoadComponentFactory.getComponent(() => import(/* webpack
 
 export class ModuleRouter extends PureComponent {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return (
         <Switch>
 

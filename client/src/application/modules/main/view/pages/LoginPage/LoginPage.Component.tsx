@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Component} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -20,7 +20,7 @@ export interface ILoginPageProps extends ILoginPageOwnProps, ILoginPageExternalP
 @Styled(loginPageStyle)
 export class LoginPage extends Component<ILoginPageProps> {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return (
       <Grid className={this.props.classes.root} container>
 

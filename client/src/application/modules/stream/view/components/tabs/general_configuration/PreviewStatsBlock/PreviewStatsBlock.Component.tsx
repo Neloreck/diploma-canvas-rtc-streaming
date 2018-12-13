@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -34,7 +34,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     showStatsConfiguration: false
   };
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes} = this.props;
     const {showStatsConfiguration} = this.state;
@@ -72,7 +72,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     );
   }
 
-  private renderInputStreamDetails(): JSX.Element {
+  private renderInputStreamDetails(): ReactNode {
 
     const {classes, sourceState: {inputStream}} = this.props;
 
@@ -104,7 +104,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     );
   }
 
-  private renderOutputStreamDetails(): JSX.Element {
+  private renderOutputStreamDetails(): ReactNode {
 
     const {classes, sourceState: {outputStream}} = this.props;
 
@@ -136,7 +136,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     );
   }
 
-  private renderTracksDetail(mediaTrack: MediaStreamTrack): JSX.Element {
+  private renderTracksDetail(mediaTrack: MediaStreamTrack): ReactNode {
 
     const {classes} = this.props;
     const capabilities: MediaTrackCapabilities = mediaTrack.getCapabilities();

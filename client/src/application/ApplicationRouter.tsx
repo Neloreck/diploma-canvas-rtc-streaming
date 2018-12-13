@@ -1,7 +1,7 @@
 import {Consume, Provide} from "@redux-cbd/context";
 import {Wrapped} from "@redux-cbd/utils";
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 import {Route, Router} from "react-router";
 import {Switch} from "react-router-dom";
 
@@ -30,7 +30,7 @@ export interface IApplicationRouterProps extends IRouterContext, IGlobalThemePro
 @Wrapped<IGlobalThemeProviderProps, IApplicationRouterProps>(GlobalThemeProvider)
 export class ApplicationRouter extends PureComponent<IApplicationRouterProps> {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     const {routingState: {history}} = this.props;
 
     return (

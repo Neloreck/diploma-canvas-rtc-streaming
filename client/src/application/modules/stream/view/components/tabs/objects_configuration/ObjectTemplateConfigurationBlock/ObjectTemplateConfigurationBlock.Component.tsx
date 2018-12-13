@@ -1,6 +1,6 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {AbstractBaseCircleObject, AbstractBaseRectangleObject, AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
@@ -56,7 +56,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     }
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {index, maxIndex, object, classes, onCancelSelection, onSelectedRemove, onObjectIndexSwap} = this.props;
     const {objectDescriptor, localObjectCopy} = this.state;

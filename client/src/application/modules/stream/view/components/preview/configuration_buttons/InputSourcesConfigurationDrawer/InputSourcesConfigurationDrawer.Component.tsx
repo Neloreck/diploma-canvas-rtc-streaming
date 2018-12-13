@@ -1,6 +1,6 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -66,7 +66,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
     }
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes, show, onHide, onShow} = this.props;
     const {audioInputSources, videoInputSources, selectedInputSources, previewStream} = this.state;
@@ -115,7 +115,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
   }
 
   private renderDevicesSelection(devices: Array<MediaDeviceInfo>, selected: Optional<MediaDeviceInfo>,
-                                 label: string): JSX.Element {
+                                 label: string): ReactNode {
     return (
       <FormControl className={this.props.classes.inputSelectForm}>
         <InputLabel htmlFor="select-multiple">{label}</InputLabel>

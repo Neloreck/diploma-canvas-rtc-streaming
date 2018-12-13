@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -37,7 +37,7 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
     showDrawer: false
   };
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes, sourceState: {selectedDevices}} = this.props;
     const {showDrawer} = this.state;

@@ -1,6 +1,6 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {createRef, Fragment, MouseEvent, PureComponent, RefObject} from "react";
+import {createRef, Fragment, MouseEvent, PureComponent, ReactNode, RefObject} from "react";
 import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
@@ -48,7 +48,7 @@ export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGra
     this.renderingService.setRenderObjects([this.props.object]);
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return (
       <Fragment>
 

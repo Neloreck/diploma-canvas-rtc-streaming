@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Component} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
@@ -27,7 +27,7 @@ export class ObjectDescriptorConfigurationBlock extends Component<IObjectDescrip
 
   public state: IObjectDescriptorConfigurationBlockState = {};
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes, object, descriptor} = this.props;
 

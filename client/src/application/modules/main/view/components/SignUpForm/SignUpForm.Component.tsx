@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Component} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -22,7 +22,7 @@ export class SignUpForm extends Component<ISignUpFormProps> {
     loading: true
   };
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     const {classes} = this.props;
     const state = this.state;
 

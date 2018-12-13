@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Component, ComponentType} from "react";
+import {Component, ComponentType, ReactNode} from "react";
 
 import {CircularProgress, Grid} from "@material-ui/core";
 
@@ -47,7 +47,7 @@ export class LazyLoadComponentFactory {
         this.mounted = false;
       }
 
-      public render(): JSX.Element {
+      public render(): ReactNode {
         const RenderItem: ComponentType = this.state.component;
         return RenderItem
           ? <RenderItem {...this.props}/>

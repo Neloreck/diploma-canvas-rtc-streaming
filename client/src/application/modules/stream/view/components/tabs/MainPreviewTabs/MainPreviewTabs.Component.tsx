@@ -47,7 +47,7 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
     tabsHeight: undefined
   };
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes} = this.props;
     const {currentTab, tabsHeight} = this.state;

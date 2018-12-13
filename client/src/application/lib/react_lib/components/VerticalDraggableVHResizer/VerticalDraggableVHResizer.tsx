@@ -1,6 +1,6 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {createRef, PureComponent, RefObject} from "react";
+import {createRef, PureComponent, ReactNode, RefObject} from "react";
 import {MouseEvent} from "react";
 
 import {DocumentUtils} from "@Lib/utils";
@@ -38,7 +38,7 @@ export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggable
     document.removeEventListener("mouseup", this.handleMouseUp);
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return (
       <div
         className={this.props.className}

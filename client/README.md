@@ -1,1 +1,1 @@
-# x-core
+# x-core client application

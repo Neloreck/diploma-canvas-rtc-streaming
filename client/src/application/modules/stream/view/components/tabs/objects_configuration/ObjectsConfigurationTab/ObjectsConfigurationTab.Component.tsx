@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, Fragment} from "react";
+import {ChangeEvent, Component, Fragment, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
@@ -46,7 +46,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     showLayerControls: false
   };
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes, graphicsState: {selectedObject}} = this.props;
     const {listWidth} = this.state;
@@ -77,7 +77,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     );
   }
 
-  private renderObjectsList(): JSX.Element {
+  private renderObjectsList(): ReactNode {
 
     const {classes, graphicsState: {objects, selectedObject}, graphicsActions: {swapObjectsByIndex}} = this.props;
     const {showLayerControls} = this.state;
@@ -155,7 +155,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     );
   }
 
-  private renderSelectedObjectConfigBlock(): Optional<JSX.Element> {
+  private renderSelectedObjectConfigBlock(): Optional<ReactNode> {
 
     const {graphicsState: {objects, selectedObject}, graphicsActions: {swapObjectsByIndex}} = this.props;
 

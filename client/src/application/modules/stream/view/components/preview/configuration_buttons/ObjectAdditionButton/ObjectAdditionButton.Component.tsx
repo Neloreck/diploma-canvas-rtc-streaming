@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, createRef, RefObject} from "react";
+import {Component, createRef, ReactNode, RefObject} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -50,7 +50,7 @@ export class ObjectAdditionTooltip extends Component<IObjectAdditionTooltipProps
     window.removeEventListener("mousedown", this.handleWindowClick);
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     const {classes} = this.props;
     const {showAdditionWindow} = this.state;
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject, CenteredTextRO, ContextCleanerRO, DomVideoRO, GridLayoutRO} from "@Lib/graphics";
@@ -21,7 +21,7 @@ export interface ICanvasGraphicsStreamProps {
 
 export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStreamProps> {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return (
       <CanvasGraphicsRenderer
         previewMode={this.props.showPreview}

@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, createRef, Fragment, MouseEvent, RefObject} from "react";
+import {Component, createRef, Fragment, MouseEvent, ReactNode, RefObject} from "react";
 import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
@@ -140,7 +140,7 @@ export class CanvasGraphicsRenderer
    * Rendering.
    */
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const { videoSizing } = this.state;
 

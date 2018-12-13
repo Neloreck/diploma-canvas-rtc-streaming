@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component} from "react";
+import {ChangeEvent, Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -67,7 +67,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   private maxUsernameLength: number = 64;
   private maxPasswordLength: number = 64;
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes} = this.props;
 
@@ -79,7 +79,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     );
   }
 
-  private renderLoadingProgressBar(): JSX.Element {
+  private renderLoadingProgressBar(): ReactNode {
 
     const {classes, authState: {authorizing}} = this.props;
 
@@ -88,7 +88,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
         : <div className={classes.linearLoader}/>;
   }
 
-  private renderForm(): JSX.Element {
+  private renderForm(): ReactNode {
 
     const {classes, authState: {authorizing, errorMessage}} = this.props;
     const {usernameInput, passwordInput} = this.state;

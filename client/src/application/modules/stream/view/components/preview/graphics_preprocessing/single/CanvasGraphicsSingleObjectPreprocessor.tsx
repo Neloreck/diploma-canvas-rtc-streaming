@@ -1,5 +1,5 @@
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
@@ -13,7 +13,7 @@ export interface ICanvasGraphicsSingleObjectPreprocessorProps {
 
 export class CanvasGraphicsSingleObjectPreprocessor extends PureComponent<ICanvasGraphicsSingleObjectPreprocessorProps> {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return <div> todo </div>;
   }
 

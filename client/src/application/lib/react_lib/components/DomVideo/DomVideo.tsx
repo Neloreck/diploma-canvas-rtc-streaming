@@ -1,5 +1,5 @@
 import * as React from "react";
-import {createRef, PureComponent, RefObject} from "react";
+import {createRef, PureComponent, ReactNode, RefObject} from "react";
 
 // Props.
 export interface IDomVideoProps {
@@ -23,7 +23,7 @@ export class DomVideo extends PureComponent<IDomVideoProps> {
     }
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {width, height} = this.props;
 

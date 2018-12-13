@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Fragment, PureComponent} from "react";
+import {Fragment, PureComponent, ReactNode} from "react";
 import {Route, Switch} from "react-router";
 
 // Lib.
@@ -16,7 +16,7 @@ export class ModuleRouter extends PureComponent {
 
   private static MODULE_PREFIX: string = "/stream";
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     return (
       <Fragment>

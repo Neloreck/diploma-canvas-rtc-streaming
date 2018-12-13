@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component} from "react";
+import {ChangeEvent, Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -37,7 +37,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
     showPreviewConfiguration: true
   };
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes, graphicsState: {addVisibleObjects, showPreview, showGrid, showGraphics, showMainVideo, propagateRendererEvents}} = this.props;
     const {showPreviewConfiguration} = this.state;

@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -29,7 +29,7 @@ export interface IObjectAdditionMenuProps extends IObjectAdditionMenuOwnProps, I
 @Styled(objectAdditionMenuStyle)
 export class ObjectAdditionMenu extends PureComponent<IObjectAdditionMenuProps> {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     const {classes} = this.props;
 
     return (
@@ -42,7 +42,7 @@ export class ObjectAdditionMenu extends PureComponent<IObjectAdditionMenuProps> 
   }
 
   @Bind()
-  private renderCanvasItem(descriptor: ICanvasObjectDescriptor<any>): JSX.Element {
+  private renderCanvasItem(descriptor: ICanvasObjectDescriptor<any>): ReactNode {
     const {classes} = this.props;
 
     return (

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 
 // Liv.
 import {log} from "@Lib/utils";
@@ -13,7 +13,7 @@ export class Module extends PureComponent {
     log.info("Module 'main' has been mounted.");
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return <ModuleRouter/>;
   }
 

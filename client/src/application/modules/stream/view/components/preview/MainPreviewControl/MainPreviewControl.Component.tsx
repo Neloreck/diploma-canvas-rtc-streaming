@@ -1,6 +1,6 @@
 import {Consume} from "@redux-cbd/context";
 import * as React from "react";
-import {Fragment, PureComponent} from "react";
+import {Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -41,7 +41,7 @@ export class MainPreviewControl extends PureComponent<IMainPreviewControlProps> 
 
   // todo: Return combined stream there ready for processing.
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {
       classes,
@@ -70,7 +70,7 @@ export class MainPreviewControl extends PureComponent<IMainPreviewControlProps> 
     );
   }
 
-  private renderHelpingControlTooltipButtons(): JSX.Element {
+  private renderHelpingControlTooltipButtons(): ReactNode {
     return (
       <Fragment>
         <ObjectAdditionTooltip {...{} as IObjectAdditionTooltipExternalProps}/>

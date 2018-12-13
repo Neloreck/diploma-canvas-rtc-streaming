@@ -1,6 +1,6 @@
 import {Provide} from "@redux-cbd/context";
 import * as React from "react";
-import {PureComponent} from "react";
+import {PureComponent, ReactNode} from "react";
 
 // Globals.
 // Todo: AdapterJS injection.
@@ -22,7 +22,7 @@ export class Module extends PureComponent {
     log.info("Module 'stream' has been mounted into DOM.");
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     return <ModuleRouter/>;
   }
 

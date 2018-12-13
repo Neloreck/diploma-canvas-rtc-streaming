@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent} from "react";
+import {Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -26,7 +26,7 @@ export interface IHeaderBarProps extends IHeaderBarOwnProps, IHeaderBarExternalP
 @Consume<IAuthContext, IHeaderBarProps>(authContextManager)
 export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
 
     const {classes} = this.props;
 
@@ -52,7 +52,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
     );
   }
 
-  private renderRightBarDetails(): JSX.Element {
+  private renderRightBarDetails(): ReactNode {
 
     const {classes, routingActions: {getCurrentLocation}, authState: {authorizing, authorized, authData}} = this.props;
 
