@@ -5,19 +5,38 @@ import {ChangeEvent, Component} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
+import {Optional} from "@Lib/ts/types";
 
 // Data.
 import {authContextManager, IAuthContext} from "@Main/data/store";
+import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
 
 // View.
-import {Button, Card, Grid, LinearProgress, TextField} from "@material-ui/core";
+import {
+  Button,
+  Card,
+  FormControl,
+  FormHelperText,
+  Grid,
+  Input,
+  InputLabel,
+  LinearProgress
+} from "@material-ui/core";
 import {WithStyles} from "@material-ui/core";
 import {loginFormStyle} from "./LoginForm.Style";
 
 // Props.
 export interface ILoginFormState {
-  username: string;
-  password: string;
+  usernameInput: {
+    value: string;
+    error: Optional<string>;
+    edited: boolean;
+  };
+  passwordInput: {
+    value: string;
+    error: Optional<string>;
+    edited: boolean;
+  };
 }
 
 export interface ILoginFormExternalProps extends WithStyles<typeof loginFormStyle>, IAuthContext {}
@@ -31,12 +50,20 @@ export interface ILoginFormProps extends ILoginFormOwnProps, ILoginFormExternalP
 export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
 
   public state: ILoginFormState = {
-    password: "",
-    username: ""
+    passwordInput: {
+      edited: false,
+      error: null,
+      value: ""
+    },
+    usernameInput: {
+      edited: false,
+      error: null,
+      value: ""
+    }
   };
 
-  private minUsernameLength: number = 5;
-  private minPasswordLength: number = 5;
+  private minUsernameLength: number = 4;
+  private minPasswordLength: number = 4;
   private maxUsernameLength: number = 64;
   private maxPasswordLength: number = 64;
 
@@ -63,35 +90,29 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
 
   private renderForm(): JSX.Element {
 
-    const {classes, authState: {authorizing}} = this.props;
-    const {username, password} = this.state;
+    const {classes, authState: {authorizing, errorMessage}} = this.props;
+    const {usernameInput, passwordInput} = this.state;
 
     return (
       <Grid className={classes.formWrapper} container>
 
-        <TextField
-          label="Login"
-          className={classes.textInput}
-          disabled={authorizing}
-          value={username}
-          onChange={this.onLoginChanged}
-          margin="normal"
-        />
+        <FormControl className={classes.textInput} error={Boolean(usernameInput.error)} margin={"normal"}>
+          <InputLabel>Username</InputLabel>
+          <Input disabled={authorizing} value={usernameInput.value} onChange={this.onUsernameChanged} placeholder={"username"}/>
+          <FormHelperText>{usernameInput.error}</FormHelperText>
+        </FormControl>
 
-        <TextField
-          label="Password"
-          className={classes.textInput}
-          disabled={authorizing}
-          value={password}
-          onChange={this.onPasswordChanged}
-          margin="normal"
-          type={"password"}
-        />
+        <FormControl className={classes.textInput} error={Boolean(passwordInput.error) } margin={"normal"}>
+          <InputLabel>Password</InputLabel>
+          <Input disabled={authorizing} value={passwordInput.value} onChange={this.onPasswordChanged} type={"password"} placeholder={"password"}/>
+          <FormHelperText>{passwordInput.error}</FormHelperText>
+        </FormControl>
 
-        <Grid justify={"flex-end"} container>
+        <Grid justify={"space-between"} alignItems={"center"} container>
+          <InputLabel className={classes.errorLabel}>{errorMessage}</InputLabel>
           <Button
             className={classes.signInButton}
-            disabled={authorizing || username.length < this.minUsernameLength || password.length < this.minPasswordLength}
+            disabled={!this.isFormValid()}
             onClick={this.onFormSubmit}
           >
             Submit
@@ -103,32 +124,59 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   }
 
   @Bind()
-  private onLoginChanged(event: ChangeEvent<HTMLInputElement>): void {
+  private onUsernameChanged(event: ChangeEvent<HTMLInputElement>): void {
 
+    const {authActions: {cleanupErrorMessage}} = this.props;
     const value: string = event.target.value;
 
     if (value.length < this.maxUsernameLength) {
-      this.setState({ username: value });
+
+      const error: Optional<string> = value.length < this.minUsernameLength
+        ? `Username should be longer than ${this.minUsernameLength} characters.`
+        : null;
+
+      cleanupErrorMessage();
+
+      this.setState({ usernameInput: { ...this.state.usernameInput, value, edited: true, error } });
     }
   }
 
   @Bind()
   private onPasswordChanged(event: ChangeEvent<HTMLInputElement>): void {
 
+    const {authActions: {cleanupErrorMessage}} = this.props;
     const value: string = event.target.value;
 
     if (value.length < this.maxPasswordLength) {
-      this.setState({ password: value });
+
+      const error: Optional<string> = value.length < this.minPasswordLength
+        ? `Password should be longer than ${this.minPasswordLength} characters.`
+        : null;
+
+      cleanupErrorMessage();
+
+      this.setState({ passwordInput: { ...this.state.usernameInput, value, edited: true, error } });
     }
   }
 
   @Bind()
-  private onFormSubmit(): void {
+  private async onFormSubmit(): Promise<void> {
 
     const {authActions: {login}} = this.props;
-    const {username, password} = this.state;
+    const {usernameInput, passwordInput} = this.state;
 
-    login(username, password).then();
+    const userData: Optional<IUserAuthData> = await login(usernameInput.value, passwordInput.value);
+  }
+
+  @Bind()
+  private isFormValid(): boolean {
+
+    const {authState: {authorizing, errorMessage}} = this.props;
+    const {usernameInput, passwordInput} = this.state;
+
+    return !authorizing && errorMessage === null &&
+      usernameInput.value.length > this.minUsernameLength &&
+      passwordInput.value.length > this.minPasswordLength;
   }
 
 }

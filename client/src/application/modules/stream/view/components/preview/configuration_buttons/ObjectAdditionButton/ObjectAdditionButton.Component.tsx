@@ -10,7 +10,7 @@ import {Styled} from "@Lib/react_lib/@material_ui";
 import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
-import {Button, Collapse, Tooltip, WithStyles} from "@material-ui/core";
+import {Button, Collapse, Fab, Tooltip, WithStyles} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
 import {
   IObjectAdditionMenuExternalProps,
@@ -58,11 +58,11 @@ export class ObjectAdditionTooltip extends Component<IObjectAdditionTooltipProps
       <div className={showAdditionWindow ? classes.root : classes.rootEmpty} ref={this.contentRef}>
 
         <Tooltip title={"Add object."} placement={"right"}>
-          <Button
-            className={classes.addObjectTooltip} variant={"fab"}
+          <Fab
+            className={classes.addObjectTooltip}
             onClick={this.onToggleShowAdditionWindow}>
             { showAdditionWindow ? <Remove/> : <Add/> }
-          </Button>
+          </Fab>
         </Tooltip>
 
         <Collapse in={showAdditionWindow}>

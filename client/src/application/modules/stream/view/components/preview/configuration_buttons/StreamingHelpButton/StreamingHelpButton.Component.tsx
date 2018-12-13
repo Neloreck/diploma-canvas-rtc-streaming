@@ -5,7 +5,7 @@ import {PureComponent} from "react";
 import {Styled} from "@Lib/react_lib/@material_ui";
 
 // View.
-import {Button, Collapse, Grid, Tooltip, WithStyles} from "@material-ui/core";
+import {Collapse, Fab, Grid, Tooltip, WithStyles} from "@material-ui/core";
 import {Help} from "@material-ui/icons";
 import {streamingHelpButtonStyle} from "./StreamingHelpButton.Style";
 
@@ -27,9 +27,9 @@ export class StreamingHelpButton extends PureComponent<IStreamingHelpButtonProps
       <Grid className={classes.root}>
 
         <Tooltip title={"Search for help."} placement={"right"}>
-          <Button className={classes.helpTooltip} variant={"fab"}>
+          <Fab className={classes.helpTooltip}>
             <Help/>
-          </Button>
+          </Fab>
         </Tooltip>
 
         <Collapse in={false}>

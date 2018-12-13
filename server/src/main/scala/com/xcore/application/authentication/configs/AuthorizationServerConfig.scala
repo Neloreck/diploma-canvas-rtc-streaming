@@ -2,13 +2,13 @@ package com.xcore.application.authentication.configs
 
 import java.util
 
-import com.xcore.application.authentication.models.role.{EAppAccessScope, EAppGrantType, EAppAccessLevel}
+import com.xcore.application.authentication.models.role.{EAppAccessLevel, EAppAccessScope, EAppGrantType}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.oauth2.config.annotation.web.configuration.{AuthorizationServerConfigurerAdapter, EnableAuthorizationServer}
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain
+import org.springframework.security.oauth2.provider.token.{TokenEnhancerChain, TokenStore}
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
@@ -25,6 +25,9 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
   @Autowired
   private var authenticationManager: AuthenticationManager = _;
 
+  @Autowired
+  private var accessTokenStore: TokenStore = _;
+
   /*
    * Configuration:
    */
@@ -36,7 +39,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     authorizationServerSecurityConfigurer
       .tokenKeyAccess("permitAll()")
-      .checkTokenAccess("isAuthenticated()");
+      .checkTokenAccess("hasAuthority('ROLE_USER')");
   }
 
   @throws[Exception]
@@ -56,7 +59,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
           .secret(webSecurityOptions.getPasswordEncoder.encode(webSecurityOptions.CLIENT_APPLICATION_SECRET))
           .resourceIds(webSecurityOptions.SERVER_APPLICATION_ID)
 
-          .authorizedGrantTypes(EAppGrantType.PASSWORD.getType, EAppGrantType.REFRESH_TOKEN.getType)
+          .authorizedGrantTypes(EAppGrantType.PASSWORD.getType, EAppGrantType.IMPLICIT.getType, EAppGrantType.REFRESH_TOKEN.getType)
           .authorities(EAppAccessLevel.ROLE_APPLICATION.getRole)
           .scopes(EAppAccessScope.READ.getScope, EAppAccessScope.WRITE.getScope)
 
@@ -70,8 +73,12 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     log.info("Configuring auth server endpoints.");
 
     val tokenEnhancerChain: TokenEnhancerChain = new TokenEnhancerChain();
-
     tokenEnhancerChain.setTokenEnhancers(util.Arrays.asList(webSecurityOptions.getAccessTokenEnhancer, webSecurityOptions.getAccessTokenConverter))
+
+    authorizationServerEndpointsConfigurer
+      .tokenStore(accessTokenStore)
+      .tokenEnhancer(tokenEnhancerChain)
+      .authenticationManager(this.authenticationManager);
 
     authorizationServerEndpointsConfigurer
       .pathMapping("/oauth/confirm_access", "/auth/confirm_access")
@@ -79,12 +86,8 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
       .pathMapping("/oauth/check_token", "/auth/check_token")
       .pathMapping("/oauth/token_key", "/auth/token_key")
       .pathMapping("/oauth/error", "/auth/error")
+      .pathMapping("/oauth/login", "/auth/login")
       .pathMapping("/oauth/token", "/auth/token");
-
-    authorizationServerEndpointsConfigurer
-      .tokenStore(webSecurityOptions.getAccessTokenStore)
-      .tokenEnhancer(tokenEnhancerChain)
-      .authenticationManager(this.authenticationManager);
   }
 
 }

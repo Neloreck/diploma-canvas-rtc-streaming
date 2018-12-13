@@ -54,6 +54,7 @@ export class WebpackBuildConfig implements Configuration {
 
   public resolve = {
     alias: {
+      "@Api": path.resolve(projectRoot, "./src/application/api/"),
       "@Lib": path.resolve(projectRoot, "./src/application/lib/"),
       "@Main": path.resolve(projectRoot, "./src/application/modules/main/"),
       "@Module": path.resolve(projectRoot, "./src/application/modules/")

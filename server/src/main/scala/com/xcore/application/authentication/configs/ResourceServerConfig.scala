@@ -4,7 +4,7 @@ import com.xcore.server.controllers.rest.exchange.ErrorApiResponse
 import org.codehaus.jackson.map.ObjectMapper
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.{Bean, Configuration, Primary}
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -13,11 +13,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.{
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.access.AccessDeniedHandler
-
 import javax.servlet.ServletException
 import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
-
 import java.io.IOException
+
+import org.springframework.security.oauth2.provider.token.{DefaultTokenServices, TokenStore}
 
 @Configuration
 @EnableResourceServer
@@ -27,6 +27,21 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
   @Autowired
   private var webSecurityOptions: WebSecurityOptions = _;
+
+  @Autowired
+  private var accessTokenStore: TokenStore = _;
+
+  @Bean
+  @Primary
+  def getAccessTokenServices: DefaultTokenServices = {
+
+    val defaultTokenServices: DefaultTokenServices = new DefaultTokenServices;
+
+    defaultTokenServices.setTokenStore(accessTokenStore);
+    defaultTokenServices.setSupportRefreshToken(true);
+
+    defaultTokenServices;
+  }
 
   /*
    * Configuration:
@@ -38,7 +53,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     resourceServerSecurityConfigurer
       .resourceId(webSecurityOptions.SERVER_APPLICATION_ID)
-      .tokenServices(webSecurityOptions.getAccessTokenServices);
+      .tokenServices(this.getAccessTokenServices);
   }
 
   @throws[Exception]

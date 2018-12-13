@@ -10,10 +10,12 @@ export const headerBarStyle = (theme: Theme) => createStyles({
     "& > button": {
       margin: `${0} ${theme.spacing.unit}px`,
     },
-    flexGrow: 14,
-    justifyContent: "flex-end"
+    flexGrow: 1
   },
   root: {
     width: "100%"
+  },
+  usernameLabel: {
+    cursor: "default"
   }
 });

@@ -6,5 +6,6 @@ export interface ITokensResponse extends IXCoreResponse {
   expires_in: string;
   scope: string;
   token_type: string;
+  username: string;
   jti: string;
 }

@@ -1,6 +1,5 @@
 package com.xcore.server.configs;
 
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,20 +63,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .addMapping("/**")
         .allowCredentials(true);
 
-    /*
-     * Changes related to CORS and content protection.
-     * Not needed because we use SPA and token based auth for content/api protection.
-     *
-     *  String[] allowedOrigins = applicationConfig.getAllowedOrigins().stream().toArray(String[]::new);
-     *
-     *  registry.addMapping("/**")
-     *    .allowedOrigins(allowedOrigins)
-     *    .allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE")
-     *    .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-ApiRequest-Method", "Access-Control-ApiRequest-Headers")
-     *    .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-     *    .allowCredentials(true)
-     *    .maxAge(3600);
-     */
+    String[] allowedOrigins = applicationConfig.getAllowedOrigins().toArray(new String[0]);
+
+    registry.addMapping("/**")
+      .allowedOrigins(allowedOrigins)
+      .allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE")
+      .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-ApiRequest-Method", "Access-Control-ApiRequest-Headers")
+      .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+      .allowCredentials(true)
+      .maxAge(3600);
   }
 
   @Bean

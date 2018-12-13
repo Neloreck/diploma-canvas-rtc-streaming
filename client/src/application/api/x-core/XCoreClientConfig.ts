@@ -1,3 +1,7 @@
+// Lib.
+import {Optional} from "@Lib/ts/types";
+import {DocumentStoreUtils} from "@Lib/utils";
+
 export class XCoreClientConfig {
 
   private static readonly X_CORE_CLIENT_ID: string = "X-CORE-CLIENT";
@@ -13,6 +17,15 @@ export class XCoreClientConfig {
   });
 
   public getDefaultHeaders(): Headers {
+
+    const accessToken: Optional<string> = DocumentStoreUtils.getCookie("access_token");
+
+    if (accessToken) {
+      XCoreClientConfig.DEFAULT_HEADERS.set("Authorization", `Bearer ${DocumentStoreUtils.getCookie("access_token")}`);
+    } else {
+      XCoreClientConfig.DEFAULT_HEADERS.delete("Authorization");
+    }
+
     return XCoreClientConfig.DEFAULT_HEADERS;
   }
 

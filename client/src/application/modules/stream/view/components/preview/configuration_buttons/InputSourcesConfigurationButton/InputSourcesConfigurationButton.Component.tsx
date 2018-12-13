@@ -12,7 +12,7 @@ import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextM
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 // View.
-import {Button, Grid, Tooltip, WithStyles} from "@material-ui/core";
+import {Fab, Grid, Tooltip, WithStyles} from "@material-ui/core";
 import {MoreVert} from "@material-ui/icons";
 import {IInputSourcesConfigurationDrawerExternalProps, InputSourcesConfigurationDrawer} from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationDrawer/InputSourcesConfigurationDrawer.Component";
 import {inputSourcesConfigurationButtonStyle} from "./InputSourcesConfigurationButton.Style";
@@ -46,9 +46,9 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
       <Grid className={classes.root}>
 
         <Tooltip title={"Configure source."} placement={"right"}>
-          <Button className={classes.configureSourceTooltip} variant={"fab"} onClick={this.onShowModal}>
+          <Fab className={classes.configureSourceTooltip} onClick={this.onShowModal}>
             <MoreVert/>
-          </Button>
+          </Fab>
         </Tooltip>
 
         <InputSourcesConfigurationDrawer

@@ -30,6 +30,7 @@
       "@Main/*": [ "modules/main/*" ],
       "@Module/*": [ "modules/*" ],
       "@Module": [ "modules/index" ],
+      "@Api/*": [ "api/*" ],
       "@Lib/*": [ "lib/*" ]
     }
   },

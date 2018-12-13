@@ -1,6 +1,9 @@
 import {createStyles, Theme} from "@material-ui/core";
 
 export const loginFormStyle = (theme: Theme) => createStyles({
+  errorLabel: {
+    color: "#a52020"
+  },
   formWrapper: {
     padding: "1rem 2rem"
   },

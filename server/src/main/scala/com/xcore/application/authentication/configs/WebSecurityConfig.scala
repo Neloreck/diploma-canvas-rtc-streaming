@@ -1,6 +1,6 @@
 package com.xcore.application.authentication.configs
 
-import com.xcore.application.authentication.services.{AppUserDetailService, AuthenticationManagerService}
+import com.xcore.application.authentication.services.{AppUserDetailService}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.context.annotation.{Bean, Configuration}
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -47,9 +47,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     log.info("Configuring httpSecurity and session management.")
 
     httpSecurity
-      .authorizeRequests()
-      .antMatchers("/api/auth/**").permitAll()
-      .antMatchers("/api/**").authenticated();
-  }
+      .cors().disable()
+      .csrf().disable();
+    }
 
 }

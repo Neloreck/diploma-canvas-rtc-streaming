@@ -7,7 +7,10 @@ import {IXCoreResponse} from "./exchange/IXCoreResponse";
 
 export abstract class XCoreClient {
 
-  // todo: Url params mapping.
+  public async test(): Promise<any> {
+    return await this.get("/api/test");
+  }
+
   public async get(mapping: string, urlParams?: {}, headers?: Headers): Promise<IXCoreResponse> {
     return this.doRequest(ERequestMethod.GET, mapping);
   }
@@ -38,6 +41,15 @@ export abstract class XCoreClient {
 
     try {
       rawResponse = await fetch(xCoreClientConfig.getServerUrl() + mapping, rawRequest);
+
+      if (rawResponse.status >= 500) {
+        throw new Error("Could not reach auth server.");
+      }
+
+      if (rawResponse.status >= 400) {
+        throw new Error("Bad credentials provided.");
+      }
+
       return await rawResponse.json();
     } catch (error) {
       return {

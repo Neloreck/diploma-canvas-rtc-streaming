@@ -148,4 +148,9 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     this.update();
   }
 
+  @Bind()
+  protected beforeUpdate(): void {
+    this.context.graphicsState = Object.assign({}, this.context.graphicsState);
+  }
+
 }

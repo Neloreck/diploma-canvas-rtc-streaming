@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {PureComponent} from "react";
+import {Fragment, PureComponent} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/@material_ui";
@@ -10,7 +10,8 @@ import {Styled} from "@Lib/react_lib/@material_ui";
 import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
 
 // View.
-import {AppBar, Button, Grid, Toolbar, Typography, WithStyles, Zoom} from "@material-ui/core";
+import {AppBar, Button, Grid, IconButton, Toolbar, Typography, WithStyles, Zoom} from "@material-ui/core";
+import {Dehaze} from "@material-ui/icons";
 import {headerBarStyle} from "./HeaderBar.Style";
 
 // Props.
@@ -27,11 +28,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
   public render(): JSX.Element {
 
-    const {classes, routingActions: {getCurrentLocation}, authState: {authorizing}} = this.props;
-
-    const currentLocation: string = getCurrentLocation();
-    const isLoginPage: boolean = (currentLocation === "/login");
-    const isSignUpPage: boolean = (currentLocation === "/signUp");
+    const {classes} = this.props;
 
     return (
       <AppBar className={classes.root} position={"static"}>
@@ -46,24 +43,55 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
             X-CORE
           </Typography>
 
-          <Grid container className={classes.rightBar}>
-
-            <Zoom in={!isLoginPage}>
-              <Button disabled={authorizing} variant={"contained"} color={"default"} onClick={this.redirectToLoginPage}>Login</Button>
-            </Zoom>
-
-            {
-              !isSignUpPage &&
-              <Zoom in={!isSignUpPage}>
-                <Button disabled={authorizing} variant={"contained"} color={"default"} onClick={this.redirectToSignUpPage}>SignUp</Button>
-              </Zoom>
-            }
-
+          <Grid container className={classes.rightBar} alignItems={"center"} justify={"flex-end"}>
+            {this.renderRightBarDetails()}
           </Grid>
 
         </Toolbar>
       </AppBar>
     );
+  }
+
+  private renderRightBarDetails(): JSX.Element {
+
+    const {classes, routingActions: {getCurrentLocation}, authState: {authorizing, authorized, authData}} = this.props;
+
+    const currentLocation: string = getCurrentLocation();
+    const isLoginPage: boolean = (currentLocation === "/login");
+    const isSignUpPage: boolean = (currentLocation === "/signUp");
+
+    if (authorized && authData !== null) {
+     return (
+       <Fragment>
+
+         <Typography className={classes.usernameLabel} variant={"subtitle1"}>
+           {authData.username}
+         </Typography>
+
+         <IconButton>
+           <Dehaze/>
+         </IconButton>
+
+       </Fragment>
+     );
+    } else {
+      return (
+        <Fragment>
+
+          <Zoom in={!isLoginPage}>
+            <Button disabled={authorizing} variant={"contained"} color={"default"} onClick={this.redirectToLoginPage}>Login</Button>
+          </Zoom>
+
+          {
+            !isSignUpPage &&
+            <Zoom in={!isSignUpPage}>
+              <Button disabled={authorizing} variant={"contained"} color={"default"} onClick={this.redirectToSignUpPage}>SignUp</Button>
+            </Zoom>
+          }
+
+        </Fragment>
+      );
+    }
   }
 
   @Bind()
