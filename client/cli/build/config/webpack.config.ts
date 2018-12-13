@@ -135,7 +135,7 @@ export class WebpackBuildConfig implements Configuration {
     new HtmlWebpackPlugin({
       environment,
       filename: "index.html",
-      favicon: path.resolve(projectRoot, "src/application/modules/main/view/assets/favicon.ico"),
+      favicon: path.resolve(projectRoot, "cli/build/template/favicon.ico"),
       inject: true,
       minify: {
         minifyCSS: true,
@@ -144,7 +144,7 @@ export class WebpackBuildConfig implements Configuration {
         removeTagWhitespace: true,
         trimCustomFragments: true
       },
-      template: path.resolve(projectRoot, "src/application/index.hbs")
+      template: path.resolve(projectRoot, "cli/build/template/index.hbs")
     }),
     new DotEnv({
       path: path.resolve(projectRoot, "cli/build/config/.env")
