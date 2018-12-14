@@ -19,6 +19,13 @@ export class LocalMediaService {
     height: { min: 360, ideal: 720, max: 1080 }
   };
 
+  private static DESKTOP_CAPTURING_CONSTRAINT = {
+    audio: false,
+    video: {
+      mediaSource: "screen"
+    }
+  };
+
   private static readonly OUTPUT_FRAMERATE: number = 60;
 
   private log: Logger = new Logger("[🕳️LMS]", false);
@@ -84,7 +91,7 @@ export class LocalMediaService {
     stream.getTracks().forEach((track) => stream.removeTrack(track));
   }
 
-  public async getUserMedia(videoInput: Optional<MediaDeviceInfo> | boolean, audioInput: Optional<MediaDeviceInfo> | boolean) {
+  public async getUserMedia(videoInput: Optional<MediaDeviceInfo> | boolean, audioInput: Optional<MediaDeviceInfo> | boolean): Promise<MediaStream> {
 
     const constraints = {
       audio:
@@ -102,6 +109,11 @@ export class LocalMediaService {
     this.log.info("Got media stream from devices:", constraints, stream);
 
     return stream;
+  }
+
+  public async getUserScreenMedia(): Promise<MediaStream> {
+    // @ts-ignore
+    return await navigator.mediaDevices.getUserMedia(LocalMediaService.DESKTOP_CAPTURING_CONSTRAINT);
   }
 
 }

@@ -7,8 +7,8 @@ export const streamingHelpButtonStyle = (theme: Theme) => createStyles({
     width: theme.spacing.unit * 5
   },
   root: {
-    left: 0,
     position: "absolute",
+    right: 0,
     top: theme.spacing.unit * 6
   }
 });

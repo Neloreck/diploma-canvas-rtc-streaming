@@ -3,8 +3,8 @@ import * as React from "react";
 import {Component, ReactNode} from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
 import {DomVideo} from "@Lib/react_lib/components";
+import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
@@ -13,8 +13,21 @@ import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInp
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 // View.
-import {Button, Divider, FormControl, Grid, Input, InputLabel, MenuItem, Select, SwipeableDrawer, Typography, WithStyles} from "@material-ui/core";
-import {Check, Refresh} from "@material-ui/icons";
+import {
+  Button,
+  Divider,
+  FormControl,
+  Grid,
+  IconButton,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  SwipeableDrawer,
+  Typography,
+  WithStyles
+} from "@material-ui/core";
+import {Check, Close, Refresh} from "@material-ui/icons";
 import {inputSourcesConfigurationDrawerStyle} from "./InputSourcesConfigurationDrawer.Style";
 
 // Props.
@@ -73,6 +86,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
     return (
       <SwipeableDrawer
+        anchor={"right"}
         open={show}
         onClose={onHide}
         onOpen={onShow}
@@ -84,7 +98,15 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
           container
         >
 
-          <Typography variant={"h6"} gutterBottom> Input Source </Typography>
+          <Grid className={classes.selectionFormHeading} direction={"row"} justify={"space-between"} alignItems={"center"} container>
+
+            <Typography variant={"h6"}> Input Source </Typography>
+
+            <IconButton onClick={onHide}>
+              <Close fontSize={"small"}/>
+            </IconButton>
+
+          </Grid>
 
           <Divider/>
 

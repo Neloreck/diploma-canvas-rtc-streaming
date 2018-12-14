@@ -10,7 +10,7 @@ import {Styled} from "@Lib/react_lib/mui";
 import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
-import {Button, Collapse, Fab, Tooltip, WithStyles} from "@material-ui/core";
+import {Collapse, Fab, Tooltip, WithStyles} from "@material-ui/core";
 import {Add, Remove} from "@material-ui/icons";
 import {
   IObjectAdditionMenuExternalProps,
@@ -19,24 +19,24 @@ import {
 import {objectAdditionButtonStyle} from "./ObjectAdditionButton.Style";
 
 // Props.
-export interface IObjectAdditionTooltipState {
+export interface IObjectAdditionButtonState {
   showAdditionWindow: boolean;
 }
 
-export interface IObjectAdditionTooltipExternalProps extends ISourceContext, WithStyles<typeof objectAdditionButtonStyle> {}
+export interface IObjectAdditionButtonExternalProps extends ISourceContext, WithStyles<typeof objectAdditionButtonStyle> {}
 
-export interface IObjectAdditionTooltipOwnProps {}
+export interface IObjectAdditionButtonOwnProps {}
 
-export interface IObjectAdditionTooltipProps extends IObjectAdditionTooltipOwnProps, IObjectAdditionTooltipExternalProps {}
+export interface IObjectAdditionButtonProps extends IObjectAdditionButtonOwnProps, IObjectAdditionButtonExternalProps {}
 
 /*
  * Object addition button with menu.
  */
-@Consume<ISourceContext, IObjectAdditionTooltipProps>(sourceContextManager)
+@Consume<ISourceContext, IObjectAdditionButtonProps>(sourceContextManager)
 @Styled(objectAdditionButtonStyle)
-export class ObjectAdditionTooltip extends Component<IObjectAdditionTooltipProps, IObjectAdditionTooltipState> {
+export class ObjectAdditionButton extends Component<IObjectAdditionButtonProps, IObjectAdditionButtonState> {
 
-  public readonly state: IObjectAdditionTooltipState = {
+  public readonly state: IObjectAdditionButtonState = {
     showAdditionWindow: false
   };
 
@@ -66,7 +66,7 @@ export class ObjectAdditionTooltip extends Component<IObjectAdditionTooltipProps
         </Tooltip>
 
         <Collapse in={showAdditionWindow}>
-         <ObjectAdditionMenu {...{} as IObjectAdditionMenuExternalProps}/>
+          <ObjectAdditionMenu {...{} as IObjectAdditionMenuExternalProps}/>
         </Collapse>
 
       </div>

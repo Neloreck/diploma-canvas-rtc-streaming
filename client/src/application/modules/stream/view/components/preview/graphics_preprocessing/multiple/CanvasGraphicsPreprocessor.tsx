@@ -47,7 +47,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
     if (showGraphics === true) {
 
       if (showPreview === false && showGrid === true) {
-        previewItems.push(new GridLayoutRO(3, 3));
+        previewItems.push(new GridLayoutRO());
       }
 
       previewItems = previewItems.concat(renderingObjects);
@@ -73,11 +73,11 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
     // If 'display' webcam video.
     if (showMainVideo) {
       if (stream === null) {
-        return new CenteredTextRO("Waiting for input stream.", 7, "#FFF");
+        return new CenteredTextRO("Waiting for input stream...", 7, "#FFF");
       }
 
       if (stream.getVideoTracks().length === 0) {
-        return new CenteredTextRO("Waiting for video.", 7, "#FFF");
+        return new CenteredTextRO("Waiting for video...", 7, "#FFF");
       }
       return new DomVideoRO(stream);
     } else {

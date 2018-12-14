@@ -17,7 +17,6 @@ export class CenteredTextRO extends AbstractBaseRectangleObject {
     this.text = text;
     this.textSize = textSize;
     this.textColor = textColor;
-
   }
 
   public renderSelf(): void {
@@ -28,10 +27,8 @@ export class CenteredTextRO extends AbstractBaseRectangleObject {
 
     const context: CanvasRenderingContext2D = this.getContext();
 
-    let text = this.text;
-
-    const textSize: number = this.percentsToAbsoluteWidth(this.rectSize.width) * this.textSize;
-    const textAlignSub: number = textSize * text.length / 4;
+    const textSize: number = this.percentsToAbsoluteWidth(this.textSize);
+    const textAlignSub: number = textSize * this.text.length / 4.5;
 
     context.strokeStyle = "#FF0000";
     context.fillStyle = "#FFF";
@@ -39,17 +36,7 @@ export class CenteredTextRO extends AbstractBaseRectangleObject {
     context.textBaseline = "middle";
     // context.textAlign = "center";
 
-    if (this.increment > 40 && this.increment < 80) {
-      text += ".";
-    } else if (this.increment >= 80) {
-      text += "..";
-    }
-
-    this.increment++;
-    this.increment = this.increment % 120;
-
-    context.fillText(text, Math.floor(this.absoluteToPercentsWidth(50) - textAlignSub), Math.floor(this.absoluteToPercentsHeight(50)));
-
+    context.fillText(this.text, Math.floor(this.percentsToAbsoluteWidth(50) - textAlignSub), Math.floor(this.percentsToAbsoluteHeight(50)));
   }
 
 }

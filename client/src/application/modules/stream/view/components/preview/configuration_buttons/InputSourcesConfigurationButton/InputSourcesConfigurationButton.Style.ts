@@ -8,8 +8,7 @@ export const inputSourcesConfigurationButtonStyle = (theme: Theme) => createStyl
   },
   root: {
     alignSelf: "flex-start",
-    left: 0,
     position: "absolute",
-    width: 0
+    right: 0
   }
 });

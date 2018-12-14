@@ -1,54 +1,41 @@
 import {ICanvasGraphicsSizingContext} from "../../../types";
+import {RenderUtils} from "../../../utils";
 import {AbstractCanvasGraphicsRenderObject} from "../../base/AbstractCanvasGraphicsRenderObject";
 
 export class GridLayoutRO extends AbstractCanvasGraphicsRenderObject {
 
   public configuration = {};
 
-  private readonly lineWidth: number = 3;
+  private readonly lineWidth: number = 6;
+  private readonly lineColor: string = "rgba(25, 10, 255, 0.3)";
+
   private readonly verticalLinesCount: number = 1;
   private readonly horizontalLinesCount: number = 1;
 
-  public constructor(verticalLinesCount: number = 1, horizontalLinesCount: number = 1) {
+  public constructor(verticalLinesCount?: number, horizontalLinesCount?: number) {
 
     super();
 
-    this.verticalLinesCount = verticalLinesCount;
-    this.horizontalLinesCount = horizontalLinesCount;
+    this.verticalLinesCount = verticalLinesCount || this.verticalLinesCount;
+    this.horizontalLinesCount = horizontalLinesCount || this.horizontalLinesCount;
 
   }
 
-  public renderSelf(): void {
+  public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const context: CanvasRenderingContext2D = this.getContext();
     const {width, height}: ICanvasGraphicsSizingContext = this.getSizing();
 
-    const endWidth: number = width - 1;
-    const endHeight: number = height - 1;
-
-    context.lineWidth = this.lineWidth;
-    context.strokeStyle = "rgba(25, 10, 255, 0.3)";
-
-    for (let it = 1; it <= width; it += Math.floor(endWidth / (this.verticalLinesCount + 1))) {
-      this.renderLine(it, 0, it, height);
+    // Horizontal.
+    for (let it = this.lineWidth / 2; it <= width + this.lineWidth; it += Math.floor(width / (this.verticalLinesCount + 1))) {
+      const xPos: number = it > this.lineWidth ? it - this.lineWidth : it;
+      RenderUtils.renderLine(context, { x: xPos, y: 0 }, { x: xPos, y: height }, this.lineColor, this.lineWidth);
     }
 
-    for (let it = 1; it <= height; it += Math.floor(endHeight / (this.horizontalLinesCount + 1))) {
-      this.renderLine(1, it, width, it);
+    // Horizontal.
+    for (let it = this.lineWidth / 2; it <= height + this.lineWidth; it += Math.floor(height / (this.horizontalLinesCount + 1))) {
+      const yPos: number = it > this.lineWidth ? it - this.lineWidth : it;
+      RenderUtils.renderLine(context, { x: 0, y: yPos }, { x: width, y: yPos }, this.lineColor, this.lineWidth);
     }
-  }
-
-  private renderLine( x1: number, y1: number, x2: number, y2: number): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
-
-    context.beginPath();
-
-    context.moveTo(x1, y1);
-    context.lineTo(x2, y2);
-    context.stroke();
-
-    context.closePath();
 
   }
 

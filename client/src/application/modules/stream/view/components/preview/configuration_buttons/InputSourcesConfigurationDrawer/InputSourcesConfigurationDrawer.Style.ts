@@ -22,6 +22,9 @@ export const inputSourcesConfigurationDrawerStyle = (theme: Theme) => createStyl
     padding: theme.spacing.unit,
     width: "100%"
   },
+  selectionFormHeading: {
+    marginBottom: theme.spacing.unit
+  },
   videoPreview: {
     backgroundColor: theme.palette.secondary.light,
     height: 168,

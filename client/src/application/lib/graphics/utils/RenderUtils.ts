@@ -2,6 +2,20 @@ import {IPoint} from "../types";
 
 export class RenderUtils {
 
+  public static renderLine(context: CanvasRenderingContext2D, p1: IPoint, p2: IPoint, color: string, width: number): void {
+
+    context.strokeStyle = color;
+    context.lineWidth = width;
+
+    context.beginPath();
+
+    context.moveTo(p1.x, p1.y);
+    context.lineTo(p2.x, p2.y);
+    context.stroke();
+
+    context.closePath();
+  }
+
   public static renderDashedLine(context: CanvasRenderingContext2D, p1: IPoint, p2: IPoint, offset: number, color: string, width: number): void {
 
     context.strokeStyle = color;

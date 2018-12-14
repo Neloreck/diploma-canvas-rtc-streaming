@@ -1,6 +1,6 @@
 import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
-import {debounce} from "lodash";
+import {throttle} from "lodash";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
@@ -35,19 +35,19 @@ export interface IGraphicsContext {
 
 export class GraphicsContextManager extends ReactContextManager<IGraphicsContext> {
 
-  private static SENSITIVE_ACTIONS_DELAY: number = 300;
+  private static SENSITIVE_ACTIONS_DELAY: number = 500;
 
   protected context: IGraphicsContext = {
     graphicsActions: {
       addObject: this.addObject,
       removeObject: this.removeObject,
       selectObject: this.selectObject,
-      setAdditionVisibility: debounce(this.setAdditionVisibility, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setGraphicsDisplay: debounce(this.setGraphicsDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setGridDisplay: debounce(this.setGraphicsDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setMainVideoDisplay: debounce(this.setMainVideoDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setPreviewDisplay: debounce(this.setPreviewDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setRendererEventsPropagation: debounce(this.setRendererEventsPropagation, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setAdditionVisibility: throttle(this.setAdditionVisibility, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setGraphicsDisplay: throttle(this.setGraphicsDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setGridDisplay: throttle(this.setGridDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setMainVideoDisplay: throttle(this.setMainVideoDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setPreviewDisplay: throttle(this.setPreviewDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
+      setRendererEventsPropagation: throttle(this.setRendererEventsPropagation, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
       swapObjectsByIndex: this.swapObjectsByIndex
     },
     graphicsState: {

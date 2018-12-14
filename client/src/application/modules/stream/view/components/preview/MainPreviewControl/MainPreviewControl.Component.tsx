@@ -19,7 +19,8 @@ import {
   IInputSourcesConfigurationButtonExternalProps, InputSourcesConfigurationButton
 } from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationButton";
 import {
-  IObjectAdditionTooltipExternalProps, ObjectAdditionTooltip
+  IObjectAdditionButtonExternalProps,
+  ObjectAdditionButton
 } from "@Module/stream/view/components/preview/configuration_buttons/ObjectAdditionButton";
 import {
   IStreamingHelpButtonExternalProps, StreamingHelpButton
@@ -29,9 +30,7 @@ import {mainPreviewControlStyle} from "./MainPreviewControl.Style";
 
 // Props.
 export interface IMainPreviewControlExternalProps extends WithStyles<typeof mainPreviewControlStyle>, IGraphicsContext, ISourceContext {}
-
 export interface IMainPreviewControlOwnProps {}
-
 export interface IMainPreviewControlProps extends IMainPreviewControlOwnProps, IMainPreviewControlExternalProps {}
 
 @Consume<IGraphicsContext, IMainPreviewControlProps>(graphicsContextManager)
@@ -73,7 +72,7 @@ export class MainPreviewControl extends PureComponent<IMainPreviewControlProps> 
   private renderHelpingControlTooltipButtons(): ReactNode {
     return (
       <Fragment>
-        <ObjectAdditionTooltip {...{} as IObjectAdditionTooltipExternalProps}/>
+        <ObjectAdditionButton {...{} as IObjectAdditionButtonExternalProps}/>
         <InputSourcesConfigurationButton {...{} as IInputSourcesConfigurationButtonExternalProps}/>
         <StreamingHelpButton {...{} as IStreamingHelpButtonExternalProps}/>
       </Fragment>

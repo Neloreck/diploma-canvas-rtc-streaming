@@ -7,23 +7,13 @@ import {localMediaService} from "@Module/stream/data/services/local_media";
 
 export class DesktopFrame extends AbstractBaseRectangleObject {
 
-  private static DESKTOP_CAPTURING_CONSTRAINT = {
-    video: {
-      frameRate: {max: "30"},
-      height: {max: "1080"},
-      mediaSource: "screen", // whole screen sharing
-      // mediaSource: "window", // choose a window to share
-      // mediaSource: "application", // choose a window to share
-      width: {max: "1920"}
-    }
-  };
-
   public configuration = {
     backgroundColor: "#dadada",
     borderColor: "#24242b",
     borderWidth: 4,
     renderBackground: true,
-    renderBorder: true
+    renderBorder: true,
+    videoDevice: "default"
   };
 
   private mediaStream: MediaStream = new MediaStream();
@@ -39,7 +29,12 @@ export class DesktopFrame extends AbstractBaseRectangleObject {
   }
 
   public async getDefaultVideo(): Promise<void> {
-    // todo: Frame widget there.
+    const mediaStream: MediaStream = await localMediaService.getUserScreenMedia();
+    this.updateMediaStream(mediaStream);
+  }
+
+  public updateMediaStream(stream: MediaStream): void {
+    localMediaService.moveTracks(this.mediaStream, stream);
   }
 
   public renderSelf(): void {
@@ -63,12 +58,20 @@ export class DesktopFrame extends AbstractBaseRectangleObject {
     if (configuration.renderBorder) {
       context.lineWidth = configuration.borderWidth;
       context.strokeStyle = configuration.borderColor;
-      context.fillRect(absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
+      context.rect(absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
       context.stroke();
     }
 
     context.drawImage(this.hiddenVideoRenderer, absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
     context.closePath();
+  }
+
+  public dispose(): void {
+    super.dispose();
+
+    localMediaService.killStream(this.mediaStream);
+    // @ts-ignore dispose item.
+    this.mediaStream = null;
   }
 
   private async startVideo(): Promise<void> {
