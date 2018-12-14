@@ -86,8 +86,9 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
   @Bind()
   private async getDefaultVideo(): Promise<void> {
-    const {sourceActions: {updateInputStreamAndSources}, sourceState: {selectedDevices}} = this.props;
-    const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput || true, selectedDevices.audioInput);
+
+    const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureAudio, selectedDevices}} = this.props;
+    const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput || true, captureAudio && (selectedDevices.audioInput || true));
 
     updateInputStreamAndSources(stream, selectedDevices);
   }

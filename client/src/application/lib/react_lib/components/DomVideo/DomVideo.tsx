@@ -4,6 +4,8 @@ import {createRef, PureComponent, ReactNode, RefObject} from "react";
 // Props.
 export interface IDomVideoProps {
   className?: string;
+  autoPlay?: boolean;
+  muted?: boolean;
   width?: number;
   height?: number;
   stream: MediaStream | null;
@@ -25,7 +27,7 @@ export class DomVideo extends PureComponent<IDomVideoProps> {
 
   public render(): ReactNode {
 
-    const {width, height} = this.props;
+    const {width, height, muted, autoPlay} = this.props;
 
     const style = {
       height: height !== undefined ? height + "px" : undefined,
@@ -33,7 +35,7 @@ export class DomVideo extends PureComponent<IDomVideoProps> {
     };
 
     return (
-      <video className={this.props.className} ref={this.videoElementRef} style={style} autoPlay/>
+      <video className={this.props.className} ref={this.videoElementRef} style={style} muted={muted} autoPlay={autoPlay}/>
     );
   }
 

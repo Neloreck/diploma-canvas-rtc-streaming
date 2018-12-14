@@ -10,13 +10,13 @@ export const objectAdditionButtonStyle = (theme: Theme) => createStyles({
     alignSelf: "flex-start",
     left: 0,
     position: "absolute",
-    top: 0
+    top: theme.spacing.unit * 6
   },
   rootEmpty: {
     alignSelf: "flex-start",
     left: 0,
     position: "absolute",
-    top: 0,
+    top: theme.spacing.unit * 6,
     width: 0
   }
 });

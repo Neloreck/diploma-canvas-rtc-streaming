@@ -157,7 +157,7 @@ export class CanvasGraphicsRenderer
           onMouseUp={this.handleLayoutMouseUp}
           onContextMenu={this.handleContextDown}
         >
-          <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height}/>
+          <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height} muted={true} autoPlay={true}/>
         </div>
 
         <ReactResizeDetector

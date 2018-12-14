@@ -23,6 +23,10 @@ import {
   ObjectAdditionButton
 } from "@Module/stream/view/components/preview/configuration_buttons/ObjectAdditionButton";
 import {
+  ISoundControlButtonExternalProps,
+  SoundControlButton
+} from "@Module/stream/view/components/preview/configuration_buttons/SoundControlButton";
+import {
   IStreamingHelpButtonExternalProps, StreamingHelpButton
 } from "@Module/stream/view/components/preview/configuration_buttons/StreamingHelpButton";
 import {CanvasGraphicsPreprocessor} from "@Module/stream/view/components/preview/graphics_preprocessing";
@@ -72,9 +76,13 @@ export class MainPreviewControl extends PureComponent<IMainPreviewControlProps> 
   private renderHelpingControlTooltipButtons(): ReactNode {
     return (
       <Fragment>
+
         <ObjectAdditionButton {...{} as IObjectAdditionButtonExternalProps}/>
+        <SoundControlButton {...{} as ISoundControlButtonExternalProps}/>
+
         <InputSourcesConfigurationButton {...{} as IInputSourcesConfigurationButtonExternalProps}/>
         <StreamingHelpButton {...{} as IStreamingHelpButtonExternalProps}/>
+
       </Fragment>
     );
   }

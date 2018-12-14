@@ -112,7 +112,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
           <Grid className={classes.selectionForm} alignItems={"center"} direction={"column"} container>
 
-            <DomVideo className={classes.videoPreview} stream={previewStream}/>
+            {show && <DomVideo className={classes.videoPreview} stream={previewStream} autoPlay/>}
 
             {this.renderDevicesSelection(videoInputSources, selectedInputSources.videoInput, "Video Input")}
             {this.renderDevicesSelection(audioInputSources, selectedInputSources.audioInput, "Audio Input")}

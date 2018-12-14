@@ -69,7 +69,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                   />
                   <FormControlLabel
                     className={classes.configItem}
-                    label={"Show Main Video"}
+                    label={"Include Main Input"}
                     control={<Switch checked={showMainVideo} color={"primary"} onChange={this.onMainVideoDisplayToggle}/>}
                   />
                 </Grid>

@@ -72,14 +72,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
     // If 'display' webcam video.
     if (showMainVideo) {
-      if (stream === null) {
-        return new CenteredTextRO("Waiting for input stream...", 7, "#FFF");
-      }
-
-      if (stream.getVideoTracks().length === 0) {
-        return new CenteredTextRO("Waiting for video...", 7, "#FFF");
-      }
-      return new DomVideoRO(stream);
+      return new DomVideoRO(stream || new MediaStream());
     } else {
       return new ContextCleanerRO();
     }

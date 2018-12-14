@@ -28,7 +28,7 @@ export class LocalMediaService {
 
   private static readonly OUTPUT_FRAMERATE: number = 60;
 
-  private log: Logger = new Logger("[🕳️LMS]", false);
+  private log: Logger = new Logger("[🕳MEDIA]", true);
 
   public async getDevices(): Promise<Array<MediaDeviceInfo>>  {
     return await navigator.mediaDevices.enumerateDevices();
@@ -86,6 +86,10 @@ export class LocalMediaService {
     }
   }
 
+  public setStreamAudioEnabled(stream: MediaStream, enabled: boolean): void {
+    stream.getAudioTracks().forEach((track: MediaStreamTrack) => track.enabled = enabled);
+  }
+
   public purgeStream(stream: MediaStream): void {
     this.killStream(stream);
     stream.getTracks().forEach((track) => stream.removeTrack(track));
@@ -106,7 +110,7 @@ export class LocalMediaService {
 
     const stream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints);
 
-    this.log.info("Got media stream from devices:", constraints, stream);
+    this.log.info(`Got media stream from devices: ${videoInput}, ${audioInput}.`);
 
     return stream;
   }

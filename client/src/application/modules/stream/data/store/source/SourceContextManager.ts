@@ -13,8 +13,10 @@ export interface ISourceContext {
     updateInputSources: (devices: IInputSourceDevices) => void;
     updateInputStream: (stream: Optional<MediaStream>) => void;
     updateOutputStream: (stream: Optional<MediaStream>) => void;
+    setAudioCapturing: (capture: boolean) => void;
   };
   sourceState: {
+    captureAudio: boolean;
     inputStream: Optional<MediaStream>;
     outputStream: Optional<MediaStream>;
     selectedDevices: IInputSourceDevices;
@@ -25,12 +27,14 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   protected context: ISourceContext = {
     sourceActions: {
+      setAudioCapturing: this.setAudioCapturing,
       updateInputSources: this.updateInputSources,
       updateInputStream: this.updateInputStream,
       updateInputStreamAndSources: this.updateInputStreamAndSources,
       updateOutputStream: this.updateOutputStream,
     },
     sourceState: {
+      captureAudio: true,
       inputStream: null,
       outputStream: null,
       selectedDevices: {
@@ -46,6 +50,18 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   protected updateInputSources(selectedDevices: IInputSourceDevices): void {
     this.updateStateRef();
     this.context.sourceState.selectedDevices = selectedDevices;
+    this.update();
+  }
+
+  @Bind()
+  protected setAudioCapturing(captureAudio: boolean): void {
+
+    if (this.context.sourceState.inputStream) {
+      localMediaService.setStreamAudioEnabled(this.context.sourceState.inputStream, captureAudio);
+    }
+
+    this.updateStateRef();
+    this.context.sourceState.captureAudio = captureAudio;
     this.update();
   }
 

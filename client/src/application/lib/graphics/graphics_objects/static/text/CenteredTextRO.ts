@@ -1,10 +1,9 @@
+import {ICanvasGraphicsSizingContext} from "../../../types";
 import {AbstractBaseRectangleObject} from "../../base/AbstractBaseRectangleObject";
 
 export class CenteredTextRO extends AbstractBaseRectangleObject {
 
-  public configuration = {};
-
-  private increment: number = 0;
+  public configuration: never;
 
   private readonly text: string = "textLabel";
   private readonly textSize: number = 24;
@@ -19,24 +18,23 @@ export class CenteredTextRO extends AbstractBaseRectangleObject {
     this.textColor = textColor;
   }
 
-  public renderSelf(): void {
-    this.renderTextLabel();
-  }
+  public renderSelf(context: CanvasRenderingContext2D): void {
 
-  private renderTextLabel(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
+    const sizing: ICanvasGraphicsSizingContext = this.getSizing();
 
     const textSize: number = this.percentsToAbsoluteWidth(this.textSize);
     const textAlignSub: number = textSize * this.text.length / 4.5;
 
-    context.strokeStyle = "#FF0000";
-    context.fillStyle = "#FFF";
+    context.fillStyle = "#000";
     context.font = `${textSize}px Comic Sans MS`;
     context.textBaseline = "middle";
     // context.textAlign = "center";
 
     context.fillText(this.text, Math.floor(this.percentsToAbsoluteWidth(50) - textAlignSub), Math.floor(this.percentsToAbsoluteHeight(50)));
+  }
+
+  public isInteractive(): boolean {
+    return false;
   }
 
 }
