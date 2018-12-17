@@ -6,7 +6,7 @@ import {TsConfigPathsPlugin} from "awesome-typescript-loader";
 const DotEnv = require("DotEnv-webpack");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin} from "webpack";
 
@@ -35,12 +35,10 @@ export class WebpackBuildConfig implements Configuration {
 
   public entry = isProduction
     ? [
-      "babel-polyfill",
       path.resolve(projectRoot, "src/application/Application.tsx")
     ]
     : [
       "webpack/hot/dev-server",
-      "babel-polyfill",
       path.resolve(projectRoot, "src/application/Application.tsx")
     ];
 
@@ -54,9 +52,10 @@ export class WebpackBuildConfig implements Configuration {
 
   public resolve = {
     alias: {
-      "@Api": path.resolve(projectRoot, "./src/application/api/"),
-      "@Lib": path.resolve(projectRoot, "./src/application/lib/"),
-      "@Main": path.resolve(projectRoot, "./src/application/modules/main/"),
+      "@Application": path.resolve(projectRoot, "./src/application/"),
+      "@Api": path.resolve(projectRoot, "./src/api/"),
+      "@Lib": path.resolve(projectRoot, "./src/lib/"),
+      "@Main": path.resolve(projectRoot, "./src/application/main"),
       "@Module": path.resolve(projectRoot, "./src/application/modules/")
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -155,25 +154,51 @@ export class WebpackBuildConfig implements Configuration {
   /* eslint-disable camelcase */
   public optimization = {
     minimizer: [
-      new UglifyJSPlugin({
+      new TerserPlugin({
         sourceMap: !isProduction,
-        uglifyOptions: {
-          compress: {
-            dead_code: true,
-            inline: false,
-            unused: true
-          },
-          output: {
-            beautify: false,
-            comments: false,
-            indent_level: 2,
-            max_line_len: false
-          },
-          toplevel: true,
+        terserOptions: {
+          ecma: 6,
           warnings: false,
-        }
+          parse: {},
+          compress: {
+          },
+          mangle: true,
+          module: true,
+          output: {
+            beautify: false
+          },
+          toplevel: false,
+          nameCache: null,
+          ie8: false,
+          unused: false,
+          keep_classnames: undefined,
+          keep_fnames: false,
+          safari10: false
+        },
+        extractComments: false
       })
-    ]
+    ],
+    splitChunks: {
+      chunks: "async" as "async",
+      minSize: 2000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 7,
+      maxInitialRequests: 5,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -15,
+          reuseExistingChunk: true
+        }
+      }
+    }
   };
   /* eslint-enable camelcase */
 
@@ -190,7 +215,7 @@ export class WebpackBuildConfig implements Configuration {
         secure: false,
         target: "http://localhost:8080"
       },
-      "/auth/*": {
+      "/auth/**": {
         secure: false,
         target: "http://localhost:8080"
       }

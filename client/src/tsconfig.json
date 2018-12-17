@@ -23,13 +23,14 @@
       "es2018",
       "dom"
     ],
-    "baseUrl": "./application",
+    "baseUrl": "./",
     "outDir": "../target/dist:raw",
     "paths": {
-      "@Main": [ "modules/main/index" ],
-      "@Main/*": [ "modules/main/*" ],
-      "@Module/*": [ "modules/*" ],
-      "@Module": [ "modules/index" ],
+      "@Application/*": [ "application/*" ],
+      "@Main": [ "application/main/index" ],
+      "@Main/*": [ "application/main/*" ],
+      "@Module/*": [ "application/modules/*" ],
+      "@Module": [ "application/modules/index" ],
       "@Api/*": [ "api/*" ],
       "@Lib/*": [ "lib/*" ]
     }

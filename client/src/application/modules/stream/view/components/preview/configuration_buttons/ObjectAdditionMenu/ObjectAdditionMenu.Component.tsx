@@ -8,7 +8,7 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
-import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/index";
+import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
 // View.
 import {Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, WithStyles} from "@material-ui/core";

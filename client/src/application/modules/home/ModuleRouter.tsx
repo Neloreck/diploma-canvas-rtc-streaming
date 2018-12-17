@@ -10,11 +10,11 @@ import {ErrorPage} from "@Main/view/pages/ErrorPage";
 
 /* Stream routes: */
 
-const StreamingPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@streaming-page" */"@Module/stream/view/pages/StreamingPage"));
+const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "home@home-page" */"@Module/home/view/pages/HomePage"));
 
 export class ModuleRouter extends PureComponent {
 
-  private static MODULE_PREFIX: string = "/stream";
+  private static MODULE_PREFIX: string = "/home";
 
   public render(): ReactNode {
 
@@ -23,7 +23,9 @@ export class ModuleRouter extends PureComponent {
 
         <Switch>
 
-          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}/`} component={StreamingPage}/>
+          <Route exact={true} path={`/`} component={HomePage}/>
+          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}`} component={HomePage}/>
+
           <Route exact={true} path={"*"} component={ErrorPage}/>
 
         </Switch>

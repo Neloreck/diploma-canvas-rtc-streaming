@@ -19,7 +19,7 @@ import {ModuleRouter} from "@Module/stream/ModuleRouter";
 export class Module extends PureComponent {
 
   public componentDidMount(): void {
-    log.info("Module 'stream' has been mounted into DOM.");
+    log.info("Module 'STREAM' has been mounted into DOM.");
   }
 
   public render(): ReactNode {
