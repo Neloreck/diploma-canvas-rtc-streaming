@@ -24,9 +24,7 @@ export interface IObjectAdditionButtonState {
 }
 
 export interface IObjectAdditionButtonExternalProps extends ISourceContext, WithStyles<typeof objectAdditionButtonStyle> {}
-
 export interface IObjectAdditionButtonOwnProps {}
-
 export interface IObjectAdditionButtonProps extends IObjectAdditionButtonOwnProps, IObjectAdditionButtonExternalProps {}
 
 /*
@@ -59,7 +57,7 @@ export class ObjectAdditionButton extends Component<IObjectAdditionButtonProps, 
 
         <Tooltip title={"Add object."} placement={"right"}>
           <Fab
-            className={classes.addObjectTooltip}
+            className={classes.additionButton}
             onClick={this.onToggleShowAdditionWindow}>
             { showAdditionWindow ? <Remove/> : <Add/> }
           </Fab>

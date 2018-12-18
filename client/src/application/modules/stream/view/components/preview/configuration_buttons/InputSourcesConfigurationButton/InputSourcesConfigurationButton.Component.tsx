@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import {Component, Fragment, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
@@ -43,10 +43,10 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
     const {showDrawer} = this.state;
 
     return (
-      <Grid className={classes.root}>
+      <Fragment>
 
         <Tooltip title={"Configure source."} placement={"right"}>
-          <Fab className={classes.configureSourceTooltip} onClick={this.onShowModal}>
+          <Fab className={classes.root} onClick={this.onShowModal}>
             <MoreVert/>
           </Fab>
         </Tooltip>
@@ -60,7 +60,7 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
           {...{} as IInputSourcesConfigurationDrawerExternalProps}
         />
 
-      </Grid>
+      </Fragment>
     );
   }
 

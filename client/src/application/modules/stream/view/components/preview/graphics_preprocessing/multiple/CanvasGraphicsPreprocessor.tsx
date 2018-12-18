@@ -21,13 +21,18 @@ export interface ICanvasGraphicsPreprocessorProps {
 
 export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPreprocessorProps> {
 
-  private lastPreprocessor: DomVideoRO = new DomVideoRO(null as any);
+  private videoConvertor: DomVideoRO = new DomVideoRO(null as any);
 
   public componentWillReceiveProps(nextProps: ICanvasGraphicsPreprocessorProps): void {
     if (nextProps.stream !== this.props.stream) {
-      this.lastPreprocessor.dispose();
-      this.lastPreprocessor = new DomVideoRO(nextProps.stream);
+      this.videoConvertor.dispose();
+      this.videoConvertor = new DomVideoRO(nextProps.stream);
     }
+  }
+
+  public componentWillUnmount(): void {
+    this.videoConvertor.dispose();
+    this.videoConvertor = new DomVideoRO(null);
   }
 
   public render(): ReactNode {
@@ -81,7 +86,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
 
     // If 'display' webcam video.
     if (showMainVideo) {
-      return this.lastPreprocessor;
+      return this.videoConvertor;
     } else {
       return new ContextCleanerRO();
     }

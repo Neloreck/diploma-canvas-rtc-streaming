@@ -1,6 +1,7 @@
 import {Consume} from "@redux-cbd/context";
+import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import {Component, Fragment, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
@@ -14,7 +15,8 @@ import {
 } from "@Module/stream/data/store";
 
 // View.
-import {Grid, WithStyles} from "@material-ui/core";
+import {Fab, Grid, Tooltip, WithStyles} from "@material-ui/core";
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {
   IInputSourcesConfigurationButtonExternalProps, InputSourcesConfigurationButton
 } from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationButton";
@@ -29,10 +31,19 @@ import {
 import {
   IStreamingHelpButtonExternalProps, StreamingHelpButton
 } from "@Module/stream/view/components/preview/configuration_buttons/StreamingHelpButton";
+import {
+  IVideoControlButtonExternalProps,
+  VideoControlButton
+} from "@Module/stream/view/components/preview/configuration_buttons/VideoControlButton";
 import {CanvasGraphicsPreprocessor} from "@Module/stream/view/components/preview/graphics_preprocessing";
 import {mainPreviewControlStyle} from "./MainPreviewControl.Style";
 
 // Props.
+
+export interface IMainPreviewControlState {
+  showControls: boolean;
+}
+
 export interface IMainPreviewControlExternalProps extends WithStyles<typeof mainPreviewControlStyle>, IGraphicsContext, ISourceContext {}
 export interface IMainPreviewControlOwnProps {}
 export interface IMainPreviewControlProps extends IMainPreviewControlOwnProps, IMainPreviewControlExternalProps {}
@@ -40,9 +51,11 @@ export interface IMainPreviewControlProps extends IMainPreviewControlOwnProps, I
 @Consume<IGraphicsContext, IMainPreviewControlProps>(graphicsContextManager)
 @Consume<ISourceContext, IMainPreviewControlProps>(sourceContextManager)
 @Styled(mainPreviewControlStyle)
-export class MainPreviewControl extends PureComponent<IMainPreviewControlProps> {
+export class MainPreviewControl extends Component<IMainPreviewControlProps> {
 
-  // todo: Return combined stream there ready for processing.
+  public state: IMainPreviewControlState = {
+    showControls: true
+  };
 
   public render(): ReactNode {
 
@@ -74,17 +87,44 @@ export class MainPreviewControl extends PureComponent<IMainPreviewControlProps> 
   }
 
   private renderHelpingControlTooltipButtons(): ReactNode {
+
+    const {classes} = this.props;
+    const {showControls} = this.state;
+
     return (
       <Fragment>
 
-        <ObjectAdditionButton {...{} as IObjectAdditionButtonExternalProps}/>
-        <SoundControlButton {...{} as ISoundControlButtonExternalProps}/>
+        <Tooltip title={"Toggle controls visibility."} placement={"right"}>
+          <Fab
+            className={classes.controlsVisibilityButton}
+            onClick={this.toggleControlsVisibility}>
+            { showControls ? <Visibility/> : <VisibilityOff/> }
+          </Fab>
+        </Tooltip>
 
-        <InputSourcesConfigurationButton {...{} as IInputSourcesConfigurationButtonExternalProps}/>
-        <StreamingHelpButton {...{} as IStreamingHelpButtonExternalProps}/>
+        { showControls
+          ? (
+            <Fragment>
+              <ObjectAdditionButton {...{} as IObjectAdditionButtonExternalProps}/>
+
+              <InputSourcesConfigurationButton {...{} as IInputSourcesConfigurationButtonExternalProps}/>
+
+              <VideoControlButton {...{} as IVideoControlButtonExternalProps}/>
+              <SoundControlButton {...{} as ISoundControlButtonExternalProps}/>
+
+              <StreamingHelpButton {...{} as IStreamingHelpButtonExternalProps}/>
+            </Fragment>
+          )
+          : null
+        }
 
       </Fragment>
     );
+  }
+
+  @Bind()
+  private toggleControlsVisibility(): void {
+    this.setState({ showControls: !this.state.showControls });
   }
 
 }

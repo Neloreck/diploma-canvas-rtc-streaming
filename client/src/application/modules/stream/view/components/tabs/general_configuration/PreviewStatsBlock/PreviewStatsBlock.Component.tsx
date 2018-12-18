@@ -90,7 +90,7 @@ export class PreviewStatsBlock extends Component<IPreviewStatsBlockProps, IPrevi
     const audioTracks: Array<MediaStreamTrack> = inputStream.getAudioTracks();
 
     return (
-      <Grid className={classes.statBlock} wrap={"nowrap"}>
+      <Grid className={classes.statBlock} wrap={"nowrap"} container>
 
         <Typography variant={"subtitle1"}> Input. </Typography>
         <Divider/>

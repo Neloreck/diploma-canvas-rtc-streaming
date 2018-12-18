@@ -24,21 +24,11 @@ export class StreamingHelpButton extends PureComponent<IStreamingHelpButtonProps
     const {classes, } = this.props;
 
     return (
-      <Grid className={classes.root}>
-
         <Tooltip title={"Search for help."} placement={"right"}>
-          <Fab className={classes.helpTooltip}>
+          <Fab className={classes.root}>
             <Help/>
           </Fab>
         </Tooltip>
-
-        <Collapse in={false}>
-          <div>
-            HELP
-          </div>
-        </Collapse>
-
-      </Grid>
     );
   }
 

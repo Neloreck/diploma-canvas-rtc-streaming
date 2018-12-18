@@ -13,7 +13,6 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject {
   private isVideoRendering: boolean = false;
 
   public constructor(mediaStream: MediaStream | null) {
-
     super();
 
     this.mediaStream = mediaStream;
@@ -22,9 +21,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject {
     this.hiddenVideoRenderer.autoplay = true;
     this.hiddenVideoRenderer.srcObject = mediaStream;
 
-    this.startVideo()
-      .then();
-
+    this.startVideo().then();
   }
 
   public renderSelf(context: CanvasRenderingContext2D): void {
@@ -34,7 +31,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject {
     this.hiddenVideoRenderer.width = sizing.width;
     this.hiddenVideoRenderer.height = sizing.height;
 
-    if (this.isVideoRendering) {
+    if (this.isVideoRendering && this.mediaStream && this.mediaStream.active) {
       context.drawImage(this.hiddenVideoRenderer, 0, 0, sizing.width, sizing.height);
     } else {
 

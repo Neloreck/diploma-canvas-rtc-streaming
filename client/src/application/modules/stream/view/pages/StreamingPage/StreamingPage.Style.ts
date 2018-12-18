@@ -11,7 +11,7 @@ export const streamingPageStyle = (theme: Theme) => createStyles({
     backgroundColor: theme.palette.secondary.light,
     flexGrow: 2,
     justifyContent: "center",
-    minHeight: "20vh",
+    minHeight: "25vh",
     position: "relative",
     width: "100%"
   },

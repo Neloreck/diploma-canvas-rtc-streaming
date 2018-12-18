@@ -10,16 +10,14 @@ import {Styled} from "@Lib/react_lib/mui";
 import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
-import {Fab, Grid, Tooltip, WithStyles} from "@material-ui/core";
+import {Fab, Tooltip, WithStyles} from "@material-ui/core";
 import {MusicNote, MusicOff} from "@material-ui/icons";
 import {soundControlButtonStyle} from "./SoundControlButton.Style";
 
 // Props.
 
 export interface ISoundControlButtonExternalProps extends WithStyles<typeof soundControlButtonStyle>, ISourceContext {}
-
 export interface ISoundControlButtonOwnProps {}
-
 export interface ISoundControlButtonProps extends ISoundControlButtonOwnProps, ISoundControlButtonExternalProps {}
 
 @Consume<ISourceContext, ISoundControlButtonProps>(sourceContextManager)
@@ -31,15 +29,11 @@ export class SoundControlButton extends PureComponent<ISoundControlButtonProps> 
     const {classes, sourceState: {captureAudio}} = this.props;
 
     return (
-      <Grid className={classes.root}>
-
-        <Tooltip title={"Configure audio capturing."} placement={"right"}>
-          <Fab className={classes.configureSourceTooltip} onClick={this.onToggleAudio}>
+        <Tooltip title={"Toggle sound capturing."} placement={"right"}>
+          <Fab className={classes.root} onClick={this.onToggleAudio} color={"primary"}>
             { captureAudio ? <MusicNote/> : <MusicOff/> }
           </Fab>
         </Tooltip>
-
-      </Grid>
     );
   }
 

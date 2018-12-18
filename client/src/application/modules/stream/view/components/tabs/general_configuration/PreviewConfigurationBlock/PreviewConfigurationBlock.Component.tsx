@@ -39,7 +39,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
   public render(): ReactNode {
 
-    const {classes, graphicsState: {addVisibleObjects, showPreview, showGrid, showGraphics, showMainVideo, propagateRendererEvents}} = this.props;
+    const {classes, graphicsState: {addVisibleObjects, showPreview, showGrid, showGraphics, propagateRendererEvents}} = this.props;
     const {showPreviewConfiguration} = this.state;
 
     return (
@@ -66,11 +66,6 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                     className={classes.configItem}
                     label={"Lock Preview Mode"}
                     control={<Switch checked={showPreview} color={"primary"} onChange={this.onPreviewToggle}/>}
-                  />
-                  <FormControlLabel
-                    className={classes.configItem}
-                    label={"Include Main Input"}
-                    control={<Switch checked={showMainVideo} color={"primary"} onChange={this.onMainVideoDisplayToggle}/>}
                   />
                 </Grid>
 

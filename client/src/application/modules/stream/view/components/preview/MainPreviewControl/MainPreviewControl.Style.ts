@@ -1,10 +1,13 @@
 import {createStyles, Theme} from "@material-ui/core";
 
 export const mainPreviewControlStyle = (theme: Theme) => createStyles({
-  controlButtons: {
+  controlsVisibilityButton: {
+    height: theme.spacing.unit * 5,
     left: 0,
+    margin: theme.spacing.unit * 2,
     position: "absolute",
-    top: 0
+    top: 0,
+    width: theme.spacing.unit * 5,
   },
   root: {
     boxSizing: "border-box",
