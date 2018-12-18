@@ -44,7 +44,21 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     }
   };
 
-  private log: Logger = new Logger("[SOURCE_CONTEXT]", false);
+  private log: Logger = new Logger("[💥SRC]", true);
+
+  @Bind()
+  public dispose(): void {
+
+    const state = this.context.sourceState;
+
+    state.inputStream = null;
+    state.outputStream = null;
+
+    localMediaService.killStream(state.inputStream);
+    localMediaService.killStream(state.outputStream);
+
+    this.log.info("Disposed source storage.");
+  }
 
   @Bind()
   protected updateInputSources(selectedDevices: IInputSourceDevices): void {
@@ -92,11 +106,6 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   @Bind()
   protected updateStateRef(): void {
     this.context.sourceState = Object.assign({}, this.context.sourceState);
-  }
-
-  @Bind()
-  protected afterUpdate(): void {
-    this.log.info("Context state updated:", this.context.sourceState);
   }
 
 }

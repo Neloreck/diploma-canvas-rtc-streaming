@@ -62,12 +62,19 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     }
   };
 
-  private logger: Logger = new Logger("[🏭GFX]", true);
+  private log: Logger = new Logger("[🏭GFX]", true);
+
+  @Bind()
+  public dispose(): void {
+    this.context.graphicsState.objects.forEach((object) => object.dispose());
+    this.context.graphicsState.objects = [];
+    this.log.info("Disposed graphics storage.");
+  }
 
   @Bind()
   protected addObject(object: AbstractCanvasGraphicsRenderObject): void {
 
-    this.logger.info(`Adding new object: ${object.getName()}.`);
+    this.log.info(`Adding new object: ${object.getName()}.`);
 
     if (!this.context.graphicsState.addVisibleObjects) {
       object.setDisabled(true);
@@ -80,7 +87,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected removeObject(object: AbstractCanvasGraphicsRenderObject): void {
 
-    this.logger.info(`Removing object: ${object.getName()}.`);
+    this.log.info(`Removing object: ${object.getName()}.`);
 
     this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.filter((it) => it !== object)};
 
@@ -95,7 +102,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected selectObject(selectedObject: Optional<AbstractCanvasGraphicsRenderObject>): void {
 
-    this.logger.info(`Selected object: ${selectedObject && selectedObject.getName()}.`);
+    this.log.info(`Selected object: ${selectedObject && selectedObject.getName()}.`);
 
     this.context.graphicsState = { ...this.context.graphicsState, selectedObject };
     this.update();
@@ -140,7 +147,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected swapObjectsByIndex(firstIndex: number, secondIndex: number): void {
 
-    this.logger.info(`Swapping object layout order: ${firstIndex} <-> ${secondIndex}.`);
+    this.log.info(`Swapping object layout order: ${firstIndex} <-> ${secondIndex}.`);
 
     const buffer: AbstractCanvasGraphicsRenderObject = this.context.graphicsState.objects[firstIndex];
 

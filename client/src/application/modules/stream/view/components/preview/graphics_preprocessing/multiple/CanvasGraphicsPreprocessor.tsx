@@ -9,7 +9,7 @@ import {Optional} from "@Lib/ts/types";
 import {CanvasGraphicsRenderer, ICanvasGraphicsRendererExternalProps} from "./CanvasGraphicsRenderer";
 
 // Props.
-export interface ICanvasGraphicsStreamProps {
+export interface ICanvasGraphicsPreprocessorProps {
   onOutputStreamReady: (stream: Optional<MediaStream>) => void;
   showMainVideo: boolean;
   showGrid: boolean;
@@ -19,7 +19,16 @@ export interface ICanvasGraphicsStreamProps {
   stream: MediaStream | null;
 }
 
-export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStreamProps> {
+export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPreprocessorProps> {
+
+  private lastPreprocessor: DomVideoRO = new DomVideoRO(null as any);
+
+  public componentWillReceiveProps(nextProps: ICanvasGraphicsPreprocessorProps): void {
+    if (nextProps.stream !== this.props.stream) {
+      this.lastPreprocessor.dispose();
+      this.lastPreprocessor = new DomVideoRO(nextProps.stream);
+    }
+  }
 
   public render(): ReactNode {
     return (
@@ -68,11 +77,11 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsStr
 
   private getMainVideoRenderer(): AbstractCanvasGraphicsRenderObject {
 
-    const {stream, showMainVideo} = this.props;
+    const {showMainVideo} = this.props;
 
     // If 'display' webcam video.
     if (showMainVideo) {
-      return new DomVideoRO(stream || new MediaStream());
+      return this.lastPreprocessor;
     } else {
       return new ContextCleanerRO();
     }

@@ -47,7 +47,7 @@ export class CanvasGraphicsRenderer
   private readonly ASPECT_RATIO: number = applicationConfig.defaultVideoScale;
   private readonly OUTPUT_FRAME_RATE: number = applicationConfig.defaultVideoCapturingFramerate;
 
-  private readonly log: Logger = new Logger("[CGR]", true);
+  private readonly log: Logger = new Logger("[🎸RDR]", true);
   private readonly videoContainerRef: RefObject<HTMLDivElement> = createRef();
 
   /*
@@ -128,8 +128,7 @@ export class CanvasGraphicsRenderer
     this.internalRenderingService.disableRendering();
     this.externalRenderingService.disableRendering();
 
-    // todo: If still need it.
-    this.log.info("Cleanup streams;");
+    this.log.info("Cleanup streams.");
 
     this.props.onOutputStreamReady(null);
     localMediaService.killStream(this.internalStream);

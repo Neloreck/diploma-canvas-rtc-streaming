@@ -7,12 +7,12 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject {
   private static spinnerOffset: number = 0;
   public configuration: never;
 
-  private readonly mediaStream: MediaStream;
+  private readonly mediaStream: MediaStream | null;
   private readonly hiddenVideoRenderer: HTMLVideoElement = document.createElement("video");
 
   private isVideoRendering: boolean = false;
 
-  public constructor(mediaStream: MediaStream) {
+  public constructor(mediaStream: MediaStream | null) {
 
     super();
 

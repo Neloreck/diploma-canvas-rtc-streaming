@@ -22,6 +22,13 @@ export class Module extends PureComponent {
     log.info("Module 'STREAM' has been mounted into DOM.");
   }
 
+  public componentWillUnmount(): void {
+    log.info("Module 'STREAM' disposing.");
+
+    sourceContextManager.dispose();
+    graphicsContextManager.dispose();
+  }
+
   public render(): ReactNode {
     return <ModuleRouter/>;
   }
