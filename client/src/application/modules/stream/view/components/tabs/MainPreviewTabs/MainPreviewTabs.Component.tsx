@@ -61,6 +61,10 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
         tabContent = <ObjectsConfigurationTab {...{} as IObjectsConfigurationTabExternalProps}/>;
         break;
 
+      case 2:
+        tabContent = <div> Todo... </div>
+        break;
+
       default:
         // Nothing to render.
         break;
@@ -88,6 +92,7 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
           >
             <Tab label="General"/>
             <Tab label="Graphics"/>
+            <Tab label="Layout"/>
           </Tabs>
 
         </AppBar>
