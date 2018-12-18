@@ -2,7 +2,7 @@ import {createStyles, Theme} from "@material-ui/core";
 
 export const loginFormStyle = (theme: Theme) => createStyles({
   errorLabel: {
-    color: "#a52020"
+    color: theme.palette.text.hint
   },
   formWrapper: {
     padding: "1rem 2rem"
@@ -12,7 +12,7 @@ export const loginFormStyle = (theme: Theme) => createStyles({
     height: 10,
   },
   root: {
-    backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.primary.dark,
+    backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.secondary.dark,
     width: 350
   },
   signInButton: {

@@ -26,7 +26,7 @@ export const inputSourcesConfigurationDrawerStyle = (theme: Theme) => createStyl
     marginBottom: theme.spacing.unit
   },
   videoPreview: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.background.paper,
     height: 168,
     marginBottom: theme.spacing.unit * 3,
     width: 300

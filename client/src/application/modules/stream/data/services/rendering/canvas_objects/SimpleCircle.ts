@@ -3,15 +3,14 @@ import {AbstractBaseCircleObject} from "@Lib/graphics";
 export class SimpleCircle extends AbstractBaseCircleObject {
 
   public configuration = {
-    backgroundColor: "#e5e7e9",
-    borderColor: "#24242b",
-    borderWidth: 4,
+    backgroundColor: "#666",
+    borderColor: "#000000",
+    borderWidth: 3,
     renderBackground: true
   };
 
-  public renderSelf(): void {
+  public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const context: CanvasRenderingContext2D = this.getContext();
     const configuration = this.configuration;
 
     context.strokeStyle = configuration.borderColor;

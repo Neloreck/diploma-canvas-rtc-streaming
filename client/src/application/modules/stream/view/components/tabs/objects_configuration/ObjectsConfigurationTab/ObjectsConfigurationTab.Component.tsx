@@ -100,7 +100,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
               control={<Switch checked={showLayerControls} color={"primary"}  onChange={this.onLayerControlsShowToggle}/>}
             />
 
-            <Button variant={"outlined"} size={"small"}>
+            <Button variant={"outlined"} size={"small"} onClick={this.onLayoutErase}>
               Erase
               <Delete/>
             </Button>
@@ -223,6 +223,11 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     } else {
       throw new Error("Could not apply settings for unknown object, none is selected.");
     }
+  }
+
+  @Bind()
+  private onLayoutErase(): void {
+    this.props.graphicsActions.eraseObjects();
   }
 
   @Bind()

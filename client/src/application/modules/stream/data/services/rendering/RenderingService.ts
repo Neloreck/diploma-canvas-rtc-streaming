@@ -2,7 +2,7 @@
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
 // Data.
-import {OpacityFilter, SimpleCircle, SimpleRectangle, VideoFrame} from "@Module/stream/data/services/rendering/canvas_objects";
+import {SimpleCircle, SimpleRectangle, VideoFrame} from "@Module/stream/data/services/rendering/canvas_objects";
 import {DesktopFrame} from "@Module/stream/data/services/rendering/canvas_objects/DesktopFrame";
 
 export class RenderingService {

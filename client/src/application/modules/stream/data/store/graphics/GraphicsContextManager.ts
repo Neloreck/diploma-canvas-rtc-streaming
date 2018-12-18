@@ -21,6 +21,7 @@ export interface IGraphicsContext {
   };
   graphicsActions: {
     addObject: (object: AbstractCanvasGraphicsRenderObject) => void,
+    eraseObjects: () => void,
     swapObjectsByIndex: (firstIndex: number, secondIndex: number) => void,
     removeObject: (object: AbstractCanvasGraphicsRenderObject) => void,
     selectObject: (object: Optional<AbstractCanvasGraphicsRenderObject>) => void,
@@ -40,6 +41,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   protected context: IGraphicsContext = {
     graphicsActions: {
       addObject: this.addObject,
+      eraseObjects: this.eraseObjects,
       removeObject: this.removeObject,
       selectObject: this.selectObject,
       setAdditionVisibility: throttle(this.setAdditionVisibility, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
@@ -87,6 +89,17 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
     this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.concat(object)};
     this.update();
+  }
+
+  @Bind()
+  protected eraseObjects(): void {
+
+    const oldObjects: Array<AbstractCanvasGraphicsRenderObject> = this.context.graphicsState.objects;
+
+    this.context.graphicsState = { ...this.context.graphicsState, objects: [], selectedObject: null };
+    this.update();
+
+    oldObjects.forEach((object) => object.dispose());
   }
 
   @Bind()

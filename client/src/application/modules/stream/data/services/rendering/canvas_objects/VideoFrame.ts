@@ -7,13 +7,9 @@ import {localMediaService} from "@Module/stream/data/services/local_media";
 export class VideoFrame extends AbstractBaseRectangleObject {
 
   public configuration = {
-    audioDevice: "default",
-    backgroundColor: "#dadada",
-    borderColor: "#24242b",
-    borderWidth: 4,
-    renderBackground: true,
+    borderWidth: 1,
     renderBorder: true,
-    videoDevice: "default"
+    videoDevice: true
   };
 
   private mediaStream: MediaStream = new MediaStream();
@@ -25,11 +21,14 @@ export class VideoFrame extends AbstractBaseRectangleObject {
     super();
 
     this.hiddenVideoRenderer.srcObject = this.mediaStream;
+    this.hiddenVideoRenderer.autoplay = true;
+    this.hiddenVideoRenderer.muted = true;
+
     this.startVideo().then(() => this.getDefaultVideo());
   }
 
   public async getDefaultVideo(): Promise<void> {
-    const mediaStream: MediaStream = await localMediaService.getUserMedia(true, false);
+    const mediaStream: MediaStream = await localMediaService.getUserMedia(this.configuration.videoDevice, false);
     this.updateMediaStream(mediaStream);
   }
 
@@ -48,30 +47,27 @@ export class VideoFrame extends AbstractBaseRectangleObject {
     this.hiddenVideoRenderer.width = sizing.width;
     this.hiddenVideoRenderer.height = sizing.height;
 
-    context.beginPath();
-
-    if (configuration.renderBackground) {
-      context.fillStyle = configuration.backgroundColor;
-      context.fillRect(absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
-    }
-
     if (configuration.renderBorder) {
+      context.beginPath();
       context.lineWidth = configuration.borderWidth;
-      context.strokeStyle = configuration.borderColor;
+      context.strokeStyle = "#000";
       context.rect(absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
       context.stroke();
+      context.closePath();
     }
 
-    context.drawImage(this.hiddenVideoRenderer, absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
-    context.closePath();
+    if (this.hiddenVideoRenderer.srcObject && (this.hiddenVideoRenderer.srcObject as MediaStream).active) {
+      context.drawImage(this.hiddenVideoRenderer, absoluteRect.left, absoluteRect.top, absoluteRect.width, absoluteRect.height);
+    }
   }
 
   public dispose(): void {
-    super.dispose();
-
     localMediaService.killStream(this.mediaStream);
+    delete this.hiddenVideoRenderer;
     // @ts-ignore dispose item.
     this.mediaStream = null;
+
+    super.dispose();
   }
 
   private async startVideo(): Promise<void> {

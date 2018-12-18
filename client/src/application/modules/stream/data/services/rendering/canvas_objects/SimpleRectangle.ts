@@ -3,16 +3,15 @@ import {AbstractBaseRectangleObject} from "@Lib/graphics";
 export class SimpleRectangle extends AbstractBaseRectangleObject {
 
   public readonly configuration = {
-    backgroundColor: "#e9e5e2",
-    borderColor: "#24242b",
-    borderWidth: 4,
+    backgroundColor: "#666",
+    borderColor: "#000000",
+    borderWidth: 3,
     renderBackground: true
   };
 
-  public renderSelf(): void {
+  public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const context: CanvasRenderingContext2D = this.getContext();
-
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
     const configuration = this.configuration;
 
     context.strokeStyle = this.configuration.borderColor;
@@ -22,10 +21,10 @@ export class SimpleRectangle extends AbstractBaseRectangleObject {
 
     if (configuration.renderBackground) {
       context.fillStyle = configuration.backgroundColor;
-      context.fillRect(this.percentsToAbsoluteWidth(this.rectSize.left), this.percentsToAbsoluteHeight(this.rectSize.top), this.percentsToAbsoluteWidth(this.rectSize.width), this.percentsToAbsoluteHeight(this.rectSize.height));
+      context.fillRect(pWidth * this.rectSize.left, pHeight * this.rectSize.top, pWidth * this.rectSize.width, pHeight * this.rectSize.height);
     }
 
-    context.rect(this.percentsToAbsoluteWidth(this.rectSize.left), this.percentsToAbsoluteHeight(this.rectSize.top), this.percentsToAbsoluteWidth(this.rectSize.width), this.percentsToAbsoluteHeight(this.rectSize.height));
+    context.rect(pWidth * this.rectSize.left, pHeight * this.rectSize.top, pWidth * this.rectSize.width, pHeight * this.rectSize.height);
     context.stroke();
     context.closePath();
   }

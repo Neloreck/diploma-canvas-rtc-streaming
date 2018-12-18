@@ -7,7 +7,12 @@ import {PureComponent, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
+import {
+  graphicsContextManager,
+  IGraphicsContext,
+  ISourceContext,
+  sourceContextManager
+} from "@Module/stream/data/store";
 
 // View.
 import {Fab, Tooltip, WithStyles} from "@material-ui/core";
@@ -16,22 +21,23 @@ import {soundControlButtonStyle} from "./SoundControlButton.Style";
 
 // Props.
 
-export interface ISoundControlButtonExternalProps extends WithStyles<typeof soundControlButtonStyle>, ISourceContext {}
+export interface ISoundControlButtonExternalProps extends WithStyles<typeof soundControlButtonStyle>, ISourceContext, IGraphicsContext {}
 export interface ISoundControlButtonOwnProps {}
 export interface ISoundControlButtonProps extends ISoundControlButtonOwnProps, ISoundControlButtonExternalProps {}
 
+@Consume<IGraphicsContext, ISoundControlButtonProps>(graphicsContextManager)
 @Consume<ISourceContext, ISoundControlButtonProps>(sourceContextManager)
 @Styled(soundControlButtonStyle)
 export class SoundControlButton extends PureComponent<ISoundControlButtonProps> {
 
   public render(): ReactNode {
 
-    const {classes, sourceState: {captureAudio}} = this.props;
+    const {classes, sourceState: {captureAudio}, graphicsState: {showMainVideo}} = this.props;
 
     return (
         <Tooltip title={"Toggle sound capturing."} placement={"top"}>
           <Fab className={classes.root} onClick={this.onToggleAudio} color={"primary"}>
-            { captureAudio ? <MusicNote/> : <MusicOff/> }
+            { showMainVideo && captureAudio ? <MusicNote/> : <MusicOff/> }
           </Fab>
         </Tooltip>
     );
@@ -40,9 +46,11 @@ export class SoundControlButton extends PureComponent<ISoundControlButtonProps> 
   @Bind()
   private onToggleAudio(): void {
 
-    const {sourceActions: {setAudioCapturing}, sourceState: {captureAudio}} = this.props;
+    const {sourceActions: {setAudioCapturing}, sourceState: {captureAudio}, graphicsState: {showMainVideo}} = this.props;
 
-    setAudioCapturing(!captureAudio);
+    if (showMainVideo) {
+      setAudioCapturing(!captureAudio);
+    }
   }
 
 }
