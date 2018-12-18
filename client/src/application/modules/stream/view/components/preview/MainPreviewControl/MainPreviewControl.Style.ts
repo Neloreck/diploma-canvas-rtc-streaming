@@ -23,7 +23,7 @@ export const mainPreviewControlStyle = (theme: Theme) => createStyles({
   },
   videoContainer: {
     height: "100%",
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 1.5,
     width: "100%"
   }
 });

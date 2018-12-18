@@ -25,9 +25,7 @@ import {streamingPageStyle} from "./StreamingPage.Style";
 
 // Props.
 export interface IStreamingPageExternalProps extends ISourceContext, IGraphicsContext, WithStyles<typeof streamingPageStyle> {}
-
 export interface IStreamingPageOwnProps {}
-
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
 
 @Consume<IGraphicsContext, IStreamingPageProps>(graphicsContextManager)

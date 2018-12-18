@@ -8,7 +8,7 @@ export const streamingPageStyle = (theme: Theme) => createStyles({
     width: "100%"
   },
   streamingVideoSection: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.background.paper,
     flexGrow: 2,
     justifyContent: "center",
     minHeight: "25vh",

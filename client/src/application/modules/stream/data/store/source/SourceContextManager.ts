@@ -51,11 +51,11 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
     const state = this.context.sourceState;
 
-    state.inputStream = null;
-    state.outputStream = null;
-
     localMediaService.killStream(state.inputStream);
     localMediaService.killStream(state.outputStream);
+
+    state.inputStream = null;
+    state.outputStream = null;
 
     this.log.info("Disposed source storage.");
   }

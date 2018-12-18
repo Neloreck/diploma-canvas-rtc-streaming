@@ -12,7 +12,7 @@ export const mainPreviewTabsStyle = (theme: Theme) => createStyles({
     transition: "all 100ms ease-out 0s"
   },
   tabContent: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.background.paper,
     flexGrow: 1,
     maxHeight: "100%",
     overflowY: "auto",

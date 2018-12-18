@@ -29,7 +29,7 @@ export class SoundControlButton extends PureComponent<ISoundControlButtonProps> 
     const {classes, sourceState: {captureAudio}} = this.props;
 
     return (
-        <Tooltip title={"Toggle sound capturing."} placement={"right"}>
+        <Tooltip title={"Toggle sound capturing."} placement={"top"}>
           <Fab className={classes.root} onClick={this.onToggleAudio} color={"primary"}>
             { captureAudio ? <MusicNote/> : <MusicOff/> }
           </Fab>

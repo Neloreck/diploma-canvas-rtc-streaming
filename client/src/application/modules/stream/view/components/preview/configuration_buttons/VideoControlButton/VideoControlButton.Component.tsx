@@ -29,7 +29,7 @@ export class VideoControlButton extends PureComponent<IVideoControlButtonProps> 
     const {classes, graphicsState: {showMainVideo}} = this.props;
 
     return (
-      <Tooltip title={"Toggle video capturing."} placement={"right"}>
+      <Tooltip title={"Toggle video capturing."} placement={"top"}>
         <Fab className={classes.root} onClick={this.onToggleAudio} color={"primary"}>
           { showMainVideo ? <Videocam/> : <VideocamOff/> }
         </Fab>

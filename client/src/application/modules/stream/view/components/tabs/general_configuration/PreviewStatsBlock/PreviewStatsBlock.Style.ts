@@ -3,18 +3,19 @@ import {createStyles, Theme} from "@material-ui/core/styles";
 export const previewStatsBlockStyle = (theme: Theme) => createStyles({
   heading: {
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
-      borderRadius: theme.spacing.unit
+      backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.primary.main
     },
+    borderRadius: theme.spacing.unit,
     cursor: "pointer",
-    padding: `0 ${theme.spacing.unit * 2}px`
+    padding: `0 ${theme.spacing.unit * 2}px`,
+    transition: "0.75s"
   },
   root: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.background.paper,
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   },
   statBlock: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.background.paper,
     margin: `${theme.spacing.unit}px 0px`,
     padding: theme.spacing.unit
   },

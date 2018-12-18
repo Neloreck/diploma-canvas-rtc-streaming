@@ -6,6 +6,6 @@ export const loginPageStyle = (theme: Theme) => createStyles({
     width: "100%"
   },
   root: {
-    backgroundColor: theme.palette.secondary.light
+    backgroundColor: theme.palette.background.paper
   }
 });

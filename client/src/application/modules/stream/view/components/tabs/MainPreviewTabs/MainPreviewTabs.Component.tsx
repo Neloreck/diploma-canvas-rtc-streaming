@@ -32,9 +32,7 @@ export interface IMainPreviewTabsState {
 }
 
 export interface IMainPreviewTabsExternalProps extends WithStyles<typeof mainPreviewTabsStyle>, IGraphicsContext, ISourceContext {}
-
 export interface IMainPreviewTabsOwnProps {}
-
 export interface IMainPreviewTabsProps extends IMainPreviewTabsOwnProps, IMainPreviewTabsExternalProps {}
 
 @Consume<IGraphicsContext, IMainPreviewTabsProps>(graphicsContextManager)

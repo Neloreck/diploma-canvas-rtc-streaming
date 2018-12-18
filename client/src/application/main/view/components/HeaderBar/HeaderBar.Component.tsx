@@ -16,9 +16,7 @@ import {headerBarStyle} from "./HeaderBar.Style";
 
 // Props.
 export interface IHeaderBarOwnProps {}
-
 export interface IHeaderBarExternalProps extends WithStyles<typeof headerBarStyle>, IRouterContext, IAuthContext {}
-
 export interface IHeaderBarProps extends IHeaderBarOwnProps, IHeaderBarExternalProps {}
 
 @Styled(headerBarStyle)

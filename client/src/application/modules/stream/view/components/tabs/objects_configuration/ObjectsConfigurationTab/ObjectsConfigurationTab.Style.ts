@@ -30,7 +30,7 @@ export const objectsConfigurationTabStyle = (theme: Theme) => createStyles({
     minWidth: "40%"
   },
   objectsList: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.background.paper,
     boxSizing: "border-box",
     flexGrow: 1,
     minWidth: theme.spacing.unit * 45,

@@ -16,17 +16,18 @@ export class ThemeContextManager extends ReactContextManager<IThemeContext> {
       options: {
         palette: {
           primary: {
-            contrastText: "#fff",
-            dark: "#37475c",
-            light: "#739cc9",
-            main: "#2f6293"
+            contrastText: "#ffffff",
+            dark: "#373737",
+            light: "#8e8e8e",
+            main: "#616161"
           },
           secondary: {
-            contrastText: "#ffffff",
-            dark: "#ababb6",
-            light: "#e6e6e6",
-            main: "#d1d3d6"
+            contrastText: "#000000",
+            dark: "#aeaeae",
+            light: "#ffffff",
+            main: "#e0e0e0"
           },
+          type: "dark"
         },
         typography: {
           useNextVariants: true

@@ -6,11 +6,12 @@ export const previewConfigurationBlockStyle = (theme: Theme) => createStyles({
   },
   heading: {
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
-      borderRadius: theme.spacing.unit
+      backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.primary.main
     },
+    borderRadius: theme.spacing.unit,
     cursor: "pointer",
-    padding: `0 ${theme.spacing.unit * 2}px`
+    padding: `0 ${theme.spacing.unit * 2}px`,
+    transition: "0.75s"
   },
   root: {
     "& label": {

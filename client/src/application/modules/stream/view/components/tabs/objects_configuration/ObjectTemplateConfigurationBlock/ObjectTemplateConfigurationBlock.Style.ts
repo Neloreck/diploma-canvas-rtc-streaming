@@ -48,7 +48,7 @@ export const objectTemplateConfigurationBlockStyle = (theme: Theme) => createSty
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px`
   },
   root: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.background.paper,
     height: "100%",
     overflowX: "auto",
     overflowY: "auto",

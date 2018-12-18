@@ -74,7 +74,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
           <Grid>
             <Checkbox
-              color={"primary"}
+              color={"secondary"}
               onChange={() => {
                 object.isDisabled() ? object.setDisabled(false) : object.setDisabled(true);
                 this.forceUpdate();

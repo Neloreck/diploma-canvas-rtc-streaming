@@ -12,10 +12,11 @@ export const loginFormStyle = (theme: Theme) => createStyles({
     height: 10,
   },
   root: {
-    width: "350px"
+    backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.primary.dark,
+    width: 350
   },
   signInButton: {
-    marginTop: "4px"
+    marginTop: 4
   },
   textInput: {
     width: "100%"

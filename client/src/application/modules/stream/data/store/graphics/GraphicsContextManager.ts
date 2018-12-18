@@ -66,8 +66,13 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
   @Bind()
   public dispose(): void {
-    this.context.graphicsState.objects.forEach((object) => object.dispose());
-    this.context.graphicsState.objects = [];
+
+    const state = this.context.graphicsState;
+
+    state.objects.forEach((object) => object.dispose());
+    state.objects = [];
+    state.selectedObject = null;
+
     this.log.info("Disposed graphics storage.");
   }
 

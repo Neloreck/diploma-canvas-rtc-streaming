@@ -5,8 +5,8 @@ import {ChangeEvent, Component, Fragment, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Styled} from "@Lib/react_lib/mui";
 import {VerticalDraggableVHResizer} from "@Lib/react_lib/components";
+import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
@@ -15,6 +15,7 @@ import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/stor
 
 // View.
 import {
+  Button,
   Checkbox, FormControlLabel, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Switch,
   Typography, WithStyles
 } from "@material-ui/core";
@@ -32,9 +33,7 @@ export interface IObjectsConfigurationTabState {
 }
 
 export interface IObjectsConfigurationTabExternalProps extends WithStyles<typeof objectsConfigurationTabStyle>, IGraphicsContext {}
-
 export interface IObjectsConfigurationTabOwnProps {}
-
 export interface IObjectsConfigurationTabProps extends IObjectsConfigurationTabOwnProps, IObjectsConfigurationTabExternalProps {}
 
 @Consume<IGraphicsContext, IObjectsConfigurationTabProps>(graphicsContextManager)
@@ -94,12 +93,20 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
       <Grow in={true}>
 
         <List>
-          <Grid className={classes.itemListControlsBlock} container alignItems={"center"}>
+          <Grid className={classes.itemListControlsBlock} container justify={"space-between"} alignItems={"center"}>
+
             <FormControlLabel
               label={"Show Layer Controls"}
               control={<Switch checked={showLayerControls} color={"primary"}  onChange={this.onLayerControlsShowToggle}/>}
             />
+
+            <Button variant={"outlined"} size={"small"}>
+              Erase
+              <Delete/>
+            </Button>
+
           </Grid>
+
           {
             objects.map((item, idx) => {
 
