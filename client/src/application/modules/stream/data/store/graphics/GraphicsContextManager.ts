@@ -55,7 +55,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     graphicsState: {
       addVisibleObjects: true,
       objects: [],
-      propagateRendererEvents: false,
+      propagateRendererEvents: true,
       selectedObject: null,
       showGraphics: true,
       showGrid: false,

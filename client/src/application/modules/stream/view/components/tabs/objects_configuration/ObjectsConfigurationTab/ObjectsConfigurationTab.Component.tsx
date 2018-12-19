@@ -137,7 +137,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
                         </IconButton>
 
                         <Checkbox
-                          color={"primary"}
+                          color={"secondary"}
                           onChange={() => {
                             item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
                             this.forceUpdate();
