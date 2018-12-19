@@ -4,6 +4,7 @@ import {AbstractCanvasGraphicsRenderObject} from "../../base/AbstractCanvasGraph
 
 export class GridLayoutRO extends AbstractCanvasGraphicsRenderObject {
 
+  public position: never;
   public configuration = {};
 
   private readonly lineWidth: number = 6;

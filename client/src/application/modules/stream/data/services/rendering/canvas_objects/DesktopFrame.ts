@@ -67,11 +67,11 @@ export class DesktopFrame extends AbstractBaseRectangleObject {
   }
 
   public dispose(): void {
-    super.dispose();
-
     localMediaService.killStream(this.mediaStream);
     // @ts-ignore dispose item.
     this.mediaStream = null;
+
+    super.dispose();
   }
 
   private async startVideo(): Promise<void> {

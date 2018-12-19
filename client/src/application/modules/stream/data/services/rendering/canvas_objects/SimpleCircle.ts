@@ -18,7 +18,7 @@ export class SimpleCircle extends AbstractBaseCircleObject {
 
     context.beginPath();
 
-    context.arc(this.percentsToAbsoluteWidth(this.center.x ), this.percentsToAbsoluteHeight(this.center.y), this.percentsToAbsoluteWidth(this.radius), 0, 2 * Math.PI);
+    context.arc(this.percentsToAbsoluteWidth(this.position.center.x ), this.percentsToAbsoluteHeight(this.position.center.y), this.percentsToAbsoluteWidth(this.position.radius), 0, 2 * Math.PI);
 
     if (configuration.renderBackground) {
       context.fillStyle = configuration.backgroundColor;

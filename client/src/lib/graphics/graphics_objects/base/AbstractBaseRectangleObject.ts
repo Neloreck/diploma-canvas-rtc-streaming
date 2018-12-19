@@ -5,7 +5,7 @@ import {ResizeHandler} from "./ResizeHandler";
 
 export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphicsResizableObject {
 
-  public rectSize: IRectSizing = {
+  protected position: IRectSizing = {
     height: 20,
     left: 40,
     top: 40,
@@ -22,11 +22,11 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
 
     super();
 
-    this.rectSize = {
-      height: heightOptional || this.rectSize.height,
-      left: leftOptional || this.rectSize.left,
-      top: topOptional || this.rectSize.top,
-      width: widthOptional || this.rectSize.width
+    this.position = {
+      height: heightOptional || this.position.height,
+      left: leftOptional || this.position.left,
+      top: topOptional || this.position.top,
+      width: widthOptional || this.position.width
     };
 
   }
@@ -64,35 +64,35 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
       case 0:
 
         diffY = resizerRect.topRight.y - bounds.topRight.y;
-        this.rectSize.top += diffY;
-        this.rectSize.height -= diffY;
-        this.rectSize.width = resizerRect.topRight.x - this.rectSize.left;
+        this.position.top += diffY;
+        this.position.height -= diffY;
+        this.position.width = resizerRect.topRight.x - this.position.left;
         break;
 
       case 1:
 
         diffY = resizerRect.topRight.y - bounds.topRight.y;
-        this.rectSize.top += diffY;
-        this.rectSize.height -= diffY;
+        this.position.top += diffY;
+        this.position.height -= diffY;
 
         diffX = resizerRect.topLeft.x - bounds.topLeft.x;
-        this.rectSize.left += diffX;
-        this.rectSize.width -= diffX;
+        this.position.left += diffX;
+        this.position.width -= diffX;
 
         break;
 
       case 2:
 
         diffX = resizerRect.topLeft.x - bounds.topLeft.x;
-        this.rectSize.left += diffX;
-        this.rectSize.width -= diffX;
+        this.position.left += diffX;
+        this.position.width -= diffX;
 
-        this.rectSize.height = this.rectSize.height + (resizerRect.botRight.y - bounds.botRight.y);
+        this.position.height = this.position.height + (resizerRect.botRight.y - bounds.botRight.y);
         break;
 
       case 3:
-        this.rectSize.height = this.rectSize.height + (resizerRect.botRight.y - bounds.botRight.y);
-        this.rectSize.width = resizerRect.topRight.x - this.rectSize.left;
+        this.position.height = this.position.height + (resizerRect.botRight.y - bounds.botRight.y);
+        this.position.width = resizerRect.topRight.x - this.position.left;
         break;
 
       default:
@@ -139,7 +139,7 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
   /* Moving. */
 
   protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
-    this.setRoot({ x: this.rectSize.left + (moveTo.x - moveFrom.x), y: this.rectSize.top + (moveTo.y - moveFrom.y) });
+    this.setRoot({ x: this.position.left + (moveTo.x - moveFrom.x), y: this.position.top + (moveTo.y - moveFrom.y) });
     this.updateResizersPositions();
   }
 
@@ -177,16 +177,16 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
    */
 
   protected setRoot(rootPoint: IPoint): void {
-    this.rectSize.left = rootPoint.x;
-    this.rectSize.top = rootPoint.y;
+    this.position.left = rootPoint.x;
+    this.position.top = rootPoint.y;
   }
 
   protected getBoundingRect(): IBoundingRect {
     return {
-      botLeft:  { x: this.rectSize.left, y: this.rectSize.top + this.rectSize.height },
-      botRight: { x: this.rectSize.left + this.rectSize.width, y: this.rectSize.top + this.rectSize.height },
-      topLeft: { x: this.rectSize.left , y: this.rectSize.top },
-      topRight: { x: this.rectSize.left + this.rectSize.width, y: this.rectSize.top }
+      botLeft:  { x: this.position.left, y: this.position.top + this.position.height },
+      botRight: { x: this.position.left + this.position.width, y: this.position.top + this.position.height },
+      topLeft: { x: this.position.left , y: this.position.top },
+      topRight: { x: this.position.left + this.position.width, y: this.position.top }
     };
   }
 
@@ -195,10 +195,10 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
     const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
 
     return {
-      botLeft:  { x: (this.rectSize.left) * pWidth, y: (this.rectSize.top + this.rectSize.height) * pHeight },
-      botRight: { x: (this.rectSize.left + this.rectSize.width) * pWidth, y: (this.rectSize.top + this.rectSize.height) * pHeight },
-      topLeft: { x: (this.rectSize.left) * pWidth , y: (this.rectSize.top) * pHeight },
-      topRight: { x: (this.rectSize.left + this.rectSize.width) * pWidth, y: (this.rectSize.top) * pHeight }
+      botLeft:  { x: (this.position.left) * pWidth, y: (this.position.top + this.position.height) * pHeight },
+      botRight: { x: (this.position.left + this.position.width) * pWidth, y: (this.position.top + this.position.height) * pHeight },
+      topLeft: { x: (this.position.left) * pWidth , y: (this.position.top) * pHeight },
+      topRight: { x: (this.position.left + this.position.width) * pWidth, y: (this.position.top) * pHeight }
     };
   }
 
@@ -207,10 +207,10 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
     const {heightPercent: pHeight, widthPercent: pWidth} = this.getBasePercentSizing();
 
     return {
-      height: this.rectSize.height * pHeight,
-      left: this.rectSize.left * pWidth,
-      top: this.rectSize.top * pHeight,
-      width: this.rectSize.width * pWidth
+      height: this.position.height * pHeight,
+      left: this.position.left * pWidth,
+      top: this.position.top * pHeight,
+      width: this.position.width * pWidth
     };
   }
 
@@ -226,19 +226,19 @@ export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphics
       switch (control.getIndex()) {
 
         case 0:
-          control.setRoot({ x: this.rectSize.left + this.rectSize.width - controlWidthSize, y: this.rectSize.top});
+          control.setRoot({ x: this.position.left + this.position.width - controlWidthSize, y: this.position.top});
           break;
 
         case 1:
-          control.setRoot({ x: this.rectSize.left, y: this.rectSize.top});
+          control.setRoot({ x: this.position.left, y: this.position.top});
           break;
 
         case 2:
-          control.setRoot({ x: this.rectSize.left, y: this.rectSize.top + this.rectSize.height - controlHeightSize });
+          control.setRoot({ x: this.position.left, y: this.position.top + this.position.height - controlHeightSize });
           break;
 
         case 3:
-          control.setRoot({ x: this.rectSize.left + this.rectSize.width - controlWidthSize, y: this.rectSize.top + this.rectSize.height - controlHeightSize });
+          control.setRoot({ x: this.position.left + this.position.width - controlWidthSize, y: this.position.top + this.position.height - controlHeightSize });
           break;
       }
     });

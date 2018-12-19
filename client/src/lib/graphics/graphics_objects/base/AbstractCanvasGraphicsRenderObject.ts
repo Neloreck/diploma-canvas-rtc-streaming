@@ -1,10 +1,9 @@
 import {cloneDeep} from "lodash";
 import {ICanvasGraphicsSizingContext} from "../../types";
 import {generateUUID} from "../../utils";
+import {AbstractCanvasGraphicsSerializableObject} from "./AbstractCanvasGraphicsSerializableObject";
 
-export abstract class AbstractCanvasGraphicsRenderObject {
-
-  public abstract configuration: any;
+export abstract class AbstractCanvasGraphicsRenderObject extends AbstractCanvasGraphicsSerializableObject {
 
   protected readonly createdAt: number = Date.now();
   protected readonly id: string = "0";
@@ -15,6 +14,7 @@ export abstract class AbstractCanvasGraphicsRenderObject {
   private sizing: ICanvasGraphicsSizingContext = null as any;
 
   public constructor() {
+    super();
     this.id = generateUUID();
   }
 

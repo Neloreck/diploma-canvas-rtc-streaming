@@ -141,13 +141,9 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     newObject.setDisabled(false);
 
     if (newObject instanceof AbstractBaseRectangleObject) {
-      (newObject as AbstractBaseRectangleObject).rectSize.left = 10;
-      (newObject as AbstractBaseRectangleObject).rectSize.top = 10;
-      (newObject as AbstractBaseRectangleObject).rectSize.width = 80;
-      (newObject as AbstractBaseRectangleObject).rectSize.height = 80;
+      (newObject as AbstractBaseRectangleObject).setPosition({ left: 10, top: 10, width: 80, height: 80});
     } else {
-      (newObject as AbstractBaseCircleObject).radius = 45;
-      (newObject as AbstractBaseCircleObject).center = { x: 50, y: 50 };
+      (newObject as AbstractBaseCircleObject).setPosition({ radius: 45, center: { x: 50, y: 50 }});
     }
 
     return newObject;

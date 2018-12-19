@@ -1,12 +1,12 @@
-import {IBoundingRect, IPoint} from "../../types";
+import {IBoundingRect, IPoint, IRectSizing} from "../../types";
 import {GeometricUtils, RenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
 
 export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
 
   public configuration: never;
-  public rectRoot = { left: 0, top: 0 };
-  public absoluteSize: number = 15;
+  public readonly absoluteSize: number = 15;
+  protected position: IRectSizing = { left: 0, top: 0, width: 0, height: 0 };
 
   private readonly index: number;
   private readonly owner: AbstractCanvasGraphicsResizableObject;
@@ -38,8 +38,8 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
   }
 
   public setRoot(rootPoint: IPoint): void {
-    this.rectRoot.left = rootPoint.x;
-    this.rectRoot.top = rootPoint.y;
+    this.position.left = rootPoint.x;
+    this.position.top = rootPoint.y;
   }
 
   public renderInteraction(): void { return; }
@@ -68,16 +68,16 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void { return; }
 
   protected renderSelf(context: CanvasRenderingContext2D): void {
-    const rootPoint: IPoint = { x: this.percentsToAbsoluteWidth(this.rectRoot.left), y: this.percentsToAbsoluteHeight(this.rectRoot.top) };
+    const rootPoint: IPoint = { x: this.percentsToAbsoluteWidth(this.position.left), y: this.percentsToAbsoluteHeight(this.position.top) };
     RenderUtils.renderFilledRectangle(context, rootPoint, { x: rootPoint.x + this.absoluteSize, y: rootPoint.y + this.absoluteSize }, this.interactionColor, this.interactionColor, 2);
   }
 
   protected getBoundingRect(): IBoundingRect {
     return {
-      botLeft:  { x: this.rectRoot.left, y: this.rectRoot.top + this.absoluteToPercentsHeight(this.absoluteSize) },
-      botRight: { x: this.rectRoot.left + this.absoluteToPercentsWidth(this.absoluteSize), y: this.rectRoot.top + this.absoluteToPercentsHeight(this.absoluteSize) },
-      topLeft: { x: this.rectRoot.left , y: this.rectRoot.top },
-      topRight: { x: this.rectRoot.left + this.absoluteToPercentsWidth(this.absoluteSize), y: this.rectRoot.top }
+      botLeft:  { x: this.position.left, y: this.position.top + this.absoluteToPercentsHeight(this.absoluteSize) },
+      botRight: { x: this.position.left + this.absoluteToPercentsWidth(this.absoluteSize), y: this.position.top + this.absoluteToPercentsHeight(this.absoluteSize) },
+      topLeft: { x: this.position.left , y: this.position.top },
+      topRight: { x: this.position.left + this.absoluteToPercentsWidth(this.absoluteSize), y: this.position.top }
     };
   }
 

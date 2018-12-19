@@ -5,6 +5,8 @@ import {AbstractCanvasGraphicsRenderObject} from "../../base/AbstractCanvasGraph
 export class DomVideoRO extends AbstractCanvasGraphicsRenderObject {
 
   private static spinnerOffset: number = 0;
+
+  public position: never;
   public configuration: never;
 
   private readonly mediaStream: MediaStream | null;

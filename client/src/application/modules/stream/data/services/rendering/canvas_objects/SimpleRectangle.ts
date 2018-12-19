@@ -21,10 +21,10 @@ export class SimpleRectangle extends AbstractBaseRectangleObject {
 
     if (configuration.renderBackground) {
       context.fillStyle = configuration.backgroundColor;
-      context.fillRect(pWidth * this.rectSize.left, pHeight * this.rectSize.top, pWidth * this.rectSize.width, pHeight * this.rectSize.height);
+      context.fillRect(pWidth * this.position.left, pHeight * this.position.top, pWidth * this.position.width, pHeight * this.position.height);
     }
 
-    context.rect(pWidth * this.rectSize.left, pHeight * this.rectSize.top, pWidth * this.rectSize.width, pHeight * this.rectSize.height);
+    context.rect(pWidth * this.position.left, pHeight * this.position.top, pWidth * this.position.width, pHeight * this.position.height);
     context.stroke();
     context.closePath();
   }

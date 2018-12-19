@@ -3,7 +3,12 @@ import {AbstractCanvasGraphicsRenderObject} from "../../base/AbstractCanvasGraph
 
 export class ContextCleanerRO extends AbstractCanvasGraphicsRenderObject {
 
-  public configuration = {};
+  public position: never;
+  public configuration: never;
+
+  public constructor() {
+    super();
+  }
 
   public renderSelf(): void {
 

@@ -7,7 +7,7 @@ import {PureComponent, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
+import {DESCRIPTORS_MAP, ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 
 // View.
@@ -17,9 +17,7 @@ import {objectAdditionMenuStyle} from "./ObjectAdditionMenu.Style";
 
 // Props.
 export interface IObjectAdditionMenuExternalProps extends WithStyles<typeof objectAdditionMenuStyle>, IGraphicsContext {}
-
 export interface IObjectAdditionMenuOwnProps {}
-
 export interface IObjectAdditionMenuProps extends IObjectAdditionMenuOwnProps, IObjectAdditionMenuExternalProps {}
 
 /*
@@ -30,12 +28,13 @@ export interface IObjectAdditionMenuProps extends IObjectAdditionMenuOwnProps, I
 export class ObjectAdditionMenu extends PureComponent<IObjectAdditionMenuProps> {
 
   public render(): ReactNode {
+
     const {classes} = this.props;
 
     return (
       <Grid className={classes.root}>
         <List>
-          {renderingService.getRenderingDescriptors().map(this.renderCanvasItem)}
+          {Object.values(DESCRIPTORS_MAP).map(this.renderCanvasItem)}
         </List>
       </Grid>
     );
@@ -43,6 +42,7 @@ export class ObjectAdditionMenu extends PureComponent<IObjectAdditionMenuProps> 
 
   @Bind()
   private renderCanvasItem(descriptor: ICanvasObjectDescriptor<any>): ReactNode {
+
     const {classes} = this.props;
 
     return (
