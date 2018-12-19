@@ -59,6 +59,7 @@
     "@redux-cbd/context": "^1.0.9",
     "@redux-cbd/utils": "^1.0.7",
     "browser-cookies": "^1.2.0",
+    "react-color": "^2.14.1",
     "history": "^4.7.2",
     "lodash": "^4.17.11",
     "react": "^16.6.3",
@@ -67,7 +68,8 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "typeface-roboto": "^0.0.54",
-    "webrtc-adapter": "^7.1.1"
+    "webrtc-adapter": "^7.1.1",
+    "@material-ui/lab": "latest"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
@@ -88,6 +90,7 @@
     "@types/lodash": "^4.14.119",
     "@types/node": "^10.12.14",
     "@types/react": "^16.7.17",
+    "@types/react-color": "^2.13.6",
     "@types/react-dom": "^16.0.11",
     "@types/react-resize-detector": "^3.1.0",
     "@types/react-router": "^4.4.3",

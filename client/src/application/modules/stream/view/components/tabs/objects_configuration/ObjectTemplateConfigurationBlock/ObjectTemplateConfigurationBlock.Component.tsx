@@ -13,7 +13,7 @@ import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/ser
 // View.
 import {Button, Checkbox, Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
 import {ArrowDownward, ArrowUpward, Close, Delete} from "@material-ui/icons";
-import {CanvasGraphicsSingleObjectPreprocessor} from "@Module/stream/view/components/preview/graphics_preprocessing";
+import {CanvasGraphicsSingleObjectRenderer} from "@Module/stream/view/components/preview/graphics_preprocessing/single/CanvasGraphicsSingleObjectRenderer";
 import {
   IObjectDescriptorConfigurationBlockExternalProps, ObjectDescriptorConfigurationBlock
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectDescriptorConfigurationBlock";
@@ -59,7 +59,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
   public render(): ReactNode {
 
     const {index, maxIndex, object, classes, onCancelSelection, onSelectedRemove, onObjectIndexSwap} = this.props;
-    const {objectDescriptor, localObjectCopy} = this.state;
+    const {objectDescriptor} = this.state;
 
     return (
       <Grid className={classes.root} container={true} direction={"column"} wrap={"nowrap"}>
@@ -87,31 +87,39 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
         </Grid>
 
-        <Grid className={classes.objectEditingMenu} container justify={"space-between"} wrap={"nowrap"}>
+        { this.renderControlBlock() }
 
-          <Grid className={classes.objectEditingMenuContent} container wrap={"nowrap"}>
+      </Grid>
+    );
+  }
 
-            <Grid className={classes.objectPreviewConfiguration}>
+  private renderControlBlock(): ReactNode {
 
-              <ObjectDescriptorConfigurationBlock
-                object={localObjectCopy}
-                descriptor={objectDescriptor}
-                {...{} as IObjectDescriptorConfigurationBlockExternalProps}
-              />
+    const {classes} = this.props;
+    const {objectDescriptor, localObjectCopy} = this.state;
 
-            </Grid>
+    return (
+      <Grid className={classes.templateConfigurationWrapper} direction={"row"} wrap={"nowrap"} container>
 
-            <Grid className={classes.objectPreviewRenderer} container={true} justify={"flex-end"} alignItems={"center"}>
-              <CanvasGraphicsSingleObjectPreprocessor object={localObjectCopy}/>
-            </Grid>
-
-          </Grid>
-
+        <Grid className={classes.objectConfiguration} container>
+          <ObjectDescriptorConfigurationBlock
+            object={localObjectCopy}
+            descriptor={objectDescriptor}
+            {...{} as IObjectDescriptorConfigurationBlockExternalProps}
+          />
         </Grid>
 
-        <Grid className={classes.objectEditingControlFooter} justify={"flex-end"} container>
-          <Button variant={"contained"} onClick={this.onLocalObjectReset}>Reset</Button>
-          <Button variant={"contained"} onClick={this.onLocalChangesApply}>Apply</Button>
+        <Grid className={classes.templatePreview} direction={"column"} justify={"space-between"} wrap={"nowrap"} container>
+
+          <Grid className={classes.templateRenderer}>
+            <CanvasGraphicsSingleObjectRenderer object={localObjectCopy}/>
+          </Grid>
+
+          <Grid className={classes.objectEditingControlFooter} justify={"flex-end"} container>
+            <Button variant={"contained"} onClick={this.onLocalObjectReset}>Reset</Button>
+            <Button variant={"contained"} onClick={this.onLocalChangesApply}>Apply</Button>
+          </Grid>
+
         </Grid>
 
       </Grid>
@@ -143,7 +151,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     if (newObject instanceof AbstractBaseRectangleObject) {
       (newObject as AbstractBaseRectangleObject).setPosition({ left: 10, top: 10, width: 80, height: 80});
     } else {
-      (newObject as AbstractBaseCircleObject).setPosition({ radius: 45, center: { x: 50, y: 50 }});
+      (newObject as AbstractBaseCircleObject).setPosition({ radius: 25, center: { x: 50, y: 50 }});
     }
 
     return newObject;

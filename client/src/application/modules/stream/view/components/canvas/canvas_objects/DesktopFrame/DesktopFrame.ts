@@ -21,7 +21,6 @@ export class DesktopFrame extends AbstractBaseRectangleObject {
   private hiddenVideoRenderer: HTMLVideoElement = document.createElement("video");
 
   public constructor() {
-
     super();
 
     this.hiddenVideoRenderer.srcObject = this.mediaStream;

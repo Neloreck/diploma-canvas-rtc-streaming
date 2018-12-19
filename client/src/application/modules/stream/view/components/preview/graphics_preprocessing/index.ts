@@ -1,2 +1,2 @@
 export {CanvasGraphicsPreprocessor} from "./multiple/CanvasGraphicsPreprocessor";
-export {CanvasGraphicsSingleObjectPreprocessor} from "./single/CanvasGraphicsSingleObjectPreprocessor";
+export {CanvasGraphicsSingleObjectRenderer} from "./single/CanvasGraphicsSingleObjectRenderer";

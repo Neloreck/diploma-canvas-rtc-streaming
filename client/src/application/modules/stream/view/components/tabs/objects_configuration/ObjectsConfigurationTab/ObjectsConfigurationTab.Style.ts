@@ -27,7 +27,8 @@ export const objectsConfigurationTabStyle = (theme: Theme) => createStyles({
   },
   objectsConfigurationBlock: {
     flexGrow: 3,
-    minWidth: "40%"
+    minWidth: "40%",
+    overflowY: "auto"
   },
   objectsList: {
     backgroundColor: theme.palette.background.paper,

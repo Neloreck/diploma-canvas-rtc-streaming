@@ -1,23 +1,18 @@
 import {createStyles, Theme} from "@material-ui/core/styles";
 
 export const objectTemplateConfigurationBlockStyle = (theme: Theme) => createStyles({
+  objectConfiguration: {
+    boxSizing: "border-box",
+    flexGrow: 1,
+    padding: theme.spacing.unit,
+    width: "100%"
+  },
   objectEditingControlFooter: {
     "& button": {
       marginLeft: theme.spacing.unit * 2
     },
     minHeight: theme.spacing.unit * 7.5,
     padding: theme.spacing.unit * 2,
-    width: "100%"
-  },
-  objectEditingMenu: {
-    flexGrow: 1,
-    minHeight: theme.spacing.unit * 20,
-    position: "relative",
-    width: "100%"
-  },
-  objectEditingMenuContent: {
-    height: "100%",
-    position: "absolute",
     width: "100%"
   },
   objectHeading: {
@@ -32,27 +27,26 @@ export const objectTemplateConfigurationBlockStyle = (theme: Theme) => createSty
     alignItems: "center",
     display: "flex",
   },
-  objectPreviewConfiguration: {
-    boxSizing: "border-box",
-    flexGrow: 1,
-    padding: theme.spacing.unit * 2,
-    width: "100%"
-  },
-  objectPreviewRenderer: {
-    "& canvas": {
-      backgroundColor: theme.palette.secondary.light,
-      boxShadow: "2px 2px 16px 0 black"
-    },
-    flexGrow: 1,
-    height: "100%",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px`
-  },
   root: {
     backgroundColor: theme.palette.background.paper,
     height: "100%",
+    minHeight: 250,
     overflowX: "auto",
     overflowY: "auto",
     padding: theme.spacing.unit,
     width: "100%"
+  },
+  templateConfigurationWrapper: {
+    flexGrow: 1
+  },
+  templatePreview: {
+    padding: theme.spacing.unit
+  },
+  templateRenderer: {
+    "& .canvas-renderer-layout": {
+      boxShadow: "none"
+    },
+    alignSelf: "center",
+    justifySelf: "center",
   }
 });

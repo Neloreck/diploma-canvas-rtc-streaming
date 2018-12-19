@@ -1,75 +1,103 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {createRef, Fragment, MouseEvent, PureComponent, ReactNode, RefObject} from "react";
+import {Component, createRef, Fragment, MouseEvent, ReactNode, RefObject} from "react";
 import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject, AbstractRenderingService, CommonRenderingService, ICanvasGraphicsSizingContext} from "@Lib/graphics";
-import {DomSizingUtils} from "@Lib/utils/DomSizingUtils";
+import {AbstractCanvasGraphicsRenderObject, CommonRenderingService, IPoint} from "@Lib/graphics";
+import {DomVideo} from "@Lib/react_lib/components";
+import {Optional} from "@Lib/ts/types";
+import {DomSizingUtils, Logger} from "@Lib/utils";
+
+// Data.
+import {applicationConfig} from "@Main/data/config";
+import {localMediaService} from "@Module/stream/data/services/local_media";
 
 // View.
 import "../canvasStyling.scss";
 
 // Props.
-export interface ICanvasGraphicsSingleObjectRendererProps {
-  object: AbstractCanvasGraphicsRenderObject;
-  aspectRatio?: number;
+export interface ICanvasGraphicsSingleObjectRendererState {
+  videoSizing: { width?: number, height?: number };
 }
 
-export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGraphicsSingleObjectRendererProps> {
+export interface ICanvasGraphicsSingleObjectRendererOwnProps {
+  object: AbstractCanvasGraphicsRenderObject;
+}
 
-  private static readonly DEFAULT_ASPECT_RATIO: number = 1;
+export interface ICanvasGraphicsSingleObjectRendererExternalProps {}
+export interface ICanvasGraphicsSingleObjectRendererProps extends ICanvasGraphicsSingleObjectRendererOwnProps, ICanvasGraphicsSingleObjectRendererExternalProps {}
 
-  private readonly renderingCanvas: RefObject<HTMLCanvasElement> = createRef();
+export class CanvasGraphicsSingleObjectRenderer
+  extends Component<ICanvasGraphicsSingleObjectRendererProps, ICanvasGraphicsSingleObjectRendererState> {
 
-  private readonly renderingService: AbstractRenderingService = new CommonRenderingService();
+  public state = {
+    videoSizing: { width: undefined, height: undefined }
+  };
 
-  /* Lifecycle: */
+  private readonly ASPECT_RATIO: number = applicationConfig.defaultVideoScale;
+  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.defaultVideoCapturingFramerate;
+
+  private readonly log: Logger = new Logger("[🎸RDR]", true);
+  private readonly videoContainerRef: RefObject<HTMLDivElement> = createRef();
+
+  /*
+   * Rendering services.
+   */
+
+  private internalStream: Optional<MediaStream> = null;
+
+  private readonly renderingService: CommonRenderingService = new CommonRenderingService();
+
+  /*
+   * Lifecycle:
+  */
 
   public componentWillMount(): void {
-    this.renderingService.enableRendering();
-  }
-
-  public componentDidMount(): void {
-
-    const renderingCanvas: HTMLCanvasElement = this.getRenderingCanvas();
 
     this.renderingService.setRenderObjects([this.props.object]);
+    this.renderingService.enableRendering();
     this.renderingService.disableInteraction();
-
+    this.renderingService.enableContextCleanup();
     this.renderingService.render();
-  }
 
-  public componentWillUnmount(): void {
-    this.renderingService.disableRendering();
+    this.internalStream = this.renderingService.getMediaStream(this.OUTPUT_FRAME_RATE);
   }
 
   public componentDidUpdate(): void {
     this.renderingService.setRenderObjects([this.props.object]);
   }
 
+  public componentWillUnmount(): void {
+
+    this.renderingService.disableRendering();
+
+    this.log.info("Cleanup streams.");
+
+    localMediaService.killStream(this.internalStream);
+    this.internalStream = null;
+  }
+
+  /*
+   * Rendering.
+   */
+
   public render(): ReactNode {
+
+    const { videoSizing } = this.state;
+
     return (
       <Fragment>
 
         <div
-          className={"canvas-renderer-layout-preview"}
-          onMouseMove={this.handleLayoutMouseMove}
-          onMouseEnter={this.handleLayoutMouseEnter}
-          onMouseLeave={this.handleLayoutMouseLeave}
-          onMouseDown={this.handleLayoutMouseDown}
-          onMouseUp={this.handleLayoutMouseUp}
+          ref={this.videoContainerRef}
+          className={"canvas-renderer-layout"}
         >
-          <canvas
-            className={"canvas-renderer-preview"}
-            ref={this.renderingCanvas}
-          />
+          <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height} muted={true} autoPlay={true}/>
         </div>
 
         <ReactResizeDetector
           onResize={this.resize}
-          refreshMode={"throttle"}
-          refreshRate={250}
           handleHeight handleWidth
         />
 
@@ -77,39 +105,28 @@ export class CanvasGraphicsSingleObjectRenderer extends PureComponent<ICanvasGra
     );
   }
 
-  /* Getters for pre-renderer: */
-
-  private getRenderingCanvas(): HTMLCanvasElement {
-    return (this.renderingCanvas.current as any);
-  }
-
-  /* Events related methods: */
+  /*
+   * Handle DOM events:
+   */
 
   @Bind()
-  private handleLayoutMouseDown(event: MouseEvent): void {
+  public getPercentageMouseEventCoordinate(event: MouseEvent): IPoint {
+
+    const clientRect: ClientRect = ((this.videoContainerRef.current as HTMLDivElement).firstChild as HTMLVideoElement).getBoundingClientRect();
+
+    const newX: number = (event.pageX - clientRect.left)  * 100 / clientRect.width;
+    const newY: number = (event.pageY - clientRect.top) * 100 / clientRect.height;
+
+    return { x: newX > 100 ? 100 : (newX < 0 ? 0 : newX), y: newY > 100 ? 100 : (newY < 0 ? 0 : newY) };
   }
 
-  @Bind()
-  private handleLayoutMouseUp(event: MouseEvent): void {
-  }
+  /*
+   * Sizing related:
+   */
 
   @Bind()
-  private handleLayoutMouseMove(event: MouseEvent): void {
-  }
-
-  @Bind()
-  private handleLayoutMouseEnter(event: MouseEvent): void {
-  }
-
-  @Bind()
-  private handleLayoutMouseLeave(event: MouseEvent): void {
-  }
-
-  @Bind()
-  private resize(width: number, height: number): void {
-
-    const sizing: { width: number, height: number } = DomSizingUtils.recalculateToRatio(width, height, this.props.aspectRatio || CanvasGraphicsSingleObjectRenderer.DEFAULT_ASPECT_RATIO);
-
+  public resize(width: number, height: number): void {
+    this.setState({ videoSizing: DomSizingUtils.recalculateToRatio(width, height, this.ASPECT_RATIO) });
   }
 
 }
