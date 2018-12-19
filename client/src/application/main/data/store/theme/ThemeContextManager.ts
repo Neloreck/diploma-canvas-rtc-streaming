@@ -27,7 +27,7 @@ export class ThemeContextManager extends ReactContextManager<IThemeContext> {
             light: "#ffffff",
             main: "#c2c2c2"
           },
-          type: "light"
+          type: "dark"
         },
         typography: {
           useNextVariants: true

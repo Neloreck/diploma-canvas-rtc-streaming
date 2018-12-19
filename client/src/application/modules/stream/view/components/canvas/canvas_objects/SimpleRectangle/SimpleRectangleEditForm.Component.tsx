@@ -34,7 +34,7 @@ export class SimpleRectangleEditForm extends PureComponent<ISimpleRectangleEditF
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
-        <BooleanSwitcher value={configuration.renderBackground} onToggle={this.onRenderBackgroundToggle} {...{} as IBooleanSwitcherExternalProps}/>
+        <BooleanSwitcher label={"Render background"} value={configuration.renderBackground} onToggle={this.onRenderBackgroundToggle} {...{} as IBooleanSwitcherExternalProps}/>
         <ColorSwitcher label={"Border color"} value={configuration.borderColor} onChange={this.onBorderColorChanged} {...{} as IColorSwitcherExternalProps}/>
         <ColorSwitcher label={"Background color"} value={configuration.backgroundColor} onChange={this.onBackgroundColorChanged} {...{} as IColorSwitcherExternalProps}/>
         <RangeInput value={configuration.borderWidth} onChange={this.onBorderSizeChanged} {...{} as IRangeInputExternalProps}/>

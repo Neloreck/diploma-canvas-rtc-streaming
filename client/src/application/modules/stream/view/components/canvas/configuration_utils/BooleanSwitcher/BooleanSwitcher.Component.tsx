@@ -11,6 +11,7 @@ import {booleanSwitcherStyle} from "./BooleanSwitcher.Style";
 
 // Props.
 export interface IBooleanSwitcherOwnProps {
+  label?: string;
   value: boolean;
   onToggle: (checked: boolean) => void;
 }
@@ -23,12 +24,12 @@ export class BooleanSwitcher extends PureComponent<IBooleanSwitcherProps> {
 
   public render(): ReactNode {
 
-    const {classes, value} = this.props;
+    const {label, classes, value} = this.props;
 
     return (
       <FormControlLabel
         className={classes.root}
-        label={"Render background."}
+        label={label || "Toggle"}
         control={<Switch checked={value} color={"primary"} onChange={this.onToggle}/>}
       />
     );
