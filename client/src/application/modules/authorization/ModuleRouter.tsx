@@ -6,6 +6,9 @@ import {Switch} from "react-router-dom";
 // Lib.
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
+// View.
+import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/PrivateRoute";
+
 // Main routes.
 
 const LoginPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "authorization@login-page" */"@Module/authorization/view/pages/LoginPage"));
@@ -20,8 +23,8 @@ export class ModuleRouter extends PureComponent {
     return (
         <Switch>
 
-          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}/login`} component={LoginPage}/>
-          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}/register`} component={SignUpPage}/>
+          <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/login`} redirect={"/home"} component={LoginPage} reversed {...{} as IPrivateRouteExternalProps}/>
+          <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/register`} redirect={"/home"} component={SignUpPage} reversed {...{} as IPrivateRouteExternalProps}/>
 
           <Route exact={true} path={"*"} component={ErrorPage}/>
 

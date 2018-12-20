@@ -8,8 +8,7 @@ import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {authContextManager, IAuthContext} from "@Main/data/store";
-import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
+import {authContextManager, IAuthContext, IRouterContext} from "@Main/data/store";
 
 // View.
 import {
@@ -39,7 +38,7 @@ export interface ILoginFormState {
   };
 }
 
-export interface ILoginFormExternalProps extends WithStyles<typeof loginFormStyle>, IAuthContext {}
+export interface ILoginFormExternalProps extends WithStyles<typeof loginFormStyle>, IAuthContext, IRouterContext {}
 export interface ILoginFormOwnProps {}
 export interface ILoginFormProps extends ILoginFormOwnProps, ILoginFormExternalProps {}
 
@@ -163,7 +162,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const {authActions: {login}} = this.props;
     const {usernameInput, passwordInput} = this.state;
 
-    const userData: Optional<IUserAuthData> = await login(usernameInput.value, passwordInput.value);
+    await login(usernameInput.value, passwordInput.value);
   }
 
   @Bind()

@@ -12,6 +12,7 @@ import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
 
 // Data.
 import {IUserAuthData} from "./models/IUserAuthData";
+import {routerContextManager} from "@Main/data/store";
 
 export interface IAuthContext {
   authActions: {
@@ -90,6 +91,8 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     authState.authData = null;
     authState.authorized = false;
+
+    routerContextManager.push("/");
 
     this.update();
   }

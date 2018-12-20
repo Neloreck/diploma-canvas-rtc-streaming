@@ -6,6 +6,7 @@ import {Route, Switch} from "react-router";
 import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
 
 // View.
+import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/PrivateRoute";
 import {ErrorPage} from "@Main/view/pages/ErrorPage";
 
 /* Stream routes: */
@@ -23,7 +24,7 @@ export class ModuleRouter extends PureComponent {
 
         <Switch>
 
-          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}/`} component={StreamingPage}/>
+          <PrivateRoute exact={true} redirect={`/authorization/login?next=${ModuleRouter.MODULE_PREFIX}/live`} path={`${ModuleRouter.MODULE_PREFIX}/live`} component={StreamingPage} {...{} as IPrivateRouteExternalProps}/>
           <Route exact={true} path={"*"} component={ErrorPage}/>
 
         </Switch>
