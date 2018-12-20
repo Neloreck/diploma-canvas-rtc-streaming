@@ -7,6 +7,7 @@ import {Optional} from "@Lib/ts/types";
 import {DocumentStoreUtils, Logger} from "@Lib/utils";
 
 // Api.
+import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
 import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
 
 // Data.
@@ -57,6 +58,8 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
       this.log.info("Have valid access token, trying to get default auth info.");
 
+      await this.updateUserInfo();
+
     } else {
       if (this.hasRefreshToken()) {
         this.log.info("Have valid refresh token, trying to refresh current tokens.");
@@ -75,7 +78,20 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected async logout(): Promise<void> {
-    // 1
+
+    const {authState} = this.context;
+
+    if (authState.authorizing) {
+      throw new Error("Cannot logout while authorizing.");
+    }
+
+    DocumentStoreUtils.eraseCookie("access_token");
+    DocumentStoreUtils.eraseCookie("refresh_token");
+
+    authState.authData = null;
+    authState.authorized = false;
+
+    this.update();
   }
 
   @Bind()
@@ -105,8 +121,6 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
       } else {
         state.errorMessage = null;
         state.authData = {
-          access_token: response.access_token,
-          refresh_token: response.refresh_token,
           username: response.username
         };
 
@@ -124,6 +138,32 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     }
 
     return state.authData;
+  }
+
+  @Bind()
+  protected async updateUserInfo(): Promise<void> {
+
+    let {authState} = this.context;
+
+    // Set loading state.
+    authState.authorizing = true;
+    this.update();
+
+    authState = this.context.authState;
+
+    try {
+      const response: IAuthInfoResponse = await authClient.getAuthInfo({});
+      authState.authData = { username: response.username };
+    } catch (error) {
+      this.log.error("Auth request attempt failed: ", error);
+    } finally {
+      authState.authorized = (authState.authData !== null);
+      authState.authorizing = false;
+
+      this.log.info(`Current auth status: '${authState.authorized}', '${authState.errorMessage}'.`);
+
+      this.update();
+    }
   }
 
   @Bind()

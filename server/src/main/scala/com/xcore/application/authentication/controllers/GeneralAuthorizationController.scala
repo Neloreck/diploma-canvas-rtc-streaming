@@ -26,11 +26,10 @@ class GeneralAuthorizationController {
   case class SignUpRequest(login: String, mail: String,password: String) extends ApiRequest;
   case class LoginRequest(username: String, password: String) extends ApiRequest;
 
-  case class AuthInfoApiResponse(@BeanProperty authenticated: Boolean) extends ApiResponse;
+  case class AuthInfoApiResponse(@BeanProperty authenticated: Boolean, @BeanProperty username: String) extends ApiResponse;
   case class SignUpResponse(@BeanProperty user: AppUser) extends ApiResponse;
   case class LoginResponse(@BeanProperty username: String, @BeanProperty password: String) extends ApiResponse;
   case class TokenRequest(@BeanProperty username: String, @BeanProperty password: String, client_id: String, grant_type: String) extends ApiRequest;
-
 
   @GetMapping(Array("/info"))
   def getCurrentAuthInfo: AuthInfoApiResponse = {
@@ -39,7 +38,10 @@ class GeneralAuthorizationController {
 
     val authentication: Authentication = AuthUtils.getAuthentication;
 
-    AuthInfoApiResponse(!authentication.getAuthorities.contains(EAppAccessLevel.ROLE_ANONYMOUS.getAuthority));
+    AuthInfoApiResponse(
+      !authentication.getAuthorities.contains(EAppAccessLevel.ROLE_ANONYMOUS.getAuthority),
+      authentication.getPrincipal.asInstanceOf[AppUser].getUsername
+    );
   }
 
   @PostMapping(Array("/login"))

@@ -16,6 +16,8 @@ export class XCoreApiConfig {
     "Content-Type": "application/json"
   });
 
+  public readonly exposeClientsToWindow: boolean = (process.env.NODE_ENV === "development");
+
   public getDefaultHeaders(): Headers {
 
     const accessToken: Optional<string> = DocumentStoreUtils.getCookie("access_token");

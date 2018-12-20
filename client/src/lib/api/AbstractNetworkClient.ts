@@ -50,7 +50,8 @@ export abstract class AbstractNetworkClient {
     } catch (error) {
       return {
         error,
-        status: (!!rawResponse && (rawResponse as Response).status) || 400
+        status: (!!rawResponse && (rawResponse as Response).status) || 400,
+        success: false
       };
     }
   }

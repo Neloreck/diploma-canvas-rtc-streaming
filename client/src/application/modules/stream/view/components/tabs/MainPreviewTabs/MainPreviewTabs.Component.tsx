@@ -62,7 +62,15 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
         break;
 
       case 2:
-        tabContent = <div> Todo... </div>
+        tabContent = <div> Sounds - Todo... </div>;
+        break;
+
+      case 3:
+        tabContent = <div> Layouts - Todo... </div>;
+        break;
+
+      case 4:
+        tabContent = <div> Resources - Todo... </div>;
         break;
 
       default:
@@ -92,7 +100,9 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
           >
             <Tab label="General"/>
             <Tab label="Graphics"/>
+            <Tab label="Sound"/>
             <Tab label="Layout"/>
+            <Tab label="Resources"/>
           </Tabs>
 
         </AppBar>

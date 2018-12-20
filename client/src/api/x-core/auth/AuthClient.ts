@@ -11,8 +11,7 @@ export class AuthClient extends AbstractNetworkClient {
   private static AUTH_MAPPING: string = "/auth";
 
   public async getAuthInfo(request: IAuthInfoRequest): Promise<IAuthInfoResponse> {
-    const response = await this.get(AuthClient.AUTH_MAPPING + "info/", );
-    return response as any;
+    return await this.get(AuthClient.AUTH_MAPPING + "/info") as IAuthInfoResponse;
   }
 
   public async getTokens(username: string, password: string): Promise<ITokensResponse> {

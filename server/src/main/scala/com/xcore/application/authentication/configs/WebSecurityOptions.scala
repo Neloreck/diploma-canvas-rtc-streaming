@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.provider.token.TokenStore
-import org.springframework.security.oauth2.provider.token.store.{JdbcTokenStore, JwtAccessTokenConverter}
+import org.springframework.security.oauth2.provider.token.store.{InMemoryTokenStore, JdbcTokenStore, JwtAccessTokenConverter}
 import org.springframework.stereotype.Component
 
 @Component
@@ -38,8 +38,9 @@ class WebSecurityOptions {
   @Bean
   def getPasswordEncoder: PasswordEncoder = new BCryptPasswordEncoder;
 
+  // todo: DB store later.
   @Bean
-  def getAccessTokenStore: TokenStore = new JdbcTokenStore(datasource);
+  def getAccessTokenStore: TokenStore = new InMemoryTokenStore;
 
   @Bean
   def getAccessTokenEnhancer: AuthTokenEnhancer = new AuthTokenEnhancer;
