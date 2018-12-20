@@ -113,7 +113,7 @@ export class WebpackBuildConfig implements Configuration {
       },
       // Images resolving.
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(gif|png|jpe|jpg|svg)$/i,
         use: [
           {
             loader: "url-loader",

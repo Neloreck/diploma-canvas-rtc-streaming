@@ -1,6 +1,7 @@
 export {BooleanSwitcher, IBooleanSwitcherExternalProps} from "@Module/stream/lib/graphics/configuration/BooleanSwitcher";
 export {ColorSwitcher, IColorSwitcherExternalProps} from "@Module/stream/lib/graphics/configuration/ColorSwitcher";
 export {RangeInput, IRangeInputExternalProps} from "@Module/stream/lib/graphics/configuration/RangeInput";
+export {TextInput, ITextInputExternalProps} from "@Module/stream/lib/graphics/configuration/TextInput";
 
 export {DesktopFrame} from "@Module/stream/lib/graphics/graphics_objects/DesktopFrame";
 export {SimpleRectangle} from "@Module/stream/lib/graphics/graphics_objects/SimpleRectangle";

@@ -11,6 +11,7 @@ import {
 
 // Data.
 import {EEditingFormType, TFieldDescriptor} from "@Module/stream/data/services/rendering/fieldDescription";
+import {ImageBlock} from "@Module/stream/lib/graphics/graphics_objects/ImageBlock";
 
 // Object.
 
@@ -116,6 +117,36 @@ export const DESCRIPTORS_MAP = {
     formDescriptor: [],
     name: "Desktop Frame",
     prototype: DesktopFrame.prototype
+  },
+
+  [ImageBlock.name]: {
+    description: "Image display into stream",
+    formDescriptor: [
+      {
+        getValue: (object: ImageBlock): number => object.configuration.width,
+        label: "Width",
+        max: 1280,
+        min: 0,
+        setValue: (object: ImageBlock, width: number) => object.configuration.width = width,
+        type: EEditingFormType.NUMBER_FIELD
+      },
+      {
+        getValue: (object: ImageBlock): number => object.configuration.height,
+        label: "Height",
+        max: 720,
+        min: 0,
+        setValue: (object: ImageBlock, height: number) => object.configuration.height = height,
+        type: EEditingFormType.NUMBER_FIELD
+      },
+      {
+        getValue: (object: ImageBlock): string => object.configuration.imageSrc,
+        label: "Source",
+        setValue: (object: ImageBlock, src: string) => object.setNewUrl(src),
+        type: EEditingFormType.TEXT
+      }
+    ],
+    name: "Image Frame",
+    prototype: ImageBlock.prototype
   }
 
 };

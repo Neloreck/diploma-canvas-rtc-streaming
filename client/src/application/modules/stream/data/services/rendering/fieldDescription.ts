@@ -6,7 +6,7 @@ import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
  */
 
 export enum EEditingFormType {
-  BOOLEAN, COLOR, NUMBER_FIELD
+  BOOLEAN, COLOR, NUMBER_FIELD, TEXT
 }
 
 // Fields.
@@ -25,6 +25,13 @@ export interface IRangeInputFieldDescriptor<T extends AbstractCanvasGraphicsRend
   max?: number;
   getValue: (object: T) => number;
   setValue: (object: T, value: number) => void;
+}
+
+export interface ITextInputFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject> {
+  label: string;
+  type: EEditingFormType;
+  getValue: (object: T) => string;
+  setValue: (object: T, value: string) => void;
 }
 
 export interface IColorSwitcherFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject> {

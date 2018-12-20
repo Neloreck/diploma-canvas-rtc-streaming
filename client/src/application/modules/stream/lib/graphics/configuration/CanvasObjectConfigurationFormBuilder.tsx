@@ -6,14 +6,19 @@ import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
 // Data.
 import {
-  EEditingFormType, IBooleanSwitcherFieldDescriptor,
-  ICanvasObjectDescriptor, IColorSwitcherFieldDescriptor, IRangeInputFieldDescriptor, TFieldDescriptor,
+  EEditingFormType,
+  IBooleanSwitcherFieldDescriptor,
+  ICanvasObjectDescriptor,
+  IColorSwitcherFieldDescriptor,
+  IRangeInputFieldDescriptor,
+  ITextInputFieldDescriptor,
+  TFieldDescriptor,
 } from "@Module/stream/data/services/rendering";
 import {
   BooleanSwitcher,
   ColorSwitcher,
-  IBooleanSwitcherExternalProps, IColorSwitcherExternalProps,
-  NoControlProvidedForm, RangeInput
+  IBooleanSwitcherExternalProps, IColorSwitcherExternalProps, IRangeInputExternalProps, ITextInputExternalProps,
+  NoControlProvidedForm, RangeInput, TextInput
 } from "@Module/stream/lib/graphics";
 
 export interface INoControlProvidedFormProps {
@@ -68,7 +73,16 @@ export class CanvasObjectConfigurationFormBuilder extends PureComponent<INoContr
             onChange={(value: number) => { (fieldDescriptor as IRangeInputFieldDescriptor<any>).setValue(object, value); this.forceUpdate(); } }
             min={(fieldDescriptor as IRangeInputFieldDescriptor<any>).min}
             max={(fieldDescriptor as IRangeInputFieldDescriptor<any>).max}
-            {...{} as IColorSwitcherExternalProps}
+            {...{} as IRangeInputExternalProps}
+          />;
+
+        case EEditingFormType.TEXT:
+          return <TextInput
+            key={idx + fieldDescriptor.type + object.getId()}
+            label={fieldDescriptor.label}
+            value={(fieldDescriptor as ITextInputFieldDescriptor<any>).getValue(object)}
+            onChange={(value: string) => { (fieldDescriptor as ITextInputFieldDescriptor<any>).setValue(object, value); this.forceUpdate(); } }
+            {...{} as ITextInputExternalProps}
           />;
 
         default:
