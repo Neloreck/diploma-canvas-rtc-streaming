@@ -4,5 +4,8 @@ export const renderingService: RenderingService = new RenderingService();
 
 // Re-export.
 
-export * from "@Module/stream/data/services/rendering/description";
+export {
+  IColorSwitcherFieldDescriptor, IRangeInputFieldDescriptor, IBooleanSwitcherFieldDescriptor, EEditingFormType, TFieldDescriptor
+} from "@Module/stream/data/services/rendering/fieldDescription";
+export {DESCRIPTORS_MAP, ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering/description";
 export {RenderingService} from "@Module/stream/data/services/rendering/RenderingService";

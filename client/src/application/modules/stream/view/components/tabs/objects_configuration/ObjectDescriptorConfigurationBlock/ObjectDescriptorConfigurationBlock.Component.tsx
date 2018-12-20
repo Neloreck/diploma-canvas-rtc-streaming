@@ -5,6 +5,9 @@ import {Component, ReactNode} from "react";
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/mui";
 
+// Data.
+import {CanvasObjectConfigurationFormBuilder} from "@Module/stream/lib/graphics";
+
 // View.
 import {Grid, WithStyles} from "@material-ui/core";
 import {ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
@@ -31,7 +34,7 @@ export class ObjectDescriptorConfigurationBlock extends Component<IObjectDescrip
 
     return (
       <Grid className={classes.root} wrap={"nowrap"} direction={"column"} container>
-        {React.createElement(descriptor.component, { object })}
+        <CanvasObjectConfigurationFormBuilder object={object} descriptor={descriptor}/>
       </Grid>
     );
   }

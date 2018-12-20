@@ -1,49 +1,119 @@
-import {ComponentType} from "react";
-
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
 // View.
 import {
-  DesktopFrame, DesktopFrameEditForm,
-  SimpleCircle, SimpleCircleEditForm,
-  SimpleRectangle, SimpleRectangleEditForm,
-  VideoFrame, VideoFrameEditForm
-} from "@Module/stream/view/components/canvas/canvas_objects";
+  DesktopFrame,
+  SimpleCircle,
+  SimpleRectangle,
+  VideoFrame
+} from "@Module/stream/lib/graphics";
 
-export interface ICanvasObjectDescriptor<PrototypeType extends AbstractCanvasGraphicsRenderObject> {
+// Data.
+import {EEditingFormType, TFieldDescriptor} from "@Module/stream/data/services/rendering/fieldDescription";
+
+// Object.
+
+export interface ICanvasObjectDescriptor<T extends AbstractCanvasGraphicsRenderObject> {
   name: string;
   description: string;
-  prototype: PrototypeType;
-  component: ComponentType<any>;
+  prototype: T;
+  formDescriptor: Array<TFieldDescriptor<T>>;
 }
+
+/*
+ * OBJECTS DESCRIPTORS.
+ */
 
 export const DESCRIPTORS_MAP = {
 
   [SimpleRectangle.name]: {
-    component: SimpleRectangleEditForm,
     description: "Simple rectangle",
+    formDescriptor: [
+      {
+        getValue: (object: SimpleRectangle): boolean => object.configuration.renderBackground,
+        label: "Render background",
+        setValue: (object: SimpleRectangle, render: boolean) => object.configuration.renderBackground = render,
+        type: EEditingFormType.BOOLEAN
+      },
+      {
+        getValue: (object: SimpleRectangle): string => object.configuration.backgroundColor,
+        label: "Background color",
+        setValue: (object: SimpleRectangle, color: string) => object.configuration.backgroundColor = color,
+        type: EEditingFormType.COLOR
+      },
+      {
+        getValue: (object: SimpleRectangle): number => object.configuration.borderWidth,
+        label: "Border width",
+        setValue: (object: SimpleRectangle, width: number) => object.configuration.borderWidth = width,
+        type: EEditingFormType.NUMBER_FIELD
+      },
+      {
+        getValue: (object: SimpleRectangle): string => object.configuration.borderColor,
+        label: "Border color",
+        setValue: (object: SimpleRectangle, color: string) => object.configuration.borderColor = color,
+        type: EEditingFormType.COLOR
+      }
+    ],
     name: "Rectangle",
     prototype: SimpleRectangle.prototype,
   },
 
   [SimpleCircle.name]: {
-    component: SimpleCircleEditForm,
     description: "Simple circle",
+    formDescriptor: [
+      {
+        getValue: (object: SimpleCircle): boolean => object.configuration.renderBackground,
+        label: "Render background",
+        setValue: (object: SimpleCircle, render: boolean) => object.configuration.renderBackground = render,
+        type: EEditingFormType.BOOLEAN
+      },
+      {
+        getValue: (object: SimpleCircle): string => object.configuration.backgroundColor,
+        label: "Background color",
+        setValue: (object: SimpleCircle, color: string) => object.configuration.backgroundColor = color,
+        type: EEditingFormType.COLOR
+      },
+      {
+        getValue: (object: SimpleCircle): number => object.configuration.borderWidth,
+        label: "Border width",
+        setValue: (object: SimpleCircle, width: number) => object.configuration.borderWidth = width,
+        type: EEditingFormType.NUMBER_FIELD
+      },
+      {
+        getValue: (object: SimpleCircle): string => object.configuration.borderColor,
+        label: "Border color",
+        setValue: (object: SimpleCircle, color: string) => object.configuration.borderColor = color,
+        type: EEditingFormType.COLOR
+      }
+    ],
     name: "Circle",
     prototype: SimpleCircle.prototype
   },
 
   [VideoFrame.name]: {
-    component: VideoFrameEditForm,
     description: "Additional video.",
+    formDescriptor: [
+      {
+        getValue: (object: VideoFrame): boolean => object.configuration.renderBorder,
+        label: "Render border",
+        setValue: (object: VideoFrame, render: boolean) => object.configuration.renderBorder = render,
+        type: EEditingFormType.BOOLEAN
+      },
+      {
+        getValue: (object: VideoFrame): number => object.configuration.borderWidth,
+        label: "Border width",
+        setValue: (object: VideoFrame, width: number) => object.configuration.borderWidth = width,
+        type: EEditingFormType.NUMBER_FIELD
+      }
+    ],
     name: "Video Frame",
     prototype: VideoFrame.prototype
   },
 
   [DesktopFrame.name]: {
-    component: DesktopFrameEditForm,
     description: "Desktop casting",
+    formDescriptor: [],
     name: "Desktop Frame",
     prototype: DesktopFrame.prototype
   }
