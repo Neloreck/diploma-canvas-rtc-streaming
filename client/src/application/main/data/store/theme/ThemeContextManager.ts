@@ -26,7 +26,7 @@ export class ThemeContextManager extends ReactContextManager<IThemeContext> {
         palette: {
           primary: {
             contrastText: "#ffffff",
-            dark: "#345983",
+            dark: "#324e76",
             light: "#447fc9",
             main: "#285e8e"
           },

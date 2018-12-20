@@ -126,28 +126,33 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
 
                   <ListItemSecondaryAction>
 
-                    <Grow in={showLayerControls}>
-                      <Grid className={classes.additionalListControlButtonsBlock}>
-                        <IconButton onClick={() => swapObjectsByIndex(idx, idx + 1)} disabled={idx === objects.length - 1}>
-                          <ArrowUpward fontSize="small"/>
-                        </IconButton>
+                    {
+                      showLayerControls
+                        ?
+                        <Grow in={showLayerControls}>
+                          <Grid className={classes.additionalListControlButtonsBlock}>
+                            <IconButton onClick={() => swapObjectsByIndex(idx, idx + 1)} disabled={idx === objects.length - 1}>
+                              <ArrowUpward fontSize="small"/>
+                            </IconButton>
 
-                        <IconButton onClick={() => swapObjectsByIndex(idx, idx - 1)} disabled={idx === 0}>
-                          <ArrowDownward fontSize="small"/>
-                        </IconButton>
+                            <IconButton onClick={() => swapObjectsByIndex(idx, idx - 1)} disabled={idx === 0}>
+                              <ArrowDownward fontSize="small"/>
+                            </IconButton>
 
-                        <Checkbox
-                          color={"secondary"}
-                          onChange={() => {
-                            item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
-                            this.forceUpdate();
-                          }}
-                          checked={!item.isDisabled()}
-                        />
+                            <Checkbox
+                              color={"secondary"}
+                              onChange={() => {
+                                item.isDisabled() ? item.setDisabled(false) : item.setDisabled(true);
+                                this.forceUpdate();
+                              }}
+                              checked={!item.isDisabled()}
+                            />
 
-                        <IconButton onClick={() => this.onGraphicsItemCopyClicked(item)}> <FileCopy fontSize="small" /> </IconButton>
-                      </Grid>
-                    </Grow>
+                            <IconButton onClick={() => this.onGraphicsItemCopyClicked(item)}> <FileCopy fontSize="small" /> </IconButton>
+                          </Grid>
+                        </Grow>
+                        : null
+                    }
 
                     <IconButton onClick={() => this.onGraphicsItemRemoveClicked(item)}> <Delete fontSize="small" /> </IconButton>
 
