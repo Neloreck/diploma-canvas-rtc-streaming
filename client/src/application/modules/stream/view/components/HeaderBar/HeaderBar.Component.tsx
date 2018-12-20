@@ -92,8 +92,8 @@ export class HeaderBar extends Component<IHeaderBarProps, IHeaderBarState> {
      return (
        <Fragment>
 
-         <Button variant={"outlined"} size={"small"} onClick={this.onGoLive}>
-           Go Live <LiveTv className={classes.liveIcon} fontSize={"small"}/>
+         <Button className={classes.startButton} variant={"contained"} color={"secondary"} size={"small"}>
+           Start <LiveTv className={classes.startIcon} fontSize={"small"}/>
          </Button>
 
          <IconButton
@@ -168,11 +168,7 @@ export class HeaderBar extends Component<IHeaderBarProps, IHeaderBarState> {
   }
 
   @Bind()
-  private onGoLive(): void {
-
-    const {routingActions: {push}} = this.props;
-
-    push("/stream/live");
+  private onStartStream(): void {
   }
 
   @Bind()

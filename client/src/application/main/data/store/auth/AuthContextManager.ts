@@ -11,12 +11,13 @@ import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
 import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
 
 // Data.
-import {IUserAuthData} from "./models/IUserAuthData";
 import {routerContextManager} from "@Main/data/store";
+import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
 
 export interface IAuthContext {
   authActions: {
     login: (login: string, password: string) => Promise<Optional<IUserAuthData>>;
+    logout: () => void;
     cleanupErrorMessage: () => void;
   };
   authState: {
@@ -32,7 +33,8 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   public context: IAuthContext = {
     authActions: {
       cleanupErrorMessage: this.cleanupErrorMessage,
-      login: this.login
+      login: this.login,
+      logout: this.logout,
     },
     authState: {
       authData: null,
@@ -145,6 +147,8 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected async updateUserInfo(): Promise<void> {
+
+    this.log.info("Logging out.");
 
     let {authState} = this.context;
 
