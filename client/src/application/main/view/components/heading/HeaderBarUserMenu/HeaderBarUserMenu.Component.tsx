@@ -8,7 +8,12 @@ import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
+import {
+  authContextManager,
+  IAuthContext,
+  IRouterContext,
+  routerContextManager,
+} from "@Main/data/store";
 
 // View.
 import {

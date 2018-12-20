@@ -27,11 +27,12 @@ import {
   Typography,
   WithStyles
 } from "@material-ui/core";
-import {Check, Close, Refresh} from "@material-ui/icons";
+import {Check, Close, MusicNote, MusicOff, Refresh} from "@material-ui/icons";
 import {inputSourcesConfigurationDrawerStyle} from "./InputSourcesConfigurationDrawer.Style";
 
 // Props.
 export interface IInputSourcesConfigurationDrawerState {
+  listen: boolean;
   previewStream: Optional<MediaStream>;
   selectedInputSources: IInputSourceDevices;
   audioInputSources: Array<MediaDeviceInfo>;
@@ -61,6 +62,8 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
       videoInput: null
     },
 
+    listen: false,
+
     audioInputSources: [],
     videoInputSources: []
   };
@@ -82,7 +85,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
   public render(): ReactNode {
 
     const {classes, show, onHide, onShow} = this.props;
-    const {audioInputSources, videoInputSources, selectedInputSources, previewStream} = this.state;
+    const {audioInputSources, videoInputSources, selectedInputSources, previewStream, listen} = this.state;
 
     return (
       <SwipeableDrawer
@@ -112,12 +115,16 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
           <Grid className={classes.selectionForm} alignItems={"center"} direction={"column"} container>
 
-            {show && <DomVideo className={classes.videoPreview} stream={previewStream} autoPlay/>}
+            {show && <DomVideo className={classes.videoPreview} stream={previewStream} muted={!listen} autoPlay/>}
 
             {this.renderDevicesSelection(videoInputSources, selectedInputSources.videoInput, "Video Input")}
             {this.renderDevicesSelection(audioInputSources, selectedInputSources.audioInput, "Audio Input")}
 
             <Grid direction={"row"} container>
+              <Button className={classes.actionButton} onClick={this.onToggleListen} variant={"outlined"}>
+                {listen ? <MusicNote color="primary" style={{ fontSize: "1.2rem" }}/> : <MusicOff color="primary" style={{ fontSize: "1.2rem" }}/> }
+              </Button>
+
               <Button className={classes.actionButton} onClick={this.onUpdateMediaDevices} variant={"outlined"}>
                 <Refresh color="primary" style={{ fontSize: "1.2rem" }}/>
               </Button>
@@ -226,7 +233,12 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
   @Bind()
   private onChangesAccept(): void {
-    this.props.onInputSourcesChange(this.state.selectedInputSources);
+
+    if (this.state.selectedInputSources.videoInput !== this.props.selectedDevices.videoInput ||
+      this.state.selectedInputSources.audioInput !== this.props.selectedDevices.audioInput) {
+      this.props.onInputSourcesChange(this.state.selectedInputSources);
+    }
+
   }
 
   private shouldPreviewStreamUpdate(oldState: IInputSourcesConfigurationDrawerState, newState: IInputSourcesConfigurationDrawerState): boolean {
@@ -250,6 +262,11 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
         videoInput: videoDevice
       }
     });
+  }
+
+  @Bind()
+  private onToggleListen(): void {
+    this.setState({ listen: !this.state.listen });
   }
 
 }

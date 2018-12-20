@@ -1,8 +1,14 @@
-import {ThemeOptions} from "@material-ui/core/styles/createMuiTheme";
 import {ReactContextManager} from "@redux-cbd/context";
+import {Bind} from "@redux-cbd/utils";
+
+import {PaletteOptions} from "@material-ui/core/es/styles/createPalette";
+import {ThemeOptions} from "@material-ui/core/styles/createMuiTheme";
 
 export interface IThemeContext {
-  themeActions: {};
+  themeActions: {
+    isDark: () => boolean;
+    setDark: (isDark: boolean) => void;
+  };
   themeState: {
     options: ThemeOptions;
   };
@@ -11,13 +17,16 @@ export interface IThemeContext {
 export class ThemeContextManager extends ReactContextManager<IThemeContext> {
 
   protected context: IThemeContext = {
-    themeActions: {},
+    themeActions: {
+      isDark: this.isDark,
+      setDark: this.setDark
+    },
     themeState: {
       options: {
         palette: {
           primary: {
             contrastText: "#ffffff",
-            dark: "#324e76",
+            dark: "#345983",
             light: "#447fc9",
             main: "#285e8e"
           },
@@ -35,5 +44,23 @@ export class ThemeContextManager extends ReactContextManager<IThemeContext> {
       }
     }
   };
+
+  @Bind()
+  public isDark(): boolean {
+    return (this.context.themeState.options.palette as PaletteOptions).type === "dark";
+  }
+
+  @Bind()
+  public setDark(isDark: boolean): void {
+    this.context.themeState = Object.assign({}, this.context.themeState);
+
+    if (isDark) {
+      (this.context.themeState.options.palette as PaletteOptions).type = "dark";
+    } else {
+      (this.context.themeState.options.palette as PaletteOptions).type = "light";
+    }
+
+    this.update();
+  }
 
 }

@@ -59,7 +59,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     if (this.hasAuthToken()) {
 
-      this.log.info("Have valid access token, trying to get default auth info.");
+      this.log.info("Have valid access token.");
 
       await this.updateUserInfo();
 
@@ -81,6 +81,8 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected async logout(): Promise<void> {
+
+    this.log.info("Logging out.");
 
     const {authState} = this.context;
 
@@ -137,8 +139,6 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
       state.authorized = (state.authData !== null);
       state.authorizing = false;
 
-      this.log.info(`Current auth status: '${state.authorized}', '${state.errorMessage}'.`);
-
       this.update();
     }
 
@@ -148,7 +148,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   @Bind()
   protected async updateUserInfo(): Promise<void> {
 
-    this.log.info("Logging out.");
+    this.log.info("Updating user information.");
 
     let {authState} = this.context;
 
