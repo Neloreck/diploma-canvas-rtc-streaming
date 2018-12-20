@@ -5,15 +5,13 @@ import {Component, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
 import {Grid, WithStyles} from "@material-ui/core";
 import {homePageStyle} from "./HomePage.Style";
 
 // Props.
 export interface IHomePageOwnProps {}
-
 export interface IHomePageExternalProps extends WithStyles<typeof homePageStyle> {}
-
 export interface IHomePageProps extends IHomePageOwnProps, IHomePageExternalProps {}
 
 @Styled(homePageStyle)

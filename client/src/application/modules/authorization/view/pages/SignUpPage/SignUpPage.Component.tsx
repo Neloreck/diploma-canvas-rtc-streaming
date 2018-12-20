@@ -5,16 +5,14 @@ import {Component, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
 import {Grid, WithStyles} from "@material-ui/core";
 import {ISignUpFormExternalProps, SignUpForm} from "@Module/authorization/view/components/SignUpForm";
 import {signUpPageStyle} from "./SignUpPage.Style";
 
 // Props.
 export interface ISignUpPageOwnProps {}
-
 export interface ISignUpPageExternalProps extends WithStyles<typeof signUpPageStyle> {}
-
 export interface ISignUpPageProps extends ISignUpPageOwnProps, ISignUpPageExternalProps {}
 
 @Styled(signUpPageStyle)

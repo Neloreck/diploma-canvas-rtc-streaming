@@ -23,9 +23,9 @@ export class ThemeContextManager extends ReactContextManager<IThemeContext> {
           },
           secondary: {
             contrastText: "#000000",
-            dark: "#707070",
-            light: "#ffffff",
-            main: "#c2c2c2"
+            dark: "#5a5a5a",
+            light: "#dbdbdb",
+            main: "#a4a4a4"
           },
           type: "dark"
         },

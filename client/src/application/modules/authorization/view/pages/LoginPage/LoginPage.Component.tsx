@@ -5,8 +5,8 @@ import {Component, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
-import {Fade, Grid, WithStyles} from "@material-ui/core";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
+import {Grid, WithStyles} from "@material-ui/core";
 import {ILoginFormExternalProps, LoginForm} from "@Module/authorization/view/components/auth/LoginForm";
 import {loginPageStyle} from "./LoginPage.Style";
 

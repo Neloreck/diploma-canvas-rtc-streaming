@@ -12,7 +12,10 @@ import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextM
 
 // View.
 import {Grid, WithStyles} from "@material-ui/core";
-import {HeaderBar, IHeaderBarExternalProps} from "@Module/stream/view/components/HeaderBar";
+import {
+  IStreamingHeaderBarExternalProps,
+  StreamingHeaderBar
+} from "@Module/stream/view/components/heading/StreamingHeaderBar";
 import {
   IMainPreviewControlExternalProps,
   MainPreviewControl
@@ -66,7 +69,7 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
-        <HeaderBar {...{} as IHeaderBarExternalProps}/>
+        <StreamingHeaderBar {...{} as IStreamingHeaderBarExternalProps}/>
 
         <Grid className={classes.content} direction={"column"} wrap={"nowrap"} container>
 

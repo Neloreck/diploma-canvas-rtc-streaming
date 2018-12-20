@@ -5,15 +5,13 @@ import {PureComponent, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/HeaderBar";
+import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
 import {WithStyles} from "@material-ui/core";
 import {errorPageStyle} from "./ErrorPage.Style";
 
 // Props.
 export interface IErrorPageOwnProps {}
-
 export interface IErrorPageExternalProps extends WithStyles<typeof errorPageStyle> {}
-
 export interface IErrorPageProps extends IErrorPageOwnProps, IErrorPageExternalProps {}
 
 @Styled(errorPageStyle)

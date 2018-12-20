@@ -2,12 +2,8 @@ import {Theme} from "@material-ui/core";
 import {createStyles} from "@material-ui/core/styles";
 
 export const headerBarStyle = (theme: Theme) => createStyles({
-  homeButton: {
-    margin: theme.spacing.unit / 2
-  },
-  logo: {
-    cursor: "pointer",
-    minWidth: 100
+  liveIcon: {
+    margin: "-5px 0 0 5px"
   },
   rightBar: {
     "& > button": {
@@ -21,14 +17,4 @@ export const headerBarStyle = (theme: Theme) => createStyles({
     backgroundColor: theme.palette.background.default,
     width: "100%"
   },
-  startButton: {
-  },
-  startIcon: {
-    margin: "-5px 0 0 5px"
-  },
-  toolBar: {
-  },
-  usernameLabel: {
-    cursor: "default"
-  }
 });
