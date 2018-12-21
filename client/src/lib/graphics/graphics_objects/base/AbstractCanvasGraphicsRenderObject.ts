@@ -3,7 +3,7 @@ import {ICanvasGraphicsSizingContext} from "../../types";
 import {generateUUID} from "../../utils";
 import {AbstractCanvasGraphicsSerializableObject} from "./AbstractCanvasGraphicsSerializableObject";
 
-export abstract class AbstractCanvasGraphicsRenderObject extends AbstractCanvasGraphicsSerializableObject {
+export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanvasGraphicsSerializableObject<T> {
 
   protected readonly createdAt: number = Date.now();
   protected readonly id: string = "0";
@@ -100,7 +100,7 @@ export abstract class AbstractCanvasGraphicsRenderObject extends AbstractCanvasG
     /* Some objects need destruction and memory cleanup. */
   }
 
-  public getCopy(): AbstractCanvasGraphicsRenderObject {
+  public getCopy(): AbstractCanvasGraphicsRenderObject<any> {
     return Object.assign(Object.create(Object.getPrototypeOf(this)), cloneDeep(this), { id: generateUUID() });
   }
 

@@ -5,7 +5,7 @@ import {ICanvasGraphicsSizingContext} from "@Lib/graphics";
 // Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 
-export class DesktopFrame extends AbstractBaseRectangleObject {
+export class DesktopFrame extends AbstractBaseRectangleObject<typeof DesktopFrame.prototype.configuration> {
 
   public configuration = {
     backgroundColor: "#dadada",

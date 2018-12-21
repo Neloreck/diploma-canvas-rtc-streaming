@@ -2,12 +2,10 @@ import * as React from "react";
 import {Fragment, PureComponent, ReactNode} from "react";
 import {Route, Switch} from "react-router";
 
-// Lib.
-import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
-
 // View.
 import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/PrivateRoute";
 import {ErrorPage} from "@Main/view/pages/ErrorPage";
+import {lazyLoadComponentFactory} from "@Main/view/utils";
 
 /* Stream routes: */
 

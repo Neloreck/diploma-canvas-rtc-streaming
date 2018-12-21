@@ -12,6 +12,7 @@ export const textInputStyle = (theme: Theme) => createStyles({
     minHeight: theme.spacing.unit * 5.5
   },
   textInput: {
+    margin: `0 ${theme.spacing.unit / 2}px`,
     width: "100%"
   },
 });

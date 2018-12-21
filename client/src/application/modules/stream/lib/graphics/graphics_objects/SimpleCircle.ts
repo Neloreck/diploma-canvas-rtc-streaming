@@ -1,6 +1,6 @@
 import {AbstractBaseCircleObject} from "@Lib/graphics";
 
-export class SimpleCircle extends AbstractBaseCircleObject {
+export class SimpleCircle extends AbstractBaseCircleObject<typeof SimpleCircle.prototype.configuration> {
 
   public configuration = {
     backgroundColor: "#666",

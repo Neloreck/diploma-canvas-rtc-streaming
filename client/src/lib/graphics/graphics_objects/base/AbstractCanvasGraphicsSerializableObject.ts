@@ -1,8 +1,8 @@
 import {ISerializedGraphicsObject, TObjectPosition} from "../../types";
 
-export abstract class AbstractCanvasGraphicsSerializableObject {
+export abstract class AbstractCanvasGraphicsSerializableObject<T extends {}> {
 
-  public abstract configuration: any;
+  public abstract configuration: T;
   protected abstract position: TObjectPosition | never;
 
   // Getters <-> Setters.
@@ -13,6 +13,10 @@ export abstract class AbstractCanvasGraphicsSerializableObject {
 
   public getPosition(): TObjectPosition {
     return this.position;
+  }
+
+  public applyConfiguration(configuration: T): void {
+    this.configuration = Object.assign({}, this.configuration, configuration);
   }
 
   // Interaction.

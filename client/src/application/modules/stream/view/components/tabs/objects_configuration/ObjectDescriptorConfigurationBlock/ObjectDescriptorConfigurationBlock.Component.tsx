@@ -17,7 +17,7 @@ import {objectDescriptorConfigurationBlockStyle} from "./ObjectDescriptorConfigu
 export interface IObjectDescriptorConfigurationBlockState {}
 export interface IObjectDescriptorConfigurationBlockExternalProps extends WithStyles<typeof objectDescriptorConfigurationBlockStyle> {}
 export interface IObjectDescriptorConfigurationBlockOwnProps {
-  object: AbstractCanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject<any>;
   descriptor: ICanvasObjectDescriptor<any>;
 }
 

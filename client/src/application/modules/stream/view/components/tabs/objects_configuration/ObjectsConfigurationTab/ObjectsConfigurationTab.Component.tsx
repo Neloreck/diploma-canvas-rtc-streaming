@@ -195,21 +195,21 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
   }
 
   @Bind()
-  private onGraphicsItemRemoveClicked(object: AbstractCanvasGraphicsRenderObject): void {
+  private onGraphicsItemRemoveClicked(object: AbstractCanvasGraphicsRenderObject<any>): void {
     this.props.graphicsActions.removeObject(object);
   }
 
   @Bind()
-  private onGraphicsItemCopyClicked(object: AbstractCanvasGraphicsRenderObject): void {
+  private onGraphicsItemCopyClicked(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
-    const copy: AbstractCanvasGraphicsRenderObject = object.getCopy();
+    const copy: AbstractCanvasGraphicsRenderObject<any> = object.getCopy();
 
     this.props.graphicsActions.addObject(copy);
     this.props.graphicsActions.selectObject(copy);
   }
 
   @Bind()
-  private onConfigurableObjectSelected(object: AbstractCanvasGraphicsRenderObject) {
+  private onConfigurableObjectSelected(object: AbstractCanvasGraphicsRenderObject<any>) {
     this.props.graphicsActions.selectObject(object);
   }
 
@@ -219,12 +219,12 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
   }
 
   @Bind()
-  private onObjectChangesApply(object: AbstractCanvasGraphicsRenderObject): void {
+  private onObjectChangesApply(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
     const {graphicsState: {selectedObject}} = this.props;
 
     if (selectedObject) {
-      selectedObject.configuration = Object.assign({}, selectedObject.configuration, object.configuration);
+      selectedObject.applyConfiguration(object.configuration);
     } else {
       throw new Error("Could not apply settings for unknown object, none is selected.");
     }

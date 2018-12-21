@@ -22,7 +22,7 @@ export interface ICanvasGraphicsSingleObjectRendererState {
 }
 
 export interface ICanvasGraphicsSingleObjectRendererOwnProps {
-  object: AbstractCanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject<any>;
 }
 
 export interface ICanvasGraphicsSingleObjectRendererExternalProps {}

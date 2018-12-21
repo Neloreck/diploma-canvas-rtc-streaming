@@ -5,7 +5,7 @@ import {IPoint} from "./types";
 
 export interface IGraphicsRendererReactComponent {
 
-  onRenderingObjectSelected(object: AbstractCanvasGraphicsRenderObject | null): void;
+  onRenderingObjectSelected(object: AbstractCanvasGraphicsRenderObject<any> | null): void;
 
   handleContextDown(event: MouseEvent): void;
   handleLayoutMouseDown(event: MouseEvent): void;

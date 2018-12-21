@@ -4,7 +4,7 @@ import {AbstractBaseRectangleObject, ICanvasGraphicsSizingContext, IRectSizing} 
 // Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 
-export class VideoFrame extends AbstractBaseRectangleObject {
+export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.prototype.configuration> {
 
   public configuration = {
     borderWidth: 1,

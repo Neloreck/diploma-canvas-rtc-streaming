@@ -5,14 +5,12 @@ import {PureComponent, ReactNode} from "react";
 import {Route, Router as ReactRouter} from "react-router";
 import {Switch} from "react-router-dom";
 
-// Lib.
-import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
-
 // Data
 import {routerContextManager} from "@Main/data/store";
 
 // View.
 import {GlobalContextProvider} from "@Main/view/layouts/GlobalContextProvider";
+import {lazyLoadComponentFactory} from "@Main/view/utils";
 
 /*
  * Application submodules:

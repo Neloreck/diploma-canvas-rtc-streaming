@@ -22,7 +22,7 @@ import {
 } from "@Module/stream/lib/graphics";
 
 export interface INoControlProvidedFormProps {
-  object: AbstractCanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject<any>;
   descriptor: ICanvasObjectDescriptor<any>;
 }
 

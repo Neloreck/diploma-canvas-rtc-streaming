@@ -12,7 +12,7 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
   protected mouseDown: boolean = false;
   protected lastMouseTouch: IPoint | null = null;
-  protected selectedObject: AbstractCanvasGraphicsInteractiveObject | null = null;
+  protected selectedObject: AbstractCanvasGraphicsInteractiveObject<any> | null = null;
   protected resizing: boolean | null = null;
 
   // Mouse down.
@@ -43,21 +43,21 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
   // Selected object.
 
-  public setSelectedObject(object: AbstractCanvasGraphicsRenderObject | null): void {
+  public setSelectedObject(object: AbstractCanvasGraphicsRenderObject<any> | null): void {
 
     if (this.selectedObject !== null) {
       this.selectedObject.setSelected(false);
     }
 
     if (object !== null && object.isInteractive()) {
-      this.selectedObject = object as AbstractCanvasGraphicsInteractiveObject;
+      this.selectedObject = object as AbstractCanvasGraphicsInteractiveObject<any>;
       this.selectedObject.setSelected(true);
     } else {
       this.selectedObject = null;
     }
   }
 
-  public getSelectedObject(): AbstractCanvasGraphicsInteractiveObject | null {
+  public getSelectedObject(): AbstractCanvasGraphicsInteractiveObject<any> | null {
     return this.selectedObject;
   }
 
@@ -103,7 +103,7 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
       if (renderObject.isEnabled() && renderObject.isInteractive()) {
 
-        const movableRenderObject: AbstractCanvasGraphicsMovableObject = renderObject as AbstractCanvasGraphicsMovableObject;
+        const movableRenderObject: AbstractCanvasGraphicsMovableObject<any> = renderObject as AbstractCanvasGraphicsMovableObject<any>;
 
         if (movableRenderObject.isInBounds(point)) {
           return this.setSelectedObject(movableRenderObject);
@@ -122,9 +122,9 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
     }
 
     const oldTouchPosition: IPoint = this.lastMouseTouch || point;
-    const interactiveSelectedObject: AbstractCanvasGraphicsResizableObject | null = (
+    const interactiveSelectedObject: AbstractCanvasGraphicsResizableObject<any> | null = (
       this.selectedObject !== null && this.selectedObject.isEnabled() && this.selectedObject.isMovable()
-      ? this.selectedObject as AbstractCanvasGraphicsResizableObject
+      ? this.selectedObject as AbstractCanvasGraphicsResizableObject<any>
       : null
     );
 

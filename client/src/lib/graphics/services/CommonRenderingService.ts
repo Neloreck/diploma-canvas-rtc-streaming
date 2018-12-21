@@ -13,8 +13,8 @@ export class CommonRenderingService extends AbstractEventEmittingRenderingServic
 
         object.render(this.internalRendererContext);
 
-        if (this.interactionEnabled && object.isInteractive() && (object as AbstractCanvasGraphicsInteractiveObject).isSelected()) {
-          (object as AbstractCanvasGraphicsInteractiveObject).renderInteraction(this.internalRendererContext);
+        if (this.interactionEnabled && object.isInteractive() && (object as AbstractCanvasGraphicsInteractiveObject<any>).isSelected()) {
+          (object as AbstractCanvasGraphicsInteractiveObject<any>).renderInteraction(this.internalRendererContext);
         }
       }
     }

@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, ReactNode} from "react";
+import {ChangeEvent, Component, KeyboardEvent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
@@ -91,7 +91,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const {usernameInput, passwordInput} = this.state;
 
     return (
-      <Grid className={classes.formWrapper} container>
+      <Grid className={classes.formWrapper} onKeyDown={this.onKeyDown} container>
 
         <FormControl className={classes.textInput} error={Boolean(usernameInput.error)} margin={"normal"}>
           <InputLabel>Username</InputLabel>
@@ -157,12 +157,21 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   }
 
   @Bind()
+  private onKeyDown(event: KeyboardEvent<any>): void {
+    if (event.key === "Enter") {
+      this.onFormSubmit();
+    }
+  }
+
+  @Bind()
   private async onFormSubmit(): Promise<void> {
 
     const {authActions: {login}} = this.props;
     const {usernameInput, passwordInput} = this.state;
 
-    await login(usernameInput.value, passwordInput.value);
+    if (this.isFormValid()) {
+      await login(usernameInput.value, passwordInput.value);
+    }
   }
 
   @Bind()
@@ -172,8 +181,8 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const {usernameInput, passwordInput} = this.state;
 
     return !authorizing && errorMessage === null &&
-      usernameInput.value.length > this.minUsernameLength &&
-      passwordInput.value.length > this.minPasswordLength;
+      usernameInput.value.length >= this.minUsernameLength &&
+      passwordInput.value.length >= this.minPasswordLength;
   }
 
 }

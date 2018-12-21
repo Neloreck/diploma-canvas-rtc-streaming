@@ -1,8 +1,8 @@
-import {ICanvasGraphicsSizingContext} from "../../../types";
-import {RenderUtils} from "../../../utils";
-import {AbstractCanvasGraphicsRenderObject} from "../../base/AbstractCanvasGraphicsRenderObject";
+import {ICanvasGraphicsSizingContext} from "../types";
+import {RenderUtils} from "../utils";
+import {AbstractCanvasGraphicsRenderObject} from "./base/AbstractCanvasGraphicsRenderObject";
 
-export class DomVideoRO extends AbstractCanvasGraphicsRenderObject {
+export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
 
   private static spinnerOffset: number = 0;
 

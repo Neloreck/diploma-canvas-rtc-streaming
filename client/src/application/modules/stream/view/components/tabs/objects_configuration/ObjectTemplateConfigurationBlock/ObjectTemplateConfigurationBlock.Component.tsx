@@ -21,7 +21,7 @@ import {objectTemplateConfigurationBlockStyle} from "./ObjectTemplateConfigurati
 
 // Props.
 export interface IObjectTemplateConfigurationBlockState {
-  localObjectCopy: AbstractCanvasGraphicsRenderObject;
+  localObjectCopy: AbstractCanvasGraphicsRenderObject<any>;
   objectDescriptor: ICanvasObjectDescriptor<any>;
 }
 
@@ -30,11 +30,11 @@ export interface IObjectTemplateConfigurationBlockExternalProps extends WithStyl
 export interface IObjectTemplateConfigurationBlockOwnProps {
   index: number;
   maxIndex: number;
-  object: AbstractCanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject<any>;
   onCancelSelection: () => void;
   onObjectIndexSwap: (oldIndex: number, newIndex: number) => void;
-  onChangesApply: (object: AbstractCanvasGraphicsRenderObject) => void;
-  onSelectedRemove: (object: AbstractCanvasGraphicsRenderObject) => void;
+  onChangesApply: (object: AbstractCanvasGraphicsRenderObject<any>) => void;
+  onSelectedRemove: (object: AbstractCanvasGraphicsRenderObject<any>) => void;
 }
 
 export interface IObjectTemplateConfigurationBlockProps extends IObjectTemplateConfigurationBlockOwnProps, IObjectTemplateConfigurationBlockExternalProps {}
@@ -142,16 +142,16 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     onChangesApply(localObjectCopy);
   }
 
-  private getLocalCopyForPreview(object: AbstractCanvasGraphicsRenderObject): AbstractCanvasGraphicsRenderObject {
+  private getLocalCopyForPreview(object: AbstractCanvasGraphicsRenderObject<any>): AbstractCanvasGraphicsRenderObject<any> {
 
     const newObject = GeneralUtils.copyInstance(object);
 
     newObject.setDisabled(false);
 
     if (newObject instanceof AbstractBaseRectangleObject) {
-      (newObject as AbstractBaseRectangleObject).setPosition({ left: 10, top: 10, width: 80, height: 80});
+      (newObject as AbstractBaseRectangleObject<any>).setPosition({ left: 10, top: 10, width: 80, height: 80});
     } else {
-      (newObject as AbstractBaseCircleObject).setPosition({ radius: 25, center: { x: 50, y: 50 }});
+      (newObject as AbstractBaseCircleObject<any>).setPosition({ radius: 25, center: { x: 50, y: 50 }});
     }
 
     return newObject;

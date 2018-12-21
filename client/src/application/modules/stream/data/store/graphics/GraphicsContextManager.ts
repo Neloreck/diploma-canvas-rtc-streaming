@@ -11,20 +11,20 @@ import {Logger} from "@Lib/utils";
 export interface IGraphicsContext {
   graphicsState: {
     addVisibleObjects: boolean;
-    objects: Array<AbstractCanvasGraphicsRenderObject>;
+    objects: Array<AbstractCanvasGraphicsRenderObject<any>>;
     propagateRendererEvents: boolean;
-    selectedObject: Optional<AbstractCanvasGraphicsRenderObject>;
+    selectedObject: Optional<AbstractCanvasGraphicsRenderObject<any>>;
     showMainVideo: boolean;
     showGraphics: boolean;
     showGrid: boolean;
     showPreview: boolean;
   };
   graphicsActions: {
-    addObject: (object: AbstractCanvasGraphicsRenderObject) => void,
+    addObject: (object: AbstractCanvasGraphicsRenderObject<any>) => void,
     eraseObjects: () => void,
     swapObjectsByIndex: (firstIndex: number, secondIndex: number) => void,
-    removeObject: (object: AbstractCanvasGraphicsRenderObject) => void,
-    selectObject: (object: Optional<AbstractCanvasGraphicsRenderObject>) => void,
+    removeObject: (object: AbstractCanvasGraphicsRenderObject<any>) => void,
+    selectObject: (object: Optional<AbstractCanvasGraphicsRenderObject<any>>) => void,
     setAdditionVisibility: (param: boolean) => void;
     setRendererEventsPropagation: (param: boolean) => void;
     setMainVideoDisplay: (param: boolean) => void;
@@ -79,7 +79,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected addObject(object: AbstractCanvasGraphicsRenderObject): void {
+  protected addObject(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
     this.log.info(`Adding new object: ${object.getName()}.`);
 
@@ -94,7 +94,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected eraseObjects(): void {
 
-    const oldObjects: Array<AbstractCanvasGraphicsRenderObject> = this.context.graphicsState.objects;
+    const oldObjects: Array<AbstractCanvasGraphicsRenderObject<any>> = this.context.graphicsState.objects;
 
     this.context.graphicsState = { ...this.context.graphicsState, objects: [], selectedObject: null };
     this.update();
@@ -103,7 +103,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected removeObject(object: AbstractCanvasGraphicsRenderObject): void {
+  protected removeObject(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
     this.log.info(`Removing object: ${object.getName()}.`);
 
@@ -118,7 +118,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected selectObject(selectedObject: Optional<AbstractCanvasGraphicsRenderObject>): void {
+  protected selectObject(selectedObject: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
     this.log.info(`Selected object: ${selectedObject && selectedObject.getName()}.`);
 
@@ -167,7 +167,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
     this.log.info(`Swapping object layout order: ${firstIndex} <-> ${secondIndex}.`);
 
-    const buffer: AbstractCanvasGraphicsRenderObject = this.context.graphicsState.objects[firstIndex];
+    const buffer: AbstractCanvasGraphicsRenderObject<any> = this.context.graphicsState.objects[firstIndex];
 
     this.context.graphicsState = { ...this.context.graphicsState, objects: [...this.context.graphicsState.objects] };
     this.context.graphicsState.objects[firstIndex] = this.context.graphicsState.objects[secondIndex];

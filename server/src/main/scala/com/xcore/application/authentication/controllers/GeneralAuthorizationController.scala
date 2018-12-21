@@ -49,7 +49,6 @@ class GeneralAuthorizationController {
 
     log.info("Get [/login] request.");
 
-
     response.sendRedirect("redirect:/auth/token");
   }
 

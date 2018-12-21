@@ -11,14 +11,14 @@ export enum EEditingFormType {
 
 // Fields.
 
-export interface IBooleanSwitcherFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject> {
+export interface IBooleanSwitcherFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> {
   label: string;
   type: EEditingFormType;
   getValue: (object: T) => boolean;
   setValue: (object: T, value: boolean) => void;
 }
 
-export interface IRangeInputFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject> {
+export interface IRangeInputFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> {
   label: string;
   type: EEditingFormType;
   min?: number;
@@ -27,18 +27,18 @@ export interface IRangeInputFieldDescriptor<T extends AbstractCanvasGraphicsRend
   setValue: (object: T, value: number) => void;
 }
 
-export interface ITextInputFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject> {
+export interface ITextInputFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> {
   label: string;
   type: EEditingFormType;
   getValue: (object: T) => string;
   setValue: (object: T, value: string) => void;
 }
 
-export interface IColorSwitcherFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject> {
+export interface IColorSwitcherFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> {
   label: string;
   type: EEditingFormType;
   getValue: (object: T) => string;
   setValue: (object: T, value: string) => void;
 }
 
-export type TFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject> = IBooleanSwitcherFieldDescriptor<T> | IRangeInputFieldDescriptor<T> | IColorSwitcherFieldDescriptor<T>;
+export type TFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> = IBooleanSwitcherFieldDescriptor<T> | IRangeInputFieldDescriptor<T> | IColorSwitcherFieldDescriptor<T>;

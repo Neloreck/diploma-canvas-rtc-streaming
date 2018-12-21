@@ -1,6 +1,6 @@
 import {AbstractBaseRectangleObject} from "@Lib/graphics";
 
-export class SimpleRectangle extends AbstractBaseRectangleObject {
+export class SimpleRectangle extends AbstractBaseRectangleObject<typeof SimpleRectangle.prototype.configuration> {
 
   public readonly configuration = {
     backgroundColor: "#666",

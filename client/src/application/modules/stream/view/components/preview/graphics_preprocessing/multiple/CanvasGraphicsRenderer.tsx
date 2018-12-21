@@ -28,8 +28,8 @@ export interface ICanvasGraphicsRendererState {
 export interface ICanvasGraphicsRendererOwnProps {
   onOutputStreamReady: (stream: Optional<MediaStream>) => void;
   previewMode: boolean;
-  internalRenderingItems: Array<AbstractCanvasGraphicsRenderObject>;
-  externalRenderingItems: Array<AbstractCanvasGraphicsRenderObject>;
+  internalRenderingItems: Array<AbstractCanvasGraphicsRenderObject<any>>;
+  externalRenderingItems: Array<AbstractCanvasGraphicsRenderObject<any>>;
 }
 
 export interface ICanvasGraphicsRendererExternalProps extends IGraphicsContext {}
@@ -228,7 +228,7 @@ export class CanvasGraphicsRenderer
    */
 
   @Bind()
-  public onRenderingObjectSelected(object: Optional<AbstractCanvasGraphicsRenderObject>): void {
+  public onRenderingObjectSelected(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
     const {graphicsState: {propagateRendererEvents}, graphicsActions: {selectObject}} = this.props;
 

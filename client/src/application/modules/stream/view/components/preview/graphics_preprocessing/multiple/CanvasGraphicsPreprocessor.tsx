@@ -2,7 +2,7 @@ import * as React from "react";
 import {PureComponent, ReactNode} from "react";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject, CenteredTextRO, ContextCleanerRO, DomVideoRO, GridLayoutRO} from "@Lib/graphics";
+import {AbstractCanvasGraphicsRenderObject, ContextCleanerRO, DomVideoRO, GridLayoutRO} from "@Lib/graphics";
 import {Optional} from "@Lib/ts/types";
 
 // View.
@@ -15,7 +15,7 @@ export interface ICanvasGraphicsPreprocessorProps {
   showGrid: boolean;
   showGraphics: boolean;
   showPreview: boolean;
-  renderingObjects: Array<AbstractCanvasGraphicsRenderObject>;
+  renderingObjects: Array<AbstractCanvasGraphicsRenderObject<any>>;
   stream: MediaStream | null;
 }
 
@@ -52,10 +52,10 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
    */
 
   /* Everything visible on preview. */
-  private getPreviewRenderingObjectsContext(): Array<AbstractCanvasGraphicsRenderObject> {
+  private getPreviewRenderingObjectsContext(): Array<AbstractCanvasGraphicsRenderObject<any>> {
 
     const {showGraphics, showGrid, showPreview, renderingObjects} = this.props;
-    let previewItems: Array<AbstractCanvasGraphicsRenderObject> = [this.getMainVideoRenderer()];
+    let previewItems: Array<AbstractCanvasGraphicsRenderObject<any>> = [this.getMainVideoRenderer()];
 
     // Show grid for preview.
     if (showGraphics === true) {
@@ -71,16 +71,16 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
   }
 
   /* Everything visible on output. */
-  private getOutputRenderingObjectsContext(): Array<AbstractCanvasGraphicsRenderObject> {
+  private getOutputRenderingObjectsContext(): Array<AbstractCanvasGraphicsRenderObject<any>> {
 
     const {showGraphics, renderingObjects} = this.props;
-    const outputItems: Array<AbstractCanvasGraphicsRenderObject> = [this.getMainVideoRenderer()];
+    const outputItems: Array<AbstractCanvasGraphicsRenderObject<any>> = [this.getMainVideoRenderer()];
 
     // Output video and canvas items for external.
     return showGraphics === true ?  outputItems.concat(renderingObjects) : outputItems;
   }
 
-  private getMainVideoRenderer(): AbstractCanvasGraphicsRenderObject {
+  private getMainVideoRenderer(): AbstractCanvasGraphicsRenderObject<any> {
 
     const {showMainVideo} = this.props;
 

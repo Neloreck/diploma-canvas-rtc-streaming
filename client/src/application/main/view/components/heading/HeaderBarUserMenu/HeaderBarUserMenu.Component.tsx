@@ -44,6 +44,7 @@ export class HeaderBarUserMenu extends Component<IHeaderBarUserMenuProps, IHeade
 
   public render(): ReactNode {
 
+    const {authState: {authData}} = this.props;
     const {menuAnchor, showContextMenu} = this.state;
 
     return (
@@ -71,6 +72,7 @@ export class HeaderBarUserMenu extends Component<IHeaderBarUserMenuProps, IHeade
           open={showContextMenu}
           onClose={this.onProfileMenuToggle}
         >
+          <MenuItem>{(authData && authData.username) || "Unknown"}</MenuItem>
           <MenuItem onClick={this.onLogoutMenuItemClicked}>Logout</MenuItem>
         </Menu>
 

@@ -3,6 +3,7 @@ import {Bind} from "@redux-cbd/utils";
 
 // Lib.
 import {authClient} from "@Api/x-core";
+import {EResponseStatus} from "@Lib/api/EResponseStatus";
 import {Optional} from "@Lib/ts/types";
 import {DocumentStoreUtils, Logger} from "@Lib/utils";
 
@@ -158,19 +159,29 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     authState = this.context.authState;
 
-    try {
-      const response: IAuthInfoResponse = await authClient.getAuthInfo({});
-      authState.authData = { username: response.username };
-    } catch (error) {
-      this.log.error("Auth request attempt failed: ", error);
-    } finally {
-      authState.authorized = (authState.authData !== null);
-      authState.authorizing = false;
+    const response: IAuthInfoResponse = await authClient.getAuthInfo({});
 
-      this.log.info(`Current auth status: '${authState.authorized}', '${authState.errorMessage}'.`);
+    if (response.success) {
+      authState.authData = {username: response.username};
+    } else {
 
-      this.update();
+      if (response.status === EResponseStatus.UNAUTHORIZED) {
+
+        this.log.info("Old auth data expired, removing stored tokens.");
+
+        DocumentStoreUtils.eraseCookie("access_token");
+        DocumentStoreUtils.eraseCookie("refresh_token");
+      } else {
+        this.log.error("Auth request got error:", response.error);
+      }
     }
+
+    authState.authorized = (authState.authData !== null);
+    authState.authorizing = false;
+
+    this.log.info(`Current auth status: '${authState.authorized}', '${authState.errorMessage}'.`);
+
+    this.update();
   }
 
   @Bind()

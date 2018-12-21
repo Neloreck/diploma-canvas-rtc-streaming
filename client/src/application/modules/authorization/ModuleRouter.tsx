@@ -3,11 +3,9 @@ import {PureComponent, ReactNode} from "react";
 import {Route} from "react-router";
 import {Switch} from "react-router-dom";
 
-// Lib.
-import {lazyLoadComponentFactory} from "@Lib/react_lib/lazy_load";
-
 // View.
 import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/PrivateRoute";
+import {lazyLoadComponentFactory} from "@Main/view/utils";
 
 // Main routes.
 

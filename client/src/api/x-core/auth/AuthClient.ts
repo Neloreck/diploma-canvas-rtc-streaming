@@ -1,4 +1,4 @@
-import {AbstractNetworkClient} from "@Lib/api/AbstractNetworkClient";
+import {AbstractRestNetworkClient} from "@Lib/api/AbstractRestNetworkClient";
 
 import {xCoreClientConfig} from "@Api/x-core";
 
@@ -6,9 +6,17 @@ import {IAuthInfoRequest} from "@Api/x-core/auth/request/IAuthInfoRequest";
 import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
 import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
 
-export class AuthClient extends AbstractNetworkClient {
+export class AuthClient extends AbstractRestNetworkClient {
 
   private static AUTH_MAPPING: string = "/auth";
+
+  public getHeaders(): Headers {
+    return xCoreClientConfig.getDefaultHeaders();
+  }
+
+  public getServerUrl(): string {
+    return xCoreClientConfig.getServerUrl();
+  }
 
   public async getAuthInfo(request: IAuthInfoRequest): Promise<IAuthInfoResponse> {
     return await this.get(AuthClient.AUTH_MAPPING + "/info") as IAuthInfoResponse;

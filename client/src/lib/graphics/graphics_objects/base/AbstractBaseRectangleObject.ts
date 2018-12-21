@@ -3,7 +3,7 @@ import {GeometricUtils, RenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
 import {ResizeHandler} from "./ResizeHandler";
 
-export abstract class AbstractBaseRectangleObject extends AbstractCanvasGraphicsResizableObject {
+export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraphicsResizableObject<T> {
 
   protected position: IRectSizing = {
     height: 20,

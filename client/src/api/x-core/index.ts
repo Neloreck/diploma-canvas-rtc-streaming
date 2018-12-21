@@ -17,7 +17,7 @@ if (xCoreClientConfig.exposeClientsToWindow) {
   window.api = {
     xCore: {
       authClient,
-      xCoreClientConfig,
+      xCoreClientConfig
     }
   };
 }

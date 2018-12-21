@@ -2,16 +2,16 @@ import {IBoundingRect, IPoint, IRectSizing} from "../../types";
 import {GeometricUtils, RenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
 
-export class ResizeHandler extends AbstractCanvasGraphicsResizableObject {
+export class ResizeHandler extends AbstractCanvasGraphicsResizableObject<never> {
 
   public configuration: never;
   public readonly absoluteSize: number = 15;
   protected position: IRectSizing = { left: 0, top: 0, width: 0, height: 0 };
 
   private readonly index: number;
-  private readonly owner: AbstractCanvasGraphicsResizableObject;
+  private readonly owner: AbstractCanvasGraphicsResizableObject<any>;
 
-  public constructor(index: number, owner: AbstractCanvasGraphicsResizableObject) {
+  public constructor(index: number, owner: AbstractCanvasGraphicsResizableObject<any>) {
     super();
 
     this.index = index;

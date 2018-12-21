@@ -10,7 +10,7 @@ export abstract class AbstractRenderingService {
   protected interactionEnabled: boolean = true;
   protected cleanupContext: boolean = true;
 
-  protected rendererObjects: Array<AbstractCanvasGraphicsRenderObject> = [];
+  protected rendererObjects: Array<AbstractCanvasGraphicsRenderObject<any>> = [];
   protected internalWebGLRenderer: HTMLCanvasElement = document.createElement("canvas");
   protected internalRendererContext: CanvasRenderingContext2D = this.internalWebGLRenderer.getContext("2d") as CanvasRenderingContext2D;
 
@@ -33,12 +33,12 @@ export abstract class AbstractRenderingService {
 
   // Renderer objects.
 
-  public setRenderObjects(rendererObjects: Array<AbstractCanvasGraphicsRenderObject>): void {
+  public setRenderObjects(rendererObjects: Array<AbstractCanvasGraphicsRenderObject<any>>): void {
     this.rendererObjects = rendererObjects;
-    this.rendererObjects.forEach((object: AbstractCanvasGraphicsRenderObject) => object.setSizing(this.sizingContext));
+    this.rendererObjects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.setSizing(this.sizingContext));
   }
 
-  public getRenderObjects(): Array<AbstractCanvasGraphicsRenderObject> {
+  public getRenderObjects(): Array<AbstractCanvasGraphicsRenderObject<any>> {
     return this.rendererObjects;
   }
 
@@ -90,7 +90,7 @@ export abstract class AbstractRenderingService {
     this.sizingContext = sizingContext;
     this.internalWebGLRenderer.width = sizingContext.width;
     this.internalWebGLRenderer.height = sizingContext.height;
-    this.rendererObjects.forEach((object: AbstractCanvasGraphicsRenderObject): void => object.setSizing(sizingContext));
+    this.rendererObjects.forEach((object: AbstractCanvasGraphicsRenderObject<any>): void => object.setSizing(sizingContext));
   }
 
   public getSizing(): ICanvasGraphicsSizingContext {

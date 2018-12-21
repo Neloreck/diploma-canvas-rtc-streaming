@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {PureComponent, ReactNode} from "react";
+import {Component, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
@@ -11,7 +11,7 @@ import {localMediaService} from "@Module/stream/data/services/local_media";
 import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
-import {Grid, WithStyles} from "@material-ui/core";
+import {Fade, Grid, WithStyles} from "@material-ui/core";
 import {
   IStreamingHeaderBarExternalProps,
   StreamingHeaderBar
@@ -27,6 +27,10 @@ import {
 import {streamingPageStyle} from "./StreamingPage.Style";
 
 // Props.
+export interface IStreamingPageState {
+  mounted: boolean;
+}
+
 export interface IStreamingPageExternalProps extends ISourceContext, IGraphicsContext, WithStyles<typeof streamingPageStyle> {}
 export interface IStreamingPageOwnProps {}
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
@@ -34,7 +38,11 @@ export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingP
 @Consume<IGraphicsContext, IStreamingPageProps>(graphicsContextManager)
 @Consume<ISourceContext, IStreamingPageProps>(sourceContextManager)
 @Styled(streamingPageStyle)
-export class StreamingPage extends PureComponent<IStreamingPageProps> {
+export class StreamingPage extends Component<IStreamingPageProps, IStreamingPageState> {
+
+  public state: IStreamingPageState = {
+    mounted: true
+  };
 
   public componentWillMount(): void {
     // Display main video on mount.
@@ -45,6 +53,14 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
         .getDefaultVideo()
         .then();
     }
+  }
+
+  public componentDidMount(): void {
+    this.setState({ mounted: true });
+  }
+
+  public componentWillUnmount(): void {
+    this.setState({ mounted: false });
   }
 
   public componentWillReceiveProps(nextProps: IStreamingPageProps): void {
@@ -64,22 +80,28 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
   }
 
   public render(): ReactNode {
+
     const {classes} = this.props;
+    const {mounted} = this.state;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
         <StreamingHeaderBar {...{} as IStreamingHeaderBarExternalProps}/>
 
-        <Grid className={classes.content} direction={"column"} wrap={"nowrap"} container>
+        <Fade in={mounted}>
 
-          <Grid className={classes.streamingVideoSection} direction={"row"} container>
-            <MainPreviewControl {...{} as IMainPreviewControlExternalProps}/>
+          <Grid className={classes.content} direction={"column"} wrap={"nowrap"} container>
+
+            <Grid className={classes.streamingVideoSection} direction={"row"} container>
+              <MainPreviewControl {...{} as IMainPreviewControlExternalProps}/>
+            </Grid>
+
+            <MainPreviewTabs {...{} as IMainPreviewTabsExternalProps}/>
+
           </Grid>
 
-          <MainPreviewTabs {...{} as IMainPreviewTabsExternalProps}/>
-
-        </Grid>
+        </Fade>
 
       </Grid>
     );

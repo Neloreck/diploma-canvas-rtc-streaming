@@ -1,7 +1,7 @@
 import {IPoint, TObjectPosition} from "../../types";
 import {AbstractCanvasGraphicsInteractiveObject} from "./AbstractCanvasGraphicsInteractiveObject";
 
-export abstract class AbstractCanvasGraphicsMovableObject extends AbstractCanvasGraphicsInteractiveObject {
+export abstract class AbstractCanvasGraphicsMovableObject<T> extends AbstractCanvasGraphicsInteractiveObject<T> {
 
   // Mark for casting.
   public isMovable(): boolean {

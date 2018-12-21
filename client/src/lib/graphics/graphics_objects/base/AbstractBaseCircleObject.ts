@@ -3,7 +3,9 @@ import {RelativeRenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
 import {ResizeHandler} from "./ResizeHandler";
 
-export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsResizableObject {
+export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphicsResizableObject<T> {
+
+  public abstract configuration: any;
 
   protected position: ICircleSizing = {
     center: { x: 50, y: 50 },
@@ -26,8 +28,9 @@ export abstract class AbstractBaseCircleObject extends AbstractCanvasGraphicsRes
   // Base setters for context.
 
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
-    this.resizeControl.setSizing(sizing);
     super.setSizing(sizing);
+    this.resizeControl.setSizing(sizing);
+    this.updateResizerPosition();
   }
 
   /* Complex checks. */

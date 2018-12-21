@@ -5,6 +5,7 @@ export const streamingPageStyle = (theme: Theme) => createStyles({
     flexGrow: 75,
   },
   root: {
+    backgroundColor: theme.palette.type === "light" ? theme.palette.background.paper : theme.palette.secondary.dark,
     width: "100%"
   },
   streamingVideoSection: {

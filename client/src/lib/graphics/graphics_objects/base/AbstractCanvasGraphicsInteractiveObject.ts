@@ -1,7 +1,7 @@
 import {IPoint} from "../../types";
 import {AbstractCanvasGraphicsRenderObject} from "./AbstractCanvasGraphicsRenderObject";
 
-export abstract class AbstractCanvasGraphicsInteractiveObject extends AbstractCanvasGraphicsRenderObject {
+export abstract class AbstractCanvasGraphicsInteractiveObject<T> extends AbstractCanvasGraphicsRenderObject<T> {
 
   protected selected: boolean = false;
   protected readonly interactionSpacing: number = 0;

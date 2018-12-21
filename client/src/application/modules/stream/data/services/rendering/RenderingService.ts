@@ -12,7 +12,7 @@ export class RenderingService {
     return DESCRIPTORS_MAP;
   }
 
-  public getDescriptor(object: AbstractCanvasGraphicsRenderObject | string) {
+  public getDescriptor(object: AbstractCanvasGraphicsRenderObject<any> | string) {
 
     const isString: boolean = TypeUtils.isString(object);
 
@@ -29,11 +29,11 @@ export class RenderingService {
     }
   }
 
-  public serializeObjects(objects: Array<AbstractCanvasGraphicsSerializableObject>): Array<ISerializedGraphicsObject> {
+  public serializeObjects(objects: Array<AbstractCanvasGraphicsSerializableObject<any>>): Array<ISerializedGraphicsObject> {
     return objects.map((object) => object.serialize());
   }
 
-  public deserializeObject(objectSerialized: ISerializedGraphicsObject): AbstractCanvasGraphicsRenderObject {
+  public deserializeObject(objectSerialized: ISerializedGraphicsObject): AbstractCanvasGraphicsRenderObject<any> {
 
     const descriptor: ICanvasObjectDescriptor<any> = this.getDescriptor(objectSerialized.class);
 

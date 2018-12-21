@@ -15,7 +15,7 @@ import {ImageBlock} from "@Module/stream/lib/graphics/graphics_objects/ImageBloc
 
 // Object.
 
-export interface ICanvasObjectDescriptor<T extends AbstractCanvasGraphicsRenderObject> {
+export interface ICanvasObjectDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> {
   name: string;
   description: string;
   prototype: T;

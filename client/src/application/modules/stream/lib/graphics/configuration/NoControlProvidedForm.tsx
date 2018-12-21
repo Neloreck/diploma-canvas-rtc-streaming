@@ -5,7 +5,7 @@ import {Fragment, PureComponent, ReactNode} from "react";
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
 export interface INoControlProvidedFormProps {
-  object: AbstractCanvasGraphicsRenderObject;
+  object: AbstractCanvasGraphicsRenderObject<any>;
 }
 
 export class NoControlProvidedForm extends PureComponent<INoControlProvidedFormProps> {

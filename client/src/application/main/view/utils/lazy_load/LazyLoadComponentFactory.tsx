@@ -1,7 +1,11 @@
 import * as React from "react";
 import {Component, ComponentType, ReactNode} from "react";
 
-import {CircularProgress, Grid} from "@material-ui/core";
+// View.
+import {
+  IMainLoadingProgressComponentExternalProps,
+  MainLoadingProgressComponent
+} from "@Main/view/utils/lazy_load/MainLoadingProgress.Component";
 
 interface ILazyComponentState {
   component: ComponentType;
@@ -51,9 +55,7 @@ export class LazyLoadComponentFactory {
         const RenderItem: ComponentType = this.state.component;
         return RenderItem
           ? <RenderItem {...this.props}/>
-          : <Grid id={"lazy-load-spinner"} alignContent={"center"} justify={"center"} container>
-            <CircularProgress size={250} />
-          </Grid>;
+          : <MainLoadingProgressComponent {...{} as IMainLoadingProgressComponentExternalProps}/>;
       }
 
     }

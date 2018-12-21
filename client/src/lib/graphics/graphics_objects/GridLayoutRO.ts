@@ -1,11 +1,11 @@
-import {ICanvasGraphicsSizingContext} from "../../../types";
-import {RenderUtils} from "../../../utils";
-import {AbstractCanvasGraphicsRenderObject} from "../../base/AbstractCanvasGraphicsRenderObject";
+import {ICanvasGraphicsSizingContext} from "../types";
+import {RenderUtils} from "../utils";
+import {AbstractCanvasGraphicsRenderObject} from "./base/AbstractCanvasGraphicsRenderObject";
 
-export class GridLayoutRO extends AbstractCanvasGraphicsRenderObject {
+export class GridLayoutRO extends AbstractCanvasGraphicsRenderObject<never> {
 
   public position: never;
-  public configuration = {};
+  public configuration: never;
 
   private readonly lineWidth: number = 6;
   private readonly lineColor: string = "rgba(25, 10, 255, 0.3)";

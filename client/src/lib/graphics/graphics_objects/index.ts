@@ -8,7 +8,6 @@ export {AbstractBaseRectangleObject} from "./base/AbstractBaseRectangleObject";
 
 // Implemented:
 
-export {DomVideoRO} from "./static/dom/DomVideoRO";
-export {CenteredTextRO} from "./static/text/CenteredTextRO";
-export {GridLayoutRO} from "./static/utils/GridLayoutRO";
-export {ContextCleanerRO} from "./static/utils/ContextCleanerRO";
+export {DomVideoRO} from "./DomVideoRO";
+export {GridLayoutRO} from "./GridLayoutRO";
+export {ContextCleanerRO} from "./ContextCleanerRO";

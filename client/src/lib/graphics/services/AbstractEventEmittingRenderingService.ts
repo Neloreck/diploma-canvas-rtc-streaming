@@ -2,7 +2,7 @@ import {AbstractCanvasGraphicsRenderObject} from "../graphics_objects";
 import {AbstractInteractiveRenderingService} from "./AbstractInteractiveRenderingService";
 import {ERenderingServiceEvent} from "./ERenderingServiceEvent";
 
-export type TRenderingServiceEventHandler = (object: AbstractCanvasGraphicsRenderObject | null) => void;
+export type TRenderingServiceEventHandler = (object: AbstractCanvasGraphicsRenderObject<any> | null) => void;
 
 export abstract class AbstractEventEmittingRenderingService extends AbstractInteractiveRenderingService {
 
@@ -10,7 +10,7 @@ export abstract class AbstractEventEmittingRenderingService extends AbstractInte
 
   /* Events middleware. */
 
-  public setSelectedObject(object: AbstractCanvasGraphicsRenderObject | null): void {
+  public setSelectedObject(object: AbstractCanvasGraphicsRenderObject<any> | null): void {
     super.setSelectedObject(object);
     this.dispatch(ERenderingServiceEvent.OBJECT_SELECTED, this.selectedObject);
   }
@@ -29,7 +29,7 @@ export abstract class AbstractEventEmittingRenderingService extends AbstractInte
     this.handlers[event] = this.handlers[event].filter((cb: TRenderingServiceEventHandler) => cb !== handler);
   }
 
-  protected dispatch(event: ERenderingServiceEvent, object: AbstractCanvasGraphicsRenderObject | null): void {
+  protected dispatch(event: ERenderingServiceEvent, object: AbstractCanvasGraphicsRenderObject<any> | null): void {
     if (this.handlers[event]) {
       this.handlers[event].forEach((handler: TRenderingServiceEventHandler): void => handler(object));
     }
