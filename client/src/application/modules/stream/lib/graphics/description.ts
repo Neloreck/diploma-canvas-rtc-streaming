@@ -3,15 +3,14 @@ import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
 // View.
 import {
-  DesktopFrame,
+  DesktopFrame, ImageBlock,
   SimpleCircle,
   SimpleRectangle,
   VideoFrame
 } from "@Module/stream/lib/graphics";
+import {EEditingFormType, TFieldDescriptor} from "@Module/stream/lib/graphics/fieldDescription";
 
 // Data.
-import {EEditingFormType, TFieldDescriptor} from "@Module/stream/data/services/rendering/fieldDescription";
-import {ImageBlock} from "@Module/stream/lib/graphics/graphics_objects/ImageBlock";
 
 // Object.
 
@@ -106,6 +105,12 @@ export const DESCRIPTORS_MAP = {
         label: "Border width",
         setValue: (object: VideoFrame, width: number) => object.configuration.borderWidth = width,
         type: EEditingFormType.NUMBER_FIELD
+      },
+      {
+        getValue: (object: VideoFrame): string => object.configuration.videoDevice,
+        label: "Device",
+        setValue: (object: VideoFrame, device: string) => object.setVideoDevice(device),
+        type: EEditingFormType.VIDEO_DEVICE
       }
     ],
     name: "Video Frame",

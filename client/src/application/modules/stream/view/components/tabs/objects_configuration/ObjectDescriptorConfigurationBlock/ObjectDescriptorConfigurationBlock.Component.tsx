@@ -7,10 +7,10 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {CanvasObjectConfigurationFormBuilder} from "@Module/stream/lib/graphics";
+import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
 // View.
 import {Grid, WithStyles} from "@material-ui/core";
-import {ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
 import {objectDescriptorConfigurationBlockStyle} from "./ObjectDescriptorConfigurationBlock.Style";
 
 // Props.

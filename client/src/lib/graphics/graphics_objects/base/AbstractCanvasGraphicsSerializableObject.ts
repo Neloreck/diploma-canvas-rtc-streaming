@@ -15,8 +15,12 @@ export abstract class AbstractCanvasGraphicsSerializableObject<T extends {}> {
     return this.position;
   }
 
-  public applyConfiguration(configuration: T): void {
-    this.configuration = Object.assign({}, this.configuration, configuration);
+  public applyConfiguration(src: T | AbstractCanvasGraphicsSerializableObject<T>): void {
+    if (src instanceof AbstractCanvasGraphicsSerializableObject) {
+      this.configuration = Object.assign({}, this.configuration, src.configuration);
+    } else {
+      this.configuration = Object.assign({}, this.configuration, src as T);
+    }
   }
 
   // Interaction.

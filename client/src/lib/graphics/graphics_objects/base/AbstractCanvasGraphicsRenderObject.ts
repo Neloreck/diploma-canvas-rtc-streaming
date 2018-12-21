@@ -101,7 +101,14 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
   }
 
   public getCopy(): AbstractCanvasGraphicsRenderObject<any> {
-    return Object.assign(Object.create(Object.getPrototypeOf(this)), cloneDeep(this), { id: generateUUID() });
+
+    const cloned = new (Object.getPrototypeOf(this)).constructor();
+
+    cloned.id = generateUUID();
+    cloned.position = cloneDeep(this.position);
+    cloned.configuration = cloneDeep(this.configuration);
+
+    return cloned;
   }
 
   /*

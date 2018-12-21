@@ -3,23 +3,28 @@ import {PureComponent, ReactNode} from "react";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
+import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {
-  EEditingFormType,
-  IBooleanSwitcherFieldDescriptor,
-  ICanvasObjectDescriptor,
-  IColorSwitcherFieldDescriptor,
-  IRangeInputFieldDescriptor,
-  ITextInputFieldDescriptor,
-  TFieldDescriptor,
-} from "@Module/stream/data/services/rendering";
 import {
   BooleanSwitcher,
   ColorSwitcher,
   IBooleanSwitcherExternalProps, IColorSwitcherExternalProps, IRangeInputExternalProps, ITextInputExternalProps,
   NoControlProvidedForm, RangeInput, TextInput
 } from "@Module/stream/lib/graphics";
+import {
+  IVideoDeviceSwitcherExternalProps,
+  VideoDeviceSwitcher
+} from "@Module/stream/lib/graphics/configuration/VideoDeviceSwitcher";
+import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
+import {
+  EEditingFormType,
+  IBooleanSwitcherFieldDescriptor,
+  IColorSwitcherFieldDescriptor,
+  IRangeInputFieldDescriptor,
+  ITextInputFieldDescriptor, IVideoDeviceSwitcherFieldDescriptor,
+  TFieldDescriptor,
+} from "@Module/stream/lib/graphics/fieldDescription";
 
 export interface INoControlProvidedFormProps {
   object: AbstractCanvasGraphicsRenderObject<any>;
@@ -83,6 +88,15 @@ export class CanvasObjectConfigurationFormBuilder extends PureComponent<INoContr
             value={(fieldDescriptor as ITextInputFieldDescriptor<any>).getValue(object)}
             onChange={(value: string) => { (fieldDescriptor as ITextInputFieldDescriptor<any>).setValue(object, value); this.forceUpdate(); } }
             {...{} as ITextInputExternalProps}
+          />;
+
+        case EEditingFormType.VIDEO_DEVICE:
+          return <VideoDeviceSwitcher
+            key={idx + fieldDescriptor.type + object.getId()}
+            label={fieldDescriptor.label}
+            value={(fieldDescriptor as IVideoDeviceSwitcherFieldDescriptor<any>).getValue(object)}
+            onChange={(value: Optional<string>) => { (fieldDescriptor as IVideoDeviceSwitcherFieldDescriptor<any>).setValue(object, value); this.forceUpdate(); } }
+            {...{} as IVideoDeviceSwitcherExternalProps}
           />;
 
         default:

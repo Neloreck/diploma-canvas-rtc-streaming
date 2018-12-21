@@ -1,4 +1,4 @@
-import {Single} from "@redux-cbd/utils";
+import {Single, TypeUtils} from "@redux-cbd/utils";
 
 import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
@@ -95,16 +95,16 @@ export class LocalMediaService {
     stream.getTracks().forEach((track) => stream.removeTrack(track));
   }
 
-  public async getUserMedia(videoInput: Optional<MediaDeviceInfo> | boolean, audioInput: Optional<MediaDeviceInfo> | boolean): Promise<MediaStream> {
+  public async getUserMedia(videoInput: Optional<MediaDeviceInfo> | string | boolean, audioInput: Optional<MediaDeviceInfo> | string | boolean): Promise<MediaStream> {
 
     const constraints = {
       audio:
         audioInput
-          ? { deviceId: audioInput === true ? "default" : {exact: audioInput.deviceId} }
+          ? { deviceId: audioInput === true ? "default" : {exact: TypeUtils.isString(audioInput) ? audioInput as string : (audioInput as MediaDeviceInfo).deviceId} }
           : false,
       video:
         videoInput
-        ? { ...LocalMediaService.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: videoInput.deviceId} }
+        ? { ...LocalMediaService.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: TypeUtils.isString(videoInput) ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId}}
         : false
     };
 

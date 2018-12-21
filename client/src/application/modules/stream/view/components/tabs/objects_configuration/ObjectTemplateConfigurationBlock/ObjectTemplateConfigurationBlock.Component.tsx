@@ -5,10 +5,10 @@ import {Component, ReactNode} from "react";
 // Lib.
 import {AbstractBaseCircleObject, AbstractBaseRectangleObject, AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/mui";
-import {GeneralUtils} from "@Lib/utils";
 
 // Data.
-import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
+import {renderingService} from "@Module/stream/data/services/rendering";
+import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
 // View.
 import {Button, Checkbox, Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
@@ -53,6 +53,15 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
         localObjectCopy:  this.getLocalCopyForPreview(nextProps.object),
         objectDescriptor: renderingService.getDescriptor(nextProps.object) as ICanvasObjectDescriptor<any>
       });
+    }
+  }
+
+  public componentWillUnmount(): void {
+
+    const {localObjectCopy} = this.state;
+
+    if (localObjectCopy) {
+      localObjectCopy.dispose();
     }
   }
 
@@ -142,9 +151,16 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     onChangesApply(localObjectCopy);
   }
 
+  @Bind()
   private getLocalCopyForPreview(object: AbstractCanvasGraphicsRenderObject<any>): AbstractCanvasGraphicsRenderObject<any> {
 
-    const newObject = GeneralUtils.copyInstance(object);
+    const localObjectCopy = this.state && this.state.localObjectCopy;
+
+    if (localObjectCopy) {
+      localObjectCopy.dispose();
+    }
+
+    const newObject: AbstractCanvasGraphicsRenderObject<any> = object.getCopy();
 
     newObject.setDisabled(false);
 

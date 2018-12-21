@@ -10,8 +10,9 @@ import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {ICanvasObjectDescriptor, renderingService} from "@Module/stream/data/services/rendering";
+import {renderingService} from "@Module/stream/data/services/rendering";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
+import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
 // View.
 import {
@@ -224,7 +225,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     const {graphicsState: {selectedObject}} = this.props;
 
     if (selectedObject) {
-      selectedObject.applyConfiguration(object.configuration);
+      selectedObject.applyConfiguration(object);
     } else {
       throw new Error("Could not apply settings for unknown object, none is selected.");
     }

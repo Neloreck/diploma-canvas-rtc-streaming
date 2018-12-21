@@ -16,14 +16,26 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
 
   private loaded = false;
 
-  public constructor() {
+  public constructor(source?: string) {
     super();
+
+    this.configuration.imageSrc = source || this.configuration.imageSrc;
 
     this.configuration.image.addEventListener("load", () => this.loaded = true);
 
     resourceLoader.loadImage(this.configuration.imageSrc)
       .then((reader: Optional<FileReader>) => reader ? this.configuration.image.src = reader.result as string : null)
       .catch(() => this.loaded = false);
+  }
+
+  public getCopy(): ImageBlock {
+
+    const cloned: ImageBlock = new ImageBlock(this.configuration.imageSrc);
+
+    cloned.configuration.width = this.configuration.width;
+    cloned.configuration.height = this.configuration.height;
+
+    return cloned;
   }
 
   public applyConfiguration(configuration: typeof ImageBlock.prototype.configuration): void {
@@ -67,6 +79,12 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
       context.fillRect(pWidth * this.position.left, pHeight * this.position.top, pWidth * this.position.width, pHeight * this.position.height);
       context.closePath();
     }
+  }
+
+  public dispose(): void {
+    this.loaded = false;
+    delete this.configuration.image;
+    super.dispose();
   }
 
 }

@@ -1,15 +1,23 @@
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
+import {Optional} from "@Lib/ts/types";
 
 /*
  * EDITING FORM TYPES DESCRIPTION.
  */
 
 export enum EEditingFormType {
-  BOOLEAN, COLOR, NUMBER_FIELD, TEXT
+  BOOLEAN, COLOR, NUMBER_FIELD, TEXT, VIDEO_DEVICE
 }
 
 // Fields.
+
+export interface IVideoDeviceSwitcherFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> {
+  label: string;
+  type: EEditingFormType;
+  getValue: (object: T) => Optional<string>;
+  setValue: (object: T, value: Optional<string>) => void;
+}
 
 export interface IBooleanSwitcherFieldDescriptor<T extends AbstractCanvasGraphicsRenderObject<any>> {
   label: string;

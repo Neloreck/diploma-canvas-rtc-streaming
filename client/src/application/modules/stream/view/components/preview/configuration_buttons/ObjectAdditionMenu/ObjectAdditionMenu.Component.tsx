@@ -7,8 +7,8 @@ import {PureComponent, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {DESCRIPTORS_MAP, ICanvasObjectDescriptor} from "@Module/stream/data/services/rendering";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
+import {DESCRIPTORS_MAP, ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
 // View.
 import {Grid, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, WithStyles} from "@material-ui/core";

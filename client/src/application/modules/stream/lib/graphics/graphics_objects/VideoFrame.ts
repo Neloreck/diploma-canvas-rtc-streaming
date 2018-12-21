@@ -9,7 +9,7 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
   public configuration = {
     borderWidth: 1,
     renderBorder: true,
-    videoDevice: true
+    videoDevice: ""
   };
 
   private mediaStream: MediaStream = new MediaStream();
@@ -27,18 +27,13 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
     this.startVideo().then(() => this.getDefaultVideo());
   }
 
-  public async getDefaultVideo(): Promise<void> {
-    const mediaStream: MediaStream = await localMediaService.getUserMedia(this.configuration.videoDevice, false);
-    this.updateMediaStream(mediaStream);
+  public async setVideoDevice(deviceId: string): Promise<void> {
+    this.configuration.videoDevice = deviceId;
+    this.updateMediaStream(await localMediaService.getUserMedia(deviceId as any, false));
   }
 
-  public updateMediaStream(stream: MediaStream): void {
-    localMediaService.moveTracks(this.mediaStream, stream);
-  }
+  public renderSelf(context: CanvasRenderingContext2D): void {
 
-  public renderSelf(): void {
-
-    const context: CanvasRenderingContext2D = this.getContext();
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
     const absoluteRect: IRectSizing = this.getAbsoluteSizing();
 
@@ -61,6 +56,14 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
     }
   }
 
+  public applyConfiguration(src: VideoFrame | typeof VideoFrame.prototype.configuration): void {
+    super.applyConfiguration(src);
+
+    if (src instanceof VideoFrame) {
+      this.updateMediaStream(src.mediaStream.clone());
+    }
+  }
+
   public dispose(): void {
     localMediaService.killStream(this.mediaStream);
     delete this.hiddenVideoRenderer;
@@ -70,7 +73,25 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
     super.dispose();
   }
 
+  private updateMediaStream(stream: MediaStream): void {
+    localMediaService.moveTracks(this.mediaStream, stream);
+
+    const videoTracks: Array<MediaStreamTrack> = this.mediaStream.getVideoTracks();
+    const oldDevice: string = this.configuration.videoDevice;
+
+    this.configuration.videoDevice = videoTracks.length !== 0
+      ? videoTracks[0].getSettings().deviceId || oldDevice
+      : oldDevice;
+  }
+
+  // Internal.
+
+  private async getDefaultVideo(): Promise<void> {
+    this.updateMediaStream(await localMediaService.getUserMedia(true, false));
+  }
+
   private async startVideo(): Promise<void> {
+
     if (this.isVideoRendering === false) {
       this.hiddenVideoRenderer.play();
       this.isVideoRendering = true;
