@@ -1,6 +1,9 @@
 import {createStyles, Theme} from "@material-ui/core";
 
 export const signUpFormStyle = (theme: Theme) => createStyles({
+  errorLabel: {
+    color: theme.palette.text.hint
+  },
   formWrapper: {
     padding: "1rem 2rem"
   },
@@ -9,10 +12,12 @@ export const signUpFormStyle = (theme: Theme) => createStyles({
     height: 10,
   },
   root: {
-    width: "350px"
+    backgroundColor: theme.palette.background.default,
+    minWidth: theme.spacing.unit * 50,
+    width: theme.spacing.unit * 50
   },
-  signInButton: {
-    marginTop: "4px"
+  signUnButton: {
+    marginTop: theme.spacing.unit
   },
   textInput: {
     width: "100%"

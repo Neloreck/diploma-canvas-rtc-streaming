@@ -26,7 +26,7 @@ class AppUser extends Serializable with UserDetails {
   @Column(length = 64, nullable = false, unique = true)
   @BeanProperty
   @NonNull
-  var login: String = _;
+  var username: String = _;
 
   @Column(length = 64, unique = true, nullable = false)
   @NonNull
@@ -38,11 +38,11 @@ class AppUser extends Serializable with UserDetails {
   @BeanProperty
   var password: String = _;
 
-  def this(login: String, mail: String, password: String, role: EAppAccessLevel) = {
+  def this(username: String, mail: String, password: String, role: EAppAccessLevel) = {
 
     this();
 
-    this.login = login;
+    this.username = username;
     this.mail = mail;
     this.password = password;
     this.role = role;
@@ -51,9 +51,6 @@ class AppUser extends Serializable with UserDetails {
   /*
    * Computed:
    */
-
-  @JsonIgnore
-  override def getUsername: String = this.login;
 
   @JsonIgnore
   override def getAuthorities: java.util.List[GrantedAuthority] = role.getAuthorities;

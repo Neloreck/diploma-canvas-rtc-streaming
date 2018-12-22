@@ -24,10 +24,6 @@ export abstract class AbstractRestNetworkClient extends AbstractNetworkClient {
         throw new Error("Could not reach auth server.");
       }
 
-      if (rawResponse.status >= 400) {
-        throw new Error("Bad credentials provided.");
-      }
-
       return await rawResponse.json();
     } catch (error) {
       return {

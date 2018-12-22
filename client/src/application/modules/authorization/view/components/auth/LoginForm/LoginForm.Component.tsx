@@ -8,7 +8,7 @@ import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {authContextManager, IAuthContext, IRouterContext} from "@Main/data/store";
+import {AuthContextManager, authContextManager, IAuthContext, IRouterContext} from "@Main/data/store";
 
 // View.
 import {
@@ -27,14 +27,14 @@ import {loginFormStyle} from "./LoginForm.Style";
 // Props.
 export interface ILoginFormState {
   usernameInput: {
-    value: string;
-    error: Optional<string>;
     edited: boolean;
+    error: Optional<string>;
+    value: string;
   };
   passwordInput: {
-    value: string;
-    error: Optional<string>;
     edited: boolean;
+    error: Optional<string>;
+    value: string;
   };
 }
 
@@ -59,10 +59,12 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     }
   };
 
-  private minUsernameLength: number = 4;
-  private minPasswordLength: number = 4;
-  private maxUsernameLength: number = 64;
-  private maxPasswordLength: number = 64;
+  public componentWillUnmount(): void {
+
+    const {authActions: {cleanupErrorMessage}} = this.props;
+
+    cleanupErrorMessage();
+  }
 
   public render(): ReactNode {
 
@@ -71,7 +73,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     return (
       <Card className={classes.root}>
         {this.renderLoadingProgressBar()}
-        {this.renderForm()}
+        {this.renderFormBody()}
       </Card>
     );
   }
@@ -85,7 +87,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
         : <div className={classes.linearLoader}/>;
   }
 
-  private renderForm(): ReactNode {
+  private renderFormBody(): ReactNode {
 
     const {classes, authState: {authorizing, errorMessage}} = this.props;
     const {usernameInput, passwordInput} = this.state;
@@ -109,6 +111,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
           <InputLabel className={classes.errorLabel}>{errorMessage}</InputLabel>
           <Button
             className={classes.signInButton}
+            color={"primary"}
             disabled={!this.isFormValid()}
             onClick={this.onFormSubmit}
           >
@@ -126,15 +129,15 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const {authActions: {cleanupErrorMessage}} = this.props;
     const value: string = event.target.value;
 
-    if (value.length < this.maxUsernameLength) {
+    if (value.length < AuthContextManager.MAX_USERNAME_LENGTH) {
 
-      const error: Optional<string> = value.length < this.minUsernameLength
-        ? `Username should be longer than ${this.minUsernameLength} characters.`
+      const error: Optional<string> = value.length < AuthContextManager.MIN_USERNAME_LENGTH
+        ? `Username should be longer than ${AuthContextManager.MIN_USERNAME_LENGTH} characters.`
         : null;
 
       cleanupErrorMessage();
 
-      this.setState({ usernameInput: { ...this.state.usernameInput, value, edited: true, error } });
+      this.setState({ usernameInput: { value, edited: true, error } });
     }
   }
 
@@ -144,15 +147,15 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const {authActions: {cleanupErrorMessage}} = this.props;
     const value: string = event.target.value;
 
-    if (value.length < this.maxPasswordLength) {
+    if (value.length < AuthContextManager.MAX_PASSWORD_LENGTH) {
 
-      const error: Optional<string> = value.length < this.minPasswordLength
-        ? `Password should be longer than ${this.minPasswordLength} characters.`
+      const error: Optional<string> = value.length < AuthContextManager.MIN_PASSWORD_LENGTH
+        ? `Password should be longer than ${AuthContextManager.MIN_PASSWORD_LENGTH} characters.`
         : null;
 
       cleanupErrorMessage();
 
-      this.setState({ passwordInput: { ...this.state.usernameInput, value, edited: true, error } });
+      this.setState({ passwordInput: { value, edited: true, error } });
     }
   }
 
@@ -164,6 +167,21 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   }
 
   @Bind()
+  private isFormValid(): boolean {
+
+    const {authState: {authorizing, errorMessage}} = this.props;
+    const {usernameInput, passwordInput} = this.state;
+
+    return !authorizing && errorMessage === null &&
+      usernameInput.edited && passwordInput.edited &&
+      !usernameInput.error && !passwordInput.error;
+  }
+
+  /*
+   * Confirmation.
+   */
+
+  @Bind()
   private async onFormSubmit(): Promise<void> {
 
     const {authActions: {login}} = this.props;
@@ -172,17 +190,6 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     if (this.isFormValid()) {
       await login(usernameInput.value, passwordInput.value);
     }
-  }
-
-  @Bind()
-  private isFormValid(): boolean {
-
-    const {authState: {authorizing, errorMessage}} = this.props;
-    const {usernameInput, passwordInput} = this.state;
-
-    return !authorizing && errorMessage === null &&
-      usernameInput.value.length >= this.minUsernameLength &&
-      passwordInput.value.length >= this.minPasswordLength;
   }
 
 }

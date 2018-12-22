@@ -11,7 +11,7 @@ class AuthTokenEnhancer extends TokenEnhancer {
 
   override def enhance(accessToken: OAuth2AccessToken, authentication: OAuth2Authentication): OAuth2AccessToken = {
 
-    val additionalInfo: util.Map[String, Object] = new util.HashMap();
+    val additionalInfo: util.Map[String, Object] = new util.HashMap;
 
     additionalInfo.put("username", authentication.getPrincipal.asInstanceOf[AppUser].getUsername);
 

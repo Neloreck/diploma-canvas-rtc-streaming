@@ -12,7 +12,7 @@ export const loginFormStyle = (theme: Theme) => createStyles({
     height: 10,
   },
   root: {
-    backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.secondary.dark,
+    backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.background.default,
     width: 350
   },
   signInButton: {

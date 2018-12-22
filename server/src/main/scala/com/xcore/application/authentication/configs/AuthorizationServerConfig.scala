@@ -3,15 +3,18 @@ package com.xcore.application.authentication.configs
 import java.util
 
 import com.xcore.application.authentication.models.role.{EAppAccessLevel, EAppAccessScope, EAppGrantType}
+import com.xcore.application.authentication.utils.AuthTokenEnhancer
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.config.annotation.web.configuration.{AuthorizationServerConfigurerAdapter, EnableAuthorizationServer}
 import org.springframework.security.oauth2.provider.token.{TokenEnhancerChain, TokenStore}
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
 
 @Configuration
 @EnableAuthorizationServer
@@ -27,6 +30,15 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
   @Autowired
   private var accessTokenStore: TokenStore = _;
+
+  @Autowired
+  private var passwordEncoder: PasswordEncoder = _;
+
+  @Autowired
+  private var accessTokenConverter: JwtAccessTokenConverter = _;
+
+  @Autowired
+  private var accessTokenEnhancer: AuthTokenEnhancer = _;
 
   /*
    * Configuration:
@@ -56,7 +68,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     clientDetailsServiceConfigurer
       .inMemory()
         .withClient(webSecurityOptions.CLIENT_APPLICATION_ID)
-          .secret(webSecurityOptions.getPasswordEncoder.encode(webSecurityOptions.CLIENT_APPLICATION_SECRET))
+          .secret(passwordEncoder.encode(webSecurityOptions.CLIENT_APPLICATION_SECRET))
           .resourceIds(webSecurityOptions.SERVER_APPLICATION_ID)
 
           .authorizedGrantTypes(EAppGrantType.PASSWORD.getType, EAppGrantType.IMPLICIT.getType, EAppGrantType.REFRESH_TOKEN.getType)
@@ -73,7 +85,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     log.info("Configuring auth server endpoints.");
 
     val tokenEnhancerChain: TokenEnhancerChain = new TokenEnhancerChain();
-    tokenEnhancerChain.setTokenEnhancers(util.Arrays.asList(webSecurityOptions.getAccessTokenEnhancer, webSecurityOptions.getAccessTokenConverter))
+    tokenEnhancerChain.setTokenEnhancers(util.Arrays.asList(accessTokenEnhancer, accessTokenConverter))
 
     authorizationServerEndpointsConfigurer
       .tokenStore(accessTokenStore)

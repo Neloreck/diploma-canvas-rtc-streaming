@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 
 trait IAppUserRepository extends CrudRepository[AppUser, Long] {
 
-  def findByLogin(login: String): Optional[AppUser];
+  def findByUsername(username: String): Optional[AppUser];
+
+  def findByMail(mail: String): Optional[AppUser];
 
 }

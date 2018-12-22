@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service
 class AppUserDetailService extends UserDetailsService {
 
-  private val log: Logger = LoggerFactory.getLogger("[🔒SECURITY]");
+  private val log: Logger = LoggerFactory.getLogger("[🔒UDS]");
 
   @Autowired
   private var webSecurityOptions: WebSecurityOptions = _;
@@ -25,34 +25,41 @@ class AppUserDetailService extends UserDetailsService {
   @Autowired
   private var appUserRepository: IAppUserRepository = _;
 
-  @throws[UsernameNotFoundException]
-  def loadUserByUsername(login: String): UserDetails = {
 
-    val optionalUser: Optional[AppUser] = appUserRepository.findByLogin(login);
+  def userExists(username: String): Boolean = appUserRepository.findByUsername(username).isPresent;
 
-    if (optionalUser.isPresent) {
-      log.info(s"User '$login' was found.")
-      optionalUser.get();
-    } else {
-      log.info(s"User '$login' was not found.")
-      throw new UsernameNotFoundException(s"User '$login' was not found.")
-    }
-  }
+  def userWithMailExists(email: String): Boolean = appUserRepository.findByMail(email).isPresent;
 
   def loadUserById(id: Long): Optional[AppUser] = appUserRepository.findById(id);
 
-  @throws[Exception]
-  def registerUser(login: String, mail: String, password: String): AppUser = {
+  @throws[UsernameNotFoundException]
+  def loadUserByUsername(username: String): UserDetails = {
 
-    val defaultRole: EAppAccessLevel = EAppAccessLevel.ROLE_USER;
+    val optionalUser: Optional[AppUser] = appUserRepository.findByUsername(username);
+
+    if (optionalUser.isPresent) {
+      log.info(s"User '$username' was found.")
+      optionalUser.get();
+    } else {
+      log.info(s"User '$username' was not found.")
+      throw new UsernameNotFoundException(s"User '$username' was not found.")
+    }
+  }
+
+
+  @throws[Exception]
+  def registerUser(username: String, mail: String, password: String): AppUser = {
+
     val appUser: AppUser = new AppUser();
 
-    appUser.setLogin(login);
+    appUser.setUsername(username);
     appUser.setMail(mail);
-    appUser.setPassword(password);
-    appUser.setRole(defaultRole);
+    appUser.setPassword(passwordEncoder.encode(password));
+    appUser.setRole(EAppAccessLevel.ROLE_USER);
 
-    registerUser(appUser);
+    log.info(s"Registering user: '${appUser.getUsername}'.")
+
+    appUserRepository.save(appUser);
   }
 
   def registerUser(appUser: AppUser): AppUser = {
@@ -60,6 +67,7 @@ class AppUserDetailService extends UserDetailsService {
     log.info(s"Registering user: '${appUser.getUsername}'.")
 
     appUser.setPassword(passwordEncoder.encode(appUser.getPassword));
+
     appUserRepository.save(appUser);
   }
 

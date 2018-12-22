@@ -10,16 +10,18 @@ import {DocumentStoreUtils, Logger} from "@Lib/utils";
 // Api.
 import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
 import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
+import {IXCoreFailedResponse} from "@Api/x-core/exchange/IXCoreFailedResponse";
+import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
 
 // Data.
 import {routerContextManager} from "@Main/data/store";
-import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
 
 export interface IAuthContext {
   authActions: {
     login: (login: string, password: string) => Promise<Optional<IUserAuthData>>;
     logout: () => void;
     cleanupErrorMessage: () => void;
+    register: (username: string, mail: string, password: string) => Promise<boolean>
   };
   authState: {
     authorizing: boolean;
@@ -31,11 +33,18 @@ export interface IAuthContext {
 
 export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
+  public static readonly MIN_USERNAME_LENGTH: number = 4;
+  public static readonly MAX_USERNAME_LENGTH: number = 64;
+  public static readonly MIN_PASSWORD_LENGTH: number = 4;
+  public static readonly MAX_PASSWORD_LENGTH: number = 64;
+  public static readonly MAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   public context: IAuthContext = {
     authActions: {
       cleanupErrorMessage: this.cleanupErrorMessage,
       login: this.login,
       logout: this.logout,
+      register: this.register,
     },
     authState: {
       authData: null,
@@ -119,31 +128,60 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     this.update();
 
     // Try to authorize.
-    try {
-      const response: ITokensResponse = await authClient.getTokens(username, password);
-      state = this.context.authState;
+    const response: ITokensResponse = await authClient.getTokens({ grant_type: "password", username, password });
+    state = this.context.authState;
 
-      if (response.error) {
-        state.authData = null;
-        state.errorMessage = response.error.message;
-      } else {
-        state.errorMessage = null;
-        state.authData = {
-          username: response.username
-        };
+    if (response.error) {
+      state.authData = null;
+      state.errorMessage = (response.error_description ? response.error_description + "." : response.error);
+    } else {
+      state.errorMessage = null;
+      state.authData = {
+        username: response.username
+      };
 
-        this.saveAuthData(response);
-      }
-    } catch (error) {
-      this.log.error("Auth request attempt failed: ", error);
-    } finally {
-      state.authorized = (state.authData !== null);
-      state.authorizing = false;
-
-      this.update();
+      this.saveAuthData(response);
     }
 
+    state.authorized = (state.authData !== null);
+    state.authorizing = false;
+
+    this.update();
+
     return state.authData;
+  }
+
+  @Bind()
+  protected async register(username: string, mail: string, password: string): Promise<boolean> {
+
+    this.log.info("Registering new user:", username, mail);
+
+    let state = this.context.authState;
+
+    // Do not dup requests.
+    if (state.authorizing) {
+      throw new Error("Cannot register while already authorizing.");
+    }
+
+    // Set loading state.
+    state.authorizing = true;
+    this.update();
+
+    state = this.context.authState;
+
+    const response = await authClient.register({ username, mail, password });
+
+    if (response.error) {
+      state.errorMessage = (response as IXCoreFailedResponse).error.message;
+    } else {
+      state.errorMessage = null;
+    }
+
+    state.authorizing = false;
+
+    this.update();
+
+    return response.success || false;
   }
 
   @Bind()

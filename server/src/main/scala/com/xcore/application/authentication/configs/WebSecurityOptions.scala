@@ -36,17 +36,17 @@ class WebSecurityOptions {
   private var datasource: DataSource = _;
 
   @Bean
-  def getPasswordEncoder: PasswordEncoder = new BCryptPasswordEncoder;
+  def passwordEncoder: PasswordEncoder = new BCryptPasswordEncoder;
 
   // todo: DB store later.
   @Bean
-  def getAccessTokenStore: TokenStore = new InMemoryTokenStore;
+  def accessTokenStore: TokenStore = new InMemoryTokenStore;
 
   @Bean
-  def getAccessTokenEnhancer: AuthTokenEnhancer = new AuthTokenEnhancer;
+  def accessTokenEnhancer: AuthTokenEnhancer = new AuthTokenEnhancer;
 
   @Bean
-  def getAccessTokenConverter: JwtAccessTokenConverter = {
+  def accessTokenConverter: JwtAccessTokenConverter = {
 
     val converter: JwtAccessTokenConverter = new JwtAccessTokenConverter;
 

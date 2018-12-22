@@ -5,14 +5,34 @@ import java.beans.BeanProperty
 import com.xcore.application.authentication.models.role.EAppAccessLevel
 import com.xcore.application.authentication.models.user.AppUser
 import com.xcore.application.authentication.services.AppUserDetailService
-import com.xcore.application.authentication.utils.AuthUtils
+import com.xcore.application.authentication.utils.{AuthDataValidator, AuthUtils}
 import com.xcore.server.controllers.rest.exchange.{ApiRequest, ApiResponse, ErrorApiResponse}
-import javax.servlet.http.HttpServletResponse
+import javax.servlet.RequestDispatcher
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation._
+
+object GeneralAuthorizationController {
+
+  class RegisterRequest extends ApiRequest {
+
+    @BeanProperty
+    var username: String = _;
+
+    @BeanProperty
+    var password: String = _;
+
+    @BeanProperty
+    var mail: String = _;
+
+  };
+
+  class RegisterSuccessfulResponse(@BeanProperty val username: String, @BeanProperty val id: Long) extends ApiResponse;
+
+}
 
 @RestController
 @RequestMapping(Array("/auth"))
@@ -23,13 +43,9 @@ class GeneralAuthorizationController {
   @Autowired
   private var appUserDetailService: AppUserDetailService = _;
 
-  case class SignUpRequest(login: String, mail: String,password: String) extends ApiRequest;
-  case class LoginRequest(username: String, password: String) extends ApiRequest;
+  // Controller implementation:
 
   case class AuthInfoApiResponse(@BeanProperty authenticated: Boolean, @BeanProperty username: String) extends ApiResponse;
-  case class SignUpResponse(@BeanProperty user: AppUser) extends ApiResponse;
-  case class LoginResponse(@BeanProperty username: String, @BeanProperty password: String) extends ApiResponse;
-  case class TokenRequest(@BeanProperty username: String, @BeanProperty password: String, client_id: String, grant_type: String) extends ApiRequest;
 
   @GetMapping(Array("/info"))
   def getCurrentAuthInfo: AuthInfoApiResponse = {
@@ -44,30 +60,48 @@ class GeneralAuthorizationController {
     );
   }
 
-  @PostMapping(Array("/login"))
-  def login(response: HttpServletResponse): Unit = {
+  @PostMapping(
+    path = Array("/register"),
+    consumes = Array("application/json"),
+    produces = Array("application/json")
+  )
+  def register(@RequestBody request: GeneralAuthorizationController.RegisterRequest): ResponseEntity[ApiResponse] = {
 
-    log.info("Get [/login] request.");
-
-    response.sendRedirect("redirect:/auth/token");
-  }
-
-  @PostMapping(Array("/sign-up"))
-  def signUp(request: SignUpRequest): ResponseEntity[ApiResponse] = {
-
-    log.info("Get [/sign-up] request.");
+    log.info("Post [/register] request.");
 
     try {
-      val user: AppUser = appUserDetailService.registerUser(request.login, request.password, request.mail);
 
-      log.info(s"Successfully signed up user $user.");
+      /* Check credentials. */
+      if (!AuthDataValidator.isValidUsername(request.username) || !AuthDataValidator.isValidEmail(request.mail) || !AuthDataValidator.isValidPassword(request.password) ) {
+        return new ResponseEntity[ApiResponse](new ErrorApiResponse("Bad credentials provided."), HttpStatus.BAD_REQUEST);
+      }
 
-      new ResponseEntity[ApiResponse](SignUpResponse(user), HttpStatus.OK);
+      /* Check username occupation. */
+      if (appUserDetailService.userExists(request.username)) {
+        return new ResponseEntity[ApiResponse](new ErrorApiResponse("Provided user already exists."), HttpStatus.BAD_REQUEST);
+      }
+
+      /* Check mail occupation. */
+      if (appUserDetailService.userWithMailExists(request.mail)) {
+        return new ResponseEntity[ApiResponse](new ErrorApiResponse("Provided email already used."), HttpStatus.BAD_REQUEST);
+      }
+
+      val user: AppUser = appUserDetailService.registerUser(new AppUser(request.username, request.mail, request.password, EAppAccessLevel.ROLE_USER));
+      new ResponseEntity[ApiResponse](new GeneralAuthorizationController.RegisterSuccessfulResponse(user.username, user.id), HttpStatus.OK);
+
     } catch {
       case exception: Exception =>
         log.error(s"Failed to authorize user, exception: $exception.")
         new ResponseEntity[ApiResponse](new ErrorApiResponse(exception), HttpStatus.CONFLICT);
     }
+  }
+
+  @GetMapping(Array("/error"))
+  @PostMapping(Array("/error"))
+  def handlePostError(request: HttpServletRequest): ErrorApiResponse = {
+    new ErrorApiResponse(
+      request.getAttribute(if (RequestDispatcher.ERROR_MESSAGE.isEmpty) "Failed to proceed provided request." else RequestDispatcher.ERROR_MESSAGE).asInstanceOf[String]
+    )
   }
 
 }
