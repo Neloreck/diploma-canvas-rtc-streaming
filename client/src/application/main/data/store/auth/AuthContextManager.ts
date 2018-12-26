@@ -199,7 +199,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     const response: IAuthInfoResponse = await authClient.getAuthInfo({});
 
-    if (response.success) {
+    if (response.success && response.authenticated) {
       authState.authData = {username: response.username};
     } else {
 

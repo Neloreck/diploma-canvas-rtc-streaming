@@ -211,11 +211,11 @@ export class WebpackBuildConfig implements Configuration {
     inline: !isProduction,
     port: 3000,
     proxy: {
-      "/api/*": {
+      "/api/**": {
         secure: false,
         target: "http://localhost:8080"
       },
-      "/auth/**": {
+      "/auth/*": {
         secure: false,
         target: "http://localhost:8080"
       }

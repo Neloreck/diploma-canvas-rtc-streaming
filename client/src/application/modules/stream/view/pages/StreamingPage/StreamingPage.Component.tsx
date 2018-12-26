@@ -8,7 +8,11 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
-import {graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextManager} from "@Module/stream/data/store";
+import {
+  IRenderingContext,
+  ISourceContext,
+  sourceContextManager
+} from "@Module/stream/data/store";
 
 // View.
 import {Fade, Grid, WithStyles} from "@material-ui/core";
@@ -31,11 +35,10 @@ export interface IStreamingPageState {
   mounted: boolean;
 }
 
-export interface IStreamingPageExternalProps extends ISourceContext, IGraphicsContext, WithStyles<typeof streamingPageStyle> {}
+export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, WithStyles<typeof streamingPageStyle> {}
 export interface IStreamingPageOwnProps {}
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
 
-@Consume<IGraphicsContext, IStreamingPageProps>(graphicsContextManager)
 @Consume<ISourceContext, IStreamingPageProps>(sourceContextManager)
 @Styled(streamingPageStyle)
 export class StreamingPage extends Component<IStreamingPageProps, IStreamingPageState> {
@@ -46,9 +49,9 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
   public componentWillMount(): void {
     // Display main video on mount.
-    const {graphicsState: {showMainVideo}} = this.props;
+    const {sourceState: {captureVideo}} = this.props;
 
-    if (showMainVideo) {
+    if (captureVideo) {
       this
         .getDefaultVideo()
         .then();
@@ -68,8 +71,8 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
     // Display main related.
     const {inputStream} = this.props.sourceState;
 
-    if (nextProps.graphicsState.showMainVideo !== this.props.graphicsState.showMainVideo) {
-      if (nextProps.graphicsState.showMainVideo) {
+    if (nextProps.sourceState.captureVideo !== this.props.sourceState.captureVideo) {
+      if (nextProps.sourceState.captureVideo) {
         this
           .getDefaultVideo()
           .then();

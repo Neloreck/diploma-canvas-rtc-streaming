@@ -15,7 +15,7 @@ import {
   Button,
   Card,
   FormControl, FormHelperText,
-  Grid,
+  Grid, Grow,
   Input,
   InputLabel,
   LinearProgress,
@@ -139,11 +139,16 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
           <FormHelperText>{passwordInput.error}</FormHelperText>
         </FormControl>
 
-        <FormControl className={classes.textInput} error={Boolean(passwordConfirmationInput.error) } margin={"normal"}>
-          <InputLabel>Password Confirmation</InputLabel>
-          <Input disabled={authorizing} value={passwordConfirmationInput.value} onChange={this.onPasswordConfirmationChanged} type={"password"} placeholder={"password confirmation"}/>
-          <FormHelperText>{passwordConfirmationInput.error}</FormHelperText>
-        </FormControl>
+        {
+          passwordInput.edited &&
+          <Grow in={passwordInput.edited}>
+            <FormControl className={classes.textInput} error={Boolean(passwordConfirmationInput.error) } margin={"normal"}>
+              <InputLabel>Password Confirmation</InputLabel>
+              <Input disabled={authorizing} value={passwordConfirmationInput.value} onChange={this.onPasswordConfirmationChanged} type={"password"} placeholder={"password confirmation"}/>
+              <FormHelperText>{passwordConfirmationInput.error}</FormHelperText>
+            </FormControl>
+          </Grow>
+        }
 
         <Grid justify={"space-between"} alignItems={"center"} container>
           <InputLabel className={classes.errorLabel}>{errorMessage}</InputLabel>

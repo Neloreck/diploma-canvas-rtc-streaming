@@ -1,3 +1,5 @@
+import {Bind} from "@redux-cbd/utils";
+
 // Lib.
 import {Optional} from "@Lib/ts/types";
 import {DocumentStoreUtils} from "@Lib/utils";
@@ -18,6 +20,7 @@ export class XCoreApiConfig {
 
   public readonly exposeClientsToWindow: boolean = (process.env.NODE_ENV === "development");
 
+  @Bind()
   public getDefaultHeaders(): Headers {
 
     const accessToken: Optional<string> = DocumentStoreUtils.getCookie("access_token");
@@ -31,14 +34,17 @@ export class XCoreApiConfig {
     return XCoreApiConfig.DEFAULT_HEADERS;
   }
 
+  @Bind()
   public getServerUrl(): string {
     return XCoreApiConfig.X_CORE_SERVER_URL;
   }
 
+  @Bind()
   public getClientId(): string {
     return XCoreApiConfig.X_CORE_CLIENT_ID;
   }
 
+  @Bind()
   public getClientSecret(): string {
     return XCoreApiConfig.X_CORE_CLIENT_SECRET;
   }

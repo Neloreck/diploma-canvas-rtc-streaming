@@ -6,11 +6,15 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // View.
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
-import {Grid, WithStyles} from "@material-ui/core";
+import {Grid, Grow, WithStyles} from "@material-ui/core";
 import {ISignUpFormExternalProps, SignUpForm} from "@Module/authorization/view/components/SignUpForm";
 import {signUpPageStyle} from "./SignUpPage.Style";
 
 // Props.
+export interface ILoginPageState {
+  mounted: boolean;
+}
+
 export interface ISignUpPageOwnProps {}
 export interface ISignUpPageExternalProps extends WithStyles<typeof signUpPageStyle> {}
 export interface ISignUpPageProps extends ISignUpPageOwnProps, ISignUpPageExternalProps {}
@@ -18,15 +22,33 @@ export interface ISignUpPageProps extends ISignUpPageOwnProps, ISignUpPageExtern
 @Styled(signUpPageStyle)
 export class SignUpPage extends Component<ISignUpPageProps> {
 
+  public state: ILoginPageState = {
+    mounted: true
+  };
+
+  public componentDidMount(): void {
+    this.setState({ mounted: true });
+  }
+
+  public componentWillUnmount(): void {
+    this.setState({ mounted: false });
+  }
+
   public render(): ReactNode {
+
+    const {classes} = this.props;
+    const {mounted} = this.state;
+
     return (
-      <Grid className={this.props.classes.root} container>
+      <Grid className={classes.root} container>
 
         <HeaderBar {...{} as IHeaderBarExternalProps}/>
 
-        <Grid container justify={"center"} alignItems={"center"} className={this.props.classes.content}>
-          <SignUpForm {...{} as ISignUpFormExternalProps}/>
-        </Grid>
+        <Grow in={mounted}>
+          <Grid container justify={"center"} alignItems={"center"} className={classes.content}>
+            <SignUpForm {...{} as ISignUpFormExternalProps}/>
+          </Grid>
+        </Grow>
 
       </Grid>
     );

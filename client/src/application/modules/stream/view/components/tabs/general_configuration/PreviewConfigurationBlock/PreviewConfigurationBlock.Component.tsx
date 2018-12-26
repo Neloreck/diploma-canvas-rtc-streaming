@@ -8,9 +8,8 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {
-  graphicsContextManager,
-  IGraphicsContext,
-  ISourceContext,
+  IRenderingContext,
+  ISourceContext, renderingContextManager,
   sourceContextManager
 } from "@Module/stream/data/store";
 
@@ -24,12 +23,12 @@ export interface IPreviewConfigurationBlockState {
   showPreviewConfiguration: boolean;
 }
 
-export interface IPreviewConfigurationBlockExternalProps extends WithStyles<typeof previewConfigurationBlockStyle>, IGraphicsContext, ISourceContext {}
+export interface IPreviewConfigurationBlockExternalProps extends WithStyles<typeof previewConfigurationBlockStyle>, IRenderingContext, ISourceContext {}
 export interface IPreviewConfigurationBlockOwnProps {}
 export interface IPreviewConfigurationBlockProps extends IPreviewConfigurationBlockOwnProps, IPreviewConfigurationBlockExternalProps {}
 
 @Consume<ISourceContext, IPreviewConfigurationBlockProps>(sourceContextManager)
-@Consume<IGraphicsContext, IPreviewConfigurationBlockProps>(graphicsContextManager)
+@Consume<IRenderingContext, IPreviewConfigurationBlockProps>(renderingContextManager)
 @Styled(previewConfigurationBlockStyle)
 export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBlockProps, IPreviewConfigurationBlockState> {
 
@@ -39,7 +38,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
   public render(): ReactNode {
 
-    const {classes, graphicsState: {addVisibleObjects, showPreview, showGrid, showGraphics, propagateRendererEvents}} = this.props;
+    const {classes, renderingState: {addVisibleObjects, showPreview, showGrid, showGraphics, propagateRendererEvents}} = this.props;
     const {showPreviewConfiguration} = this.state;
 
     return (
@@ -116,33 +115,27 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
   @Bind()
   private onRenderEventsPropagationToggle(event: ChangeEvent): void {
-    this.props.graphicsActions.setRendererEventsPropagation((event.target as any).checked);
+    this.props.renderingActions.setRendererEventsPropagation((event.target as any).checked);
   }
 
   @Bind()
   private onAdditionObjectsVisibilityToggle(event: ChangeEvent): void {
-    this.props.graphicsActions.setAdditionVisibility((event.target as any).checked);
-  }
-
-  @Bind()
-  private onMainVideoDisplayToggle(event: ChangeEvent): void {
-    this.props.graphicsActions.setMainVideoDisplay((event.target as any).checked);
-    this.props.sourceActions.updateInputStream(null);
+    this.props.renderingActions.setAdditionVisibility((event.target as any).checked);
   }
 
   @Bind()
   private onPreviewToggle(event: ChangeEvent): void {
-    this.props.graphicsActions.setPreviewDisplay((event.target as any).checked);
+    this.props.renderingActions.setPreviewDisplay((event.target as any).checked);
   }
 
   @Bind()
   private onGraphicsToggle(event: ChangeEvent): void {
-    this.props.graphicsActions.setGraphicsDisplay((event.target as any).checked);
+    this.props.renderingActions.setGraphicsDisplay((event.target as any).checked);
   }
 
   @Bind()
   private onGridToggle(event: ChangeEvent): void {
-    this.props.graphicsActions.setGridDisplay((event.target as any).checked);
+    this.props.renderingActions.setGridDisplay((event.target as any).checked);
   }
 
 }

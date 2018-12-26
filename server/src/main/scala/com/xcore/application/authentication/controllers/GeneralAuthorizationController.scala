@@ -1,7 +1,9 @@
 package com.xcore.application.authentication.controllers;
 
 import java.beans.BeanProperty
+import java.security.Principal
 
+import com.xcore.application.authentication.controllers
 import com.xcore.application.authentication.models.role.EAppAccessLevel
 import com.xcore.application.authentication.models.user.AppUser
 import com.xcore.application.authentication.services.AppUserDetailService
@@ -32,6 +34,8 @@ object GeneralAuthorizationController {
 
   class RegisterSuccessfulResponse(@BeanProperty val username: String, @BeanProperty val id: Long) extends ApiResponse;
 
+  class AuthInfoApiResponse(@BeanProperty val authenticated: Boolean, @BeanProperty val username: String) extends ApiResponse;
+
 }
 
 @RestController
@@ -45,18 +49,20 @@ class GeneralAuthorizationController {
 
   // Controller implementation:
 
-  case class AuthInfoApiResponse(@BeanProperty authenticated: Boolean, @BeanProperty username: String) extends ApiResponse;
-
   @GetMapping(Array("/info"))
-  def getCurrentAuthInfo: AuthInfoApiResponse = {
+  def getCurrentAuthInfo: GeneralAuthorizationController.AuthInfoApiResponse = {
 
     log.info("Get [/info] request.");
 
     val authentication: Authentication = AuthUtils.getAuthentication;
+    val principal = authentication.getPrincipal;
 
-    AuthInfoApiResponse(
+    new GeneralAuthorizationController.AuthInfoApiResponse(
       !authentication.getAuthorities.contains(EAppAccessLevel.ROLE_ANONYMOUS.getAuthority),
-      authentication.getPrincipal.asInstanceOf[AppUser].getUsername
+      principal match {
+        case user: AppUser => user.username
+        case _ => principal.toString
+      }
     );
   }
 

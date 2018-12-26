@@ -9,8 +9,8 @@ import {Styled} from "@Lib/react_lib/mui";
 // Data.
 import {
   graphicsContextManager,
-  IGraphicsContext,
-  ISourceContext,
+  IGraphicsContext, IRenderingContext,
+  ISourceContext, renderingContextManager,
   sourceContextManager
 } from "@Module/stream/data/store";
 
@@ -44,11 +44,12 @@ export interface IMainPreviewControlState {
   showControls: boolean;
 }
 
-export interface IMainPreviewControlExternalProps extends WithStyles<typeof mainPreviewControlStyle>, IGraphicsContext, ISourceContext {}
+export interface IMainPreviewControlExternalProps extends WithStyles<typeof mainPreviewControlStyle>, IGraphicsContext, IRenderingContext, ISourceContext {}
 export interface IMainPreviewControlOwnProps {}
 export interface IMainPreviewControlProps extends IMainPreviewControlOwnProps, IMainPreviewControlExternalProps {}
 
 @Consume<IGraphicsContext, IMainPreviewControlProps>(graphicsContextManager)
+@Consume<IRenderingContext, IMainPreviewControlProps>(renderingContextManager)
 @Consume<ISourceContext, IMainPreviewControlProps>(sourceContextManager)
 @Styled(mainPreviewControlStyle)
 export class MainPreviewControl extends Component<IMainPreviewControlProps> {
@@ -61,8 +62,8 @@ export class MainPreviewControl extends Component<IMainPreviewControlProps> {
 
     const {
       classes,
-      graphicsState: {objects, showGraphics, showGrid, showPreview, showMainVideo},
-      sourceState: {inputStream}, sourceActions: {updateOutputStream}
+      graphicsState: {objects}, renderingState: {showGraphics, showGrid, showPreview},
+      sourceState: {inputStream, captureVideo}, sourceActions: {updateOutputStream}
     } = this.props;
 
     return (
@@ -71,7 +72,7 @@ export class MainPreviewControl extends Component<IMainPreviewControlProps> {
         <Grid className={classes.videoContainer} justify={"center"} alignItems={"center"} container>
           <CanvasGraphicsPreprocessor
             stream={inputStream}
-            showMainVideo={showMainVideo}
+            showMainVideo={captureVideo}
             renderingObjects={objects}
             showGrid={showGrid}
             showGraphics={showGraphics}

@@ -14,6 +14,7 @@ import {loginPageStyle} from "./LoginPage.Style";
 export interface ILoginPageState {
   mounted: boolean;
 }
+
 export interface ILoginPageExternalProps extends WithStyles<typeof loginPageStyle> {}
 export interface ILoginPageOwnProps {}
 export interface ILoginPageProps extends ILoginPageOwnProps, ILoginPageExternalProps {}

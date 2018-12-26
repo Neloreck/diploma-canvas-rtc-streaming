@@ -1,42 +1,30 @@
 import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
-import {throttle} from "lodash";
 
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 
+// Data.
+import {renderingContextManager} from "@Module/stream/data/store";
+
 // Props.
 export interface IGraphicsContext {
   graphicsState: {
-    addVisibleObjects: boolean;
     objects: Array<AbstractCanvasGraphicsRenderObject<any>>;
-    propagateRendererEvents: boolean;
     selectedObject: Optional<AbstractCanvasGraphicsRenderObject<any>>;
-    showMainVideo: boolean;
-    showGraphics: boolean;
-    showGrid: boolean;
-    showPreview: boolean;
   };
   graphicsActions: {
-    addObject: (object: AbstractCanvasGraphicsRenderObject<any>) => void,
-    eraseObjects: () => void,
-    swapObjectsByIndex: (firstIndex: number, secondIndex: number) => void,
-    removeObject: (object: AbstractCanvasGraphicsRenderObject<any>) => void,
-    selectObject: (object: Optional<AbstractCanvasGraphicsRenderObject<any>>) => void,
-    setAdditionVisibility: (param: boolean) => void;
-    setRendererEventsPropagation: (param: boolean) => void;
-    setMainVideoDisplay: (param: boolean) => void;
-    setGridDisplay: (param: boolean) => void;
-    setGraphicsDisplay: (param: boolean) => void;
-    setPreviewDisplay: (param: boolean) => void;
+    addObject(object: AbstractCanvasGraphicsRenderObject<any>): void,
+    eraseObjects(): void,
+    swapObjectsByIndex(firstIndex: number, secondIndex: number): void,
+    removeObject(object: AbstractCanvasGraphicsRenderObject<any>): void,
+    selectObject(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void,
   };
 }
 
 export class GraphicsContextManager extends ReactContextManager<IGraphicsContext> {
-
-  private static SENSITIVE_ACTIONS_DELAY: number = 500;
 
   protected context: IGraphicsContext = {
     graphicsActions: {
@@ -44,23 +32,11 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
       eraseObjects: this.eraseObjects,
       removeObject: this.removeObject,
       selectObject: this.selectObject,
-      setAdditionVisibility: throttle(this.setAdditionVisibility, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setGraphicsDisplay: throttle(this.setGraphicsDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setGridDisplay: throttle(this.setGridDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setMainVideoDisplay: throttle(this.setMainVideoDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setPreviewDisplay: throttle(this.setPreviewDisplay, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
-      setRendererEventsPropagation: throttle(this.setRendererEventsPropagation, GraphicsContextManager.SENSITIVE_ACTIONS_DELAY),
       swapObjectsByIndex: this.swapObjectsByIndex
     },
     graphicsState: {
-      addVisibleObjects: true,
       objects: [],
-      propagateRendererEvents: true,
       selectedObject: null,
-      showGraphics: true,
-      showGrid: false,
-      showMainVideo: true,
-      showPreview: false
     }
   };
 
@@ -83,7 +59,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
     this.log.info(`Adding new object: ${object.getName()}.`);
 
-    if (!this.context.graphicsState.addVisibleObjects) {
+    if (!renderingContextManager.context.renderingState.addVisibleObjects) {
       object.setDisabled(true);
     }
 
@@ -127,42 +103,6 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected setAdditionVisibility(addVisibleObjects: boolean): void {
-    this.context.graphicsState = { ...this.context.graphicsState, addVisibleObjects };
-    this.update();
-  }
-
-  @Bind()
-  protected setMainVideoDisplay(showMainVideo: boolean): void {
-    this.context.graphicsState = { ...this.context.graphicsState, showMainVideo };
-    this.update();
-  }
-
-  @Bind()
-  protected setGridDisplay(showGrid: boolean): void {
-    this.context.graphicsState = { ...this.context.graphicsState, showGrid };
-    this.update();
-  }
-
-  @Bind()
-  protected setGraphicsDisplay(showGraphics: boolean): void {
-    this.context.graphicsState = { ...this.context.graphicsState, showGraphics };
-    this.update();
-  }
-
-  @Bind()
-  protected setPreviewDisplay(showPreview: boolean): void {
-    this.context.graphicsState = { ...this.context.graphicsState, showPreview };
-    this.update();
-  }
-
-  @Bind()
-  protected setRendererEventsPropagation(propagateRendererEvents: boolean): void {
-    this.context.graphicsState = { ...this.context.graphicsState, propagateRendererEvents };
-    this.update();
-  }
-
-  @Bind()
   protected swapObjectsByIndex(firstIndex: number, secondIndex: number): void {
 
     this.log.info(`Swapping object layout order: ${firstIndex} <-> ${secondIndex}.`);
@@ -174,11 +114,6 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     this.context.graphicsState.objects[secondIndex] = buffer;
 
     this.update();
-  }
-
-  @Bind()
-  protected beforeUpdate(): void {
-    this.context.graphicsState = Object.assign({}, this.context.graphicsState);
   }
 
 }

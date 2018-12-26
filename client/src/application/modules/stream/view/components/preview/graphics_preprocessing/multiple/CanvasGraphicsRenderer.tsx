@@ -15,7 +15,12 @@ import {DomSizingUtils, Logger} from "@Lib/utils";
 // Data.
 import {applicationConfig} from "@Main/data/config";
 import {localMediaService} from "@Module/stream/data/services/local_media";
-import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
+import {
+  graphicsContextManager,
+  IGraphicsContext,
+  IRenderingContext,
+  renderingContextManager
+} from "@Module/stream/data/store";
 
 // View.
 import "../canvasStyling.scss";
@@ -32,11 +37,12 @@ export interface ICanvasGraphicsRendererOwnProps {
   externalRenderingItems: Array<AbstractCanvasGraphicsRenderObject<any>>;
 }
 
-export interface ICanvasGraphicsRendererExternalProps extends IGraphicsContext {}
+export interface ICanvasGraphicsRendererExternalProps extends IGraphicsContext, IRenderingContext {}
 
 export interface ICanvasGraphicsRendererProps extends ICanvasGraphicsRendererOwnProps, ICanvasGraphicsRendererExternalProps {}
 
 @Consume<IGraphicsContext, ICanvasGraphicsRendererProps>(graphicsContextManager)
+@Consume<IRenderingContext, ICanvasGraphicsRendererProps>(renderingContextManager)
 export class CanvasGraphicsRenderer
   extends Component<ICanvasGraphicsRendererProps, ICanvasGraphicsRendererState> implements IGraphicsRendererReactComponent {
 
@@ -230,7 +236,7 @@ export class CanvasGraphicsRenderer
   @Bind()
   public onRenderingObjectSelected(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
-    const {graphicsState: {propagateRendererEvents}, graphicsActions: {selectObject}} = this.props;
+    const {renderingState: {propagateRendererEvents}, graphicsActions: {selectObject}} = this.props;
 
     if (propagateRendererEvents) {
       selectObject(object);

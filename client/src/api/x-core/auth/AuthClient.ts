@@ -14,22 +14,17 @@ export class AuthClient extends AbstractRestNetworkClient {
 
   private static AUTH_MAPPING: string = "/auth";
 
-  public getHeaders(): Headers {
+  public getHeaders = xCoreClientConfig.getDefaultHeaders;
+  public getServerUrl = xCoreClientConfig.getServerUrl;
 
-    const headers: Headers = new Headers();
+  // Actions:
 
-    xCoreClientConfig.getDefaultHeaders().forEach((value: string, key: string) => headers.set(key, value));
-    headers.set("Authorization", `Basic ${btoa(`${xCoreClientConfig.getClientId()}:${xCoreClientConfig.getClientSecret()}`)}`);
-
-    return headers;
-  }
-
-  public getServerUrl(): string {
-    return xCoreClientConfig.getServerUrl();
+  public async logout(request: {}): Promise<{}> {
+    return await this.get(AuthClient.AUTH_MAPPING + "/logout", request) as any;
   }
 
   public async getAuthInfo(request: IAuthInfoRequest): Promise<IAuthInfoResponse> {
-    return await this.get(AuthClient.AUTH_MAPPING + "/info") as IAuthInfoResponse;
+    return await this.get(AuthClient.AUTH_MAPPING + "/info", request) as IAuthInfoResponse;
   }
 
   public async getTokens(request: ITokensRequest): Promise<ITokensResponse> {
@@ -42,10 +37,9 @@ export class AuthClient extends AbstractRestNetworkClient {
 
     const headers: Headers = new Headers();
 
-    xCoreClientConfig.getDefaultHeaders()
-      .forEach((value: string, key: string) => {
-        headers.set(key, value);
-      });
+    xCoreClientConfig
+      .getDefaultHeaders()
+      .forEach((value: string, key: string) => headers.set(key, value));
 
     headers.set("Authorization", `Basic ${btoa(`${xCoreClientConfig.getClientId()}:${xCoreClientConfig.getClientSecret()}`)}`);
     headers.set("Content-Type", "application/x-www-form-urlencoded");

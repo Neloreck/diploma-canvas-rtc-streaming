@@ -7,7 +7,7 @@ export const homePageStyle = (theme: Theme) => createStyles({
     width: "100%"
   },
   root: {
-    backgroundColor: theme.palette.type === "light" ? theme.palette.background.paper : theme.palette.secondary.dark,
+    backgroundColor: theme.palette.background.paper,
     height: "100%",
     width: "100%"
   }

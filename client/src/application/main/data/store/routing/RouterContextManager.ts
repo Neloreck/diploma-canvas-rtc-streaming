@@ -8,11 +8,11 @@ import {Logger} from "@Lib/utils";
 
 export interface IRouterContext {
   routingActions: {
-    replace: (path: string) => void;
-    push: (path: string) => void;
-    goBack: () => void;
-    getCurrentLocation: () => string;
-    getQueryParams: () => ParsedUrlQuery;
+    replace(path: string): void;
+    push(path: string): void;
+    goBack(): void;
+    getCurrentLocation(): string;
+    getQueryParams(): ParsedUrlQuery;
   };
   routingState: {
     history: History;
@@ -39,7 +39,7 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
   @Bind()
   public replace(path: string): void {
 
-    this.log.info(`Replace: ${path}.`);
+    this.log.info(`Replace path: ${path}.`);
     this.context.routingState.history.replace(path);
     this.update();
   }
@@ -47,7 +47,7 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
   @Bind()
   public push(path: string): void {
 
-    this.log.info(`Push: ${path}.`);
+    this.log.info(`Push path: ${path}.`);
     this.context.routingState.history.push(path);
     this.update();
   }

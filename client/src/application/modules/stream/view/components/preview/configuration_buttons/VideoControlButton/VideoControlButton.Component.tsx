@@ -7,31 +7,34 @@ import {PureComponent, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
+import {
+  IRenderingContext, ISourceContext,
+  renderingContextManager, sourceContextManager
+} from "@Module/stream/data/store";
 
 // View.
-import {Fab, Grid, Tooltip, WithStyles} from "@material-ui/core";
+import {Fab, Tooltip, WithStyles} from "@material-ui/core";
 import {Videocam, VideocamOff} from "@material-ui/icons";
 import {videoControlButtonStyle} from "./VideoControlButton.Style";
 
 // Props.
 
-export interface IVideoControlButtonExternalProps extends WithStyles<typeof videoControlButtonStyle>, IGraphicsContext {}
+export interface IVideoControlButtonExternalProps extends WithStyles<typeof videoControlButtonStyle>, ISourceContext {}
 export interface IVideoControlButtonOwnProps {}
 export interface IVideoControlButtonProps extends IVideoControlButtonOwnProps, IVideoControlButtonExternalProps {}
 
-@Consume<IGraphicsContext, IVideoControlButtonProps>(graphicsContextManager)
+@Consume<ISourceContext, IVideoControlButtonProps>(sourceContextManager)
 @Styled(videoControlButtonStyle)
 export class VideoControlButton extends PureComponent<IVideoControlButtonProps> {
 
   public render(): ReactNode {
 
-    const {classes, graphicsState: {showMainVideo}} = this.props;
+    const {classes, sourceState: {captureVideo}} = this.props;
 
     return (
       <Tooltip title={"Toggle video capturing."} placement={"top"}>
         <Fab className={classes.root} onClick={this.onToggleAudio} color={"primary"}>
-          { showMainVideo ? <Videocam/> : <VideocamOff/> }
+          { captureVideo ? <Videocam/> : <VideocamOff/> }
         </Fab>
       </Tooltip>
     );
@@ -40,9 +43,9 @@ export class VideoControlButton extends PureComponent<IVideoControlButtonProps> 
   @Bind()
   private onToggleAudio(): void {
 
-    const {graphicsActions: {setMainVideoDisplay}, graphicsState: {showMainVideo}} = this.props;
+    const {sourceActions: {setVideoCapturing}, sourceState: {captureVideo}} = this.props;
 
-    setMainVideoDisplay(!showMainVideo);
+    setVideoCapturing(!captureVideo);
   }
 
 }

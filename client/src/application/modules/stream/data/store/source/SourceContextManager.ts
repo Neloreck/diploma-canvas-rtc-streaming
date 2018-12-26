@@ -9,13 +9,17 @@ import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInpu
 
 export interface ISourceContext {
   sourceActions: {
-    updateInputStreamAndSources: (stream: MediaStream, devices: IInputSourceDevices) => void;
-    updateInputSources: (devices: IInputSourceDevices) => void;
-    updateInputStream: (stream: Optional<MediaStream>) => void;
-    updateOutputStream: (stream: Optional<MediaStream>) => void;
-    setAudioCapturing: (capture: boolean) => void;
+    // Stream updates.
+    updateInputStreamAndSources(stream: MediaStream, devices: IInputSourceDevices): void;
+    updateInputSources(devices: IInputSourceDevices): void;
+    updateInputStream(stream: Optional<MediaStream>): void;
+    updateOutputStream(stream: Optional<MediaStream>): void;
+    // Capturing switching.
+    setAudioCapturing(capture: boolean): void;
+    setVideoCapturing(capture: boolean): void;
   };
   sourceState: {
+    captureVideo: boolean;
     captureAudio: boolean;
     inputStream: Optional<MediaStream>;
     outputStream: Optional<MediaStream>;
@@ -28,6 +32,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   protected context: ISourceContext = {
     sourceActions: {
       setAudioCapturing: this.setAudioCapturing,
+      setVideoCapturing: this.setVideoCapturing,
       updateInputSources: this.updateInputSources,
       updateInputStream: this.updateInputStream,
       updateInputStreamAndSources: this.updateInputStreamAndSources,
@@ -35,6 +40,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     },
     sourceState: {
       captureAudio: true,
+      captureVideo: true,
       inputStream: null,
       outputStream: null,
       selectedDevices: {
@@ -60,12 +66,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     this.log.info("Disposed source storage.");
   }
 
-  @Bind()
-  protected updateInputSources(selectedDevices: IInputSourceDevices): void {
-    this.updateStateRef();
-    this.context.sourceState.selectedDevices = selectedDevices;
-    this.update();
-  }
+  // Actions:
 
   @Bind()
   protected setAudioCapturing(captureAudio: boolean): void {
@@ -79,6 +80,18 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     this.update();
   }
 
+  @Bind()
+  protected setVideoCapturing(captureVideo: boolean): void {
+    this.context.sourceState = { ...this.context.sourceState, captureVideo };
+    this.update();
+  }
+
+  @Bind()
+  protected updateInputSources(selectedDevices: IInputSourceDevices): void {
+    this.updateStateRef();
+    this.context.sourceState.selectedDevices = selectedDevices;
+    this.update();
+  }
   @Bind()
   protected updateInputStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
     this.updateStateRef();
