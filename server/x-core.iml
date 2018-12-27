@@ -29,6 +29,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-sdk-2.12.7" level="application" />
+    <orderEntry type="library" name="Maven: com.nimbusds:nimbus-jose-jwt:6.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.0.4.RELEASE" level="project" />
@@ -105,7 +106,7 @@
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.7" level="project" />
     <orderEntry type="library" name="Maven: com.github.stephenc.jcip:jcip-annotations:1.0-1" level="project" />
     <orderEntry type="library" name="Maven: com.nimbusds:lang-tag:1.4.4" level="project" />
-    <orderEntry type="library" name="Maven: com.nimbusds:nimbus-jose-jwt:6.3" level="project" />
+    <orderEntry type="library" name="Maven: com.nimbusds:nimbus-jose-jwt:6.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-oauth2-core:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.0.4.RELEASE" level="project" />
@@ -148,5 +149,21 @@
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-core:1.0.6" level="project" />
     <orderEntry type="library" name="Maven: org.hdrhistogram:HdrHistogram:2.1.10" level="project" />
     <orderEntry type="library" name="Maven: org.latencyutils:LatencyUtils:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:5.3.0" level="project" />
+    <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:3.1.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.2" level="project" />
+    <orderEntry type="library" name="Maven: io.projectreactor.ipc:reactor-netty:0.7.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-native-epoll:linux-x86_64:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-native-unix-common:4.1.27.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.28.Final" level="project" />
   </component>
 </module>

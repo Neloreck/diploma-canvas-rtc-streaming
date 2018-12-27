@@ -1,8 +1,8 @@
 package com.xcore.application.initialization.database;
 
-import com.xcore.application.authentication.models.role.EAppAccessLevel;
-import com.xcore.application.authentication.models.user.AppUser;
-import com.xcore.application.authentication.services.AppUserDetailService;
+import com.xcore.application.modules.authentication.models.role.EAppAccessLevel;
+import com.xcore.application.modules.authentication.models.user.AppUser;
+import com.xcore.application.modules.authentication.services.AppUserDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

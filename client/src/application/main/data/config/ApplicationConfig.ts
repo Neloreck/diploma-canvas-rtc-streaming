@@ -10,4 +10,6 @@ export class ApplicationConfig {
   public readonly defaultRenderingResolution: { width: number, height: number } = { width: 1280, height: 720 };
   public readonly defaultVideoCapturingFramerate: number = 60;
 
+  public readonly serverLiveSocketUrl: string = "http://localhost:8080/websocket/live";
+
 }

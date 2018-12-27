@@ -68,6 +68,8 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "typeface-roboto": "^0.0.54",
+    "sockjs-client": "^1.3.0",
+    "@stomp/stompjs": "^5.1.0",
     "query-string": "^6.2.0",
     "webrtc-adapter": "^7.1.1"
   },
@@ -95,6 +97,7 @@
     "@types/react-resize-detector": "^3.1.0",
     "@types/react-router": "^4.4.3",
     "@types/react-router-dom": "^4.3.1",
+    "@types/sockjs-client": "^1.1.0",
     "@types/webpack": "^4.4.21",
     "autoprefixer": "^9.4.2",
     "awesome-typescript-loader": "^5.2.1",

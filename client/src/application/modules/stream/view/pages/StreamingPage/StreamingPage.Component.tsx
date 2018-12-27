@@ -9,6 +9,8 @@ import {Styled} from "@Lib/react_lib/mui";
 // Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {
+  connectionContextManager,
+  IConnectionContext,
   IRenderingContext,
   ISourceContext,
   sourceContextManager
@@ -35,11 +37,12 @@ export interface IStreamingPageState {
   mounted: boolean;
 }
 
-export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, WithStyles<typeof streamingPageStyle> {}
+export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, IConnectionContext, WithStyles<typeof streamingPageStyle> {}
 export interface IStreamingPageOwnProps {}
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
 
 @Consume<ISourceContext, IStreamingPageProps>(sourceContextManager)
+@Consume<IConnectionContext, IStreamingPageProps>(connectionContextManager)
 @Styled(streamingPageStyle)
 export class StreamingPage extends Component<IStreamingPageProps, IStreamingPageState> {
 
@@ -49,13 +52,15 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
   public componentWillMount(): void {
     // Display main video on mount.
-    const {sourceState: {captureVideo}} = this.props;
+    const {sourceState: {captureVideo}, connectionActions: {connect: connectToSocket}} = this.props;
 
     if (captureVideo) {
       this
         .getDefaultVideo()
         .then();
     }
+
+    connectToSocket();
   }
 
   public componentDidMount(): void {
@@ -63,7 +68,10 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   }
 
   public componentWillUnmount(): void {
-    this.setState({ mounted: false });
+
+    const {connectionActions: {disconnect: disconnectFromSocket}} = this.props;
+
+    this.setState({ mounted: false }, disconnectFromSocket);
   }
 
   public componentWillReceiveProps(nextProps: IStreamingPageProps): void {

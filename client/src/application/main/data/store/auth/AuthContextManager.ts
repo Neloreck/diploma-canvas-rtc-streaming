@@ -3,7 +3,6 @@ import {Bind} from "@redux-cbd/utils";
 
 // Lib.
 import {authClient} from "@Api/x-core";
-import {EResponseStatus} from "@Lib/api/EResponseStatus";
 import {Optional} from "@Lib/ts/types";
 import {DocumentStoreUtils, Logger} from "@Lib/utils";
 
@@ -60,6 +59,14 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     super();
 
     this.initialize().then();
+  }
+
+  public getCurrentUsername(): Optional<string> {
+    return this.context.authState.authData && this.context.authState.authData.username;
+  }
+
+  public getAccessToken(): Optional<string> {
+    return DocumentStoreUtils.getCookie("access_token");
   }
 
   @Bind()
@@ -202,16 +209,10 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     if (response.success && response.authenticated) {
       authState.authData = {username: response.username};
     } else {
+      this.log.error("Auth request got error:", response.error);
 
-      if (response.status === EResponseStatus.UNAUTHORIZED) {
-
-        this.log.info("Old auth data expired, removing stored tokens.");
-
-        DocumentStoreUtils.eraseCookie("access_token");
-        DocumentStoreUtils.eraseCookie("refresh_token");
-      } else {
-        this.log.error("Auth request got error:", response.error);
-      }
+      DocumentStoreUtils.eraseCookie("access_token");
+      DocumentStoreUtils.eraseCookie("refresh_token");
     }
 
     authState.authorized = (authState.authData !== null);

@@ -6,11 +6,9 @@ services:
     container_name: development-redis
     image: redis:latest
     ports:
-    - "6379:6379"
-    expose:
-    - 6379
+      - "6379:6379"
     volumes:
-    - ./storage/redis:/redis/data/
+      - development:/redis/data/
     logging:
       driver: "json-file"
       options:
@@ -21,13 +19,34 @@ services:
     container_name: development-postgres
     image: postgres:9.4-alpine
     restart: always
-    expose:
-    - 5432
     ports:
-    - "5432:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: "development_database"
       POSTGRES_USER: "development_user"
       POSTGRES_PASSWORD: "development_password"
     volumes:
-    - ./storage/postgres:/var/lib/postgresql
+      - development:/var/lib/postgresql
+
+  rabbitmq:
+    image: rabbitmq:3.7.8-management
+    container_name: development-rabbitmq
+    hostname: "development"
+    environment:
+      DEFAULT_USER: "rabbitmq"
+      DEFAULT_PASS: "rabbitmq"
+      DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      - "61613:61613"
+    labels:
+      NAME: "rabbitmq"
+    volumes:
+      - development:/var/lib/rabbitmq
+      - development:/etc/rabbitmq
+    entrypoint:
+      bash -c "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_management && rabbitmq-server"
+
+volumes:
+  development:

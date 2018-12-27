@@ -7,7 +7,8 @@ import {Fragment, PureComponent, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
+import {authContextManager, IAuthContext} from "@Main/data/store";
+import {connectionContextManager, IConnectionContext} from "@Module/stream/data/store";
 
 // View.
 import {
@@ -26,12 +27,12 @@ import {streamingHeaderBarStyle} from "./StreamingHeaderBar.Style";
 // Props.
 
 export interface IStreamingHeaderBarOwnProps {}
-export interface IStreamingHeaderBarExternalProps extends WithStyles<typeof streamingHeaderBarStyle>, IRouterContext, IAuthContext {}
+export interface IStreamingHeaderBarExternalProps extends WithStyles<typeof streamingHeaderBarStyle>, IConnectionContext, IAuthContext {}
 export interface IStreamingHeaderBarProps extends IStreamingHeaderBarOwnProps, IStreamingHeaderBarExternalProps {}
 
 @Styled(streamingHeaderBarStyle)
-@Consume<IRouterContext, IStreamingHeaderBarProps>(routerContextManager)
 @Consume<IAuthContext, IStreamingHeaderBarProps>(authContextManager)
+@Consume<IConnectionContext, IStreamingHeaderBarProps>(connectionContextManager)
 export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> {
 
   public render(): ReactNode {
@@ -51,9 +52,7 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
                 ?
                 <Fragment>
 
-                  <Button variant={"outlined"} size={"small"} onClick={this.onStart} disabled>
-                    Start <LiveTv className={classes.startIcon} fontSize={"small"}/>
-                  </Button>
+                  {this.renderGoLiveButton()}
 
                   <HeaderBarUserMenu {...{} as IHeaderBarUserMenuExternalProps}/>
 
@@ -67,9 +66,23 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
     );
   }
 
-  @Bind()
-  private onStart(): void {
-    // todo
+  private renderGoLiveButton(): ReactNode {
+
+    const {classes, connectionState: {online, live}, connectionActions: {goLive}} = this.props;
+
+    if (live) {
+      return (
+        <Grid>
+          Live
+        </Grid>
+      );
+    } else {
+      return (
+        <Button variant={"outlined"} size={"small"} onClick={goLive} disabled={!online}>
+          Go Live <LiveTv className={classes.startIcon} fontSize={"small"}/>
+        </Button>
+      );
+    }
   }
 
 }

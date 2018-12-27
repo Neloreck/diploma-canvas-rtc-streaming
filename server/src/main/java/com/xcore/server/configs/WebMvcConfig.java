@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-    List<String> ignoredResources = Arrays.asList("ws", "api", "favicon");
+    List<String> ignoredResources = Arrays.asList("websocket", "auth", "api", "favicon");
 
     // Handle static files.
     registry

@@ -9,7 +9,12 @@ import {PureComponent, ReactNode} from "react";
 import {log} from "@Lib/utils";
 
 // Data.
-import {graphicsContextManager, renderingContextManager, sourceContextManager} from "@Module/stream/data/store";
+import {
+  connectionContextManager,
+  graphicsContextManager,
+  renderingContextManager,
+  sourceContextManager
+} from "@Module/stream/data/store";
 
 // View.
 import {ModuleRouter} from "@Module/stream/ModuleRouter";
@@ -17,6 +22,7 @@ import {ModuleRouter} from "@Module/stream/ModuleRouter";
 @Provide(graphicsContextManager)
 @Provide(renderingContextManager)
 @Provide(sourceContextManager)
+@Provide(connectionContextManager)
 export class Module extends PureComponent {
 
   public componentDidMount(): void {
