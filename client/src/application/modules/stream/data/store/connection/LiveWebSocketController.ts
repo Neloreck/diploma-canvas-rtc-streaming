@@ -32,7 +32,7 @@ export class LiveWebSocketController extends AbstractWebSocketController {
     this.log.info(`Authorizing as '${user}'.`);
 
     this.user = user;
-    this.timer = setInterval(() => this.onStatusChanged(this.isActive()), this.statusCheckInterval);
+    this.timer = setInterval(() => this.onStatusChanged(this.isConnected()), this.statusCheckInterval);
     this.client.configure({ connectHeaders: { access_token: token } });
 
     super.connect();

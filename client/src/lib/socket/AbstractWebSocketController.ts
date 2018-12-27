@@ -18,8 +18,8 @@ export abstract class AbstractWebSocketController {
   }
 
   @Bind()
-  public isActive(): boolean {
-    return this.client.active;
+  public isConnected(): boolean {
+    return this.client.webSocket.readyState === WebSocket.OPEN;
   }
 
   /*
