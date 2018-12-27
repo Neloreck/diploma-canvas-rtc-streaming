@@ -8,9 +8,6 @@ export const renderingContextManager: RenderingContextManager = new RenderingCon
 export const graphicsContextManager: GraphicsContextManager = new GraphicsContextManager();
 export const sourceContextManager: SourceContextManager = new SourceContextManager();
 
-// @ts-ignore todo: remove
-window.t = connectionContextManager;
-
 export {ConnectionContextManager, IConnectionContext} from "@Module/stream/data/store/connection/ConnectionContextManager";
 export {RenderingContextManager, IRenderingContext} from "@Module/stream/data/store/rendering/RenderingContextManager";
 export {GraphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/graphics/GraphicsContextManager";
