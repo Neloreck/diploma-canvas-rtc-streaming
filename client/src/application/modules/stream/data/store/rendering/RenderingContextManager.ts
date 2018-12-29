@@ -44,7 +44,7 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
     }
   };
 
-  private log: Logger = new Logger("[🏭RND OPTIONS]", true);
+  private log: Logger = new Logger("[🏭C-RND]", true);
 
   @Bind()
   public dispose(): void {

@@ -11,8 +11,10 @@ export abstract class AbstractEventEmittingRenderingService extends AbstractInte
   /* Events middleware. */
 
   public setSelectedObject(object: AbstractCanvasGraphicsRenderObject<any> | null): void {
-    super.setSelectedObject(object);
-    this.dispatch(ERenderingServiceEvent.OBJECT_SELECTED, this.selectedObject);
+    if (this.getSelectedObject() !== object) {
+      super.setSelectedObject(object);
+      this.dispatch(ERenderingServiceEvent.OBJECT_SELECTED, this.selectedObject);
+    }
   }
 
   /* External events handling. */

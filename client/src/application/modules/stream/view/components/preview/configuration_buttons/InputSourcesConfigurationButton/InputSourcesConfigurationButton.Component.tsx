@@ -70,7 +70,7 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
     const {sourceState: {captureVideo}, sourceActions: {updateInputStreamAndSources, updateInputSources}} = this.props;
 
     if (captureVideo) {
-      const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, false);
+      const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, devices.audioInput);
       updateInputStreamAndSources(stream, devices);
     } else {
       updateInputSources(devices);

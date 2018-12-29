@@ -48,5 +48,11 @@ services:
     entrypoint:
       bash -c "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_management && rabbitmq-server"
 
+  kurrento:
+    image: kurento/kurento-media-server:trusty-latest
+    container_name: development-kurrento
+    ports:
+      - "8888:8888"
+
 volumes:
   development:

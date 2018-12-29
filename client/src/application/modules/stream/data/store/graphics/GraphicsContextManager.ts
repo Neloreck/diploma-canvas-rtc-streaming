@@ -40,7 +40,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     }
   };
 
-  private log: Logger = new Logger("[🏭GFX]", true);
+  private log: Logger = new Logger("[🏭C-GFX]", true);
 
   @Bind()
   public dispose(): void {

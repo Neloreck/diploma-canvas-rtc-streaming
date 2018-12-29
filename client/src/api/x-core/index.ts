@@ -11,7 +11,7 @@ export const authClient: AuthClient = new AuthClient();
 
 if (xCoreClientConfig.exposeClientsToWindow) {
 
-  log.info("Exposing api clients for DEV mode.");
+  log.warn("Exposing api clients for DEV mode.");
 
   // @ts-ignore DEV feature.
   window.api = {

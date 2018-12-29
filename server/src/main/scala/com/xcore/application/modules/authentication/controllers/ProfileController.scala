@@ -3,8 +3,8 @@ package com.xcore.application.modules.authentication.controllers
 import java.beans.BeanProperty
 import java.util.Optional
 
-import com.xcore.application.modules.authentication.models.user.AppUser
-import com.xcore.application.modules.authentication.services.AppUserDetailService
+import com.xcore.application.modules.authentication.models.user.ApplicationUser
+import com.xcore.application.modules.authentication.services.ApplicationUserDetailService
 import com.xcore.server.controllers.rest.exchange.{ApiResponse, ErrorApiResponse}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.{GetMapping, PathVariable, Reques
 class ProfileController {
 
   @Autowired
-  private var appUserDetailService: AppUserDetailService = _;
+  private var appUserDetailService: ApplicationUserDetailService = _;
 
-  case class ProfileResponse(@BeanProperty profile: AppUser) extends ApiResponse;
+  case class ProfileResponse(@BeanProperty profile: ApplicationUser) extends ApiResponse;
   case class ProfileNotFoundResponse(id: Long) extends ErrorApiResponse(s"Profile with id $id was not found.");
 
   @GetMapping(Array("/{id}"))
@@ -32,7 +32,7 @@ class ProfileController {
         return new ResponseEntity[ApiResponse](new ErrorApiResponse("Bad profile id supplied: $id."), HttpStatus.BAD_REQUEST);
     }
 
-    val optionalProfile: Optional[AppUser] = appUserDetailService.loadUserById(profileId);
+    val optionalProfile: Optional[ApplicationUser] = appUserDetailService.loadUserById(profileId);
 
     if (optionalProfile.isPresent) {
       new ResponseEntity[ApiResponse](ProfileResponse(optionalProfile.get()), HttpStatus.OK);

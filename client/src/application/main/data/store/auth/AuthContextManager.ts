@@ -10,6 +10,7 @@ import {DocumentStoreUtils, Logger} from "@Lib/utils";
 import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
 import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
 import {IXCoreFailedResponse} from "@Api/x-core/exchange/IXCoreFailedResponse";
+import {ITokenData} from "@Api/x-core/ITokenData";
 import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
 
 // Data.
@@ -53,7 +54,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     }
   };
 
-  protected log: Logger = new Logger("[🌋AUTH]", true);
+  protected log: Logger = new Logger("[🌋C-AUTH]", true);
 
   public constructor() {
     super();
@@ -61,13 +62,18 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     this.initialize().then();
   }
 
+  // Getters.
+
   public getCurrentUsername(): Optional<string> {
     return this.context.authState.authData && this.context.authState.authData.username;
   }
 
   public getAccessToken(): Optional<string> {
-    return DocumentStoreUtils.getCookie("access_token");
+    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorege("token_data");
+    return tokenData && (this.isTokenDataNonExpired(tokenData)) ? tokenData.access_token : null;
   }
+
+  // General.
 
   @Bind()
   protected async initialize(): Promise<void> {
@@ -92,30 +98,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected async refresh(): Promise<void> {
-    DocumentStoreUtils.eraseCookie("access_token");
-    DocumentStoreUtils.eraseCookie("refresh_token");
-  }
-
-  @Bind()
-  protected async logout(): Promise<void> {
-
-    this.log.info("Logging out.");
-
-    const {authState} = this.context;
-
-    if (authState.authorizing) {
-      throw new Error("Cannot logout while authorizing.");
-    }
-
-    DocumentStoreUtils.eraseCookie("access_token");
-    DocumentStoreUtils.eraseCookie("refresh_token");
-
-    authState.authData = null;
-    authState.authorized = false;
-
-    routerContextManager.push("/");
-
-    this.update();
+    DocumentStoreUtils.removeLocalStorageItem("token_data");
   }
 
   @Bind()
@@ -147,7 +130,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
         username: response.username
       };
 
-      this.saveAuthData(response);
+      this.saveTokenData(response);
     }
 
     state.authorized = (state.authData !== null);
@@ -192,6 +175,31 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   }
 
   @Bind()
+  protected async logout(): Promise<void> {
+
+    // todo: Backend logout request.
+
+    this.log.info("Logging out.");
+
+    const {authState} = this.context;
+
+    if (authState.authorizing) {
+      throw new Error("Cannot logout while authorizing.");
+    }
+
+    DocumentStoreUtils.removeLocalStorageItem("token_data");
+
+    authState.authData = null;
+    authState.authorized = false;
+
+    routerContextManager.push("/");
+
+    this.update();
+  }
+
+  // Inner methods.
+
+  @Bind()
   protected async updateUserInfo(): Promise<void> {
 
     this.log.info("Updating user information.");
@@ -211,8 +219,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     } else {
       this.log.error("Auth request got error:", response.error);
 
-      DocumentStoreUtils.eraseCookie("access_token");
-      DocumentStoreUtils.eraseCookie("refresh_token");
+      DocumentStoreUtils.removeLocalStorageItem("token_data");
     }
 
     authState.authorized = (authState.authData !== null);
@@ -232,20 +239,34 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   }
 
   @Bind()
-  protected saveAuthData(tokensResponse: ITokensResponse): void {
-    DocumentStoreUtils.setCookie("access_token", tokensResponse.access_token, { expires: tokensResponse.expires_in });
-    DocumentStoreUtils.setCookie("refresh_token", tokensResponse.refresh_token);
+  protected saveTokenData(tokensResponse: ITokensResponse): void {
+    DocumentStoreUtils.setLocalStorageItem("token_data", {
+      access_token: tokensResponse.access_token,
+      expires: tokensResponse.expires_in * 1000,
+      received: Date.now(),
+      refresh_token: tokensResponse.refresh_token
+    });
   }
+
+  // Different checks.
 
   @Bind()
   protected hasAuthToken(): boolean {
-    return Boolean(DocumentStoreUtils.getCookie("access_token"));
+    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorege("token_data");
+    return tokenData !== null && Boolean(tokenData.access_token) && this.isTokenDataNonExpired(tokenData);
   }
 
   @Bind()
   protected hasRefreshToken(): boolean {
-    return Boolean(DocumentStoreUtils.getCookie("refresh_token"));
+    return Boolean(localStorage.getItem("token_data"));
   }
+
+  @Bind()
+  protected isTokenDataNonExpired(tokenData: ITokenData): boolean {
+    return tokenData.received + tokenData.expires > Date.now();
+  }
+
+  // Lifecycle.
 
   @Bind()
   protected beforeUpdate(): void {

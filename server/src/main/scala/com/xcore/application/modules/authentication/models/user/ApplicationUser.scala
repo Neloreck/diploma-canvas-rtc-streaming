@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import lombok.NonNull
 import javax.persistence._
 import java.io.Serializable
+import java.security.Principal
 
 import com.xcore.application.modules.authentication.models.role.EAppAccessLevel
 import org.codehaus.jackson.annotate.JsonIgnore
@@ -12,9 +13,10 @@ import org.springframework.security.core.GrantedAuthority
 import scala.beans.BeanProperty
 
 @Entity
-class AppUser extends Serializable with UserDetails {
+class ApplicationUser extends Serializable with UserDetails with Principal {
 
   @Id
+  @BeanProperty
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long = _;
 
@@ -51,6 +53,9 @@ class AppUser extends Serializable with UserDetails {
   /*
    * Computed:
    */
+
+  @JsonIgnore
+  override def getName: String = username;
 
   @JsonIgnore
   override def getAuthorities: java.util.List[GrantedAuthority] = role.getAuthorities;

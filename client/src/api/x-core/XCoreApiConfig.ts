@@ -4,6 +4,9 @@ import {Bind} from "@redux-cbd/utils";
 import {Optional} from "@Lib/ts/types";
 import {DocumentStoreUtils} from "@Lib/utils";
 
+// Api.
+import {ITokenData} from "@Api/x-core/ITokenData";
+
 export class XCoreApiConfig {
 
   private static readonly X_CORE_CLIENT_ID: string = "X-CORE-CLIENT";
@@ -23,10 +26,10 @@ export class XCoreApiConfig {
   @Bind()
   public getDefaultHeaders(): Headers {
 
-    const accessToken: Optional<string> = DocumentStoreUtils.getCookie("access_token");
+    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorege("token_data");
 
-    if (accessToken) {
-      XCoreApiConfig.DEFAULT_HEADERS.set("Authorization", `Bearer ${DocumentStoreUtils.getCookie("access_token")}`);
+    if (tokenData) {
+      XCoreApiConfig.DEFAULT_HEADERS.set("Authorization", `Bearer ${tokenData.access_token}`);
     } else {
       XCoreApiConfig.DEFAULT_HEADERS.delete("Authorization");
     }

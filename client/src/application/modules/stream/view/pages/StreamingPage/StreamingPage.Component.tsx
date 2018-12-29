@@ -9,10 +9,10 @@ import {Styled} from "@Lib/react_lib/mui";
 // Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {
-  connectionContextManager,
-  IConnectionContext,
+  ILiveContext,
   IRenderingContext,
   ISourceContext,
+  liveContextManager,
   sourceContextManager
 } from "@Module/stream/data/store";
 
@@ -37,12 +37,12 @@ export interface IStreamingPageState {
   mounted: boolean;
 }
 
-export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, IConnectionContext, WithStyles<typeof streamingPageStyle> {}
+export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, ILiveContext, WithStyles<typeof streamingPageStyle> {}
 export interface IStreamingPageOwnProps {}
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
 
 @Consume<ISourceContext, IStreamingPageProps>(sourceContextManager)
-@Consume<IConnectionContext, IStreamingPageProps>(connectionContextManager)
+@Consume<ILiveContext, IStreamingPageProps>(liveContextManager)
 @Styled(streamingPageStyle)
 export class StreamingPage extends Component<IStreamingPageProps, IStreamingPageState> {
 
@@ -52,7 +52,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
   public componentWillMount(): void {
     // Display main video on mount.
-    const {sourceState: {captureVideo}, connectionActions: {connect: connectToSocket}} = this.props;
+    const {sourceState: {captureVideo}, liveActions: {start: startLive}} = this.props;
 
     if (captureVideo) {
       this
@@ -60,7 +60,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
         .then();
     }
 
-    connectToSocket();
+    startLive().then();
   }
 
   public componentDidMount(): void {
@@ -69,9 +69,9 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
   public componentWillUnmount(): void {
 
-    const {connectionActions: {disconnect: disconnectFromSocket}} = this.props;
+    const {liveActions: {stop: stopLive}} = this.props;
 
-    this.setState({ mounted: false }, disconnectFromSocket);
+    this.setState({ mounted: false }, stopLive);
   }
 
   public componentWillReceiveProps(nextProps: IStreamingPageProps): void {

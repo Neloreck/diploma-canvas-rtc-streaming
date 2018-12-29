@@ -5,7 +5,7 @@ export interface ITokensResponse extends IXCoreResponse {
   error_description?: string;
   access_token: string;
   refresh_token: string;
-  expires_in: string;
+  expires_in: number;
   scope: string;
   token_type: string;
   username: string;

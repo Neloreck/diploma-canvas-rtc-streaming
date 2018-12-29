@@ -10,8 +10,8 @@ import {log} from "@Lib/utils";
 
 // Data.
 import {
-  connectionContextManager,
   graphicsContextManager,
+  liveContextManager,
   renderingContextManager,
   sourceContextManager
 } from "@Module/stream/data/store";
@@ -22,7 +22,7 @@ import {ModuleRouter} from "@Module/stream/ModuleRouter";
 @Provide(graphicsContextManager)
 @Provide(renderingContextManager)
 @Provide(sourceContextManager)
-@Provide(connectionContextManager)
+@Provide(liveContextManager)
 export class Module extends PureComponent {
 
   public componentDidMount(): void {
@@ -34,6 +34,8 @@ export class Module extends PureComponent {
 
     sourceContextManager.dispose();
     graphicsContextManager.dispose();
+    liveContextManager.dispose();
+    renderingContextManager.dispose();
   }
 
   public render(): ReactNode {

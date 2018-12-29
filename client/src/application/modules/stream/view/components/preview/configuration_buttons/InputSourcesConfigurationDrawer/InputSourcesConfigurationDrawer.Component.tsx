@@ -195,7 +195,8 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
     const {selectedInputSources} = newState;
 
     if (this.shouldPreviewStreamUpdate(this.state, newState)) {
-      this.updatePreviewStream(selectedInputSources.videoInput, selectedInputSources.audioInput);
+      this.updatePreviewStream(selectedInputSources.videoInput, selectedInputSources.audioInput)
+        .then();
     }
 
     this.setState(newState);

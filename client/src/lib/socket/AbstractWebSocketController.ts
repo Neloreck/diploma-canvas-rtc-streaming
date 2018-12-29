@@ -1,19 +1,23 @@
 import {Bind} from "@redux-cbd/utils";
-
-import {Client, IFrame, IMessage, messageCallbackType, StompSubscription} from "@stomp/stompjs";
+import {Client, IFrame, messageCallbackType, StompSubscription} from "@stomp/stompjs";
 import {default as SockJS} from "sockjs-client";
 
+import {IAbstractWebSocketMessage} from "./IAbstractWebSocketMessage";
+
 export abstract class AbstractWebSocketController {
+
+  protected abstract sessionId: string | null;
+  protected abstract socketUrl: string | null;
+  protected abstract accessToken: string | null;
+
+  protected abstract readonly destinationPrefix: string;
+  protected abstract readonly recievalPrefix: string;
 
   protected readonly client: Client;
   protected subscriptions: Array<StompSubscription> = [];
 
-  protected abstract readonly destinationPrefix: string;
-
-  public constructor(socketUrl: string) {
+  public constructor() {
     this.client = new Client();
-    this.client.webSocketFactory = () => new SockJS(socketUrl);
-
     this.client.onConnect = this.onConnected;
   }
 
@@ -22,15 +26,23 @@ export abstract class AbstractWebSocketController {
     return this.client.webSocket.readyState === WebSocket.OPEN;
   }
 
+  @Bind()
+  public setAccessToken(url: string | null): void {
+    this.accessToken = url;
+  }
+
   /*
    * Handlers implementation.
    */
 
-  public abstract sendMessage(destination: string, message: string): void;
+  @Bind()
+  public sendMessage(mapping: string, message: IAbstractWebSocketMessage): void {
+    this.client.publish({ destination: `${this.destinationPrefix}.${this.sessionId}.${mapping}`, body: JSON.stringify(message) });
+  }
 
   @Bind()
   public addSubscription(mapping: string, handler: messageCallbackType): StompSubscription {
-    const subscription: StompSubscription = this.client.subscribe(mapping, handler);
+    const subscription: StompSubscription = this.client.subscribe(`${this.recievalPrefix}.${this.sessionId}.${mapping}`, handler);
     this.subscriptions.push(subscription);
     return subscription;
   }
@@ -47,6 +59,7 @@ export abstract class AbstractWebSocketController {
 
   @Bind()
   public connect(): void {
+    this.client.webSocketFactory = () => new SockJS(`${this.socketUrl}?access_token=${this.accessToken}`);
     this.client.activate();
   }
 
@@ -54,6 +67,10 @@ export abstract class AbstractWebSocketController {
   public disconnect(): void {
     this.unsubscribe();
     this.client.deactivate();
+
+    if (this.client.webSocket) {
+      this.client.webSocket.close();
+    }
   }
 
   @Bind()
@@ -64,8 +81,6 @@ export abstract class AbstractWebSocketController {
   }
 
   // Subscription.
-
-  protected abstract onMessage(message: IMessage): void;
 
   protected abstract subscribe(): void;
 

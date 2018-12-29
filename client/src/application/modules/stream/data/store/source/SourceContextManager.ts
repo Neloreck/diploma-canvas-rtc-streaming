@@ -50,7 +50,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     }
   };
 
-  private log: Logger = new Logger("[💥SRC]", true);
+  private log: Logger = new Logger("[💥C-SRC]", true);
 
   @Bind()
   public dispose(): void {

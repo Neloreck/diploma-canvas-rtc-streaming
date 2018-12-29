@@ -1,6 +1,6 @@
 package com.xcore.application.modules.authentication.configs
 
-import com.xcore.application.modules.authentication.services.AppUserDetailService
+import com.xcore.application.modules.authentication.services.ApplicationUserDetailService
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.context.annotation.{Bean, Configuration}
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -20,7 +20,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private val log: Logger = LoggerFactory.getLogger("[🔒SECURITY]");
 
   @Autowired
-  private var appUserDetailsService: AppUserDetailService = _;
+  private var appUserDetailsService: ApplicationUserDetailService = _;
 
   @Autowired
   private var passwordEncoder: PasswordEncoder = _;

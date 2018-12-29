@@ -8,7 +8,7 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {authContextManager, IAuthContext} from "@Main/data/store";
-import {connectionContextManager, IConnectionContext} from "@Module/stream/data/store";
+import {liveContextManager, ILiveContext} from "@Module/stream/data/store";
 
 // View.
 import {
@@ -27,12 +27,12 @@ import {streamingHeaderBarStyle} from "./StreamingHeaderBar.Style";
 // Props.
 
 export interface IStreamingHeaderBarOwnProps {}
-export interface IStreamingHeaderBarExternalProps extends WithStyles<typeof streamingHeaderBarStyle>, IConnectionContext, IAuthContext {}
+export interface IStreamingHeaderBarExternalProps extends WithStyles<typeof streamingHeaderBarStyle>, ILiveContext, IAuthContext {}
 export interface IStreamingHeaderBarProps extends IStreamingHeaderBarOwnProps, IStreamingHeaderBarExternalProps {}
 
 @Styled(streamingHeaderBarStyle)
 @Consume<IAuthContext, IStreamingHeaderBarProps>(authContextManager)
-@Consume<IConnectionContext, IStreamingHeaderBarProps>(connectionContextManager)
+@Consume<ILiveContext, IStreamingHeaderBarProps>(liveContextManager)
 export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> {
 
   public render(): ReactNode {
@@ -68,17 +68,17 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
   private renderGoLiveButton(): ReactNode {
 
-    const {classes, connectionState: {online, live}, connectionActions: {goLive}} = this.props;
+    const {classes, liveState: {online, live}, liveActions: {startStream, stopStream}} = this.props;
 
     if (live) {
       return (
-        <Grid>
-          Live
-        </Grid>
+        <Button variant={"outlined"} size={"small"} onClick={stopStream}>
+         Stop <LiveTv className={classes.startIcon} fontSize={"small"}/>
+        </Button>
       );
     } else {
       return (
-        <Button variant={"outlined"} size={"small"} onClick={goLive} disabled={!online}>
+        <Button variant={"outlined"} size={"small"} onClick={startStream} disabled={!online}>
           Go Live <LiveTv className={classes.startIcon} fontSize={"small"}/>
         </Button>
       );

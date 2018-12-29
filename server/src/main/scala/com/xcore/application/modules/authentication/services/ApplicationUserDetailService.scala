@@ -4,7 +4,7 @@ import java.util.Optional
 
 import com.xcore.application.modules.authentication.configs.WebSecurityOptions
 import com.xcore.application.modules.authentication.models.role.EAppAccessLevel
-import com.xcore.application.modules.authentication.models.user.{AppUser, IAppUserRepository}
+import com.xcore.application.modules.authentication.models.user.{ApplicationUser, IApplicationUserRepository}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.{UserDetails, UserDetailsService, UsernameNotFoundException}
@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class AppUserDetailService extends UserDetailsService {
+class ApplicationUserDetailService extends UserDetailsService {
 
   private val log: Logger = LoggerFactory.getLogger("[🔒UDS]");
 
@@ -23,19 +23,19 @@ class AppUserDetailService extends UserDetailsService {
   private var passwordEncoder: PasswordEncoder = _;
 
   @Autowired
-  private var appUserRepository: IAppUserRepository = _;
+  private var appUserRepository: IApplicationUserRepository = _;
 
 
   def userExists(username: String): Boolean = appUserRepository.findByUsername(username).isPresent;
 
   def userWithMailExists(email: String): Boolean = appUserRepository.findByMail(email).isPresent;
 
-  def loadUserById(id: Long): Optional[AppUser] = appUserRepository.findById(id);
+  def loadUserById(id: Long): Optional[ApplicationUser] = appUserRepository.findById(id);
 
   @throws[UsernameNotFoundException]
   def loadUserByUsername(username: String): UserDetails = {
 
-    val optionalUser: Optional[AppUser] = appUserRepository.findByUsername(username);
+    val optionalUser: Optional[ApplicationUser] = appUserRepository.findByUsername(username);
 
     if (optionalUser.isPresent) {
       log.info(s"User '$username' was found.")
@@ -48,9 +48,9 @@ class AppUserDetailService extends UserDetailsService {
 
 
   @throws[Exception]
-  def registerUser(username: String, mail: String, password: String): AppUser = {
+  def registerUser(username: String, mail: String, password: String): ApplicationUser = {
 
-    val appUser: AppUser = new AppUser();
+    val appUser: ApplicationUser = new ApplicationUser();
 
     appUser.setUsername(username);
     appUser.setMail(mail);
@@ -62,7 +62,7 @@ class AppUserDetailService extends UserDetailsService {
     appUserRepository.save(appUser);
   }
 
-  def registerUser(appUser: AppUser): AppUser = {
+  def registerUser(appUser: ApplicationUser): ApplicationUser = {
 
     log.info(s"Registering user: '${appUser.getUsername}'.")
 

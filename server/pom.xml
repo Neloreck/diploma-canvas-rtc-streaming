@@ -236,6 +236,14 @@
 			<version>4.1.28.Final</version>
 		</dependency>
 
+		<!-- Media -->
+
+		<dependency>
+			<groupId>org.kurento</groupId>
+			<artifactId>kurento-client</artifactId>
+			<version>6.9.0</version>
+		</dependency>
+
 	</dependencies>
 
     <!-- Build configuration -->

@@ -5,8 +5,8 @@ import java.security.Principal
 
 import com.xcore.application.modules.authentication.controllers
 import com.xcore.application.modules.authentication.models.role.EAppAccessLevel
-import com.xcore.application.modules.authentication.models.user.AppUser
-import com.xcore.application.modules.authentication.services.AppUserDetailService
+import com.xcore.application.modules.authentication.models.user.ApplicationUser
+import com.xcore.application.modules.authentication.services.ApplicationUserDetailService
 import com.xcore.application.modules.authentication.utils.{AuthDataValidator, AuthUtils}
 import com.xcore.server.controllers.rest.exchange.{ApiRequest, ApiResponse, ErrorApiResponse}
 import javax.servlet.RequestDispatcher
@@ -45,7 +45,7 @@ class GeneralAuthorizationController {
   private val log: Logger = LoggerFactory.getLogger("[🔒AUTH]");
 
   @Autowired
-  private var appUserDetailService: AppUserDetailService = _;
+  private var appUserDetailService: ApplicationUserDetailService = _;
 
   // Controller implementation:
 
@@ -60,7 +60,7 @@ class GeneralAuthorizationController {
     new GeneralAuthorizationController.AuthInfoApiResponse(
       !authentication.getAuthorities.contains(EAppAccessLevel.ROLE_ANONYMOUS.getAuthority),
       principal match {
-        case user: AppUser => user.username
+        case user: ApplicationUser => user.username
         case _ => principal.toString
       }
     );
@@ -92,7 +92,7 @@ class GeneralAuthorizationController {
         return new ResponseEntity[ApiResponse](new ErrorApiResponse("Provided email already used."), HttpStatus.BAD_REQUEST);
       }
 
-      val user: AppUser = appUserDetailService.registerUser(new AppUser(request.username, request.mail, request.password, EAppAccessLevel.ROLE_USER));
+      val user: ApplicationUser = appUserDetailService.registerUser(new ApplicationUser(request.username, request.mail, request.password, EAppAccessLevel.ROLE_USER));
       new ResponseEntity[ApiResponse](new GeneralAuthorizationController.RegisterSuccessfulResponse(user.username, user.id), HttpStatus.OK);
 
     } catch {

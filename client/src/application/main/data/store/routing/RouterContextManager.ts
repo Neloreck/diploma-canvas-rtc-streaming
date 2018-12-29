@@ -34,7 +34,7 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
     }
   };
 
-  protected log: Logger = new Logger("[🗺️ROUTER]", true);
+  protected log: Logger = new Logger("[🗺️C-ROUTER]", true);
 
   @Bind()
   public replace(path: string): void {

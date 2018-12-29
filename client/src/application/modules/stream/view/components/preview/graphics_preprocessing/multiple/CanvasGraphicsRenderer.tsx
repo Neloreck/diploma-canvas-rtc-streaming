@@ -106,7 +106,7 @@ export class CanvasGraphicsRenderer
 
   public componentWillReceiveProps(nextProps: ICanvasGraphicsRendererProps): void {
     // Selected object from application.
-    if (nextProps.graphicsState.selectedObject !== this.props.graphicsState.selectedObject) {
+    if (nextProps.graphicsState.selectedObject !== this.internalRenderingService.getSelectedObject()) {
       this.internalRenderingService.setSelectedObject(nextProps.graphicsState.selectedObject);
     }
 
