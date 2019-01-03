@@ -68,17 +68,17 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
   private renderGoLiveButton(): ReactNode {
 
-    const {classes, liveState: {online, live}, liveActions: {startStream, stopStream}} = this.props;
+    const {classes, liveState: {online, live}, liveActions: {startStreaming, stopStreaming}} = this.props;
 
     if (live) {
       return (
-        <Button variant={"outlined"} size={"small"} onClick={stopStream}>
+        <Button variant={"outlined"} size={"small"} onClick={stopStreaming}>
          Stop <LiveTv className={classes.startIcon} fontSize={"small"}/>
         </Button>
       );
     } else {
       return (
-        <Button variant={"outlined"} size={"small"} onClick={startStream} disabled={!online}>
+        <Button variant={"outlined"} size={"small"} onClick={startStreaming} disabled={!online}>
           Go Live <LiveTv className={classes.startIcon} fontSize={"small"}/>
         </Button>
       );

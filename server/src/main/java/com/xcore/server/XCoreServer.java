@@ -1,20 +1,31 @@
 package com.xcore.server;
 
-import com.xcore.application.initialization.ApplicationInitializer;
+import com.xcore.server.initialization.ApplicationInitializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 
+@EnableScheduling
 @SpringBootApplication
-@EntityScan(basePackages = { "com.xcore.server", "com.xcore.application"})
+
 @Slf4j(topic = "[✴️ Application]")
+@EntityScan(basePackages = { "com.xcore" })
 public class XCoreServer {
 
-	static { log.info("X-Core application starting."); }
+	/*
+	 * Startup Spring server application.
+	 */
+
+	static {
+		log.info("=========================================");
+		log.info("= = =  X-Core application resolved. = = =");
+		log.info("=========================================");
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(XCoreServer.class, args);
@@ -29,7 +40,7 @@ public class XCoreServer {
 
 	@PostConstruct
 	public void postConstruct() {
-		applicationInitializer.initialize();
+		applicationInitializer.proceed();
 	}
 
 }

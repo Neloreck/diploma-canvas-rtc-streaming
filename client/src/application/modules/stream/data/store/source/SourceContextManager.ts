@@ -29,7 +29,7 @@ export interface ISourceContext {
 
 export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
-  protected context: ISourceContext = {
+  public context: ISourceContext = {
     sourceActions: {
       setAudioCapturing: this.setAudioCapturing,
       setVideoCapturing: this.setVideoCapturing,

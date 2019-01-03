@@ -2,17 +2,15 @@ package com.xcore.application.modules.live.models.messages;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.kurento.client.IceCandidate;
 
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
-public class LiveWebSocketMessage<T extends Object> {
+@AllArgsConstructor
+public class LiveICECandidateMessage {
 
-  private String type = "CUSTOM";
-  private T body;
+  private IceCandidate iceCandidate;
 
 }

@@ -243,8 +243,14 @@
 			<artifactId>kurento-client</artifactId>
 			<version>6.9.0</version>
 		</dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>16.0.2</version>
+            <scope>compile</scope>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
     <!-- Build configuration -->
 

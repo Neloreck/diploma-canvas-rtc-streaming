@@ -5,7 +5,7 @@ import {IMessage} from "@stomp/stompjs/esm5/i-message";
 import {AbstractWebSocketController} from "@Lib/socket/AbstractWebSocketController";
 import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
-import {ISdpExchangeMessage} from "@Module/stream/lib/live/messaging";
+import {ILiveSocketMessage, ISdpExchangeMessage} from "@Module/stream/lib/live/messaging";
 
 export class LiveWebSocketController extends AbstractWebSocketController {
 
@@ -14,18 +14,21 @@ export class LiveWebSocketController extends AbstractWebSocketController {
   protected sessionId: Optional<string> = null;
   protected accessToken: Optional<string> = null;
 
-  protected readonly destinationPrefix: string = "/app/live";
-  protected readonly recievalPrefix: string = "/topic/live";
+  protected readonly destinationPrefix: string;
+  protected readonly receivalPrefix: string;
 
   private readonly log: Logger = new Logger("[🌈LIVE-WS]");
 
   private timer: Optional<any> = null;
   private readonly statusCheckInterval: number = 2000;
 
-  public constructor() {
+  public constructor(destinationPrefix: string, receivalPrefix: string) {
     super();
 
-    this.client.debug = this.log.debug.bind(this.log);
+    this.destinationPrefix = destinationPrefix;
+    this.receivalPrefix = receivalPrefix;
+
+    this.client.debug = () => { /* RESTRICTED */ };
   }
 
   @Bind()
@@ -65,11 +68,23 @@ export class LiveWebSocketController extends AbstractWebSocketController {
   // Handlers.
 
   @Bind()
-  public onStatusChanged(status: boolean): void { /* Handler injectable. */ }
+  public onStatusChanged(status: boolean): void {
+    throw new Error("Handler for 'onStatusChanged' should be injected.");
+  }
 
   @Bind()
-  public onSdpAnswerReceived(message: ISdpExchangeMessage): void {
-    throw new Error("Handler should be injected.");
+  public async onSdpAnswerReceived(message: ISdpExchangeMessage): Promise<void> {
+    throw new Error("Handler for 'onSdpAnswerReceived' should be injected.");
+  }
+
+  @Bind()
+  public onICECandidateReceived(message: ILiveSocketMessage): void {
+    throw new Error("Handler for 'onICECandidateReceived' should be injected.");
+  }
+
+  @Bind()
+  public async onErrorReceived(message: ILiveSocketMessage): Promise<void> {
+    throw new Error("Handler for 'onErrorReceived' should be injected.");
   }
 
   // Implementation.
@@ -77,6 +92,8 @@ export class LiveWebSocketController extends AbstractWebSocketController {
   @Bind()
   protected subscribe(): void {
     this.addSubscription(`sdpAnswer`, (message: IMessage) =>  this.onSdpAnswerReceived(JSON.parse(message.body)));
+    this.addSubscription(`iceCandidate`, (message: IMessage) =>  this.onICECandidateReceived(JSON.parse(message.body)));
+    this.addSubscription(`error`, (message: IMessage) =>  this.onErrorReceived(JSON.parse(message.body)));
     this.addSubscription(`status`, this.onLogMessage);
   }
 

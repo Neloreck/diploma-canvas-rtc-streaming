@@ -13,7 +13,7 @@ public class LiveController {
   @MessageMapping("/live.{user}.status")
   @SendTo("/topic/live.{user}.status")
   public String onStatus(@DestinationVariable String user, @Payload String message, SimpMessageHeaderAccessor headerAccessor) {
-    return "Got on user " + user + " : " + message;
+    return "Answer placeholder.";
   }
 
 }

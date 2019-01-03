@@ -184,5 +184,6 @@
     <orderEntry type="library" name="Maven: org.kurento:kms-api-core:6.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.kurento:kms-api-elements:6.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.kurento:kms-api-filters:6.9.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:16.0.2" level="project" />
   </component>
 </module>

@@ -1,4 +1,4 @@
-package com.xcore.application.initialization.database;
+package com.xcore.server.initialization.database;
 
 import com.xcore.application.modules.authentication.models.role.EAppAccessLevel;
 import com.xcore.application.modules.authentication.models.user.ApplicationUser;

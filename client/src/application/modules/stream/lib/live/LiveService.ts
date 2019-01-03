@@ -5,7 +5,6 @@ import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 import {LiveWebRtcController} from "@Module/stream/lib/live/LiveWebRtcController";
 import {LiveWebSocketController} from "@Module/stream/lib/live/LiveWebSocketController";
-import {ELiveSocketMessageType, ISdpExchangeMessage} from "@Module/stream/lib/live/messaging";
 
 export class LiveService {
 
@@ -14,7 +13,7 @@ export class LiveService {
 
   private readonly log: Logger = new Logger("[🌈LIVE]");
   private readonly liveWebRtcController: LiveWebRtcController = new LiveWebRtcController();
-  private readonly liveWebSocketController: LiveWebSocketController = new LiveWebSocketController();
+  private readonly liveWebSocketController: LiveWebSocketController = new LiveWebSocketController("/app/live",  "/topic/live");
 
   private accessToken: Optional<string> = null;
   private socketUrl: Optional<string> = null;
@@ -22,16 +21,12 @@ export class LiveService {
 
   public constructor() {
 
-    this.liveWebRtcController.onSDPGenerationError = this.onLocalSDPOfferGenerationError;
-    this.liveWebRtcController.onSDPOfferGenerated = this.onLocalSDPOfferGenerated;
-
+    this.liveWebSocketController.onSdpAnswerReceived = this.liveWebRtcController.handleSDPAnswer;
+    this.liveWebSocketController.onICECandidateReceived = this.liveWebRtcController.handleAddICECandidate;
+    this.liveWebSocketController.onErrorReceived = this.liveWebRtcController.handleRemoteError;
     this.liveWebSocketController.onStatusChanged = this.handleStatusChange;
-    this.liveWebSocketController.onSdpAnswerReceived = this.onRemoteSDPOfferReceived;
-  }
 
-  @Bind()
-  public isStarted(): boolean {
-    return this.started;
+    this.liveWebRtcController.onSendMessage = this.liveWebSocketController.sendMessage;
   }
 
   /*
@@ -61,7 +56,7 @@ export class LiveService {
     this.socketUrl = socketUrl;
     this.sessionId = sessionId;
 
-    await this.connectWebSocket();
+    await this.liveWebSocketController.connect(this.socketUrl, this.sessionId, this.accessToken);
 
     this.log.info(`Started live service.`);
   }
@@ -77,75 +72,32 @@ export class LiveService {
     this.socketUrl = null;
     this.sessionId = null;
 
-    await this.disconnectWebRtc();
-    await this.disconnectWebSocket();
+    await this.liveWebRtcController.stop();
+    await this.liveWebSocketController.disconnect();
   }
 
   @Bind()
-  public async startStream(): Promise<void> {
-    this.log.info(`Starting stream.`);
-    await this.connectWebRtc();
-  }
-
-  @Bind()
-  public async stopStream(): Promise<void> {
-    this.log.info(`Stopping stream.`);
-    await this.disconnectWebRtc();
-  }
-
-  /*
-   * Management.
-   */
-
-  @Bind()
-  private async connectWebSocket(): Promise<void> {
-    this.liveWebSocketController.connect(this.socketUrl, this.sessionId, this.accessToken);
-  }
-
-  @Bind()
-  private async disconnectWebSocket(): Promise<void> {
-    this.liveWebSocketController.disconnect();
-  }
-
-  @Bind()
-  private async connectWebRtc(): Promise<void> {
+  public async startStreaming(tracks: Array<MediaStreamTrack>): Promise<void> {
+    this.log.info(`Starting streaming.`);
     await this.liveWebRtcController.start(
-      {} as RTCConfiguration,
       {
-        iceRestart: true,
+        iceServers: [
+          { urls: "stun:stun.l.google.com:19302" },
+        ],
+        iceTransportPolicy: "all"
+      },
+      {
         offerToReceiveAudio: false,
-        offerToReceiveVideo: false
-      }
+        offerToReceiveVideo: true
+      },
+      tracks
     );
   }
 
   @Bind()
-  private async disconnectWebRtc(): Promise<void> {
+  public async stopStreaming(): Promise<void> {
+    this.log.info(`Stopping streaming.`);
     await this.liveWebRtcController.stop();
-  }
-
-  /*
-   * Interaction bridge.
-  */
-
-  @Bind()
-  private onLocalSDPOfferGenerated(offer: RTCSessionDescriptionInit): void {
-    this.liveWebSocketController.sendMessage("sdpOffer", {
-      body: {
-        sdp: offer.sdp
-      },
-      type: ELiveSocketMessageType.SDP_OFFER
-    });
-  }
-
-  @Bind()
-  private onRemoteSDPOfferReceived(message: ISdpExchangeMessage): void {
-    this.liveWebRtcController.handleSDPAnswer(message.body.sdp);
-  }
-
-  @Bind()
-  private onLocalSDPOfferGenerationError(error: Error): void {
-    console.error(error);
   }
 
 }

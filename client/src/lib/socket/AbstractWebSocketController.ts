@@ -11,7 +11,7 @@ export abstract class AbstractWebSocketController {
   protected abstract accessToken: string | null;
 
   protected abstract readonly destinationPrefix: string;
-  protected abstract readonly recievalPrefix: string;
+  protected abstract readonly receivalPrefix: string;
 
   protected readonly client: Client;
   protected subscriptions: Array<StompSubscription> = [];
@@ -42,7 +42,7 @@ export abstract class AbstractWebSocketController {
 
   @Bind()
   public addSubscription(mapping: string, handler: messageCallbackType): StompSubscription {
-    const subscription: StompSubscription = this.client.subscribe(`${this.recievalPrefix}.${this.sessionId}.${mapping}`, handler);
+    const subscription: StompSubscription = this.client.subscribe(`${this.receivalPrefix}.${this.sessionId}.${mapping}`, handler);
     this.subscriptions.push(subscription);
     return subscription;
   }

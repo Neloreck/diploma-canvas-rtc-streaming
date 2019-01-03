@@ -7,14 +7,15 @@ import {Logger} from "@Lib/utils";
 // Data.
 import {applicationConfig} from "@Main/data/config";
 import {authContextManager} from "@Main/data/store";
+import {sourceContextManager} from "@Module/stream/data/store";
 import {LiveService} from "@Module/stream/lib/live/LiveService";
 
 export interface ILiveContext {
   liveActions: {
     start(): Promise<void>;
     stop(): Promise<void>;
-    startStream(): Promise<void>;
-    stopStream(): Promise<void>;
+    startStreaming(): Promise<void>;
+    stopStreaming(): Promise<void>;
   };
   liveState: {
     online: boolean;
@@ -27,9 +28,9 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   protected context: ILiveContext = {
     liveActions: {
       start: this.start,
-      startStream: this.startStream,
+      startStreaming: this.startStreaming,
       stop: this.stop,
-      stopStream: this.stopStream
+      stopStreaming: this.stopStreaming
     },
     liveState: {
       live: false,
@@ -74,22 +75,22 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   }
 
   @Bind()
-  protected async startStream(): Promise<void> {
+  protected async startStreaming(): Promise<void> {
 
     this.updateStateRef();
     this.context.liveState.live = true;
     this.update();
 
-    await this.liveService.startStream();
+    await this.liveService.startStreaming((sourceContextManager.context.sourceState.outputStream as MediaStream).getTracks());
   }
 
   @Bind()
-  protected async stopStream(): Promise<void> {
+  protected async stopStreaming(): Promise<void> {
     this.updateStateRef();
     this.context.liveState.live = false;
     this.update();
 
-    await this.liveService.stopStream();
+    await this.liveService.stopStreaming();
   }
 
   @Bind()

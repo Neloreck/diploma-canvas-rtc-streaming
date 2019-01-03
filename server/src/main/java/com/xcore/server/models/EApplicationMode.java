@@ -1,4 +1,4 @@
-package com.xcore.server.configs;
+package com.xcore.server.models;
 
 public enum  EApplicationMode {
 
@@ -10,9 +10,8 @@ public enum  EApplicationMode {
     this.mode = mode;
   }
 
-
   public static EApplicationMode fromString(String text) {
-    for (EApplicationMode mode: EApplicationMode.values()) {
+    for (EApplicationMode mode : EApplicationMode.values()) {
       if (mode.mode.equalsIgnoreCase(text)) {
         return mode;
       }

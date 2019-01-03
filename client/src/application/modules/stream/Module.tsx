@@ -3,7 +3,7 @@ import * as React from "react";
 import {PureComponent, ReactNode} from "react";
 
 // Globals.
-// Todo: AdapterJS injection.
+import "webrtc-adapter";
 
 // Lib.
 import {log} from "@Lib/utils";

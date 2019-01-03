@@ -1,4 +1,4 @@
-package com.xcore.server.configs;
+package com.xcore.server.configs.general;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
