@@ -1,7 +1,7 @@
-import {Single} from "@redux-cbd/utils";
+import {Single, TypeUtils} from "@redux-cbd/utils";
 
-import {Optional} from "@Lib/ts/type";
-import {Logger} from "@Lib/util/logger";
+import {Optional} from "@Lib/ts/types";
+import {Logger} from "@Lib/utils";
 
 import {EDeviceKind} from "@Module/stream/data/services/local_media/EDeviceKind";
 import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
@@ -9,15 +9,24 @@ import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInp
 @Single()
 export class LocalMediaService {
 
-  public static readonly DEFAULT_VIDEO_CONSTRAINTS = {
+  private static readonly log: Logger = new Logger("[🕳MEDIA]", true);
+
+  private static readonly DEFAULT_VIDEO_CONSTRAINTS = {
     advanced: [
-      { aspectRatio: { min: 1.7777, ideal: 1.7777, max: 1.7778 } }
+      { aspectRatio: { min: 16 / 9, exact: 16 / 9 } },
+      { width: { min: 640, max: 1920 } }
     ],
-    frameRate: { min: 27, ideal: 30, max: 60 },
-    height: { min: 720, ideal: 720, max: 1080 },
+    aspectRatio: { exact: 16 / 9, ideal: 16 / 9 },
+    frameRate: { min: 24, ideal: 30, max: 60 },
+    height: { min: 360, ideal: 720, max: 1080 }
   };
 
-  private log: Logger = new Logger("[🕳️LMS]");
+  private static DESKTOP_CAPTURING_CONSTRAINT = {
+    audio: false,
+    video: {
+      mediaSource: "screen"
+    }
+  };
 
   public async getDevices(): Promise<Array<MediaDeviceInfo>>  {
     return await navigator.mediaDevices.enumerateDevices();
@@ -45,6 +54,14 @@ export class LocalMediaService {
     };
   }
 
+  public moveTracks(to: MediaStream, from: MediaStream): void {
+    this.purgeStream(to);
+    from.getTracks().forEach((track) => {
+      to.addTrack(track);
+      from.removeTrack(track);
+    });
+  }
+
   public killStream(stream: Optional<MediaStream>): void {
 
     if (stream === null) {
@@ -52,13 +69,13 @@ export class LocalMediaService {
     }
 
     if (typeof stream.getTracks === "function") {
-      stream.getTracks().forEach((track) => track.stop());
+      stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
       return;
     }
 
     if (typeof stream.getAudioTracks === "function" && typeof stream.getVideoTracks === "function") {
-      stream.getAudioTracks().forEach((track) => track.stop());
-      stream.getVideoTracks().forEach((track) => track.stop());
+      stream.getAudioTracks().forEach((track: MediaStreamTrack) => track.stop());
+      stream.getVideoTracks().forEach((track: MediaStreamTrack) => track.stop());
       return;
     }
 
@@ -67,20 +84,38 @@ export class LocalMediaService {
     }
   }
 
-  public async getUserMedia(videoInput: Optional<MediaDeviceInfo>, audioInput: Optional<MediaDeviceInfo>) {
+  public setStreamAudioEnabled(stream: MediaStream, enabled: boolean): void {
+    stream.getAudioTracks().forEach((track: MediaStreamTrack) => track.enabled = enabled);
+  }
+
+  public purgeStream(stream: MediaStream): void {
+    this.killStream(stream);
+    stream.getTracks().forEach((track) => stream.removeTrack(track));
+  }
+
+  public async getUserMedia(videoInput: Optional<MediaDeviceInfo> | string | boolean, audioInput: Optional<MediaDeviceInfo> | string | boolean): Promise<MediaStream> {
 
     const constraints = {
-      audio: { deviceId: audioInput ? {exact: audioInput.deviceId} : undefined },
-      video: {
-        ...LocalMediaService.DEFAULT_VIDEO_CONSTRAINTS,
-        deviceId: videoInput ? {exact: videoInput.deviceId} : undefined }
+      audio:
+        audioInput
+          ? { deviceId: audioInput === true ? "default" : {exact: TypeUtils.isString(audioInput) ? audioInput as string : (audioInput as MediaDeviceInfo).deviceId} }
+          : false,
+      video:
+        videoInput
+        ? { ...LocalMediaService.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: TypeUtils.isString(videoInput) ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId}}
+        : false
     };
 
     const stream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints);
 
-    this.log.info("Got media stream from devices:", constraints, stream);
+    LocalMediaService.log.info(`Got media stream from devices: ${videoInput}, ${audioInput}.`);
 
     return stream;
+  }
+
+  public async getUserScreenMedia(): Promise<MediaStream> {
+    // @ts-ignore
+    return await navigator.mediaDevices.getUserMedia(LocalMediaService.DESKTOP_CAPTURING_CONSTRAINT);
   }
 
 }

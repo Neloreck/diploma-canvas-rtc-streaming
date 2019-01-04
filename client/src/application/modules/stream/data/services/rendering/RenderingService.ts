@@ -1,27 +1,44 @@
-import {CanvasGraphicsRenderObject} from "@Lib/react_lib/canvas_video_graphics";
+import {TypeUtils} from "@redux-cbd/utils";
 
-import {SimpleCircle, SimpleRectangle} from "@Module/stream/data/services/rendering/canvas_objects";
+// Lib.
+import {AbstractCanvasGraphicsRenderObject, AbstractCanvasGraphicsSerializableObject, ISerializedGraphicsObject} from "@Lib/graphics";
+
+// Data.
+import {DESCRIPTORS_MAP, ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
 export class RenderingService {
 
-  private static RENDER_DESCRIPTORS = [
-    {
-      description: "Simple rectangle",
-      name: "Rectangle",
-      prototype: SimpleRectangle.prototype
-    }, {
-      description: "Simple circle",
-      name: "Circle",
-      prototype: SimpleCircle.prototype
-    }
-  ];
-
   public getRenderingDescriptors()/*: Array<ICanvasObjectDescriptor> */ {
-    return RenderingService.RENDER_DESCRIPTORS;
+    return DESCRIPTORS_MAP;
   }
 
-  public getDescriptor(object: CanvasGraphicsRenderObject) {
-    return RenderingService.RENDER_DESCRIPTORS.find(((it) => it.prototype === Object.getPrototypeOf(object))) || null;
+  public getDescriptor(object: AbstractCanvasGraphicsRenderObject<any> | string) {
+
+    const isString: boolean = TypeUtils.isString(object);
+
+    if (isString) {
+      return DESCRIPTORS_MAP[object as string];
+    } else {
+      const descriptor =  Object.values(DESCRIPTORS_MAP).find((it) => it.prototype === Object.getPrototypeOf(object));
+
+      if (!descriptor) {
+        throw new Error("Could not match descriptor for " + Object.getPrototypeOf(object).name);
+      }
+
+      return descriptor;
+    }
+  }
+
+  public serializeObjects(objects: Array<AbstractCanvasGraphicsSerializableObject<any>>): Array<ISerializedGraphicsObject> {
+    return objects.map((object) => object.serialize());
+  }
+
+  public deserializeObject(objectSerialized: ISerializedGraphicsObject): AbstractCanvasGraphicsRenderObject<any> {
+
+    const descriptor: ICanvasObjectDescriptor<any> = this.getDescriptor(objectSerialized.class);
+
+    // @ts-ignore constuction
+    return new (descriptor.prototype.constructor)();
   }
 
 }
