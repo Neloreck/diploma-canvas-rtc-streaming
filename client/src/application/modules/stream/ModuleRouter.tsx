@@ -10,6 +10,8 @@ import {lazyLoadComponentFactory} from "@Main/view/utils";
 /* Stream routes: */
 
 const StreamingPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@streaming-page" */"@Module/stream/view/pages/StreamingPage"));
+const StreamCreationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-creation-page" */"@Module/stream/view/pages/StreamCreationPage"));
+const StreamConfigurationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-configuration-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
 
 export class ModuleRouter extends PureComponent {
 
@@ -22,7 +24,26 @@ export class ModuleRouter extends PureComponent {
 
         <Switch>
 
-          <PrivateRoute exact={true} redirect={`/authorization/login?next=${ModuleRouter.MODULE_PREFIX}/live`} path={`${ModuleRouter.MODULE_PREFIX}/live`} component={StreamingPage} {...{} as IPrivateRouteExternalProps}/>
+          <Route
+            exact={true}
+            path={`${ModuleRouter.MODULE_PREFIX}/create`}
+            component={StreamCreationPage}
+          />
+
+          <PrivateRoute
+            exact={true}
+            redirect={`/authorization/login?next=${ModuleRouter.MODULE_PREFIX}/live/:id-todo`}
+            path={`${ModuleRouter.MODULE_PREFIX}/live/:id`}
+            component={StreamingPage}
+            {...{} as IPrivateRouteExternalProps}
+          />
+
+          <Route
+            exact={true}
+            path={`${ModuleRouter.MODULE_PREFIX}/configure/:id`}
+            component={StreamConfigurationPage}
+          />
+
           <Route exact={true} path={"*"} component={ErrorPage}/>
 
         </Switch>
