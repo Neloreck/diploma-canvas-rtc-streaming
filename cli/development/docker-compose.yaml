@@ -8,7 +8,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - development:/redis/data/
+      - /opt/xcore/data/redis:/redis/data
     logging:
       driver: "json-file"
       options:
@@ -26,16 +26,12 @@ services:
       POSTGRES_USER: "development_user"
       POSTGRES_PASSWORD: "development_password"
     volumes:
-      - development:/var/lib/postgresql
+      - /opt/xcore/data/postgres:/var/lib/postgresql
 
   rabbitmq:
     image: rabbitmq:3.7.8-management
     container_name: development-rabbitmq
     hostname: "development"
-    environment:
-      DEFAULT_USER: "rabbitmq"
-      DEFAULT_PASS: "rabbitmq"
-      DEFAULT_VHOST: "/"
     ports:
       - "15672:15672"
       - "5672:5672"
@@ -43,16 +39,16 @@ services:
     labels:
       NAME: "rabbitmq"
     volumes:
-      - development:/var/lib/rabbitmq
-      - development:/etc/rabbitmq
+      - /opt/xcore/data/rabbitmq/lib:/var/lib/rabbitmq
+      - /opt/xcore/data/rabbitmq/etc:/etc/rabbitmq
+      - ./configs/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     entrypoint:
       bash -c "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_management && rabbitmq-server"
 
   kurrento:
-    image: kurento/kurento-media-server:trusty-latest
+    image: kurento/kurento-media-server:latest
     container_name: development-kurrento
     ports:
       - "8888:8888"
-
-volumes:
-  development:
+    volumes:
+      - /opt/xcore/files:/opt/xcore/files

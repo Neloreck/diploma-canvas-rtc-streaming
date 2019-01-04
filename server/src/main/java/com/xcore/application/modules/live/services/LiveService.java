@@ -17,7 +17,7 @@ public class LiveService {
 
   private Map<String, LiveStreamingSession> liveSessions = new ConcurrentHashMap<>();
 
-  @Scheduled(fixedRate = 1000 * 60 * 1)
+  @Scheduled(fixedRate = 1000 * 60 * 5)
   public void logActivity() {
     log.info("[SCHEDULED] Currently active sessions: {}.", this.liveSessions.size());
   }

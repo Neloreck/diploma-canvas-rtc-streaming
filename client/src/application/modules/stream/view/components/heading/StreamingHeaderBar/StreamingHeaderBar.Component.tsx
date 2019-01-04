@@ -8,7 +8,7 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
 import {authContextManager, IAuthContext} from "@Main/data/store";
-import {liveContextManager, ILiveContext} from "@Module/stream/data/store";
+import {ILiveContext, liveContextManager} from "@Module/stream/data/store";
 
 // View.
 import {
@@ -19,9 +19,9 @@ import {
 } from "@Main/view/components/heading/HeaderBarLogoNavigation";
 import {HeaderBarUserMenu, IHeaderBarUserMenuExternalProps} from "@Main/view/components/heading/HeaderBarUserMenu";
 import {
-  AppBar, Button, Grid, Toolbar, WithStyles,
+  AppBar, Button, Grid, IconButton, Toolbar, WithStyles,
 } from "@material-ui/core";
-import {LiveTv} from "@material-ui/icons";
+import {LiveTv, Settings} from "@material-ui/icons";
 import {streamingHeaderBarStyle} from "./StreamingHeaderBar.Style";
 
 // Props.
@@ -53,6 +53,12 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
                 <Fragment>
 
                   {this.renderGoLiveButton()}
+
+                  <IconButton
+                    aria-haspopup="true"
+                  >
+                    <Settings/>
+                  </IconButton>
 
                   <HeaderBarUserMenu {...{} as IHeaderBarUserMenuExternalProps}/>
 

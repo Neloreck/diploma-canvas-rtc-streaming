@@ -9,6 +9,8 @@ import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInp
 @Single()
 export class LocalMediaService {
 
+  private static readonly log: Logger = new Logger("[🕳MEDIA]", true);
+
   private static readonly DEFAULT_VIDEO_CONSTRAINTS = {
     advanced: [
       { aspectRatio: { min: 16 / 9, exact: 16 / 9 } },
@@ -25,10 +27,6 @@ export class LocalMediaService {
       mediaSource: "screen"
     }
   };
-
-  private static readonly OUTPUT_FRAMERATE: number = 60;
-
-  private log: Logger = new Logger("[🕳MEDIA]", true);
 
   public async getDevices(): Promise<Array<MediaDeviceInfo>>  {
     return await navigator.mediaDevices.enumerateDevices();
@@ -110,7 +108,7 @@ export class LocalMediaService {
 
     const stream: MediaStream = await navigator.mediaDevices.getUserMedia(constraints);
 
-    this.log.info(`Got media stream from devices: ${videoInput}, ${audioInput}.`);
+    LocalMediaService.log.info(`Got media stream from devices: ${videoInput}, ${audioInput}.`);
 
     return stream;
   }

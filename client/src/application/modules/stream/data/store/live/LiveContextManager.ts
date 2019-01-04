@@ -10,6 +10,7 @@ import {authContextManager} from "@Main/data/store";
 import {sourceContextManager} from "@Module/stream/data/store";
 import {LiveService} from "@Module/stream/lib/live/LiveService";
 
+
 export interface ILiveContext {
   liveActions: {
     start(): Promise<void>;
@@ -81,7 +82,10 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     this.context.liveState.live = true;
     this.update();
 
-    await this.liveService.startStreaming((sourceContextManager.context.sourceState.outputStream as MediaStream).getTracks());
+    await this.liveService.startStreaming([
+      ...(sourceContextManager.context.sourceState.outputStream as MediaStream).getVideoTracks(),
+      ...(sourceContextManager.context.sourceState.inputStream as MediaStream).getAudioTracks()
+    ]);
   }
 
   @Bind()

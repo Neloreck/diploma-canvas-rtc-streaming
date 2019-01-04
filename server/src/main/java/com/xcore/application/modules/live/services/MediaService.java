@@ -1,6 +1,7 @@
 package com.xcore.application.modules.live.services;
 
 import com.xcore.application.modules.live.models.LiveStreamingSession;
+import com.xcore.application.modules.storage.configs.StorageConfiguration;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.*;
@@ -20,6 +21,9 @@ public final class MediaService {
   @Autowired
   private KurentoClient kurentoClient;
 
+  @Autowired
+  private StorageConfiguration storageConfiguration;
+
   /*
    * Methods:
    */
@@ -28,7 +32,7 @@ public final class MediaService {
 
     final LiveStreamingSession liveStreamingSession = liveService.getSession(sessionId);
 
-    liveStreamingSession.setExchanged(true);
+    liveStreamingSession.finishExchange();
     liveStreamingSession.tryApplyAccumulatedRemoteCandidates();
   }
 
@@ -45,7 +49,10 @@ public final class MediaService {
     final LiveStreamingSession liveSession = liveService.getSession(sessionId);
 
     // Initialize session.
-    liveSession.initialize(kurentoClient.createMediaPipeline(), liveMessagingService);
+    liveSession.initialize(
+        kurentoClient.createMediaPipeline(), liveMessagingService, this.getStreamRecordPath(
+        "user_" + liveSession.getOwnerId() + "/" + liveSession.getId() + "." + liveSession.getCreated().getTime())
+    );
 
     // Proceed sdp and start recorder.
     final String sdpAnswer = liveSession.start(sdpOffer);
@@ -64,6 +71,10 @@ public final class MediaService {
 
     // todo;
     this.handleStop(room, sessionId);
+  }
+
+  private String getStreamRecordPath(final String fileName) {
+    return "file://" + this.storageConfiguration.getStreamsStorageLocation() + fileName + ".mp4";
   }
 
 }

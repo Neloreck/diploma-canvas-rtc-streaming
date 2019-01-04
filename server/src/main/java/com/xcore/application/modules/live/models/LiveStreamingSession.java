@@ -2,15 +2,12 @@ package com.xcore.application.modules.live.models;
 
 import com.xcore.application.modules.live.exceptions.SessionInitializationException;
 import com.xcore.application.modules.live.services.LiveMessagingService;
-import com.xcore.application.modules.storage.services.local.LocalStorageManager;
 import io.netty.util.internal.ConcurrentSet;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.*;
 
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 @Data
 @Slf4j(topic = "[🍅 LIVE SESSION]")
@@ -26,6 +23,8 @@ public class LiveStreamingSession {
 
   private final Date created = new Date();
   private Date lastActive = new Date();
+
+  private String filePath;
 
   /*
    * Metadata.
@@ -58,12 +57,12 @@ public class LiveStreamingSession {
    * Management.
    */
 
-  public String getStoredStreamPath() {
-    return LocalStorageManager.getStoragePath() + this.id + ".webm";
-  }
+  public void finishExchange() {
 
-  public void setExchanged(final Boolean exchanged) {
-    this.exchanged = exchanged;
+    this.triggerActivity();
+
+    this.exchanged = true;
+
     log.info("Session exchanged successfully, id: '{}'.", this.id);
   }
 
@@ -97,6 +96,8 @@ public class LiveStreamingSession {
     String sdpAnswer = this.webRtcEndpoint.processOffer(sdpOffer);
 
     this.webRtcEndpoint.gatherCandidates();
+    this.recorderEndpoint.record();
+
     this.started = true;
 
     return sdpAnswer;
@@ -112,26 +113,7 @@ public class LiveStreamingSession {
 
       this.started = false;
 
-      // Save record.
-
-      final CountDownLatch stoppedCountDown = new CountDownLatch(1);
-      final ListenerSubscription subscriptionId = recorderEndpoint.addStoppedListener(event -> stoppedCountDown.countDown());
-
-      try {
-        log.info("Trying to save record for live session: '{}'.", id);
-
-        recorderEndpoint.stop();
-
-        if (!stoppedCountDown.await(20, TimeUnit.SECONDS)) {
-          log.error("Error waiting for recorder to stop and save, session: {}.", this.id);
-        }
-      } catch (InterruptedException e) {
-        log.error("Exception while waiting for recorder state change, todo: IMPL.", e);
-      } finally {
-        recorderEndpoint.removeStoppedListener(subscriptionId);
-      }
-
-      this.webRtcEndpoint.disconnect(this.webRtcEndpoint);
+      this.recorderEndpoint.stop();
       this.webRtcEndpoint.disconnect(this.recorderEndpoint);
     }
   }
@@ -140,7 +122,7 @@ public class LiveStreamingSession {
    * Life cycle.
    */
 
-  public void initialize(final MediaPipeline mediaPipeline, final LiveMessagingService liveMessagingService) throws SessionInitializationException {
+  public void initialize(final MediaPipeline mediaPipeline, final LiveMessagingService liveMessagingService, final String filePath) throws SessionInitializationException {
 
     this.triggerActivity();
 
@@ -150,21 +132,25 @@ public class LiveStreamingSession {
 
       log.info("Initialize live session: '{}'.", id);
 
+      this.filePath = filePath;
       this.mediaPipeline = mediaPipeline;
-      this.webRtcEndpoint = new WebRtcEndpoint.Builder(mediaPipeline).build();
-      this.recorderEndpoint = new RecorderEndpoint.Builder(mediaPipeline, this.getStoredStreamPath()).build();
+      this.webRtcEndpoint = new WebRtcEndpoint.Builder(mediaPipeline).recvonly().build();
+      this.recorderEndpoint = new RecorderEndpoint
+          .Builder(mediaPipeline, filePath)
+          .stopOnEndOfStream()
+          .withMediaProfile(MediaProfileSpecType.MP4)
+          .build();
 
       this.mediaPipeline.setName("RTC_PIPELINE_ENDPOINT-" + id + "." + ownerId);
       this.webRtcEndpoint.setName("RTC_CONNECTION_ENDPOINT-" + id + "." + ownerId);
       this.recorderEndpoint.setName("RTC_RECORDER_ENDPOINT-" + id + "." + ownerId);
 
-      log.info("Connecting RTC record endpoints: '{}'.", id);
+      log.info("Connected RTC endpoints for '{}', saved video will be stored as '{}'.", id, filePath);
 
       this.initializeBaseEventsListeners(liveMessagingService);
       this.initializeWebRtcEventsListeners(liveMessagingService);
       this.initializeWebRtcRecorderEventsListeners(liveMessagingService);
 
-      webRtcEndpoint.connect(webRtcEndpoint);
       webRtcEndpoint.connect(recorderEndpoint, MediaType.VIDEO);
       webRtcEndpoint.connect(recorderEndpoint, MediaType.AUDIO);
 
@@ -201,16 +187,49 @@ public class LiveStreamingSession {
 
   private void initializeWebRtcEventsListeners(final LiveMessagingService liveMessagingService) {
     this.webRtcEndpoint.addIceCandidateFoundListener(event -> liveMessagingService.sendIceCandidate(this.messagingRoom, event.getCandidate()));
-    this.webRtcEndpoint.addIceComponentStateChangeListener(event -> log.info("[RTC] ICE state change, id: '{}', state: '{}'.", this.id, event.getState().toString()));
-    this.webRtcEndpoint.addIceGatheringDoneListener(event -> log.info("[RTC] ICE gathering done, id: '{}'.", this.id));
-    this.webRtcEndpoint.addNewCandidatePairSelectedListener(event -> log.info("[RTC] ICE candidate pair selected, id: '{}', candidates: '{}', '{}'.",
-        this.id, event.getCandidatePair().getLocalCandidate(), event.getCandidatePair().getRemoteCandidate()));
+    this.webRtcEndpoint.addIceComponentStateChangeListener(event -> log.info(
+        "[RTC] ICE state change, id: '{}', state: '{}'.", this.id, event.getState().toString()
+    ));
+    this.webRtcEndpoint.addIceGatheringDoneListener(event -> log.info(
+        "[RTC] ICE gathering done, id: '{}'.", this.id
+    ));
+    this.webRtcEndpoint.addNewCandidatePairSelectedListener(event -> log.info(
+        "[RTC] ICE candidate pair selected, id: '{}', candidates: '{}', '{}'.",
+        this.id, event.getCandidatePair().getLocalCandidate(), event.getCandidatePair().getRemoteCandidate()
+    ));
   }
 
   private void initializeWebRtcRecorderEventsListeners(final LiveMessagingService liveMessagingService) {
-    recorderEndpoint.addPausedListener(event -> log.info("[REC]: Paused"));
-    recorderEndpoint.addRecordingListener(event -> log.info("[REC]: Recording."));
-    recorderEndpoint.addStoppedListener(event -> log.info("[REC]: Stopped."));
+    this.recorderEndpoint.addPausedListener(event -> log.info("[REC]: Paused stream, id: '{}'.", this.id));
+    this.recorderEndpoint.addRecordingListener(event -> log.info("[REC]: Recording stream, id: '{}'.", this.id));
+    this.recorderEndpoint.addStoppedListener(event -> log.info("[REC]: Stopped recording, id: '{}'.", this.id));
+    this.recorderEndpoint.addMediaFlowInStateChangeListener(event -> log.info(
+      "[REC]: Flow IN state changed, id: '{}', type: '{}', state: '{}'.",
+      this.id, event.getState(), event.getMediaType(), event.getState()
+    ));
+    this.recorderEndpoint.addMediaFlowOutStateChangeListener(event -> log.info(
+      "[REC]: Flow OUT state changed, id: '{}', type: '{}', state: '{}'.",
+      this.id, event.getState(), event.getMediaType(), event.getState()
+    ));
+    this.recorderEndpoint.addMediaTranscodingStateChangeListener(event -> log.info(
+      "[REC]: Media transcoding state changed, id: '{}', type: '{}', state: '{}'.",
+      this.id, event.getState(), event.getMediaType(), event.getState()
+    ));
+    this.recorderEndpoint.addElementDisconnectedListener(event -> log.info(
+      "[REC]: Element connected, id: '{}', type: '{}'.",
+      this.id, event.getMediaType()
+    ));
+    this.recorderEndpoint.addElementConnectedListener(event -> log.info(
+      "[REC]: Element connected, id: '{}', type: '{}'.",
+      this.id, event.getMediaType()
+    ));
+    this.recorderEndpoint.addElementDisconnectedListener(event -> log.info(
+      "[REC]: Element disconnected, id: '{}', type: '{}'.",
+      this.id, event.getMediaType()
+    ));
+    this.recorderEndpoint.addErrorListener(event -> log.error(
+      "[REC]: Got error, id: '{}', error: '{}'.", this.id, event.getDescription()
+    ));
   }
 
   /*
@@ -223,19 +242,20 @@ public class LiveStreamingSession {
       return;
     }
 
-    if (this.started) {
-      this.stop();
-    }
-
     log.info("Disposing live session: '{}'.", this.id);
 
-    this.releaseResources();
+    try {
+      this.releaseResources();
 
-    this.webRtcEndpoint = null;
-    this.recorderEndpoint = null;
-    this.mediaPipeline = null;
+      this.webRtcEndpoint = null;
+      this.recorderEndpoint = null;
+      this.mediaPipeline = null;
 
-    this.disposed = true;
+      this.started = false;
+      this.disposed = true;
+    } catch (Exception ex) {
+      log.error("Failed to dispose live session '{}'.", this.id);
+    }
   }
 
   /*
@@ -260,5 +280,24 @@ public class LiveStreamingSession {
   private void triggerActivity() {
     this.lastActive = new Date();
   }
+
+  /*  // Save record.
+
+      final CountDownLatch stoppedCountDo wn = new CountDownLatch(1);
+      final ListenerSubscription subscriptionId = recorderEndpoint.addStoppedListener(event -> stoppedCountDown.countDown());
+
+      try {
+        log.info("Trying to save record for live session: '{}'.", id);
+
+        recorderEndpoint.stop();
+
+        if (!stoppedCountDown.await(20, TimeUnit.SECONDS)) {
+          log.error("Error waiting for recorder to stop and save, session: {}.", this.id);
+        }
+      } catch (InterruptedException e) {
+        log.error("Exception while waiting for recorder state change, todo: IMPL.", e);
+      } finally {
+        recorderEndpoint.removeStoppedListener(subscriptionId);
+      }*/
 
 }

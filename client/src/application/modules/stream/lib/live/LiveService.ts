@@ -87,7 +87,7 @@ export class LiveService {
         iceTransportPolicy: "all"
       },
       {
-        offerToReceiveAudio: false,
+        offerToReceiveAudio: true,
         offerToReceiveVideo: true
       },
       tracks

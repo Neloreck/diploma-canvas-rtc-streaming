@@ -38,10 +38,8 @@ class ApplicationUserDetailService extends UserDetailsService {
     val optionalUser: Optional[ApplicationUser] = appUserRepository.findByUsername(username);
 
     if (optionalUser.isPresent) {
-      log.info(s"User '$username' was found.")
       optionalUser.get();
     } else {
-      log.info(s"User '$username' was not found.")
       throw new UsernameNotFoundException(s"User '$username' was not found.")
     }
   }
@@ -57,17 +55,12 @@ class ApplicationUserDetailService extends UserDetailsService {
     appUser.setPassword(passwordEncoder.encode(password));
     appUser.setRole(EAppAccessLevel.ROLE_USER);
 
-    log.info(s"Registering user: '${appUser.getUsername}'.")
-
     appUserRepository.save(appUser);
   }
 
   def registerUser(appUser: ApplicationUser): ApplicationUser = {
 
-    log.info(s"Registering user: '${appUser.getUsername}'.")
-
     appUser.setPassword(passwordEncoder.encode(appUser.getPassword));
-
     appUserRepository.save(appUser);
   }
 

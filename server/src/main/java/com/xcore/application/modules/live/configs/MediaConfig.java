@@ -1,21 +1,23 @@
 package com.xcore.application.modules.live.configs;
 
+import lombok.Data;
 import org.kurento.client.KurentoClient;
 import org.kurento.client.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Data
 @Configuration
 public class MediaConfig {
 
-  @Value("${kurento.host}")
+  @Value("${kurento.connection.host}")
   private String kurentoHost;
 
-  @Value("${kurento.port}")
+  @Value("${kurento.connection.port}")
   private Long kurentoPort;
 
-  @Value("${kurento.endpoint}")
+  @Value("${kurento.connection.endpoint}")
   private String kurentoEndpoint;
 
   @Bean

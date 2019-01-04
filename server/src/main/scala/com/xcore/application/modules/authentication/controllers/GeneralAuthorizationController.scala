@@ -1,9 +1,7 @@
-package com.xcore.application.modules.authentication.controllers;
+package com.xcore.application.modules.authentication.controllers
 
 import java.beans.BeanProperty
-import java.security.Principal
 
-import com.xcore.application.modules.authentication.controllers
 import com.xcore.application.modules.authentication.models.role.EAppAccessLevel
 import com.xcore.application.modules.authentication.models.user.ApplicationUser
 import com.xcore.application.modules.authentication.services.ApplicationUserDetailService

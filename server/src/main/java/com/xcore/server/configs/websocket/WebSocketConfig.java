@@ -1,5 +1,6 @@
 package com.xcore.server.configs.websocket;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -12,7 +13,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
  * Application-level broker configuration.
  */
 @Configuration
-@Order(Ordered.HIGHEST_PRECEDENCE + 5)
+@Slf4j(topic = "[BROKER CONFIG]")
+@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
@@ -30,15 +32,22 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void configureMessageBroker(final MessageBrokerRegistry config) {
-    config
-        .setApplicationDestinationPrefixes("/app");
+
+    log.info("Connecting broker, url: '{}:{}', user: '{}'.", this.host, this.port, this.username);
 
     config
-        .enableStompBrokerRelay("/topic")
-        .setRelayHost(host)
-        .setRelayPort(port)
-        .setClientLogin(username)
-        .setClientPasscode(password);
+      .enableStompBrokerRelay("/topic")
+      .setRelayHost(this.host)
+      .setRelayPort(this.port)
+
+      .setSystemLogin(this.username)
+      .setSystemPasscode(this.password)
+
+      .setClientLogin(this.username)
+      .setClientPasscode(this.password);
+
+    config
+      .setApplicationDestinationPrefixes("/app");
   }
 
 }

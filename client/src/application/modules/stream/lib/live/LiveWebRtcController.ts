@@ -40,6 +40,8 @@ export class LiveWebRtcController {
     this.webRtcPeer.onnegotiationneeded = this.onNegotiationNeeded;
     this.webRtcPeer.oniceconnectionstatechange = this.onIceConnectionStateChange;
     this.webRtcPeer.onsignalingstatechange = this.onSignallingConnectionStateChange;
+
+    await this.sendSDPOffer();
   }
 
   public async stop(): Promise<void> {
@@ -108,8 +110,7 @@ export class LiveWebRtcController {
 
   @Bind()
   public async onNegotiationNeeded(): Promise<void> {
-    this.log.info("Renegotiation is needed, but currently is not supported.");
-    await this.sendSDPOffer();
+    this.log.warn("Renegotiation is needed, but currently is not supported. Ignoring this request.");
   }
 
   @Bind()

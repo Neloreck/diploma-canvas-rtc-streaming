@@ -95,29 +95,33 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     return (
       <Grid className={classes.formWrapper} onKeyDown={this.onKeyDown} container>
 
-        <FormControl className={classes.textInput} error={Boolean(usernameInput.error)} margin={"normal"}>
-          <InputLabel>Username</InputLabel>
-          <Input disabled={authorizing} value={usernameInput.value} onChange={this.onUsernameChanged} placeholder={"username"}/>
-          <FormHelperText>{usernameInput.error}</FormHelperText>
-        </FormControl>
+        <form>
 
-        <FormControl className={classes.textInput} error={Boolean(passwordInput.error) } margin={"normal"}>
-          <InputLabel>Password</InputLabel>
-          <Input disabled={authorizing} value={passwordInput.value} onChange={this.onPasswordChanged} type={"password"} placeholder={"password"}/>
-          <FormHelperText>{passwordInput.error}</FormHelperText>
-        </FormControl>
+          <FormControl className={classes.textInput} error={Boolean(usernameInput.error)} margin={"normal"}>
+            <InputLabel>Username</InputLabel>
+            <Input disabled={authorizing} value={usernameInput.value} onChange={this.onUsernameChanged} placeholder={"username"}/>
+            <FormHelperText>{usernameInput.error}</FormHelperText>
+          </FormControl>
 
-        <Grid justify={"space-between"} alignItems={"center"} container>
-          <InputLabel className={classes.errorLabel}>{errorMessage}</InputLabel>
-          <Button
-            className={classes.signInButton}
-            color={"primary"}
-            disabled={!this.isFormValid()}
-            onClick={this.onFormSubmit}
-          >
-            Submit
-          </Button>
-        </Grid>
+          <FormControl className={classes.textInput} error={Boolean(passwordInput.error) } margin={"normal"}>
+            <InputLabel>Password</InputLabel>
+            <Input disabled={authorizing} value={passwordInput.value} onChange={this.onPasswordChanged} type={"password"} placeholder={"password"} autoComplete={"current-password"}/>
+            <FormHelperText>{passwordInput.error}</FormHelperText>
+          </FormControl>
+
+          <Grid justify={"space-between"} alignItems={"center"} container>
+            <InputLabel className={classes.errorLabel}>{errorMessage}</InputLabel>
+            <Button
+              className={classes.signInButton}
+              color={"primary"}
+              disabled={!this.isFormValid()}
+              onClick={this.onFormSubmit}
+            >
+              Submit
+            </Button>
+          </Grid>
+
+        </form>
 
       </Grid>
     );
