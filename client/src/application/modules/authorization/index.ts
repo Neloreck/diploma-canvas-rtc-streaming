@@ -1,1 +1,1 @@
-export {Module} from "@Module/authorization/module";
+export {Module} from "@Module/authorization/Module";

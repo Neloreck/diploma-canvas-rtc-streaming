@@ -3,7 +3,7 @@ import * as path from "path";
 import {TsConfigPathsPlugin} from "awesome-typescript-loader";
 
 // tslint:disable: no-var-requires
-const DotEnv = require("DotEnv-webpack");
+const DotEnv = require("dotenv-webpack");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
