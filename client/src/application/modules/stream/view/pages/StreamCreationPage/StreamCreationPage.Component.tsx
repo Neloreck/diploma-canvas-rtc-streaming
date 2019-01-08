@@ -7,7 +7,11 @@ import {Styled} from "@Lib/react_lib/mui";
 // Data.
 
 // View.
-import {Fade, Grid, WithStyles} from "@material-ui/core";
+import {Fade, Grid, Grow, WithStyles} from "@material-ui/core";
+import {
+  EventCreationForm,
+  IEventCreationFormExternalProps
+} from "@Module/stream/view/components/creation/EventCreationForm/EventCreationForm.Component";
 import {
   IStreamingHeaderBarExternalProps,
   StreamingHeaderBar
@@ -50,9 +54,9 @@ export class StreamCreationPage extends Component<IStreamCreationPageProps, IStr
 
         <Fade in={mounted}>
 
-          <Grid className={classes.content} direction={"column"} wrap={"nowrap"} container>
+          <Grid className={classes.content} direction={"column"} wrap={"nowrap"} alignItems={"center"} justify={"center"} container>
 
-            Creation page.
+            <EventCreationForm {...{} as IEventCreationFormExternalProps}/>
 
           </Grid>
 

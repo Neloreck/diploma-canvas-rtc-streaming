@@ -72,7 +72,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
     const {routingActions: {push}} = this.props;
 
-    push("/stream/live/create");
+    push("/stream/create");
   }
 
 }

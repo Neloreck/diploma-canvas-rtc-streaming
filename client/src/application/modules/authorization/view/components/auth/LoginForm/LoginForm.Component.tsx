@@ -83,7 +83,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const {classes, authState: {authorizing}} = this.props;
 
     return authorizing
-        ? <LinearProgress color="secondary" className={classes.linearLoader}/>
+        ? <LinearProgress color={"secondary"} className={classes.linearLoader}/>
         : <div className={classes.linearLoader}/>;
   }
 

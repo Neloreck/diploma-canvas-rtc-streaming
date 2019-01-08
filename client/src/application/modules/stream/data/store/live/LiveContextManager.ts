@@ -92,9 +92,14 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   @Bind()
   public async connectWebRTC(): Promise<void> {
 
+    if (!sourceContextManager.context.sourceState.inputStream || !sourceContextManager.context.sourceState.outputStream) {
+      this.log.warn("Cancel WebRTC start, reason - component is unmounting or stream permissions were erased.");
+      return;
+    }
+
     await this.liveService.connectRTC([
-      ...(sourceContextManager.context.sourceState.outputStream as MediaStream).getVideoTracks(),
-      ...(sourceContextManager.context.sourceState.inputStream as MediaStream).getAudioTracks()
+      ...sourceContextManager.context.sourceState.outputStream.getVideoTracks(),
+      ...sourceContextManager.context.sourceState.inputStream .getAudioTracks()
     ]);
 
     this.updateStateRef();

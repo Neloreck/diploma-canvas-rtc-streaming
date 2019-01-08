@@ -49,6 +49,7 @@ export class LiveWebSocketController extends AbstractWebSocketController {
     super.connect();
   }
 
+  @Bind()
   public disconnect(): void {
 
     this.log.info("Deactivating socket connection.");

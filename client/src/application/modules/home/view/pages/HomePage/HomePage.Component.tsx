@@ -45,11 +45,9 @@ export class HomePage extends Component<IHomePageProps, IHomePageState> {
 
           <Grow in={mounted}>
 
-            <Grid className={classes.content} justify={"space-between"} alignItems={"center"} container>
-              <Grid> Some text </Grid>
-              <Grid> Some text </Grid>
-              <Grid> Some text </Grid>
-              <Grid> Some text </Grid>
+            <Grid className={classes.content} justify={"space-around"} alignItems={"center"} container>
+              <Grid> Home page </Grid>
+              <Grid> todo </Grid>
             </Grid>
 
           </Grow>

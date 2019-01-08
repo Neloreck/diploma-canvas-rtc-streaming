@@ -86,7 +86,11 @@ export abstract class AbstractWebSocketController {
 
   @Bind()
   protected unsubscribe(): void {
-    this.subscriptions.forEach((it) => this.client.unsubscribe(it.id));
+    for (const subscription of this.subscriptions) {
+      this.client.unsubscribe(subscription.id);
+    }
+
+    this.subscriptions = [];
   }
 
 }

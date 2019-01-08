@@ -5,7 +5,10 @@ export const loginFormStyle = (theme: Theme) => createStyles({
     color: theme.palette.text.hint
   },
   formWrapper: {
-    padding: "1rem 2rem"
+    "& > form": {
+      width: "100%"
+    },
+    padding: theme.spacing.unit * 2
   },
   linearLoader: {
     backgroundColor: theme.palette.primary.light,

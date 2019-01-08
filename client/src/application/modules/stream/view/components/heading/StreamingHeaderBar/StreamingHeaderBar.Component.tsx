@@ -5,9 +5,10 @@ import {Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
+import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {authContextManager, IAuthContext} from "@Main/data/store";
+import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
 import {ILiveContext, liveContextManager} from "@Module/stream/data/store";
 
 // View.
@@ -27,11 +28,12 @@ import {streamingHeaderBarStyle} from "./StreamingHeaderBar.Style";
 // Props.
 
 export interface IStreamingHeaderBarOwnProps {}
-export interface IStreamingHeaderBarExternalProps extends WithStyles<typeof streamingHeaderBarStyle>, ILiveContext, IAuthContext {}
+export interface IStreamingHeaderBarExternalProps extends WithStyles<typeof streamingHeaderBarStyle>, ILiveContext, IAuthContext, IRouterContext {}
 export interface IStreamingHeaderBarProps extends IStreamingHeaderBarOwnProps, IStreamingHeaderBarExternalProps {}
 
 @Styled(streamingHeaderBarStyle)
 @Consume<IAuthContext, IStreamingHeaderBarProps>(authContextManager)
+@Consume<IRouterContext, IStreamingHeaderBarProps>(routerContextManager)
 @Consume<ILiveContext, IStreamingHeaderBarProps>(liveContextManager)
 export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> {
 
@@ -52,13 +54,7 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
                 ?
                 <Fragment>
 
-                  {this.renderGoLiveButton()}
-
-                  <IconButton
-                    aria-haspopup="true"
-                  >
-                    <Settings/>
-                  </IconButton>
+                  {this.renderEventControlButtons()}
 
                   <HeaderBarUserMenu {...{} as IHeaderBarUserMenuExternalProps}/>
 
@@ -72,25 +68,48 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
     );
   }
 
-  private renderGoLiveButton(): ReactNode {
+  private renderEventControlButtons(): Optional<ReactNode> {
 
-    const {classes, liveState: {socketOnline, rtcConnected, live}, liveActions: {startStreaming, stopStreaming}} = this.props;
+    const {classes, liveState: {socketOnline, rtcConnected, live}, liveActions: {startStreaming, stopStreaming}, routingState: {history}} = this.props;
 
-    if (live) {
-      return (
-        <Button variant={"outlined"} size={"small"} onClick={stopStreaming} disabled={!rtcConnected || !socketOnline}>
-          Stop
-          {(!socketOnline || !rtcConnected) ? <CircularProgress className={classes.connectionProgress} size={12}/> : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
-        </Button>
-      );
-    } else {
-      return (
-        <Button variant={"outlined"} size={"small"} onClick={startStreaming} disabled={!rtcConnected || !socketOnline}>
-          Go Live
-          {(!socketOnline || !rtcConnected) ? <CircularProgress className={classes.connectionProgress} size={12}/> : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
-        </Button>
-      );
+    if (!/live\/.*$/.test(history.location.pathname)) {
+      return null;
     }
+
+    return (
+      <Fragment>
+
+        {
+          live
+            ?
+            <Button variant={"outlined"} size={"small"}
+                    onClick={stopStreaming}
+                    disabled={!rtcConnected || !socketOnline}>
+              Stop
+              {(!socketOnline || !rtcConnected)
+                ? <CircularProgress className={classes.connectionProgress} size={12}/>
+                : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
+            </Button>
+
+            : <Button variant={"outlined"} size={"small"}
+                      onClick={startStreaming}
+                      disabled={!rtcConnected || !socketOnline}>
+              Go Live
+              {(!socketOnline || !rtcConnected)
+                ? <CircularProgress className={classes.connectionProgress} size={12}/>
+                : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
+            </Button>
+        }
+
+        <IconButton
+          aria-haspopup="true"
+        >
+          <Settings/>
+        </IconButton>
+
+      </Fragment>
+    );
+
   }
 
 }

@@ -71,7 +71,9 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
     const {liveActions: {stop: stopLive}} = this.props;
 
-    this.setState({ mounted: false }, stopLive);
+    this.setState({ mounted: false });
+
+    stopLive().then()
   }
 
   public componentWillReceiveProps(nextProps: IStreamingPageProps): void {
