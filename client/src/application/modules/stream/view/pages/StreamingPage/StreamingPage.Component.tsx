@@ -121,10 +121,11 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   @Bind()
   private async getDefaultVideo(): Promise<void> {
 
-    const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureAudio, selectedDevices}} = this.props;
+    const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureAudio, selectedDevices}, liveActions: {connectRTC}} = this.props;
     const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput || true, captureAudio && (selectedDevices.audioInput || true));
 
     updateInputStreamAndSources(stream, selectedDevices);
+    connectRTC().then();
   }
 
 }

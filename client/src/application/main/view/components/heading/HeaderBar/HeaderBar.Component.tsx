@@ -52,7 +52,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
                 <Fragment>
 
                   <Button variant={"outlined"} size={"small"} onClick={this.onGoLive}>
-                    Go Live <LiveTv className={classes.liveIcon} fontSize={"small"}/>
+                    Create Event <LiveTv className={classes.liveIcon} fontSize={"small"}/>
                   </Button>
 
                   <HeaderBarUserMenu {...{} as IHeaderBarUserMenuExternalProps}/>
@@ -72,7 +72,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
     const {routingActions: {push}} = this.props;
 
-    push("/stream/live");
+    push("/stream/live/create");
   }
 
 }

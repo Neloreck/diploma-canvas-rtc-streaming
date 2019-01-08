@@ -73,6 +73,11 @@ export class LiveWebSocketController extends AbstractWebSocketController {
   }
 
   @Bind()
+  public onSessionExchangeCompleted(): void {
+    throw new Error("Handler for 'onSessionExchangeCompleted' should be injected.");
+  }
+
+  @Bind()
   public async onSdpAnswerReceived(message: ISdpExchangeMessage): Promise<void> {
     throw new Error("Handler for 'onSdpAnswerReceived' should be injected.");
   }
@@ -91,9 +96,15 @@ export class LiveWebSocketController extends AbstractWebSocketController {
 
   @Bind()
   protected subscribe(): void {
-    this.addSubscription(`sdpAnswer`, (message: IMessage) =>  this.onSdpAnswerReceived(JSON.parse(message.body)));
-    this.addSubscription(`iceCandidate`, (message: IMessage) =>  this.onICECandidateReceived(JSON.parse(message.body)));
-    this.addSubscription(`error`, (message: IMessage) =>  this.onErrorReceived(JSON.parse(message.body)));
+
+    this.addSubscription(`record.start`, (message: IMessage) => console.error("start rec", message));
+    this.addSubscription(`record.stop`, (message: IMessage) => console.error("stop rec", message));
+
+    this.addSubscription(`session.sdpAnswer`, (message: IMessage) =>  this.onSdpAnswerReceived(JSON.parse(message.body)));
+    this.addSubscription(`session.iceCandidate`, (message: IMessage) =>  this.onICECandidateReceived(JSON.parse(message.body)));
+    this.addSubscription(`session.error`, (message: IMessage) =>  this.onErrorReceived(JSON.parse(message.body)));
+    this.addSubscription(`session.complete`, (message: IMessage) => this.onSessionExchangeCompleted());
+
     this.addSubscription(`status`, this.onLogMessage);
   }
 

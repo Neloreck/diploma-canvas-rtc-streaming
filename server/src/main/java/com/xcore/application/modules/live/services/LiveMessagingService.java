@@ -18,16 +18,28 @@ public class LiveMessagingService {
   @Autowired
   private SimpMessagingTemplate simpMessagingTemplate;
 
+  public void sendRecordStart(final String room) {
+    this.sendMessage(room, "record.start", EKurrentoMessageType.RECORD_START, null);
+  }
+
+  public void sendRecordStop(final String room) {
+    this.sendMessage(room, "record.stop", EKurrentoMessageType.RECORD_STOP, null);
+  }
+
+  public void sendExchangeCompleted(final String room) {
+    this.sendMessage(room, "session.complete", EKurrentoMessageType.EXCHANGE_COMPLETED, null);
+  }
+
   public void sendSdpAnswer(final String room, final String sdpAnswer) {
-    this.sendMessage(room, "sdpAnswer", EKurrentoMessageType.SDP_ANSWER, new LiveSdpMessage(sdpAnswer));
+    this.sendMessage(room, "session.sdpAnswer", EKurrentoMessageType.SDP_ANSWER, new LiveSdpMessage(sdpAnswer));
   }
 
   public void sendIceCandidate(final String room, final IceCandidate iceCandidate) {
-    this.sendMessage(room, "iceCandidate", EKurrentoMessageType.ICE_CANDIDATE_FOUND, new LiveICECandidateMessage(iceCandidate));
+    this.sendMessage(room, "session.iceCandidate", EKurrentoMessageType.ICE_CANDIDATE_FOUND, new LiveICECandidateMessage(iceCandidate));
   }
 
   public void sendError(final String room, final String errorMessage) {
-    this.sendMessage(room, "error", EKurrentoMessageType.ERROR, new LiveErrorMessage(errorMessage));
+    this.sendMessage(room, "session.error", EKurrentoMessageType.ERROR, new LiveErrorMessage(errorMessage));
   }
 
   protected <T>void sendMessage(final String room, final String destination, final EKurrentoMessageType messageType, T body) {

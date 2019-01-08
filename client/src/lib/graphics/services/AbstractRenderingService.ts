@@ -5,6 +5,9 @@ import {ICanvasGraphicsSizingContext} from "../types";
 
 export abstract class AbstractRenderingService {
 
+  protected renderWithAnimationFrame: boolean = false;
+  protected renderingFps: number = 60;
+
   protected sizingContext: ICanvasGraphicsSizingContext = { height: 720, width: 1280 };
   protected renderingEnabled: boolean = true;
   protected interactionEnabled: boolean = true;
@@ -102,13 +105,10 @@ export abstract class AbstractRenderingService {
   @Bind()
   public render(): void {
 
-    if (this.isContextCleanupEnabled()) {
-      this.clear();
-    }
-
-    if (this.isRenderingEnabled()) {
-      this.renderItems();
-      window.requestAnimationFrame(this.render);
+    if (this.renderWithAnimationFrame) {
+      this.renderAnimationFrame();
+    } else {
+      this.renderRaw();
     }
   }
 
@@ -117,5 +117,33 @@ export abstract class AbstractRenderingService {
   }
 
   protected abstract renderItems(): void;
+
+  /* Rendering implementation. */
+
+  @Bind()
+  private renderRaw(): void {
+
+    if (this.cleanupContext) {
+      this.clear();
+    }
+
+    if (this.renderingEnabled) {
+      this.renderItems();
+      window.setTimeout(this.renderRaw, 1000 / this.renderingFps);
+    }
+  }
+
+  @Bind()
+  private renderAnimationFrame(): void {
+
+    if (this.cleanupContext) {
+      this.clear();
+    }
+
+    if (this.renderingEnabled) {
+      this.renderItems();
+      window.setTimeout(window.requestAnimationFrame.bind(window, this.renderAnimationFrame), 1000 / this.renderingFps);
+    }
+  }
 
 }

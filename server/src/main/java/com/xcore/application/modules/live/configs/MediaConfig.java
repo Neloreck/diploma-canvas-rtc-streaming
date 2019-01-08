@@ -2,6 +2,7 @@ package com.xcore.application.modules.live.configs;
 
 import lombok.Data;
 import org.kurento.client.KurentoClient;
+import org.kurento.client.MediaProfileSpecType;
 import org.kurento.client.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,8 @@ public class MediaConfig {
 
   @Value("${kurento.connection.endpoint}")
   private String kurentoEndpoint;
+
+  private MediaProfileSpecType videoSaveFormat = MediaProfileSpecType.WEBM;
 
   @Bean
   public KurentoClient kurentoClient() {

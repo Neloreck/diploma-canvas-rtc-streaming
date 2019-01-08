@@ -10,16 +10,18 @@ import {authContextManager} from "@Main/data/store";
 import {sourceContextManager} from "@Module/stream/data/store";
 import {LiveService} from "@Module/stream/lib/live/LiveService";
 
-
 export interface ILiveContext {
   liveActions: {
     start(): Promise<void>;
     stop(): Promise<void>;
+    connectRTC(): Promise<void>;
+    disconnectRTC(): Promise<void>;
     startStreaming(): Promise<void>;
     stopStreaming(): Promise<void>;
   };
   liveState: {
-    online: boolean;
+    socketOnline: boolean;
+    rtcConnected: boolean;
     live: boolean;
   };
 }
@@ -28,6 +30,8 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
   protected context: ILiveContext = {
     liveActions: {
+      connectRTC: this.connectWebRTC,
+      disconnectRTC: this.disconnectWebRtc,
       start: this.start,
       startStreaming: this.startStreaming,
       stop: this.stop,
@@ -35,7 +39,8 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     },
     liveState: {
       live: false,
-      online: false
+      rtcConnected: false,
+      socketOnline: false
     }
   };
 
@@ -47,7 +52,8 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
     this.context.liveState = {
       live: false,
-      online: false
+      rtcConnected: false,
+      socketOnline: false
     };
 
     this.liveService.stop()
@@ -55,6 +61,10 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
     this.log.info("Disposed live storage.");
   }
+
+  /*
+   * SERVICE | SOCKET:
+   */
 
   @Bind()
   public async start(): Promise<void> {
@@ -66,7 +76,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
       applicationConfig.serverLiveSocketUrl,
       authContextManager.getCurrentUsername() as string,
       authContextManager.getAccessToken() as string
-    ).then();
+    );
   }
 
   @Bind()
@@ -75,43 +85,76 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     await this.liveService.stop();
   }
 
+  /*
+   * WEB RTC:
+   */
+
+  @Bind()
+  public async connectWebRTC(): Promise<void> {
+
+    await this.liveService.connectRTC([
+      ...(sourceContextManager.context.sourceState.outputStream as MediaStream).getVideoTracks(),
+      ...(sourceContextManager.context.sourceState.inputStream as MediaStream).getAudioTracks()
+    ]);
+
+    this.updateStateRef();
+    this.context.liveState.rtcConnected = true;
+    this.update();
+  }
+
+  @Bind()
+  public async disconnectWebRtc(): Promise<void> {
+
+    await this.liveService.disconnectRTC();
+
+    this.updateStateRef();
+    this.context.liveState.rtcConnected = false;
+    this.update();
+  }
+
+  /*
+   * WEB RTC:
+   */
+
   @Bind()
   protected async startStreaming(): Promise<void> {
+
+    await this.liveService.startStream();
 
     this.updateStateRef();
     this.context.liveState.live = true;
     this.update();
-
-    await this.liveService.startStreaming([
-      ...(sourceContextManager.context.sourceState.outputStream as MediaStream).getVideoTracks(),
-      ...(sourceContextManager.context.sourceState.inputStream as MediaStream).getAudioTracks()
-    ]);
   }
 
   @Bind()
   protected async stopStreaming(): Promise<void> {
+
+    await this.liveService.stopStream();
+
     this.updateStateRef();
     this.context.liveState.live = false;
     this.update();
-
-    await this.liveService.stopStreaming();
   }
+
+  // State observing:
 
   @Bind()
   protected onOnlineStatusUpdated(status: boolean): void {
 
     // Prevent odd renders.
-    if (this.context.liveState.online === status) {
+    if (this.context.liveState.socketOnline === status) {
       return;
     }
 
     this.updateStateRef();
-    this.context.liveState.online = status;
+    this.context.liveState.socketOnline = status;
     this.update();
   }
 
+  // Utility.
+
   @Bind()
-  protected updateStateRef(): void {
+  private updateStateRef(): void {
     this.context.liveState = Object.assign({}, this.context.liveState);
   }
 

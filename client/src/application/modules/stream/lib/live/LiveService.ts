@@ -5,11 +5,11 @@ import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 import {LiveWebRtcController} from "@Module/stream/lib/live/LiveWebRtcController";
 import {LiveWebSocketController} from "@Module/stream/lib/live/LiveWebSocketController";
+import {ELiveSocketMessageType} from "@Module/stream/lib/live/messaging";
 
 export class LiveService {
 
   private started: boolean = false;
-  private online: boolean = false;
 
   private readonly log: Logger = new Logger("[🌈LIVE]");
   private readonly liveWebRtcController: LiveWebRtcController = new LiveWebRtcController();
@@ -24,8 +24,10 @@ export class LiveService {
     this.liveWebSocketController.onSdpAnswerReceived = this.liveWebRtcController.handleSDPAnswer;
     this.liveWebSocketController.onICECandidateReceived = this.liveWebRtcController.handleAddICECandidate;
     this.liveWebSocketController.onErrorReceived = this.liveWebRtcController.handleRemoteError;
+    this.liveWebSocketController.onSessionExchangeCompleted = this.onSessionExchangeCompleted;
     this.liveWebSocketController.onStatusChanged = this.handleStatusChange;
 
+    this.liveWebRtcController.onSDPGenerationError = this.onSessionGenerationError;
     this.liveWebRtcController.onSendMessage = this.liveWebSocketController.sendMessage;
   }
 
@@ -35,11 +37,20 @@ export class LiveService {
 
   @Bind()
   public handleStatusChange(online: boolean): void {
-    this.online = online;
     this.onOnlineStatusChange(online);
   }
 
   public onOnlineStatusChange(status: boolean): void { /* INJECT */ }
+
+  @Bind()
+  public onSessionGenerationError(error: Error): void {
+    this.log.error("Session generation error:", error);
+  }
+
+  @Bind()
+  public onSessionExchangeCompleted(): void {
+    this.log.info("Session exchange finish confirmation received.");
+  }
 
   /*
    * Control.
@@ -77,8 +88,8 @@ export class LiveService {
   }
 
   @Bind()
-  public async startStreaming(tracks: Array<MediaStreamTrack>): Promise<void> {
-    this.log.info(`Starting streaming.`);
+  public async connectRTC(tracks: Array<MediaStreamTrack>): Promise<void> {
+    this.log.info("Connecting WebRTC.");
     await this.liveWebRtcController.start(
       {
         iceServers: [
@@ -95,9 +106,21 @@ export class LiveService {
   }
 
   @Bind()
-  public async stopStreaming(): Promise<void> {
-    this.log.info(`Stopping streaming.`);
+  public async disconnectRTC(): Promise<void> {
+    this.log.info("Disconnection WebRTC.");
     await this.liveWebRtcController.stop();
+  }
+
+  @Bind()
+  public async startStream(): Promise<void> {
+    this.log.info("Starting stream record.");
+    await this.liveWebSocketController.sendMessage("record.start", { type: ELiveSocketMessageType.START_RECORD, body: {} });
+  }
+
+  @Bind()
+  public async stopStream(): Promise<void> {
+    this.log.info("Stopping stream record.");
+    await this.liveWebSocketController.sendMessage("record.stop", { type: ELiveSocketMessageType.STOP_RECORD, body: {} });
   }
 
 }

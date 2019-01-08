@@ -1,5 +1,6 @@
 package com.xcore.application.modules.live.services;
 
+import com.xcore.application.modules.live.configs.MediaConfig;
 import com.xcore.application.modules.live.models.LiveStreamingSession;
 import com.xcore.application.modules.storage.configs.StorageConfiguration;
 import lombok.NonNull;
@@ -24,6 +25,9 @@ public final class MediaService {
   @Autowired
   private StorageConfiguration storageConfiguration;
 
+  @Autowired
+  private MediaConfig mediaConfig;
+
   /*
    * Methods:
    */
@@ -34,6 +38,8 @@ public final class MediaService {
 
     liveStreamingSession.finishExchange();
     liveStreamingSession.tryApplyAccumulatedRemoteCandidates();
+
+    this.liveMessagingService.sendExchangeCompleted(room);
   }
 
   public void handleIceCandidate(@NonNull final String room, @NonNull final String sessionId, @NonNull final IceCandidate iceCandidate) {
@@ -50,19 +56,28 @@ public final class MediaService {
 
     // Initialize session.
     liveSession.initialize(
-        kurentoClient.createMediaPipeline(), liveMessagingService, this.getStreamRecordPath(
-        "user_" + liveSession.getOwnerId() + "/" + liveSession.getId() + "." + liveSession.getCreated().getTime())
+        kurentoClient.createMediaPipeline(), liveMessagingService,
+        mediaConfig.getVideoSaveFormat(),
+        this.getStreamRecordPath("user_" + liveSession.getOwnerId() + "/" + liveSession.getId() + "." + liveSession.getCreated().getTime())
     );
 
     // Proceed sdp and start recorder.
-    final String sdpAnswer = liveSession.start(sdpOffer);
+    final String sdpAnswer = liveSession.proceedSDPOffer(sdpOffer);
 
     // Send sdp answer.
     this.liveMessagingService.sendSdpAnswer(room, sdpAnswer);
   }
 
+  public void handleStartRecord(@NonNull final String room, @NonNull final String sessionId) {
+    this.liveService.getSession(sessionId).startRecord();
+  }
+
+  public void handleStopRecord(@NonNull final String room, @NonNull final String sessionId) {
+    this.liveService.getSession(sessionId).stopRecord();
+  }
+
   public void handleStop(@NonNull final String room, @NonNull final String sessionId) {
-    liveService.getSession(sessionId).stop();
+    liveService.getSession(sessionId).close();
   }
 
   public void handleError(@NonNull final String room, @NonNull final String sessionId, @NonNull final String webSocketMessage) {

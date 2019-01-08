@@ -23,6 +23,7 @@ import {
 import {
   IObjectsConfigurationTabExternalProps, ObjectsConfigurationTab
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectsConfigurationTab";
+import {IStatsTabExternalProps, StatsTab} from "@Module/stream/view/components/tabs/stats/StatsTab";
 import {mainPreviewTabsStyle} from "./MainPreviewTabs.Style";
 
 // Props.
@@ -73,8 +74,8 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
         tabContent = <div> Resources - Todo... </div>;
         break;
 
-      case 4:
-        tabContent = <div> Resources - Todo... </div>;
+      case 5:
+        tabContent = <StatsTab {...{} as IStatsTabExternalProps}/>;
         break;
 
       default:

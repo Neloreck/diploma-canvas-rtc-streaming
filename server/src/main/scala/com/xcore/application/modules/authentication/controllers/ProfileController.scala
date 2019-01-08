@@ -39,6 +39,6 @@ class ProfileController {
     } else {
       new ResponseEntity[ApiResponse](ProfileNotFoundResponse(profileId), HttpStatus.NOT_FOUND);
     }
-  };
+  }
 
 }

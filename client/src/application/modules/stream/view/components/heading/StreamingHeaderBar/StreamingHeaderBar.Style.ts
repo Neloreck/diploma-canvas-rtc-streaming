@@ -2,6 +2,9 @@ import {Theme} from "@material-ui/core";
 import {createStyles} from "@material-ui/core/styles";
 
 export const streamingHeaderBarStyle = (theme: Theme) => createStyles({
+  connectionProgress: {
+    marginLeft: theme.spacing.unit / 2
+  },
   homeButton: {
     margin: theme.spacing.unit / 2
   },

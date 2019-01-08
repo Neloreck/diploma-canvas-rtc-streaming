@@ -1,9 +1,11 @@
 import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 
+// Lib.
 import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 
+// Data.
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
@@ -106,6 +108,8 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     this.updateStateRef();
     this.context.sourceState.outputStream = outputStream;
     this.update();
+
+    this.onOutputReady().then();
   }
 
   @Bind()
@@ -117,7 +121,14 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   }
 
   @Bind()
-  protected updateStateRef(): void {
+  protected async onOutputReady(): Promise<void> {
+    // await liveContextManager.connectWebRTC();
+  }
+
+  // Utils:
+
+  @Bind()
+  private updateStateRef(): void {
     this.context.sourceState = Object.assign({}, this.context.sourceState);
   }
 

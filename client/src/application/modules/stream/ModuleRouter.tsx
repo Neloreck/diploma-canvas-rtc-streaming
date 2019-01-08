@@ -24,10 +24,12 @@ export class ModuleRouter extends PureComponent {
 
         <Switch>
 
-          <Route
+          <PrivateRoute
             exact={true}
-            path={`${ModuleRouter.MODULE_PREFIX}/create`}
+            redirect={`/authorization/login?next=${ModuleRouter.MODULE_PREFIX}/live/create`}
+            path={`${ModuleRouter.MODULE_PREFIX}/live/create`}
             component={StreamCreationPage}
+            {...{} as IPrivateRouteExternalProps}
           />
 
           <PrivateRoute

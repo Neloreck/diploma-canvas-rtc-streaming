@@ -19,7 +19,7 @@ import {
 } from "@Main/view/components/heading/HeaderBarLogoNavigation";
 import {HeaderBarUserMenu, IHeaderBarUserMenuExternalProps} from "@Main/view/components/heading/HeaderBarUserMenu";
 import {
-  AppBar, Button, Grid, IconButton, Toolbar, WithStyles,
+  AppBar, Button, CircularProgress, Grid, IconButton, Toolbar, WithStyles,
 } from "@material-ui/core";
 import {LiveTv, Settings} from "@material-ui/icons";
 import {streamingHeaderBarStyle} from "./StreamingHeaderBar.Style";
@@ -74,18 +74,20 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
   private renderGoLiveButton(): ReactNode {
 
-    const {classes, liveState: {online, live}, liveActions: {startStreaming, stopStreaming}} = this.props;
+    const {classes, liveState: {socketOnline, rtcConnected, live}, liveActions: {startStreaming, stopStreaming}} = this.props;
 
     if (live) {
       return (
-        <Button variant={"outlined"} size={"small"} onClick={stopStreaming}>
-         Stop <LiveTv className={classes.startIcon} fontSize={"small"}/>
+        <Button variant={"outlined"} size={"small"} onClick={stopStreaming} disabled={!rtcConnected || !socketOnline}>
+          Stop
+          {(!socketOnline || !rtcConnected) ? <CircularProgress className={classes.connectionProgress} size={12}/> : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
         </Button>
       );
     } else {
       return (
-        <Button variant={"outlined"} size={"small"} onClick={startStreaming} disabled={!online}>
-          Go Live <LiveTv className={classes.startIcon} fontSize={"small"}/>
+        <Button variant={"outlined"} size={"small"} onClick={startStreaming} disabled={!rtcConnected || !socketOnline}>
+          Go Live
+          {(!socketOnline || !rtcConnected) ? <CircularProgress className={classes.connectionProgress} size={12}/> : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
         </Button>
       );
     }

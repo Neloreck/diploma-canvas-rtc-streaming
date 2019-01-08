@@ -54,7 +54,7 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
       propagateRendererEvents: true,
       showGraphics: true,
       showGrid: false,
-      showPreview: true
+      showPreview: false
     };
 
     this.log.info("Disposed rendering storage.");

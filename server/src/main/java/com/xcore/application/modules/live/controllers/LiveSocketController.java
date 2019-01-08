@@ -8,7 +8,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class LiveController {
+public class LiveSocketController {
 
   @MessageMapping("/live.{user}.status")
   @SendTo("/topic/live.{user}.status")

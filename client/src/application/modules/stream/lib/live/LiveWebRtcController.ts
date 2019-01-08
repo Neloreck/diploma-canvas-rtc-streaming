@@ -20,6 +20,9 @@ export class LiveWebRtcController {
   private webRtcConfiguration: Optional<RTCConfiguration> = null;
   private webRtcOfferConfiguration: Optional<RTCOfferOptions> = null;
 
+  private webRtcGeneratingOffer: boolean = false;
+  private webRtcRenegotiating: boolean = false;
+
   private readonly accumulatedRemoteICECandidates: Array<RTCIceCandidate> = [];
   private readonly mediaStream: MediaStream = new MediaStream();
 
@@ -40,13 +43,11 @@ export class LiveWebRtcController {
     this.webRtcPeer.onnegotiationneeded = this.onNegotiationNeeded;
     this.webRtcPeer.oniceconnectionstatechange = this.onIceConnectionStateChange;
     this.webRtcPeer.onsignalingstatechange = this.onSignallingConnectionStateChange;
-
-    await this.sendSDPOffer();
   }
 
   public async stop(): Promise<void> {
     if (this.webRtcPeer) {
-      this.onSendMessage("stop", { type: ELiveSocketMessageType.STOP, body: {} } as IStopExchangeMessage );
+      this.onSendMessage("session.stop", { type: ELiveSocketMessageType.STOP, body: {} } as IStopExchangeMessage );
       this.webRtcPeer.close();
       this.webRtcPeer = null;
     }
@@ -57,6 +58,12 @@ export class LiveWebRtcController {
     if (!this.webRtcPeer || !this.webRtcOfferConfiguration) {
       throw new Error("Cannot send SDP offer, data was corrupted.");
     }
+
+    if (this.webRtcRenegotiating || this.webRtcGeneratingOffer) {
+      return;
+    }
+
+    this.webRtcGeneratingOffer = true;
 
     try {
       const offer: RTCSessionDescriptionInit = await this.webRtcPeer.createOffer(this.webRtcOfferConfiguration);
@@ -70,7 +77,7 @@ export class LiveWebRtcController {
       this.log.info("Sending local SDP offer.");
 
       // Send webSocket message.
-      this.onSendMessage("sdpOffer", {
+      this.onSendMessage("session.sdpOffer", {
         body: {
           sdp: offer.sdp
         },
@@ -79,6 +86,8 @@ export class LiveWebRtcController {
 
     } catch (error) {
       this.onSDPGenerationError(error);
+    } finally {
+      this.webRtcGeneratingOffer = false;
     }
   }
 
@@ -98,9 +107,9 @@ export class LiveWebRtcController {
       return this.onIceCandidatesGatheringDone();
     }
 
-    this.log.info("Sending ICE candidate.");
+    // # this.log.info("Sending ICE candidate.");
 
-    this.onSendMessage("iceCandidate", {
+    this.onSendMessage("session.iceCandidate", {
       body: {
         iceCandidate: connectionEvent.candidate.toJSON()
       },
@@ -110,7 +119,8 @@ export class LiveWebRtcController {
 
   @Bind()
   public async onNegotiationNeeded(): Promise<void> {
-    this.log.warn("Renegotiation is needed, but currently is not supported. Ignoring this request.");
+    this.log.info("Renegotiation is needed, init exchange.");
+    await this.sendSDPOffer();
   }
 
   @Bind()
@@ -121,6 +131,7 @@ export class LiveWebRtcController {
   @Bind()
   public onSignallingConnectionStateChange(event: Event): any {
     this.log.info(`Signalling connection state changed: ${(event.target as RTCPeerConnection).signalingState}.`);
+    this.webRtcRenegotiating = (this.webRtcPeer !== null && (this.webRtcPeer.signalingState !== "closed" && this.webRtcPeer.signalingState !== "stable"));
   }
 
   @Bind()
@@ -149,7 +160,7 @@ export class LiveWebRtcController {
     await this.webRtcPeer.setRemoteDescription({ sdp: message.body.sdp, type: "answer" });
 
     // Complete exchange order.
-    this.onSendMessage("complete", { type: ELiveSocketMessageType.CUSTOM, body: {}});
+    this.onSendMessage("session.complete", { type: ELiveSocketMessageType.CUSTOM, body: {}});
     this.trySynchronizeAccumulatedICECandidates();
 
     this.log.info("Exchange process completed.");
@@ -167,7 +178,7 @@ export class LiveWebRtcController {
     if (!this.webRtcPeer.remoteDescription) {
       this.accumulatedRemoteICECandidates.push(candidate);
     } else {
-      this.log.info("Adding remote ICE.");
+      // # this.log.info("Adding remote ICE.");
       this.trySynchronizeAccumulatedICECandidates();
       this.webRtcPeer.addIceCandidate(candidate).catch(this.log.error);
     }
@@ -183,7 +194,7 @@ export class LiveWebRtcController {
   private trySynchronizeAccumulatedICECandidates(): void {
     while (this.accumulatedRemoteICECandidates.length) {
       const candidate: RTCIceCandidate = this.accumulatedRemoteICECandidates.shift() as RTCIceCandidate;
-      this.log.info("Adding remote ICE.");
+      // # this.log.info("Adding remote ICE.");
       (this.webRtcPeer as RTCPeerConnection).addIceCandidate(candidate).catch(this.log.error);
     }
   }
