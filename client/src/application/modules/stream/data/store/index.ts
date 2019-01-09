@@ -3,10 +3,10 @@ import {LiveContextManager} from "@Module/stream/data/store/live/LiveContextMana
 import {RenderingContextManager} from "@Module/stream/data/store/rendering/RenderingContextManager";
 import {SourceContextManager} from "@Module/stream/data/store/source/SourceContextManager";
 
-export const liveContextManager: LiveContextManager = new LiveContextManager();
 export const renderingContextManager: RenderingContextManager = new RenderingContextManager();
 export const graphicsContextManager: GraphicsContextManager = new GraphicsContextManager();
 export const sourceContextManager: SourceContextManager = new SourceContextManager();
+export const liveContextManager: LiveContextManager = new LiveContextManager();
 
 export {LiveContextManager, ILiveContext} from "@Module/stream/data/store/live/LiveContextManager";
 export {RenderingContextManager, IRenderingContext} from "@Module/stream/data/store/rendering/RenderingContextManager";

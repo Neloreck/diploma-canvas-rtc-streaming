@@ -68,6 +68,14 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     this.log.info("Disposed source storage.");
   }
 
+  // Injectable:
+
+  @Bind()
+  public async onOutputChanged(stream: Optional<MediaStream>): Promise<void>  { /* Injectable. */}
+
+  @Bind()
+  public async onInputChanged(stream: Optional<MediaStream>): Promise<void> { /* Injectable. */ }
+
   // Actions:
 
   @Bind()
@@ -96,11 +104,14 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   }
   @Bind()
   protected updateInputStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
+
     this.updateStateRef();
     localMediaService.killStream(this.context.sourceState.inputStream);
     this.context.sourceState.inputStream = inputStream;
     this.context.sourceState.selectedDevices = selectedDevices;
     this.update();
+
+    this.onInputChanged(this.context.sourceState.inputStream).then();
   }
 
   @Bind()
@@ -109,7 +120,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     this.context.sourceState.outputStream = outputStream;
     this.update();
 
-    this.onOutputReady().then();
+    this.onOutputChanged(this.context.sourceState.outputStream).then();
   }
 
   @Bind()
@@ -118,11 +129,8 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     localMediaService.killStream(this.context.sourceState.inputStream);
     this.context.sourceState.inputStream = inputStream;
     this.update();
-  }
 
-  @Bind()
-  protected async onOutputReady(): Promise<void> {
-    // await liveContextManager.connectWebRTC();
+    this.onInputChanged(this.context.sourceState.inputStream).then();
   }
 
   // Utils:

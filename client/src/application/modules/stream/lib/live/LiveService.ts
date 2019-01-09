@@ -88,7 +88,7 @@ export class LiveService {
   }
 
   @Bind()
-  public async connectRTC(tracks: Array<MediaStreamTrack>): Promise<void> {
+  public async connectRTC(videoTrack: MediaStreamTrack, audioTrack: Optional<MediaStreamTrack>): Promise<void> {
     this.log.info("Connecting WebRTC.");
     await this.liveWebRtcController.start(
       {
@@ -101,7 +101,8 @@ export class LiveService {
         offerToReceiveAudio: true,
         offerToReceiveVideo: true
       },
-      tracks
+      videoTrack,
+      audioTrack
     );
   }
 
@@ -121,6 +122,16 @@ export class LiveService {
   public async stopStream(): Promise<void> {
     this.log.info("Stopping stream record.");
     await this.liveWebSocketController.sendMessage("record.stop", { type: ELiveSocketMessageType.STOP_RECORD, body: {} });
+  }
+
+  @Bind()
+  public updateVideoTrack(track: MediaStreamTrack): void {
+    console.error("UPD VIDEO", track);
+  }
+
+  @Bind()
+  public updateAudioTrack(track: MediaStreamTrack): void {
+    console.error("UPD AUDIO", track);
   }
 
 }

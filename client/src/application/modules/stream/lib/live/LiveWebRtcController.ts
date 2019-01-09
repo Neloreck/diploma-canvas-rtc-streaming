@@ -26,23 +26,34 @@ export class LiveWebRtcController {
   private readonly accumulatedRemoteICECandidates: Array<RTCIceCandidate> = [];
   private readonly mediaStream: MediaStream = new MediaStream();
 
-  public async start(options: RTCConfiguration, offerOptions: RTCOfferOptions, mediaTracks: Array<MediaStreamTrack>): Promise<void> {
+  private started: boolean = false;
+
+  public async start(options: RTCConfiguration, offerOptions: RTCOfferOptions, videoTrack: MediaStreamTrack, audioTrack: Optional<MediaStreamTrack>): Promise<void> {
 
     this.log.info("Starting RTC connection, creating RTC peer.");
+
+    if (this.started) {
+      throw new Error("RTC Already started");
+    }
 
     this.webRtcPeer = new RTCPeerConnection(options);
     this.webRtcConfiguration = options;
     this.webRtcOfferConfiguration = offerOptions;
 
-    for (const track of mediaTracks) {
-      this.mediaStream.addTrack(track);
-      this.webRtcPeer.addTrack(track, this.mediaStream);
+    this.mediaStream.addTrack(videoTrack);
+    this.webRtcPeer.addTrack(videoTrack, this.mediaStream);
+
+    if (audioTrack) {
+      this.mediaStream.addTrack(audioTrack);
+      this.webRtcPeer.addTrack(audioTrack, this.mediaStream);
     }
 
     this.webRtcPeer.onicecandidate = this.onICECandidate;
     this.webRtcPeer.onnegotiationneeded = this.onNegotiationNeeded;
     this.webRtcPeer.oniceconnectionstatechange = this.onIceConnectionStateChange;
     this.webRtcPeer.onsignalingstatechange = this.onSignallingConnectionStateChange;
+
+    this.started = true;
   }
 
   public async stop(): Promise<void> {
@@ -51,6 +62,8 @@ export class LiveWebRtcController {
       this.webRtcPeer.close();
       this.webRtcPeer = null;
     }
+
+    this.started = false;
   }
 
   public async sendSDPOffer(): Promise<void> {

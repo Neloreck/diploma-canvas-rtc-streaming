@@ -62,14 +62,17 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   public async mountComponent(): Promise<void> {
 
     // Display main video on mount.
-    const {sourceState: {captureVideo}, routingActions: {getLastPart, replace}, liveState: {liveEvent}, liveActions: {start: startLive, syncLiveEvent}} = this.props;
+    const {sourceState: {captureVideo, captureAudio}, routingActions: {getLastPart, replace}, liveState: {liveEvent}, liveActions: {start: startLive, syncLiveEvent}} = this.props;
 
     try {
 
       const event: ILiveEvent = liveEvent || await syncLiveEvent(getLastPart());
 
       await startLive();
-      await this.getDefaultVideo();
+
+      if (captureAudio || captureVideo) {
+        await this.getDefaultMedia();
+      }
 
     } catch (error) {
       replace("/stream/error");
@@ -98,7 +101,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
     if (nextProps.sourceState.captureVideo !== this.props.sourceState.captureVideo) {
       if (nextProps.sourceState.captureVideo) {
         this
-          .getDefaultVideo()
+          .getDefaultMedia()
           .then();
       } else {
         localMediaService.killStream(inputStream);
@@ -143,13 +146,12 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   }
 
   @Bind()
-  private async getDefaultVideo(): Promise<void> {
+  private async getDefaultMedia(): Promise<void> {
 
     const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureAudio, selectedDevices}, liveActions: {connectRTC}} = this.props;
     const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput || true, captureAudio && (selectedDevices.audioInput || true));
 
     updateInputStreamAndSources(stream, selectedDevices);
-    await connectRTC();
   }
 
 }
