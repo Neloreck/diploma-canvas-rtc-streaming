@@ -2,7 +2,15 @@ import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 
 // Lib.
+import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
+
+// Api.
+import {liveClient} from "@Api/x-core";
+import {IXCoreFailedResponse} from "@Api/x-core/general/IXCoreFailedResponse";
+import {ILiveEvent} from "@Api/x-core/live/models";
+import {IEventCreateResponse} from "@Api/x-core/live/response/IEventCreateResponse";
+import {IGetEventResponse} from "@Api/x-core/live/response/IGetEventResponse";
 
 // Data.
 import {applicationConfig} from "@Main/data/config";
@@ -12,6 +20,8 @@ import {LiveService} from "@Module/stream/lib/live/LiveService";
 
 export interface ILiveContext {
   liveActions: {
+    createEvent(name: string, description: string, secured: boolean, securedKey: string): Promise<ILiveEvent>;
+    syncLiveEvent(eventId: string): Promise<ILiveEvent>;
     start(): Promise<void>;
     stop(): Promise<void>;
     connectRTC(): Promise<void>;
@@ -20,9 +30,11 @@ export interface ILiveContext {
     stopStreaming(): Promise<void>;
   };
   liveState: {
+    live: boolean;
+    liveEvent: Optional<ILiveEvent>;
+    liveEventLoading: boolean;
     socketOnline: boolean;
     rtcConnected: boolean;
-    live: boolean;
   };
 }
 
@@ -31,14 +43,18 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   protected context: ILiveContext = {
     liveActions: {
       connectRTC: this.connectWebRTC,
+      createEvent: this.createEvent,
       disconnectRTC: this.disconnectWebRtc,
       start: this.start,
       startStreaming: this.startStreaming,
       stop: this.stop,
-      stopStreaming: this.stopStreaming
+      stopStreaming: this.stopStreaming,
+      syncLiveEvent: this.syncLiveEvent
     },
     liveState: {
       live: false,
+      liveEvent: null,
+      liveEventLoading: false,
       rtcConnected: false,
       socketOnline: false
     }
@@ -52,6 +68,8 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
     this.context.liveState = {
       live: false,
+      liveEvent: null,
+      liveEventLoading: false,
       rtcConnected: false,
       socketOnline: false
     };
@@ -60,6 +78,78 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
       .then();
 
     this.log.info("Disposed live storage.");
+  }
+
+  /*
+   * Event management.
+   */
+
+  @Bind()
+  public async createEvent(name: string, description: string, secured: boolean, securedKey: string): Promise<ILiveEvent> {
+
+    if (this.context.liveState.liveEvent) {
+      throw new Error("Cannot create new live event when already have one.");
+    }
+
+    this.updateStateRef();
+    this.context.liveState.liveEventLoading = true;
+    this.update();
+
+    const eventResponse: IEventCreateResponse | IXCoreFailedResponse = await liveClient.createLiveEvent({ name, description, secured, securedKey });
+
+    if (eventResponse.success) {
+
+      const liveEvent: ILiveEvent = (eventResponse as IEventCreateResponse).liveEvent;
+
+      this.updateStateRef();
+      this.context.liveState.liveEvent = liveEvent;
+      this.context.liveState.liveEventLoading = false;
+      this.update();
+
+      this.log.info("Created live event.", liveEvent);
+
+      return liveEvent;
+    } else {
+
+      this.updateStateRef();
+      this.context.liveState.liveEventLoading = false;
+      this.update();
+
+      throw new Error(eventResponse.error.mesage);
+    }
+  }
+
+  @Bind()
+  public async syncLiveEvent(eventId: string): Promise<ILiveEvent> {
+
+    this.updateStateRef();
+    this.context.liveState.liveEventLoading = true;
+    this.update();
+
+    const eventResponse: IGetEventResponse | IXCoreFailedResponse = await liveClient.getLiveEvent(eventId);
+
+    if (eventResponse.success) {
+
+      const liveEvent: ILiveEvent = (eventResponse as IGetEventResponse).liveEvent;
+
+      this.updateStateRef();
+      this.context.liveState.liveEvent = liveEvent;
+      this.context.liveState.liveEventLoading = false;
+      this.update();
+
+      this.log.info("Got event.", liveEvent);
+
+      return liveEvent;
+    } else {
+
+      this.updateStateRef();
+      this.context.liveState.liveEventLoading = false;
+      this.update();
+
+      this.log.info(`Failed to get event '${eventId}'.`);
+
+      throw new Error(eventResponse.error.mesage);
+    }
   }
 
   /*
@@ -74,7 +164,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
     await this.liveService.start(
       applicationConfig.serverLiveSocketUrl,
-      authContextManager.getCurrentUsername() as string,
+      (this.context.liveState.liveEvent as ILiveEvent).id,
       authContextManager.getAccessToken() as string
     );
   }
@@ -118,7 +208,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   }
 
   /*
-   * WEB RTC:
+   * Streaming:
    */
 
   @Bind()

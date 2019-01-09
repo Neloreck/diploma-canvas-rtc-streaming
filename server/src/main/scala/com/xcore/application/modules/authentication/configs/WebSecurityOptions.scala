@@ -1,6 +1,6 @@
 package com.xcore.application.modules.authentication.configs
 
-import com.xcore.application.modules.authentication.utils.AuthTokenEnhancer
+import com.xcore.application.modules.authentication.utils.AuthenticationTokenEnhancer
 import javax.sql.DataSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -43,7 +43,7 @@ class WebSecurityOptions {
   def accessTokenStore: TokenStore = new InMemoryTokenStore;
 
   @Bean
-  def accessTokenEnhancer: AuthTokenEnhancer = new AuthTokenEnhancer;
+  def accessTokenEnhancer: AuthenticationTokenEnhancer = new AuthenticationTokenEnhancer;
 
   @Bean
   def accessTokenConverter: JwtAccessTokenConverter = {

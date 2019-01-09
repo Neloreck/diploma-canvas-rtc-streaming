@@ -1,46 +1,40 @@
-package com.xcore.application.modules.authentication.models.user;
+package com.xcore.application.modules.authentication.models.user
 
 import org.springframework.security.core.userdetails.UserDetails
-import lombok.NonNull
+import lombok.{Builder, NonNull}
 import javax.persistence._
 import java.io.Serializable
 import java.security.Principal
 
-import com.xcore.application.modules.authentication.models.role.EAppAccessLevel
+import com.xcore.application.modules.authentication.models.role.EApplicationAccessLevel
 import org.codehaus.jackson.annotate.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
 
-import scala.beans.BeanProperty
-
 @Entity
+@Builder
 class ApplicationUser extends Serializable with UserDetails with Principal {
 
   @Id
-  @BeanProperty
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long = _;
 
-  @Column()
-  @BeanProperty
+  @Column
   @NonNull
-  var role: EAppAccessLevel = _;
+  var role: EApplicationAccessLevel = _;
 
   @Column(length = 64, nullable = false, unique = true)
-  @BeanProperty
   @NonNull
   var username: String = _;
 
   @Column(length = 64, unique = true, nullable = false)
   @NonNull
-  @BeanProperty
   var mail: String = _;
 
   @Column(length = 64, nullable = false)
   @NonNull
-  @BeanProperty
   var password: String = _;
 
-  def this(username: String, mail: String, password: String, role: EAppAccessLevel) = {
+  def this(username: String, mail: String, password: String, role: EApplicationAccessLevel) = {
 
     this();
 
@@ -55,6 +49,18 @@ class ApplicationUser extends Serializable with UserDetails with Principal {
    */
 
   @JsonIgnore
+  def getId: Long = id;
+
+  @JsonIgnore
+  def getRole: EApplicationAccessLevel = role;
+
+  @JsonIgnore
+  def getPassword: String = password;
+
+  @JsonIgnore
+  override def getUsername: String = username;
+
+  @JoinColumn
   override def getName: String = username;
 
   @JsonIgnore
@@ -71,5 +77,26 @@ class ApplicationUser extends Serializable with UserDetails with Principal {
 
   @JsonIgnore
   override def isEnabled: Boolean = this.role.isActive;
+
+  // Setters:
+
+  def setUsername(username: String): Unit = this.username = username;
+
+  def setPassword(password: String): Unit = this.password = password;
+
+  def setMail(mail: String): Unit = this.mail = mail;
+
+  def setRole(role: EApplicationAccessLevel): Unit = this.role = role;
+
+  // Equals
+
+  override def equals(obj: Any): Boolean = {
+    if (obj == null || (!obj.isInstanceOf[ApplicationUser]))
+      false;
+    else
+      this.id == obj.asInstanceOf[ApplicationUser].id &&
+        this.username == obj.asInstanceOf[ApplicationUser].username && this.password == obj.asInstanceOf[ApplicationUser].password &&
+        this.mail == obj.asInstanceOf[ApplicationUser].mail && this.role == obj.asInstanceOf[ApplicationUser].role;
+  }
 
 }

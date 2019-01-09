@@ -16,7 +16,7 @@ import {lazyLoadComponentFactory} from "@Main/view/utils";
  * Application submodules:
 */
 
-export const AuthorizationModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@authorization" */"@Module/authorization"));
+export const AuthorizationModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@authorization" */"@Module/authentication"));
 export const StreamModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@stream" */"@Module/stream"));
 export const HomeModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@home" */"@Module/home"));
 
@@ -34,7 +34,7 @@ export class Router extends PureComponent<any> {
 
         <Switch>
 
-          <Route exact={true} path={"/authorization*"} component={AuthorizationModule}/>
+          <Route exact={true} path={"/authentication*"} component={AuthorizationModule}/>
           <Route exact={true} path={"/stream*"} component={StreamModule}/>
           <Route exact={true} path={"*"} component={HomeModule}/>
 

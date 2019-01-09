@@ -9,7 +9,7 @@ import {DocumentStoreUtils, Logger} from "@Lib/utils";
 // Api.
 import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
 import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
-import {IXCoreFailedResponse} from "@Api/x-core/exchange/IXCoreFailedResponse";
+import {IXCoreFailedResponse} from "@Api/x-core/general/IXCoreFailedResponse";
 import {ITokenData} from "@Api/x-core/ITokenData";
 import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
 

@@ -20,7 +20,7 @@ import {
 } from "@Main/view/components/heading/HeaderBarLogoNavigation";
 import {HeaderBarUserMenu, IHeaderBarUserMenuExternalProps} from "@Main/view/components/heading/HeaderBarUserMenu";
 import {
-  AppBar, Button, CircularProgress, Grid, IconButton, Toolbar, WithStyles,
+  AppBar, Button, CircularProgress, Grid, IconButton, Toolbar, Typography, WithStyles,
 } from "@material-ui/core";
 import {LiveTv, Settings} from "@material-ui/icons";
 import {streamingHeaderBarStyle} from "./StreamingHeaderBar.Style";
@@ -48,16 +48,17 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
           <HeaderBarLogoNavigation {...{} as IHeaderBarLogoNavigationExternalProps}/>
 
-          <Grid container className={classes.rightBar} alignItems={"center"} justify={"flex-end"}>
+          <Grid container className={classes.rightBar} wrap={"nowrap"} alignItems={"center"} justify={"flex-end"}>
             {
               authorized
                 ?
                 <Fragment>
 
+                  {this.renderStreamName()}
+                  <Grid className={classes.spacer}/>
                   {this.renderEventControlButtons()}
 
                   <HeaderBarUserMenu {...{} as IHeaderBarUserMenuExternalProps}/>
-
                 </Fragment>
                 : <HeaderBarAuthNavigation {...{} as IHeaderBarAuthNavigationExternalProps}/>
             }
@@ -66,6 +67,19 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
         </Toolbar>
       </AppBar>
     );
+  }
+
+  private renderStreamName(): Optional<ReactNode> {
+
+    const {liveState: {liveEvent}} = this.props;
+
+    return liveEvent !== null
+      ?
+      <Fragment>
+        <Typography variant={"subtitle1"} color={"inherit"} noWrap>{liveEvent.name}</Typography>
+        (<Typography variant={"subtitle2"} color={"inherit"} noWrap>{liveEvent.description}</Typography>)
+      </Fragment>
+      : null;
   }
 
   private renderEventControlButtons(): Optional<ReactNode> {

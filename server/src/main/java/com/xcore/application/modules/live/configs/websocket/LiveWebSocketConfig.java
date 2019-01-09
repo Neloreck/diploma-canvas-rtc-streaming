@@ -1,6 +1,6 @@
 package com.xcore.application.modules.live.configs.websocket;
 
-import com.xcore.application.modules.live.services.LiveService;
+import com.xcore.application.modules.live.services.LiveSessionService;
 import com.xcore.server.configs.websocket.SocketHandshakeInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 public class LiveWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Autowired
-  private LiveService liveService;
+  private LiveSessionService liveSessionService;
 
   // Endpoints declaration.
 
@@ -39,7 +39,7 @@ public class LiveWebSocketConfig implements WebSocketMessageBrokerConfigurer {
   @Override
   public void configureWebSocketTransport(final WebSocketTransportRegistration registration) {
     registration.addDecoratorFactory(
-        delegate -> new SessionTrackSocketHandlerDecorator(delegate, liveService)
+        delegate -> new SessionTrackSocketHandlerDecorator(delegate, liveSessionService)
     );
   }
 

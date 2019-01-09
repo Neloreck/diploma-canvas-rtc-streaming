@@ -12,15 +12,25 @@ export const eventCreationFormStyle = (theme: Theme) => createStyles({
     width: theme.spacing.unit * 55
   },
   editField: {
-    margin: `${theme.spacing.unit}px 0`,
-    width: "100%"
+    flexGrow: 1,
+    margin: `${theme.spacing.unit}px 0`
   },
   headingBlock: {
     padding: theme.spacing.unit
+  },
+  loaderPlaceholder: {
+    backgroundColor: theme.palette.primary.light,
+    height: 10
   },
   root: {
     "& hr": {
       margin: `${theme.spacing.unit * 2}px 0`
     }
+  },
+  securityBlock: {
+    border: `${theme.spacing.unit / 4}px solid ${theme.palette.background.paper}`,
+    borderRadius: theme.spacing.unit,
+    margin: `${theme.spacing.unit * 2}px 0`,
+    padding: theme.spacing.unit
   }
 });

@@ -1,6 +1,5 @@
 package com.xcore.application.modules.authentication.configs
 
-import com.xcore.server.controllers.rest.exchange.ErrorApiResponse
 import org.codehaus.jackson.map.ObjectMapper
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +16,7 @@ import javax.servlet.ServletException
 import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import java.io.IOException
 
+import com.xcore.server.controllers.rest.exchange.FailedApiResponse
 import org.springframework.security.oauth2.provider.token.{DefaultTokenServices, TokenStore}
 
 @Configuration
@@ -94,7 +94,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
       log.error(s"Failed to [${request.getMethod}] resource on [${request.getRequestURI}]. Authentication required.");
 
       val mapper: ObjectMapper = new ObjectMapper();
-      val responseMsg = mapper.writeValueAsString(new ErrorApiResponse("Full authentication is required to access this resource"));
+      val responseMsg = mapper.writeValueAsString(new FailedApiResponse("Full authentication is required to access this resource"));
 
       response.setStatus(403);
       response.getWriter.write(responseMsg);
@@ -107,7 +107,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
       log.error(s"Failed to [${request.getMethod}] resource on [${request.getRequestURI}]. Authentication required.");
 
       val mapper: ObjectMapper = new ObjectMapper();
-      val responseMsg = mapper.writeValueAsString(new ErrorApiResponse("Full authentication is required to access this resource"));
+      val responseMsg = mapper.writeValueAsString(new FailedApiResponse("Full authentication is required to access this resource"));
 
       response.getWriter.write(responseMsg);
     }

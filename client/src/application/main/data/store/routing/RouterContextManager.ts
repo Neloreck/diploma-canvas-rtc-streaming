@@ -13,6 +13,7 @@ export interface IRouterContext {
     goBack(): void;
     getCurrentLocation(): string;
     getQueryParams(): ParsedUrlQuery;
+    getLastPart(): string;
   };
   routingState: {
     history: History;
@@ -24,6 +25,7 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
   public context: IRouterContext = {
     routingActions: {
       getCurrentLocation: this.getCurrentLocation,
+      getLastPart: this.getLastPart,
       getQueryParams: this.getQueryParams,
       goBack: this.goBack,
       push: this.push,
@@ -58,6 +60,14 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
     this.log.info(`Go back.`);
     this.context.routingState.history.goBack();
     this.update();
+  }
+
+  @Bind()
+  public getLastPart(): string {
+
+    const path: string = this.context.routingState.history.location.pathname;
+
+    return path.substr(path.lastIndexOf("/") + 1);
   }
 
   @Bind()

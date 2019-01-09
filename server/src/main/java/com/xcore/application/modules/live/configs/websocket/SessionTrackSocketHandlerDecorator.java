@@ -1,18 +1,18 @@
 package com.xcore.application.modules.live.configs.websocket;
 
 import com.xcore.application.modules.authentication.models.user.ApplicationUser;
-import com.xcore.application.modules.live.services.LiveService;
+import com.xcore.application.modules.live.services.LiveSessionService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
 public class SessionTrackSocketHandlerDecorator extends WebSocketHandlerDecorator {
 
-  private final LiveService liveService;
+  private final LiveSessionService liveSessionService;
 
-  SessionTrackSocketHandlerDecorator(final WebSocketHandler delegate, final LiveService liveService) {
+  SessionTrackSocketHandlerDecorator(final WebSocketHandler delegate, final LiveSessionService liveSessionService) {
     super(delegate);
-    this.liveService = liveService;
+    this.liveSessionService = liveSessionService;
   }
 
   @Override
@@ -21,7 +21,7 @@ public class SessionTrackSocketHandlerDecorator extends WebSocketHandlerDecorato
     OAuth2Authentication principal = (OAuth2Authentication)session.getPrincipal();
 
     if (principal != null) {
-      liveService.createLiveSession(session.getId(), (ApplicationUser) principal.getPrincipal());
+      liveSessionService.createLiveSession(session.getId(), (ApplicationUser) principal.getPrincipal());
       getDelegate().afterConnectionEstablished(session);
     } else {
       throw new SecurityException("Failed to initialize live session, no auth provided.");
@@ -34,7 +34,7 @@ public class SessionTrackSocketHandlerDecorator extends WebSocketHandlerDecorato
     OAuth2Authentication principal = (OAuth2Authentication)session.getPrincipal();
 
     if (principal != null && !closeStatus.equals(CloseStatus.SERVER_ERROR)) {
-      liveService.removeLiveSession(session.getId());
+      liveSessionService.removeLiveSession(session.getId());
     }
 
     getDelegate().afterConnectionClosed(session, closeStatus);

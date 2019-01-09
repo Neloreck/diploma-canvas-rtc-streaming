@@ -31,8 +31,8 @@ export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigat
     const {routingActions: {getCurrentLocation}, authState: {authorizing}} = this.props;
 
     const currentLocation: string = getCurrentLocation();
-    const isLoginPage: boolean = (currentLocation === "/authorization/login");
-    const isSignUpPage: boolean = (currentLocation === "/authorization/register");
+    const isLoginPage: boolean = (currentLocation === "/authentication/login");
+    const isSignUpPage: boolean = (currentLocation === "/authentication/register");
 
     return (
       <Fragment>
@@ -57,7 +57,7 @@ export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigat
 
     const {routingActions: {push}} = this.props;
 
-    push("/authorization/login");
+    push("/authentication/login");
   }
 
   @Bind()
@@ -65,7 +65,7 @@ export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigat
 
     const {routingActions: {push}} = this.props;
 
-    push("/authorization/register");
+    push("/authentication/register");
   }
 
 }

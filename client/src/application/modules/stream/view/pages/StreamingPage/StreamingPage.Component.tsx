@@ -1,12 +1,16 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import {Component, Fragment, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
 
+// Api.
+import {ILiveEvent} from "@Api/x-core/live/models";
+
 // Data.
+import {IRouterContext, routerContextManager} from "@Main/data/store";
 import {localMediaService} from "@Module/stream/data/services/local_media";
 import {
   ILiveContext,
@@ -17,7 +21,7 @@ import {
 } from "@Module/stream/data/store";
 
 // View.
-import {Fade, Grid, WithStyles} from "@material-ui/core";
+import {CircularProgress, Fade, Grid, WithStyles} from "@material-ui/core";
 import {
   IStreamingHeaderBarExternalProps,
   StreamingHeaderBar
@@ -37,12 +41,13 @@ export interface IStreamingPageState {
   mounted: boolean;
 }
 
-export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, ILiveContext, WithStyles<typeof streamingPageStyle> {}
+export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, ILiveContext, IRouterContext, WithStyles<typeof streamingPageStyle> {}
 export interface IStreamingPageOwnProps {}
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
 
 @Consume<ISourceContext, IStreamingPageProps>(sourceContextManager)
 @Consume<ILiveContext, IStreamingPageProps>(liveContextManager)
+@Consume<IRouterContext, IStreamingPageProps>(routerContextManager)
 @Styled(streamingPageStyle)
 export class StreamingPage extends Component<IStreamingPageProps, IStreamingPageState> {
 
@@ -51,16 +56,24 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   };
 
   public componentWillMount(): void {
+    this.mountComponent().then();
+  }
+
+  public async mountComponent(): Promise<void> {
+
     // Display main video on mount.
-    const {sourceState: {captureVideo}, liveActions: {start: startLive}} = this.props;
+    const {sourceState: {captureVideo}, routingActions: {getLastPart, replace}, liveState: {liveEvent}, liveActions: {start: startLive, syncLiveEvent}} = this.props;
 
-    if (captureVideo) {
-      this
-        .getDefaultVideo()
-        .then();
+    try {
+
+      const event: ILiveEvent = liveEvent || await syncLiveEvent(getLastPart());
+
+      await startLive();
+      await this.getDefaultVideo();
+
+    } catch (error) {
+      replace("/stream/error");
     }
-
-    startLive().then();
   }
 
   public componentDidMount(): void {
@@ -73,7 +86,8 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
     this.setState({ mounted: false });
 
-    stopLive().then()
+    stopLive()
+      .then();
   }
 
   public componentWillReceiveProps(nextProps: IStreamingPageProps): void {
@@ -94,7 +108,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const {classes, liveState: {liveEvent}} = this.props;
     const {mounted} = this.state;
 
     return (
@@ -106,11 +120,19 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
           <Grid className={classes.content} direction={"column"} wrap={"nowrap"} container>
 
-            <Grid className={classes.streamingVideoSection} direction={"row"} container>
-              <MainPreviewControl {...{} as IMainPreviewControlExternalProps}/>
-            </Grid>
+            {
+              liveEvent !== null
+                ?
+                <Fragment>
+                  <Grid className={classes.streamingVideoSection} direction={"row"} container>
+                    <MainPreviewControl {...{} as IMainPreviewControlExternalProps}/>
+                  </Grid>
 
-            <MainPreviewTabs {...{} as IMainPreviewTabsExternalProps}/>
+                  <MainPreviewTabs {...{} as IMainPreviewTabsExternalProps}/>
+                </Fragment>
+                :
+                <CircularProgress size={50}/>
+            }
 
           </Grid>
 
@@ -127,7 +149,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
     const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput || true, captureAudio && (selectedDevices.audioInput || true));
 
     updateInputStreamAndSources(stream, selectedDevices);
-    connectRTC().then();
+    await connectRTC();
   }
 
 }

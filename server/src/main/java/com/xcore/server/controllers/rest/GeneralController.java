@@ -1,6 +1,6 @@
 package com.xcore.server.controllers.rest;
 
-import com.xcore.server.controllers.rest.exchange.ErrorApiResponse;
+import com.xcore.server.controllers.rest.exchange.FailedApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class GeneralController {
 
-  @RequestMapping("")
+  @RequestMapping("/")
   public String handleBaseRoute() {
     return "redirect:/home";
   }
@@ -22,8 +22,8 @@ public class GeneralController {
   @ResponseBody
   @RequestMapping("/api/**")
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
-  public ErrorApiResponse handleApiWrongEndpointError() {
-    return new ErrorApiResponse("Failed to find api endpoint.");
+  public FailedApiResponse handleApiWrongEndpointError() {
+    return new FailedApiResponse("Failed to find api endpoint.");
   }
 
   @GetMapping("/error")
@@ -36,11 +36,19 @@ public class GeneralController {
 
   @ResponseBody
   @PostMapping("/error")
-  public ErrorApiResponse handlePostError(HttpServletRequest request) {
+  public FailedApiResponse handlePostError(HttpServletRequest request) {
 
     log.error("Request error: {}, {}.", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE), request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
 
-    return new ErrorApiResponse((String)request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
+    final HttpStatus httpStatus = HttpStatus.valueOf((Integer)request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+
+    if (httpStatus.is4xxClientError()) {
+      return new FailedApiResponse("Request error.", "Failed to proceed request. Check if your format correct.");
+    } else if (httpStatus.is5xxServerError()) {
+      return new FailedApiResponse("Server error.", "Ooops, unexpected server error.");
+    }
+
+    return new FailedApiResponse("Unexpected error.", (String)request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
   }
 
 }

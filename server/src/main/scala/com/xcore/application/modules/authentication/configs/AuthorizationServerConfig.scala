@@ -2,8 +2,8 @@ package com.xcore.application.modules.authentication.configs
 
 import java.util
 
-import com.xcore.application.modules.authentication.models.role.{EAppAccessLevel, EAppAccessScope, EAppGrantType}
-import com.xcore.application.modules.authentication.utils.AuthTokenEnhancer
+import com.xcore.application.modules.authentication.models.role.{EApplicationAccessLevel, EApplicationAccessScope, EApplicationGrantType}
+import com.xcore.application.modules.authentication.utils.AuthenticationTokenEnhancer
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
@@ -38,7 +38,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
   private var accessTokenConverter: JwtAccessTokenConverter = _;
 
   @Autowired
-  private var accessTokenEnhancer: AuthTokenEnhancer = _;
+  private var accessTokenEnhancer: AuthenticationTokenEnhancer = _;
 
   /*
    * Configuration:
@@ -71,9 +71,9 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
           .secret(passwordEncoder.encode(webSecurityOptions.CLIENT_APPLICATION_SECRET))
           .resourceIds(webSecurityOptions.SERVER_APPLICATION_ID)
 
-          .authorizedGrantTypes(EAppGrantType.PASSWORD.getType, EAppGrantType.IMPLICIT.getType, EAppGrantType.REFRESH_TOKEN.getType)
-          .authorities(EAppAccessLevel.ROLE_APPLICATION.getRole)
-          .scopes(EAppAccessScope.READ.getScope, EAppAccessScope.WRITE.getScope)
+          .authorizedGrantTypes(EApplicationGrantType.PASSWORD.getType, EApplicationGrantType.IMPLICIT.getType, EApplicationGrantType.REFRESH_TOKEN.getType)
+          .authorities(EApplicationAccessLevel.ROLE_APPLICATION.getRole)
+          .scopes(EApplicationAccessScope.READ.getScope, EApplicationAccessScope.WRITE.getScope)
 
           .accessTokenValiditySeconds(webSecurityOptions.ACCESS_TOKEN_VALIDITY_SECONDS)
           .refreshTokenValiditySeconds(webSecurityOptions.REFRESH_TOKEN_VALIDITY_SECONDS);

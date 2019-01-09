@@ -34,18 +34,18 @@ export class HeaderBarLogoNavigation extends PureComponent<IHeaderBarLogoNavigat
     return (
       <Fragment>
 
-          <IconButton className={classes.homeButton} onClick={this.redirectToIndexPage}>
-            <Home fontSize={"small"}/>
-          </IconButton>
+        <IconButton className={classes.homeButton} onClick={this.redirectToIndexPage}>
+          <Home fontSize={"small"}/>
+        </IconButton>
 
-          <Typography
-            className={classes.logo}
-            variant={"h5"} color={"inherit"}
-            noWrap
-            onClick={this.redirectToIndexPage}
-          >
-            X-CORE
-          </Typography>
+        <Typography
+          className={classes.logo}
+          variant={"h5"} color={"inherit"}
+          noWrap
+          onClick={this.redirectToIndexPage}
+        >
+          X-CORE
+        </Typography>
 
       </Fragment>
     );

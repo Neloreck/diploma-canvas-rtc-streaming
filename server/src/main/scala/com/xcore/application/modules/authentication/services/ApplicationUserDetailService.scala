@@ -3,7 +3,7 @@ package com.xcore.application.modules.authentication.services
 import java.util.Optional
 
 import com.xcore.application.modules.authentication.configs.WebSecurityOptions
-import com.xcore.application.modules.authentication.models.role.EAppAccessLevel
+import com.xcore.application.modules.authentication.models.role.EApplicationAccessLevel
 import com.xcore.application.modules.authentication.models.user.{ApplicationUser, IApplicationUserRepository}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
@@ -53,7 +53,7 @@ class ApplicationUserDetailService extends UserDetailsService {
     appUser.setUsername(username);
     appUser.setMail(mail);
     appUser.setPassword(passwordEncoder.encode(password));
-    appUser.setRole(EAppAccessLevel.ROLE_USER);
+    appUser.setRole(EApplicationAccessLevel.ROLE_USER);
 
     appUserRepository.save(appUser);
   }

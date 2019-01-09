@@ -26,7 +26,7 @@ export class ModuleRouter extends PureComponent {
 
           <PrivateRoute
             exact={true}
-            redirect={`/authorization/login?next=${ModuleRouter.MODULE_PREFIX}/create`}
+            redirect={true}
             path={`${ModuleRouter.MODULE_PREFIX}/create`}
             component={StreamCreationPage}
             {...{} as IPrivateRouteExternalProps}
@@ -34,16 +34,18 @@ export class ModuleRouter extends PureComponent {
 
           <PrivateRoute
             exact={true}
-            redirect={`/authorization/login?next=${ModuleRouter.MODULE_PREFIX}/live/:id-todo`}
+            redirect={true}
             path={`${ModuleRouter.MODULE_PREFIX}/live/:id`}
             component={StreamingPage}
             {...{} as IPrivateRouteExternalProps}
           />
 
-          <Route
+          <PrivateRoute
             exact={true}
+            redirect={true}
             path={`${ModuleRouter.MODULE_PREFIX}/configure/:id`}
             component={StreamConfigurationPage}
+            {...{} as IPrivateRouteExternalProps}
           />
 
           <Route exact={true} path={"*"} component={ErrorPage}/>

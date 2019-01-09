@@ -217,7 +217,7 @@ export class WebpackBuildConfig implements Configuration {
         target: "http://localhost:8080"
       },
       {
-        context: ["!/authorization/**", "/auth/**"],
+        context: ["!/authentication/**", "/auth/**"],
         secure: false,
         target: "http://localhost:8080"
       }

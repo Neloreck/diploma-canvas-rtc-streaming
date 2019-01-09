@@ -11,7 +11,7 @@ import {TypeUtils} from "@redux-cbd/utils";
 // Props.
 export interface IPrivateRouteOwnProps {
   reversed?: boolean;
-  redirect: string;
+  redirect: string | boolean;
 }
 
 export interface IPrivateRouteExternalProps extends IAuthContext, IRouterContext {}
@@ -21,12 +21,18 @@ export interface IPrivateRouteProps extends IPrivateRouteOwnProps, IPrivateRoute
 @Consume<IRouterContext, IPrivateRouteProps>(routerContextManager)
 export class PrivateRoute extends Route<IPrivateRouteProps> {
 
+  private DEFAULT_REDIRECT: string = "/authentication/login";
+
   public componentWillMount(): void {
 
-    const {redirect, reversed, routingActions: {replace}, authState: {authorized, authorizing}} = this.props;
+    const {redirect, reversed, routingActions: {replace}, routingState: {history}, authState: {authorized, authorizing}} = this.props;
 
     if (authorizing === false && (reversed ? authorized : !authorized)) {
-      replace(redirect);
+      if (redirect === true) {
+        replace(this.DEFAULT_REDIRECT + "?next=" + history.location.pathname);
+      } else {
+        replace((redirect as string).replace(/%currentPath%/, history.location.pathname));
+      }
     }
   }
 
@@ -36,7 +42,7 @@ export class PrivateRoute extends Route<IPrivateRouteProps> {
     const next: string | Array<string> = getQueryParams().next;
 
     if (authorizing === false && (reversed ? authorized : !authorized)) {
-      replace(TypeUtils.isString(next) ? next as string : redirect);
+      replace(TypeUtils.isString(next) ? next as string : (TypeUtils.isString(redirect) ? redirect as string : "/todo"));
     }
   }
 

@@ -98,8 +98,8 @@ export class LiveWebSocketController extends AbstractWebSocketController {
   @Bind()
   protected subscribe(): void {
 
-    this.addSubscription(`record.start`, (message: IMessage) => console.error("start rec", message));
-    this.addSubscription(`record.stop`, (message: IMessage) => console.error("stop rec", message));
+    this.addSubscription(`record.start`, (message: IMessage) => this.log.error("Start record.", message));
+    this.addSubscription(`record.stop`, (message: IMessage) => this.log.error("Stop record.", message));
 
     this.addSubscription(`session.sdpAnswer`, (message: IMessage) =>  this.onSdpAnswerReceived(JSON.parse(message.body)));
     this.addSubscription(`session.iceCandidate`, (message: IMessage) =>  this.onICECandidateReceived(JSON.parse(message.body)));

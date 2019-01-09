@@ -24,6 +24,9 @@ export const streamingHeaderBarStyle = (theme: Theme) => createStyles({
     backgroundColor: theme.palette.background.default,
     width: "100%"
   },
+  spacer: {
+    flexGrow: 1
+  },
   startButton: {
   },
   startIcon: {

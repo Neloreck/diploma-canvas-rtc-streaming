@@ -2,11 +2,11 @@ package com.xcore.application.modules.authentication.controllers
 
 import java.beans.BeanProperty
 
-import com.xcore.application.modules.authentication.models.role.EAppAccessLevel
+import com.xcore.application.modules.authentication.models.role.EApplicationAccessLevel
 import com.xcore.application.modules.authentication.models.user.ApplicationUser
 import com.xcore.application.modules.authentication.services.ApplicationUserDetailService
-import com.xcore.application.modules.authentication.utils.{AuthDataValidator, AuthUtils}
-import com.xcore.server.controllers.rest.exchange.{ApiRequest, ApiResponse, ErrorApiResponse}
+import com.xcore.application.modules.authentication.utils.{AuthenticationDataValidator, AuthenticationUtils}
+import com.xcore.server.controllers.rest.exchange.{ApiRequest, ApiResponse, FailedApiResponse}
 import javax.servlet.RequestDispatcher
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.{Logger, LoggerFactory}
@@ -52,11 +52,11 @@ class GeneralAuthorizationController {
 
     log.info("Get [/info] request.");
 
-    val authentication: Authentication = AuthUtils.getAuthentication;
+    val authentication: Authentication = AuthenticationUtils.getAuthentication;
     val principal = authentication.getPrincipal;
 
     new GeneralAuthorizationController.AuthInfoApiResponse(
-      !authentication.getAuthorities.contains(EAppAccessLevel.ROLE_ANONYMOUS.getAuthority),
+      !authentication.getAuthorities.contains(EApplicationAccessLevel.ROLE_ANONYMOUS.getAuthority),
       principal match {
         case user: ApplicationUser => user.username
         case _ => principal.toString
@@ -76,34 +76,34 @@ class GeneralAuthorizationController {
     try {
 
       /* Check credentials. */
-      if (!AuthDataValidator.isValidUsername(request.username) || !AuthDataValidator.isValidEmail(request.mail) || !AuthDataValidator.isValidPassword(request.password) ) {
-        return new ResponseEntity[ApiResponse](new ErrorApiResponse("Bad credentials provided."), HttpStatus.BAD_REQUEST);
+      if (!AuthenticationDataValidator.isValidUsername(request.username) || !AuthenticationDataValidator.isValidEmail(request.mail) || !AuthenticationDataValidator.isValidPassword(request.password) ) {
+        return new ResponseEntity[ApiResponse](new FailedApiResponse("Bad credentials provided."), HttpStatus.BAD_REQUEST);
       }
 
       /* Check username occupation. */
       if (appUserDetailService.userExists(request.username)) {
-        return new ResponseEntity[ApiResponse](new ErrorApiResponse("Provided user already exists."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity[ApiResponse](new FailedApiResponse("Provided user already exists."), HttpStatus.BAD_REQUEST);
       }
 
       /* Check mail occupation. */
       if (appUserDetailService.userWithMailExists(request.mail)) {
-        return new ResponseEntity[ApiResponse](new ErrorApiResponse("Provided email already used."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity[ApiResponse](new FailedApiResponse("Provided email already used."), HttpStatus.BAD_REQUEST);
       }
 
-      val user: ApplicationUser = appUserDetailService.registerUser(new ApplicationUser(request.username, request.mail, request.password, EAppAccessLevel.ROLE_USER));
+      val user: ApplicationUser = appUserDetailService.registerUser(new ApplicationUser(request.username, request.mail, request.password, EApplicationAccessLevel.ROLE_USER));
       new ResponseEntity[ApiResponse](new GeneralAuthorizationController.RegisterSuccessfulResponse(user.username, user.id), HttpStatus.OK);
 
     } catch {
       case exception: Exception =>
         log.error(s"Failed to authorize user, exception: $exception.")
-        new ResponseEntity[ApiResponse](new ErrorApiResponse(exception), HttpStatus.CONFLICT);
+        new ResponseEntity[ApiResponse](new FailedApiResponse(exception), HttpStatus.CONFLICT);
     }
   }
 
   @GetMapping(Array("/error"))
   @PostMapping(Array("/error"))
-  def handlePostError(request: HttpServletRequest): ErrorApiResponse = {
-    new ErrorApiResponse(
+  def handlePostError(request: HttpServletRequest): FailedApiResponse = {
+    new FailedApiResponse(
       request.getAttribute(if (RequestDispatcher.ERROR_MESSAGE.isEmpty) "Failed to proceed provided request." else RequestDispatcher.ERROR_MESSAGE).asInstanceOf[String]
     )
   }
