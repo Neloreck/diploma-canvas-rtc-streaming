@@ -6,7 +6,7 @@ import com.xcore.application.modules.authentication.utils.AuthenticationUtils;
 import com.xcore.application.modules.live.controllers.events.exchange.EventCreateRequest;
 import com.xcore.application.modules.live.controllers.events.exchange.EventCreateResponse;
 import com.xcore.application.modules.live.controllers.events.exchange.LiveEventResponse;
-import com.xcore.application.modules.live.exceptions.EventNotFoundException;
+import com.xcore.application.modules.live.exceptions.event.EventNotFoundException;
 import com.xcore.application.modules.live.models.events.LiveEvent;
 import com.xcore.application.modules.live.services.LiveEventService;
 import com.xcore.server.controllers.rest.exchange.ApiResponse;

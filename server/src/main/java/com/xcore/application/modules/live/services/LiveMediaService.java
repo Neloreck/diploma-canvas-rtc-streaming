@@ -1,7 +1,7 @@
 package com.xcore.application.modules.live.services;
 
 import com.xcore.application.modules.live.configs.LiveMediaConfig;
-import com.xcore.application.modules.live.exceptions.SessionInitializationException;
+import com.xcore.application.modules.live.exceptions.session.*;
 import com.xcore.application.modules.live.models.sessions.LiveStreamingSession;
 import com.xcore.application.modules.storage.configs.StorageConfiguration;
 import lombok.NonNull;
@@ -33,9 +33,9 @@ public final class LiveMediaService {
    * Methods:
    */
 
-  public void handleComplete(@NonNull final String room, @NonNull final String sessionId) {
+  public void handleComplete(@NonNull final String room, @NonNull final String socketSessionId) {
 
-    final LiveStreamingSession liveStreamingSession = liveSessionService.getSession(sessionId);
+    final LiveStreamingSession liveStreamingSession = liveSessionService.getSession(socketSessionId);
 
     liveStreamingSession.finishExchange();
     liveStreamingSession.tryApplyAccumulatedRemoteCandidates();
@@ -43,20 +43,19 @@ public final class LiveMediaService {
     this.liveMessagingService.sendExchangeCompleted(room);
   }
 
-  public void handleIceCandidate(@NonNull final String room, @NonNull final String sessionId, @NonNull final IceCandidate iceCandidate) {
+  public void handleIceCandidate(@NonNull final String room, @NonNull final String socketSessionId, @NonNull final IceCandidate iceCandidate) {
 
-    final LiveStreamingSession liveSession = liveSessionService.getSession(sessionId);
+    final LiveStreamingSession liveSession = liveSessionService.getSession(socketSessionId);
 
     liveSession.accumulateRemoteIceCandidate(iceCandidate);
     liveSession.tryApplyAccumulatedRemoteCandidates();
   }
 
-  public void handleSdpOffer(@NonNull final String room, @NonNull final String sessionId, @NonNull final String sdpOffer) {
+  public void handleSdpOffer(@NonNull final String room, @NonNull final String socketSessionId, @NonNull final String sdpOffer) {
 
-    final LiveStreamingSession liveSession = liveSessionService.getSession(sessionId);
+    final LiveStreamingSession liveSession = liveSessionService.getSession(socketSessionId);
 
     try {
-
       // Initialize session.
       liveSession.initialize(
           kurentoClient.createMediaPipeline(), liveMessagingService,
@@ -70,29 +69,56 @@ public final class LiveMediaService {
       // Send sdp answer.
       this.liveMessagingService.sendSdpAnswer(room, sdpAnswer);
 
-    } catch (SessionInitializationException ex) {
-      this.handleStop(room, sessionId, ex.getMessage());
+    } catch (SessionAlreadyInitializedException | SessionAlreadyStartedException | SessionDisposedException ex) {
+      this.handleStop(room, socketSessionId, ex.getMessage());
+    } catch (SessionNotInitializedException ex) {
+      log.error("[{}] Unexpected error: '{}'.", liveSession, ex.getMessage());
+      this.handleStop(room, socketSessionId, ex.getMessage());
     }
   }
 
-  public void handleStartRecord(@NonNull final String room, @NonNull final String sessionId) {
-    this.liveSessionService.getSession(sessionId).startRecord();
+  public void handleStartRecord(@NonNull final String room, @NonNull final String socketSessionId) {
+    try {
+      this.liveSessionService.getSession(socketSessionId).startRecord();
+    } catch (SessionDisposedException | SessionRecordedException | SessionAlreadyRecordingException | SessionNotInitializedException | SessionNotStartedException ex) {
+      this.handleError(room, socketSessionId, ex);
+    }
   }
 
-  public void handleStopRecord(@NonNull final String room, @NonNull final String sessionId) {
-    this.liveSessionService.getSession(sessionId).stopRecord();
+  public void handleStopRecord(@NonNull final String room, @NonNull final String socketSessionId) {
+    try {
+      this.liveSessionService.getSession(socketSessionId).stopRecord();
+    } catch (SessionNotStartedException | SessionNotInitializedException | SessionDisposedException | SessionRecordedException ex) {
+      this.handleError(room, socketSessionId, ex);
+    }
   }
 
-  public void handleStop(@NonNull final String room, @NonNull final String sessionId, final String cause) {
-    liveSessionService.getSession(sessionId).close();
+  public void handleStop(@NonNull final String room, @NonNull final String socketSessionId, final String cause) {
+    try {
+      liveSessionService.getSession(socketSessionId).close();
+    } catch (SessionRecordedException | SessionNotInitializedException | SessionNotStartedException | SessionDisposedException ex) {
+      this.handleError(room, socketSessionId, ex);
+    }
   }
 
-  public void handleError(@NonNull final String room, @NonNull final String sessionId, @NonNull final String webSocketMessage) {
+  /*
+   * Handle error:
+   */
 
-    log.error("Got live error: '{}'.", webSocketMessage);
-
-    this.handleStop(room, sessionId, webSocketMessage);
+  public void handleError(@NonNull final String room, @NonNull final String socketSessionId, @NonNull final Exception exception) {
+    this.handleError(room, socketSessionId, exception.getMessage());
   }
+
+  public void handleError(@NonNull final String room, @NonNull final String socketSessionId, @NonNull final String errorMessage) {
+
+    log.error("Got live error: '{}'.", errorMessage);
+
+    liveMessagingService.sendError(room, errorMessage);
+  }
+
+  /*
+   * Utils:
+   */
 
   private String getStreamRecordPath(final String fileName) {
     return "file://" + this.storageConfiguration.getStreamsStorageLocation() + fileName + ".mp4";

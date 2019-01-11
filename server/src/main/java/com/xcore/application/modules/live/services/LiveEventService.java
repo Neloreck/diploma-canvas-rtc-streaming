@@ -3,7 +3,7 @@ package com.xcore.application.modules.live.services;
 import com.xcore.application.modules.authentication.exceptions.UserNotFoundException;
 import com.xcore.application.modules.authentication.models.user.ApplicationUser;
 import com.xcore.application.modules.authentication.models.user.IApplicationUserRepository;
-import com.xcore.application.modules.live.exceptions.EventNotFoundException;
+import com.xcore.application.modules.live.exceptions.event.EventNotFoundException;
 import com.xcore.application.modules.live.models.events.ILiveEventRepository;
 import com.xcore.application.modules.live.models.events.LiveEvent;
 import lombok.extern.slf4j.Slf4j;

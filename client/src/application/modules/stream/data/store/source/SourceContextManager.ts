@@ -102,16 +102,25 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     this.context.sourceState.selectedDevices = selectedDevices;
     this.update();
   }
+
   @Bind()
   protected updateInputStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
 
     this.updateStateRef();
-    localMediaService.killStream(this.context.sourceState.inputStream);
-    this.context.sourceState.inputStream = inputStream;
+
+    const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
+
+    if (oldStream && inputStream) {
+      localMediaService.moveTracks(oldStream, inputStream);
+    } else {
+      localMediaService.killStream(oldStream);
+      this.context.sourceState.inputStream = inputStream;
+    }
+
     this.context.sourceState.selectedDevices = selectedDevices;
-    this.update();
 
     this.onInputChanged(this.context.sourceState.inputStream).then();
+    this.update();
   }
 
   @Bind()
@@ -125,12 +134,20 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   @Bind()
   protected updateInputStream(inputStream: Optional<MediaStream>): void {
+
     this.updateStateRef();
-    localMediaService.killStream(this.context.sourceState.inputStream);
-    this.context.sourceState.inputStream = inputStream;
-    this.update();
+
+    const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
+
+    if (oldStream && inputStream) {
+      localMediaService.moveTracks(oldStream, inputStream);
+    } else {
+      localMediaService.killStream(oldStream);
+      this.context.sourceState.inputStream = inputStream;
+    }
 
     this.onInputChanged(this.context.sourceState.inputStream).then();
+    this.update();
   }
 
   // Utils:

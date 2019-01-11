@@ -1,4 +1,4 @@
-package com.xcore.application.modules.live.exceptions;
+package com.xcore.application.modules.live.exceptions.event;
 
 public class EventNotFoundException extends Exception {
 

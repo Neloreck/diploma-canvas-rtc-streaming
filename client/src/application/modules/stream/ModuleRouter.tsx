@@ -6,6 +6,13 @@ import {Route, Switch} from "react-router";
 import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/PrivateRoute";
 import {ErrorPage} from "@Main/view/pages/ErrorPage";
 import {lazyLoadComponentFactory} from "@Main/view/utils";
+import {
+  graphicsContextManager,
+  liveContextManager,
+  renderingContextManager,
+  sourceContextManager
+} from "@Module/stream/data/store";
+import {Provide} from "@redux-cbd/context";
 
 /* Stream routes: */
 
@@ -13,9 +20,13 @@ const StreamingPage = lazyLoadComponentFactory.getComponent(() => import(/* webp
 const StreamCreationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-creation-page" */"@Module/stream/view/pages/StreamCreationPage"));
 const StreamConfigurationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-configuration-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
 
+@Provide(graphicsContextManager)
+@Provide(renderingContextManager)
+@Provide(sourceContextManager)
+@Provide(liveContextManager)
 export class ModuleRouter extends PureComponent {
 
-  private static MODULE_PREFIX: string = "/stream";
+  private readonly modulePrefix: string = "/stream";
 
   public render(): ReactNode {
 
@@ -27,7 +38,7 @@ export class ModuleRouter extends PureComponent {
           <PrivateRoute
             exact={true}
             redirect={true}
-            path={`${ModuleRouter.MODULE_PREFIX}/create`}
+            path={`${this.modulePrefix}/create`}
             component={StreamCreationPage}
             {...{} as IPrivateRouteExternalProps}
           />
@@ -35,7 +46,7 @@ export class ModuleRouter extends PureComponent {
           <PrivateRoute
             exact={true}
             redirect={true}
-            path={`${ModuleRouter.MODULE_PREFIX}/live/:id`}
+            path={`${this.modulePrefix}/live/:id`}
             component={StreamingPage}
             {...{} as IPrivateRouteExternalProps}
           />
@@ -43,7 +54,7 @@ export class ModuleRouter extends PureComponent {
           <PrivateRoute
             exact={true}
             redirect={true}
-            path={`${ModuleRouter.MODULE_PREFIX}/configure/:id`}
+            path={`${this.modulePrefix}/configure/:id`}
             component={StreamConfigurationPage}
             {...{} as IPrivateRouteExternalProps}
           />

@@ -55,10 +55,19 @@ export class LocalMediaService {
   }
 
   public moveTracks(to: MediaStream, from: MediaStream): void {
-    this.purgeStream(to);
+
+    const oldTracks: Array<MediaStreamTrack> = to.getTracks();
+
     from.getTracks().forEach((track) => {
       to.addTrack(track);
       from.removeTrack(track);
+    });
+
+    this.killStream(from);
+
+    oldTracks.forEach((track) => {
+      to.removeTrack(track);
+      track.stop();
     });
   }
 

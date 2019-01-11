@@ -1,7 +1,7 @@
 package com.xcore.application.modules.live.models.sessions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xcore.application.modules.live.exceptions.SessionInitializationException;
+import com.xcore.application.modules.live.exceptions.session.*;
 import com.xcore.application.modules.live.services.LiveMessagingService;
 import io.netty.util.internal.ConcurrentSet;
 import lombok.*;
@@ -16,7 +16,6 @@ public class LiveStreamingSession {
 
   private static final Integer MIN_STREAM_BANDWIDTH = 300;
   private static final Integer MAX_STREAM_BANDWIDTH = 5000;
-
   private static final Integer MIN_RECORD_STREAM_BANDWIDTH = 2000;
   private static final Integer MAX_RECORD_STREAM_BANDWIDTH = 2000;
 
@@ -31,6 +30,7 @@ public class LiveStreamingSession {
   private final Date created = new Date();
   private Date lastActive = new Date();
 
+  private MediaProfileSpecType fileSpec;
   private String filePath;
 
   /*
@@ -38,6 +38,7 @@ public class LiveStreamingSession {
    */
 
   private Boolean initialized = false;
+  private Boolean released = false;
   private Boolean disposed = false;
   private Boolean started = false;
   private Boolean recording = false;
@@ -69,23 +70,15 @@ public class LiveStreamingSession {
   }
 
   /*
-   * Management.
+   * ICE:
    */
-
-  public void finishExchange() {
-
-    this.triggerActivity();
-
-    this.exchanged = true;
-
-    log.info("Session exchanged successfully, id: '{}'.", this.id);
-  }
 
   public void accumulateRemoteIceCandidate(final IceCandidate iceCandidate) {
     this.accumulatedIceCandidates.add(iceCandidate);
   }
 
   public void tryApplyAccumulatedRemoteCandidates() {
+
     if (!this.accumulatedIceCandidates.isEmpty() && this.exchanged) {
       this.accumulatedIceCandidates.forEach(it -> {
         this.accumulatedIceCandidates.remove(it);
@@ -98,46 +91,85 @@ public class LiveStreamingSession {
    * Main methods.
    */
 
-  public String proceedSDPOffer(final String sdpOffer) throws SessionInitializationException {
-
-    log.info("Start live session: '{}'.", id);
-
-    this.triggerActivity();
-
-    if (!this.initialized || this.started) {
-      throw new SessionInitializationException();
-    }
-
-    String sdpAnswer = this.webRtcEndpoint.processOffer(sdpOffer);
-
-    this.webRtcEndpoint.gatherCandidates();
-    this.started = true;
-
-    return sdpAnswer;
-  }
-
-  public void close() {
-
-    log.info("Close live session: '{}'.", id);
+  // 1) Initialize session.
+  public void initialize(final MediaPipeline mediaPipeline, final LiveMessagingService liveMessagingService,
+                         final MediaProfileSpecType mediaProfileSpecType, final String filePath
+  ) throws SessionAlreadyInitializedException, SessionDisposedException {
 
     this.triggerActivity();
 
-    if (this.started && this.initialized) {
-
-      if (this.recording) {
-        this.stopRecord();
-      }
-
-      this.started = false;
+    if (this.initialized) {
+      throw new SessionAlreadyInitializedException();
+    } else if (this.disposed) {
+      throw new SessionDisposedException();
     } else {
-      throw new RuntimeException("Failed to close stopped or not initialized session.");
+
+      log.info("[{}] Initializing.", id);
+
+      this.filePath = filePath;
+      this.fileSpec = mediaProfileSpecType;
+      this.mediaPipeline = mediaPipeline;
+
+      this.allocateEndpoints();
+      this.configureBandwidth();
+
+      this.initializeBaseEventsListeners(liveMessagingService);
+      this.initializeWebRtcEventsListeners(liveMessagingService);
+      this.initializeWebRtcRecorderEventsListeners(liveMessagingService);
+
+      this.initialized = true;
     }
   }
 
-  public void startRecord() {
-    if (this.started && !this.disposed) {
+  // 2) Exchange offer.
+  public String proceedSDPOffer(final String sdpOffer) throws SessionNotInitializedException, SessionAlreadyStartedException {
 
-      log.info("Starting stream record for '{}'.", this.id);
+    log.info("[{}] Processing offer.", id);
+
+    this.triggerActivity();
+
+    if (!this.initialized) {
+      throw new SessionNotInitializedException();
+    } else if (this.started) {
+      throw new SessionAlreadyStartedException();
+    } else {
+
+      String sdpAnswer = this.webRtcEndpoint.processOffer(sdpOffer);
+
+      this.webRtcEndpoint.gatherCandidates();
+      this.started = true;
+
+      return sdpAnswer;
+    }
+  }
+
+  // 3) Finish exchange.
+  public void finishExchange() {
+
+    log.info("[{}] Exchange finished.", this.id);
+
+    this.triggerActivity();
+    this.exchanged = true;
+  }
+
+  // 4) Start record.
+  public void startRecord() throws SessionRecordedException, SessionDisposedException, SessionNotInitializedException, SessionNotStartedException, SessionAlreadyRecordingException {
+
+    this.triggerActivity();
+
+    if (!this.initialized) {
+      throw new SessionNotInitializedException();
+    } else if (this.disposed) {
+      throw new SessionDisposedException();
+    } else if (this.recorded) {
+      throw new SessionRecordedException();
+    } else if (this.recording) {
+      throw new SessionAlreadyRecordingException();
+    } else if (!this.started) {
+      throw new SessionNotStartedException();
+    } else {
+
+      log.info("[{}] Start record.", this.id);
 
       this.recording = true;
 
@@ -145,68 +177,68 @@ public class LiveStreamingSession {
       this.webRtcEndpoint.connect(recorderEndpoint, MediaType.AUDIO);
 
       this.recorderEndpoint.record();
-    } else {
-      throw new RuntimeException("Session has not started or broken.");
     }
   }
 
-  public void stopRecord() {
-    if (this.started && !this.disposed) {
-
-      log.info("Stopping stream record for '{}'.", this.id);
-
-      this.recording = false;
-      this.recorded = true;
-
-      this.recorderEndpoint.stop();
-      this.webRtcEndpoint.disconnect(this.recorderEndpoint);
-    } else {
-      throw new RuntimeException("Session has not started or broken.");
-    }
-  }
-
-  /*
-   * Life cycle.
-   */
-
-  public void initialize(final MediaPipeline mediaPipeline, final LiveMessagingService liveMessagingService,
-                         final MediaProfileSpecType mediaProfileSpecType, final String filePath
-  ) throws SessionInitializationException {
+  // 5) Stop record.
+  public void stopRecord() throws SessionDisposedException, SessionNotStartedException, SessionRecordedException, SessionNotInitializedException {
 
     this.triggerActivity();
 
-    if (this.initialized || this.disposed) {
-      throw new SessionInitializationException();
+    if (this.recorded) {
+      throw new SessionRecordedException();
+    } else if (!this.initialized) {
+      throw new SessionNotInitializedException();
+    } else if (!this.started || !this.recording) {
+      throw new SessionNotStartedException();
+    } else if (this.disposed) {
+      throw new SessionDisposedException();
     } else {
 
-      log.info("Initialize live session: '{}'.", id);
+      log.info("[{}] Stop record. File: '{}'.", this.id, this.filePath);
 
-      this.filePath = filePath;
-      this.mediaPipeline = mediaPipeline;
-      this.webRtcEndpoint = new WebRtcEndpoint.Builder(mediaPipeline).recvonly().build();
-      this.recorderEndpoint = new RecorderEndpoint
+      this.recorderEndpoint.stop();
+      this.webRtcEndpoint.disconnect(this.recorderEndpoint);
+    }
+  }
+
+  // 6) Close.
+  public void close() throws SessionNotInitializedException, SessionNotStartedException, SessionDisposedException, SessionRecordedException {
+
+    log.info("[{}] Close.", id);
+
+    this.triggerActivity();
+
+    if (!this.initialized) {
+      throw new SessionNotInitializedException();
+    } else if (!this.started) {
+      throw new SessionNotStartedException();
+    } else if (this.disposed) {
+      throw new SessionDisposedException();
+    } else {
+
+      if (this.recording) {
+        this.stopRecord();
+      }
+
+      this.started = false;
+    }
+  }
+
+  // Initialization:
+
+  private void allocateEndpoints() {
+
+    this.webRtcEndpoint = new WebRtcEndpoint.Builder(mediaPipeline).recvonly().build();
+    this.recorderEndpoint = new RecorderEndpoint
         .Builder(mediaPipeline, filePath)
         .stopOnEndOfStream()
-        .withMediaProfile(mediaProfileSpecType)
+        .withMediaProfile(this.fileSpec)
         .build();
 
-      this.mediaPipeline.setName("RTC_PIPELINE_ENDPOINT-" + id + "." + ownerId);
-      this.webRtcEndpoint.setName("RTC_CONNECTION_ENDPOINT-" + id + "." + ownerId);
-      this.recorderEndpoint.setName("RTC_RECORDER_ENDPOINT-" + id + "." + ownerId);
-
-      this.configureBandwidth();
-
-      log.info("Connected RTC endpoints for '{}', saved video will be stored as '{}'.", id, filePath);
-
-      this.initializeBaseEventsListeners(liveMessagingService);
-      this.initializeWebRtcEventsListeners(liveMessagingService);
-      this.initializeWebRtcRecorderEventsListeners(liveMessagingService);
-
-      this.initialized = true;
-
-      log.info("Initialized live session: '{}', endpoints: '{}', '{}', '{}'.",
-          id, this.mediaPipeline.getName(), this.webRtcEndpoint.getName(), this.recorderEndpoint.getName());
-    }
+    this.mediaPipeline.setName("RTC_PIPELINE_ENDPOINT-" + id + "." + ownerId);
+    this.webRtcEndpoint.setName("RTC_CONNECTION_ENDPOINT-" + id + "." + ownerId);
+    this.recorderEndpoint.setName("RTC_RECORDER_ENDPOINT-" + id + "." + ownerId);
   }
 
   private void configureBandwidth() {
@@ -224,99 +256,68 @@ public class LiveStreamingSession {
 
   private void initializeBaseEventsListeners(final LiveMessagingService liveMessagingService) {
 
-    this.webRtcEndpoint.addConnectionStateChangedListener(event -> {
-      log.info("[RTP]: Connection state changed. Session: {}, state: {}.", id, event.getNewState());
-      this.setState(event.getNewState());
-    });
-
-    this.webRtcEndpoint.addErrorListener(event -> {
-      log.info("[RTP] Got error, session: '{}', error: '{}'.", this.id, event.getDescription());
-      liveMessagingService.sendError(this.messagingRoom, event.getDescription());
-    });
-
-    this.webRtcEndpoint.addElementConnectedListener(event -> log.info("[RTP] Element connected, id: '{}', type: '{}'.", this.id, event.getMediaType()));
-    this.webRtcEndpoint.addElementDisconnectedListener(event -> log.info("[RTP] Element disconnected, id: '{}', type: '{}'.", this.id, event.getMediaType()));
-    this.webRtcEndpoint.addMediaStateChangedListener(event -> log.info("[RTP] Media state change, id: '{}', type: '{}'.", this.id, event.getNewState()));
-    this.webRtcEndpoint.addMediaSessionStartedListener(event -> log.info("[RTP] Session started, id: '{}'.", this.id));
-    this.webRtcEndpoint.addMediaSessionTerminatedListener(event -> log.info("[RTP] Session terminated, id: '{}'.", this.id));
-    this.webRtcEndpoint.addMediaFlowInStateChangeListener(event -> log.info("[RTP] Media is flowing into this sink."));
-    this.webRtcEndpoint.addMediaFlowInStateChangeListener(event -> log.info("[RTP] Media is flowing into this sink."));
-    this.webRtcEndpoint.addMediaFlowOutStateChangeListener(event -> log.info("[RTP] Media is flowing out of this source."));
-    this.webRtcEndpoint.addMediaStateChangedListener(event -> log.info("[RTP] Media state changed."));
-    this.webRtcEndpoint.addMediaTranscodingStateChangeListener(event -> log.info("[RTP] Media transcoding state changed."));
+    this.webRtcEndpoint.addConnectionStateChangedListener(event -> this.setState(event.getNewState()));
+    this.webRtcEndpoint.addErrorListener(event -> liveMessagingService.sendError(this.messagingRoom, event.getDescription()));
+    this.webRtcEndpoint.addElementConnectedListener(event -> {});
+    this.webRtcEndpoint.addElementDisconnectedListener(event -> {});
+    this.webRtcEndpoint.addMediaStateChangedListener(event -> {});
+    this.webRtcEndpoint.addMediaSessionStartedListener(event -> {});
+    this.webRtcEndpoint.addMediaSessionTerminatedListener(event -> {});
+    this.webRtcEndpoint.addMediaFlowInStateChangeListener(event -> {});
+    this.webRtcEndpoint.addMediaFlowInStateChangeListener(event -> {});
+    this.webRtcEndpoint.addMediaFlowOutStateChangeListener(event -> {});
+    this.webRtcEndpoint.addMediaStateChangedListener(event -> {});
+    this.webRtcEndpoint.addMediaTranscodingStateChangeListener(event -> {});
   }
 
   private void initializeWebRtcEventsListeners(final LiveMessagingService liveMessagingService) {
+
     this.webRtcEndpoint.addIceCandidateFoundListener(event -> liveMessagingService.sendIceCandidate(this.messagingRoom, event.getCandidate()));
-    this.webRtcEndpoint.addIceComponentStateChangeListener(event -> log.info(
-        "[RTC] ICE state change, id: '{}', state: '{}'.", this.id, event.getState().toString()
-    ));
-    this.webRtcEndpoint.addIceGatheringDoneListener(event -> log.info(
-        "[RTC] ICE gathering done, id: '{}'.", this.id
-    ));
-    this.webRtcEndpoint.addNewCandidatePairSelectedListener(event -> log.info(
-        "[RTC] ICE candidate pair selected, id: '{}', candidates: '{}', '{}'.",
-        this.id, event.getCandidatePair().getLocalCandidate(), event.getCandidatePair().getRemoteCandidate()
-    ));
+    this.webRtcEndpoint.addIceComponentStateChangeListener(event -> {});
+    this.webRtcEndpoint.addIceGatheringDoneListener(event -> {});
+    this.webRtcEndpoint.addNewCandidatePairSelectedListener(event -> {});
   }
 
   private void initializeWebRtcRecorderEventsListeners(final LiveMessagingService liveMessagingService) {
-    this.recorderEndpoint.addPausedListener(event -> log.info("[REC]: Paused stream, id: '{}'.", this.id));
-    this.recorderEndpoint.addRecordingListener(event -> log.info("[REC]: Recording stream, id: '{}'.", this.id));
-    this.recorderEndpoint.addStoppedListener(event -> log.info("[REC]: Stopped recording, id: '{}'.", this.id));
-    this.recorderEndpoint.addMediaFlowInStateChangeListener(event -> log.info(
-      "[REC]: Flow IN state changed, id: '{}', type: '{}', state: '{}'.",
-      this.id, event.getState(), event.getMediaType(), event.getState()
-    ));
-    this.recorderEndpoint.addMediaFlowOutStateChangeListener(event -> log.info(
-      "[REC]: Flow OUT state changed, id: '{}', type: '{}', state: '{}'.",
-      this.id, event.getState(), event.getMediaType(), event.getState()
-    ));
-    this.recorderEndpoint.addMediaTranscodingStateChangeListener(event -> log.info(
-      "[REC]: Media transcoding state changed, id: '{}', type: '{}', state: '{}'.",
-      this.id, event.getState(), event.getMediaType(), event.getState()
-    ));
-    this.recorderEndpoint.addElementDisconnectedListener(event -> log.info(
-      "[REC]: Element connected, id: '{}', type: '{}'.",
-      this.id, event.getMediaType()
-    ));
-    this.recorderEndpoint.addElementConnectedListener(event -> log.info(
-      "[REC]: Element connected, id: '{}', type: '{}'.",
-      this.id, event.getMediaType()
-    ));
-    this.recorderEndpoint.addElementDisconnectedListener(event -> log.info(
-      "[REC]: Element disconnected, id: '{}', type: '{}'.",
-      this.id, event.getMediaType()
-    ));
-    this.recorderEndpoint.addErrorListener(event -> log.error(
-      "[REC]: Got error, id: '{}', error: '{}'.", this.id, event.getDescription()
-    ));
+
+    this.recorderEndpoint.addPausedListener(event -> {});
+    this.recorderEndpoint.addRecordingListener(event -> {});
+    this.recorderEndpoint.addStoppedListener(event -> {
+      this.recording = false;
+      this.recorded = true;
+    });
+
+    this.recorderEndpoint.addMediaFlowInStateChangeListener(event -> {});
+    this.recorderEndpoint.addMediaFlowOutStateChangeListener(event -> {});
+    this.recorderEndpoint.addMediaTranscodingStateChangeListener(event -> {});
+    this.recorderEndpoint.addElementDisconnectedListener(event -> {});
+    this.recorderEndpoint.addElementConnectedListener(event -> {});
+    this.recorderEndpoint.addElementDisconnectedListener(event -> {});
+    this.recorderEndpoint.addErrorListener(event -> {});
   }
 
   /*
    * Dispose.
    */
 
-  public void dispose() {
+  public void dispose() throws SessionDisposedException {
 
     if (this.disposed) {
-      return;
-    }
+      throw new SessionDisposedException();
+    } else {
 
-   /* log.info("Disposing live session: '{}'.", this.id);
+      log.info("[{}] Disposing.", this.id);
 
-    try {
-      this.releaseResources();
+      if (!this.released) {
+        this.releaseResources();
+      }
 
       this.webRtcEndpoint = null;
       this.recorderEndpoint = null;
       this.mediaPipeline = null;
 
-      this.started = false;
       this.disposed = true;
-    } catch (Exception ex) {
-      log.error("Failed to dispose live session '{}'.", this.id);
-    }*/
+    }
   }
 
   /*
@@ -336,6 +337,8 @@ public class LiveStreamingSession {
     if (this.recorderEndpoint != null) {
       this.recorderEndpoint.release();
     }
+
+    this.released = true;
   }
 
   private void triggerActivity() {

@@ -1,6 +1,7 @@
 package com.xcore.application.modules.live.services;
 
 import com.xcore.application.modules.authentication.models.user.ApplicationUser;
+import com.xcore.application.modules.live.exceptions.session.SessionDisposedException;
 import com.xcore.application.modules.live.models.sessions.LiveStreamingSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -35,10 +36,14 @@ public class LiveSessionService {
 
   public void removeLiveSession(final String sessionId) {
 
-    this.liveSessions.get(sessionId).dispose();
-    this.liveSessions.remove(sessionId);
-
-    log.info("Session closed, id: '{}', currently active: {}.", sessionId, liveSessions.size());
+    try {
+      this.liveSessions.get(sessionId).dispose();
+    } catch (SessionDisposedException ex) {
+      log.error("[{}] Session was manually disposed somewhere.", sessionId);
+    } finally {
+      this.liveSessions.remove(sessionId);
+      log.info("Session closed, id: '{}', currently active: {}.", sessionId, liveSessions.size());
+    }
   }
 
   public LiveStreamingSession getSession(final String sessionId) {

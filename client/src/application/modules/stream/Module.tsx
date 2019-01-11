@@ -1,4 +1,3 @@
-import {Provide} from "@redux-cbd/context";
 import * as React from "react";
 import {PureComponent, ReactNode} from "react";
 
@@ -9,33 +8,26 @@ import "webrtc-adapter";
 import {log} from "@Lib/utils";
 
 // Data.
-import {
-  graphicsContextManager,
-  liveContextManager,
-  renderingContextManager,
-  sourceContextManager
-} from "@Module/stream/data/store";
+import {graphicsContextManager, liveContextManager, renderingContextManager, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
 import {ModuleRouter} from "@Module/stream/ModuleRouter";
 
-@Provide(graphicsContextManager)
-@Provide(renderingContextManager)
-@Provide(sourceContextManager)
-@Provide(liveContextManager)
 export class Module extends PureComponent {
 
   public componentDidMount(): void {
-    log.info("Module 'STREAM' has been mounted into DOM.");
+    log.info("*** Module 'STREAM' has been mounted into DOM.");
   }
 
   public componentWillUnmount(): void {
-    log.info("Module 'STREAM' disposing.");
+    log.info("*** Module 'STREAM' unmounting.");
 
     sourceContextManager.dispose();
     graphicsContextManager.dispose();
     liveContextManager.dispose();
     renderingContextManager.dispose();
+
+    log.info("*** Module 'STREAM' unmounted.");
   }
 
   public render(): ReactNode {

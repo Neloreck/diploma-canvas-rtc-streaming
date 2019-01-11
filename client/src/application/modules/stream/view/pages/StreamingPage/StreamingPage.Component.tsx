@@ -65,7 +65,6 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
     const {sourceState: {captureVideo, captureAudio}, routingActions: {getLastPart, replace}, liveState: {liveEvent}, liveActions: {start: startLive, syncLiveEvent}} = this.props;
 
     try {
-
       const event: ILiveEvent = liveEvent || await syncLiveEvent(getLastPart());
 
       await startLive();
@@ -93,18 +92,16 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
       .then();
   }
 
-  public componentWillReceiveProps(nextProps: IStreamingPageProps): void {
+  public componentDidUpdate(previousProps: IStreamingPageProps): void {
 
-    // Display main related.
-    const {inputStream} = this.props.sourceState;
+    const {sourceState: currentState, sourceActions: {updateInputStream}} = this.props;
+    const {sourceState: previousState} = previousProps;
 
-    if (nextProps.sourceState.captureVideo !== this.props.sourceState.captureVideo) {
-      if (nextProps.sourceState.captureVideo) {
-        this
-          .getDefaultMedia()
-          .then();
+    if (currentState.captureVideo !== previousState.captureVideo || currentState.captureAudio !== previousState.captureAudio) {
+      if (currentState.captureAudio || currentState.captureVideo) {
+        this.getDefaultMedia().then();
       } else {
-        localMediaService.killStream(inputStream);
+        updateInputStream(null);
       }
     }
   }
@@ -148,8 +145,8 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   @Bind()
   private async getDefaultMedia(): Promise<void> {
 
-    const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureAudio, selectedDevices}, liveActions: {connectRTC}} = this.props;
-    const stream: MediaStream = await localMediaService.getUserMedia(selectedDevices.videoInput || true, captureAudio && (selectedDevices.audioInput || true));
+    const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureVideo, captureAudio, selectedDevices}} = this.props;
+    const stream: MediaStream = await localMediaService.getUserMedia(captureVideo && (selectedDevices.videoInput || true), captureAudio && (selectedDevices.audioInput || true));
 
     updateInputStreamAndSources(stream, selectedDevices);
   }

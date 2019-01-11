@@ -15,7 +15,7 @@ import {IGetEventResponse} from "@Api/x-core/live/response/IGetEventResponse";
 // Data.
 import {applicationConfig} from "@Main/data/config";
 import {authContextManager} from "@Main/data/store";
-import {liveContextManager, sourceContextManager} from "@Module/stream/data/store";
+import {sourceContextManager} from "@Module/stream/data/store";
 import {LiveService} from "@Module/stream/lib/live/LiveService";
 
 export interface ILiveContext {
@@ -165,13 +165,15 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
   @Bind()
   public async start(): Promise<void> {
-    this.log.info("Starting live service.");
 
+    const liveEvent: ILiveEvent = this.context.liveState.liveEvent as ILiveEvent;
+
+    this.log.info("Starting live service, eventId:", liveEvent.id);
     this.liveService.onOnlineStatusChange = this.onOnlineStatusUpdated;
 
     await this.liveService.start(
       applicationConfig.serverLiveSocketUrl,
-      (this.context.liveState.liveEvent as ILiveEvent).id,
+      liveEvent.id,
       authContextManager.getAccessToken() as string
     );
   }
@@ -270,16 +272,8 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
   @Bind()
   private async onInputChanged(stream: Optional<MediaStream>): Promise<void> {
-
-    // Update live.
-    if (this.context.liveState.rtcConnected && stream) {
-
-      const audioTrack: Optional<MediaStreamTrack> = stream.getAudioTracks()[0] || null;
-
-      if (audioTrack) {
-        this.liveService.updateAudioTrack(audioTrack);
-      }
-    }
+    const audioTrack: Optional<MediaStreamTrack> = stream && stream.getAudioTracks()[0] || null;
+    this.liveService.updateAudioTrack(audioTrack);
   }
 
   // Utility.

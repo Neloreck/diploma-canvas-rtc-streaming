@@ -126,12 +126,12 @@ export class LiveService {
 
   @Bind()
   public updateVideoTrack(track: MediaStreamTrack): void {
-    console.error("UPD VIDEO", track);
+    this.liveWebRtcController.updateVideoTrack(track);
   }
 
   @Bind()
-  public updateAudioTrack(track: MediaStreamTrack): void {
-    console.error("UPD AUDIO", track);
+  public updateAudioTrack(track: Optional<MediaStreamTrack>): void {
+    this.liveWebRtcController.updateAudioTrack(track);
   }
 
 }

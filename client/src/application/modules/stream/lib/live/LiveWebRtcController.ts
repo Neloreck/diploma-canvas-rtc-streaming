@@ -104,6 +104,54 @@ export class LiveWebRtcController {
     }
   }
 
+  public updateVideoTrack(videoTrack: MediaStreamTrack): void {
+
+    this.log.info("Replacing video track.");
+
+    const actualVideoTrack: Optional<MediaStreamTrack> = this.mediaStream.getVideoTracks()[0] || null;
+    const actualPeerConnection: RTCPeerConnection = this.webRtcPeer as RTCPeerConnection;
+
+    if (actualVideoTrack) {
+
+      this.mediaStream.removeTrack(actualVideoTrack);
+      this.mediaStream.addTrack(videoTrack);
+
+      actualPeerConnection.getSenders().forEach((sender) => {
+        if (sender.track === actualVideoTrack) {
+          sender.replaceTrack(videoTrack).then();
+          return;
+        }
+      });
+    }
+  }
+
+  public updateAudioTrack(audioTrack: Optional<MediaStreamTrack>): void {
+
+    const actualAudioTrack: Optional<MediaStreamTrack> = this.mediaStream.getAudioTracks()[0] || null;
+    const actualPeerConnection: RTCPeerConnection = this.webRtcPeer as RTCPeerConnection;
+
+    if (!audioTrack) {
+
+      if (actualAudioTrack) {
+        this.log.info( "Disabling audio capturing.");
+        actualAudioTrack.stop();
+      }
+
+      return;
+    }
+
+    if (actualAudioTrack) {
+
+      this.log.info("Replacing audio capturing device.");
+
+      this.mediaStream.removeTrack(actualAudioTrack);
+      this.mediaStream.addTrack(audioTrack);
+
+      const oldSender: Optional<RTCRtpSender> = actualPeerConnection.getSenders().filter((it) => it.track === actualAudioTrack)[0];
+      oldSender.replaceTrack(audioTrack).then();
+    }
+  }
+
   /*
    * Injectable handlers.
    */
@@ -199,8 +247,7 @@ export class LiveWebRtcController {
 
   @Bind()
   public async handleRemoteError(error: IErrorExchangeMessage): Promise<void> {
-    // todo;
-    console.error(error);
+    this.log.error(error);
   }
 
   @Bind()

@@ -19,14 +19,14 @@ export class ModuleRouter extends PureComponent {
 
   public render(): ReactNode {
     return (
-        <Switch>
+      <Switch>
 
-          <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/login`} redirect={"/home"} component={LoginPage} reversed {...{} as IPrivateRouteExternalProps}/>
-          <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/register`} redirect={"/home"} component={SignUpPage} reversed {...{} as IPrivateRouteExternalProps}/>
+        <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/login`} redirect={"/home"} component={LoginPage} reversed {...{} as IPrivateRouteExternalProps}/>
+        <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/register`} redirect={"/home"} component={SignUpPage} reversed {...{} as IPrivateRouteExternalProps}/>
 
-          <Route exact={true} path={"*"} component={ErrorPage}/>
+        <Route exact={true} path={"*"} component={ErrorPage}/>
 
-        </Switch>
+      </Switch>
     );
   }
 
