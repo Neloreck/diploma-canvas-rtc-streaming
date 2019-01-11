@@ -5,7 +5,7 @@ import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 import {
   DesktopFrame, ImageBlock,
   SimpleCircle,
-  SimpleRectangle,
+  SimpleFixedRectangle, SimpleRectangle,
   VideoFrame
 } from "@Module/stream/lib/graphics";
 import {EEditingFormType, TFieldDescriptor} from "@Module/stream/lib/graphics/fieldDescription";
@@ -57,6 +57,38 @@ export const DESCRIPTORS_MAP = {
     ],
     name: "Rectangle",
     prototype: SimpleRectangle.prototype,
+  },
+
+  [SimpleFixedRectangle.name]: {
+    description: "Fixed position rectangle",
+    formDescriptor: [
+      {
+        getValue: (object: SimpleFixedRectangle): boolean => object.configuration.renderBackground,
+        label: "Render background",
+        setValue: (object: SimpleFixedRectangle, render: boolean) => object.configuration.renderBackground = render,
+        type: EEditingFormType.BOOLEAN
+      },
+      {
+        getValue: (object: SimpleFixedRectangle): string => object.configuration.backgroundColor,
+        label: "Background color",
+        setValue: (object: SimpleFixedRectangle, color: string) => object.configuration.backgroundColor = color,
+        type: EEditingFormType.COLOR
+      },
+      {
+        getValue: (object: SimpleFixedRectangle): number => object.configuration.borderWidth,
+        label: "Border width",
+        setValue: (object: SimpleFixedRectangle, width: number) => object.configuration.borderWidth = width,
+        type: EEditingFormType.NUMBER_FIELD
+      },
+      {
+        getValue: (object: SimpleFixedRectangle): string => object.configuration.borderColor,
+        label: "Border color",
+        setValue: (object: SimpleFixedRectangle, color: string) => object.configuration.borderColor = color,
+        type: EEditingFormType.COLOR
+      }
+    ],
+    name: "Rectangle Fixed",
+    prototype: SimpleFixedRectangle.prototype,
   },
 
   [SimpleCircle.name]: {

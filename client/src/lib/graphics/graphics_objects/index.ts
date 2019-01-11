@@ -5,6 +5,11 @@ export {AbstractCanvasGraphicsMovableObject} from "./base/AbstractCanvasGraphics
 export {AbstractCanvasGraphicsResizableObject} from "./base/AbstractCanvasGraphicsResizableObject";
 export {AbstractBaseCircleObject} from "./base/AbstractBaseCircleObject";
 export {AbstractBaseRectangleObject} from "./base/AbstractBaseRectangleObject";
+export {AbstractBaseFixedPositionRectangleObject} from "./base/AbstractBaseFixedPositionRectangleObject";
+
+// Util:
+
+export * from "./utils/EObjectFixedPosition";
 
 // Implemented:
 

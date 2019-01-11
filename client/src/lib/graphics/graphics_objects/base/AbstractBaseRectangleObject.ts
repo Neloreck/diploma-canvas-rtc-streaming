@@ -1,7 +1,7 @@
 import {IBoundingRect, ICanvasGraphicsSizingContext, IPoint, IRectSizing} from "../../types";
-import {GeometricUtils, RenderUtils} from "../../utils";
+import {GeometricUtils, RelativeRenderUtils, RenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
-import {ResizeHandler} from "./ResizeHandler";
+import {ResizeHandler} from "./assist/ResizeHandler";
 
 export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraphicsResizableObject<T> {
 
@@ -103,8 +103,18 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
   /* Selection and interaction rendering. */
 
   public renderInteraction(context: CanvasRenderingContext2D): void {
-    this.renderSelectionOverElement(context);
     this.renderResizeControls(context);
+    this.renderSelectionOverElement(context);
+  }
+
+  public renderDisabled(context: CanvasRenderingContext2D): void {
+
+    this.renderSelf(context);
+
+    RelativeRenderUtils.renderFilledRectangle(this.getSizing(), context,
+      { x: this.position.left, y: this.position.top },
+      { x: this.position.left + this.position.width, y: this.position.top + this.position.height },
+      this.disabledColor, this.disabledColor, 0);
   }
 
   public dispose(): void {

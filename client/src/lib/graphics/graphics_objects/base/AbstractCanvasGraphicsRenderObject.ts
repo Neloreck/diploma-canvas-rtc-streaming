@@ -8,10 +8,14 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
   protected readonly createdAt: number = Date.now();
   protected readonly id: string = "0";
 
-  private name: string | null = null;
-  private disabled: boolean = false;
-  private context: CanvasRenderingContext2D = null as any;
-  private sizing: ICanvasGraphicsSizingContext = null as any;
+  protected readonly disabledColor: string = "rgba(255, 0, 0, 0.5)";
+
+  protected name: string | null = null;
+  protected sizing: ICanvasGraphicsSizingContext = null as any;
+
+  protected visible: boolean = true;
+  protected disabled: boolean = false;
+  protected context: CanvasRenderingContext2D = null as any;
 
   public constructor() {
     super();
@@ -68,6 +72,26 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
     return this.disabled;
   }
 
+  public toggleEnabled(): void {
+    this.disabled = !this.disabled;
+  }
+
+  /*
+   * Should render.
+   */
+
+  public setVisible(visible: boolean): void {
+    this.visible = visible;
+  }
+
+  public isVisible(): boolean {
+    return this.visible;
+  }
+
+  public isInvisible(): boolean {
+    return !this.visible;
+  }
+
   /*
    * Type cast related.
    */
@@ -89,15 +113,27 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
    */
 
   public render(context: CanvasRenderingContext2D): void {
+
     this.setContext(context);
-    this.beforeRender();
+    this.beforeRender(context);
     this.renderSelf(context);
-    this.afterRender();
+
+    if (this.disabled) {
+      this.renderDisabled(context);
+    }
+
+    this.afterRender(context);
     this.cleanupContext();
   }
 
+  public renderDisabled(context: CanvasRenderingContext2D): void {
+    /* Do nothing. */
+  }
+
   public dispose(): void {
-    /* Some objects need destruction and memory cleanup. */
+    // Remove refs.
+    this.context = null as any;
+    this.sizing = null as any;
   }
 
   public getCopy(): AbstractCanvasGraphicsRenderObject<any> {
@@ -117,11 +153,11 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
    * ===================================================================================================================
    */
 
-  protected beforeRender(): void {
+  protected beforeRender(context: CanvasRenderingContext2D): void {
     /* Some objects need handling */
   }
 
-  protected afterRender(): void {
+  protected afterRender(context: CanvasRenderingContext2D): void {
     /* Some objects need handling */
   }
 

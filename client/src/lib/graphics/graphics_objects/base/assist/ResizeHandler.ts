@@ -1,6 +1,6 @@
-import {IBoundingRect, IPoint, IRectSizing} from "../../types";
-import {GeometricUtils, RenderUtils} from "../../utils";
-import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
+import {IBoundingRect, IPoint, IRectSizing} from "../../../types/index";
+import {GeometricUtils, RenderUtils} from "../../../utils/index";
+import {AbstractCanvasGraphicsResizableObject} from "../AbstractCanvasGraphicsResizableObject";
 
 export class ResizeHandler extends AbstractCanvasGraphicsResizableObject<never> {
 

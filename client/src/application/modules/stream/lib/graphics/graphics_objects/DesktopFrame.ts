@@ -36,9 +36,8 @@ export class DesktopFrame extends AbstractBaseRectangleObject<typeof DesktopFram
     localMediaService.moveTracks(this.mediaStream, stream);
   }
 
-  public renderSelf(): void {
+  public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const context: CanvasRenderingContext2D = this.getContext();
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
     const absoluteRect: IRectSizing = this.getAbsoluteSizing();
 

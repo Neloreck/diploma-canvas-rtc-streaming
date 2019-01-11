@@ -38,7 +38,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
   public render(): ReactNode {
 
-    const {classes, renderingState: {addVisibleObjects, showPreview, showGrid, showGraphics, propagateRendererEvents}} = this.props;
+    const {classes, renderingState: {addDisabledObjects, showPreview, showGrid, showGraphics, propagateRendererEvents}} = this.props;
     const {showPreviewConfiguration} = this.state;
 
     return (
@@ -88,8 +88,8 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                 <Grid container>
                   <FormControlLabel
                     className={classes.configItem}
-                    label={"Create Visible Objects"}
-                    control={<Switch checked={addVisibleObjects} color={"primary"}  onChange={this.onAdditionObjectsVisibilityToggle}/>}
+                    label={"Create Disabled Objects"}
+                    control={<Switch checked={addDisabledObjects} color={"primary"}  onChange={this.onAdditionObjectsVisibilityToggle}/>}
                   />
                   <FormControlLabel
                     className={classes.configItem}

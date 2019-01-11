@@ -5,6 +5,7 @@ export {TextInput, ITextInputExternalProps} from "@Module/stream/lib/graphics/co
 
 export {DesktopFrame} from "@Module/stream/lib/graphics/graphics_objects/DesktopFrame";
 export {SimpleRectangle} from "@Module/stream/lib/graphics/graphics_objects/SimpleRectangle";
+export {SimpleFixedRectangle} from "@Module/stream/lib/graphics/graphics_objects/SimpleFixedRectangle";
 export {SimpleCircle} from "@Module/stream/lib/graphics/graphics_objects/SimpleCircle";
 export {ImageBlock} from "@Module/stream/lib/graphics/graphics_objects/ImageBlock";
 export {VideoFrame} from "@Module/stream/lib/graphics/graphics_objects/VideoFrame";

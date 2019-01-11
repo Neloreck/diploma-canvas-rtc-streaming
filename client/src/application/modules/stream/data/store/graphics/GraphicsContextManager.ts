@@ -59,7 +59,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
     this.log.info(`Adding new object: ${object.getName()}.`);
 
-    if (!renderingContextManager.context.renderingState.addVisibleObjects) {
+    if (renderingContextManager.context.renderingState.addDisabledObjects) {
       object.setDisabled(true);
     }
 

@@ -24,7 +24,12 @@ export class RelativeRenderUtils {
 
   public static renderRectangleBorder(sizing: ICanvasGraphicsSizingContext, context: CanvasRenderingContext2D, topLeft: IPoint, botRight: IPoint, color: string, width: number): void {
     const {width: pWidth, height: pHeight} = RelativeRenderUtils.getBasePercentSizing(sizing);
-    RenderUtils.renderRectangleBorder(context, { x: topLeft.x * pWidth, y: topLeft.x * pHeight}, { x: botRight.x * pWidth, y: botRight.x * pHeight}, color, width);
+    RenderUtils.renderRectangleBorder(context, { x: topLeft.x * pWidth, y: topLeft.y * pHeight}, { x: botRight.x * pWidth, y: botRight.y * pHeight}, color, width);
+  }
+
+  public static renderFilledRectangle(sizing: ICanvasGraphicsSizingContext, context: CanvasRenderingContext2D, topLeft: IPoint, botRight: IPoint, color: string, fillColor: string, width: number): void {
+    const {width: pWidth, height: pHeight} = RelativeRenderUtils.getBasePercentSizing(sizing);
+    RenderUtils.renderFilledRectangle(context, { x: topLeft.x * pWidth, y: topLeft.y * pHeight}, { x: botRight.x * pWidth, y: botRight.y * pHeight}, color, fillColor, width);
   }
 
   public static renderCircleSegment(sizing: ICanvasGraphicsSizingContext, context: CanvasRenderingContext2D, center: IPoint, radius: number, startAngle: number, endAngle: number, color: string, width: number): void {

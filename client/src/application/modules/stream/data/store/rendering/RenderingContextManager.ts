@@ -8,7 +8,7 @@ import {Logger} from "@Lib/utils";
 // Props.
 export interface IRenderingContext {
   renderingState: {
-    addVisibleObjects: boolean;
+    addDisabledObjects: boolean;
     propagateRendererEvents: boolean;
     showGraphics: boolean;
     showGrid: boolean;
@@ -36,7 +36,7 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
       setRendererEventsPropagation: throttle(this.setRendererEventsPropagation, RenderingContextManager.SENSITIVE_ACTIONS_DELAY),
     },
     renderingState: {
-      addVisibleObjects: true,
+      addDisabledObjects: true,
       propagateRendererEvents: true,
       showGraphics: true,
       showGrid: false,
@@ -50,7 +50,7 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
   public dispose(): void {
 
     this.context.renderingState = {
-      addVisibleObjects: true,
+      addDisabledObjects: true,
       propagateRendererEvents: true,
       showGraphics: true,
       showGrid: false,
@@ -63,8 +63,8 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
   // Actions:
 
   @Bind()
-  protected setAdditionVisibility(addVisibleObjects: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, addVisibleObjects };
+  protected setAdditionVisibility(addDisabledObjects: boolean): void {
+    this.context.renderingState = { ...this.context.renderingState, addDisabledObjects };
     this.update();
   }
 

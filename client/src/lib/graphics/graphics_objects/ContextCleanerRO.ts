@@ -10,9 +10,8 @@ export class ContextCleanerRO extends AbstractCanvasGraphicsRenderObject<never> 
     super();
   }
 
-  public renderSelf(): void {
+  public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const context: CanvasRenderingContext2D = this.getContext();
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
 
     context.fillStyle = "#FFF";

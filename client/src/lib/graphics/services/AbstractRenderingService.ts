@@ -5,7 +5,7 @@ import {ICanvasGraphicsSizingContext} from "../types";
 
 export abstract class AbstractRenderingService {
 
-  protected renderWithAnimationFrame: boolean = false;
+  protected renderWithAnimationFrame: boolean = true;
   protected renderingFps: number = 60;
 
   protected sizingContext: ICanvasGraphicsSizingContext = { height: 720, width: 1280 };

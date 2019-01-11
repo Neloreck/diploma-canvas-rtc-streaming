@@ -38,7 +38,6 @@ export interface ICanvasGraphicsRendererOwnProps {
 }
 
 export interface ICanvasGraphicsRendererExternalProps extends IGraphicsContext, IRenderingContext {}
-
 export interface ICanvasGraphicsRendererProps extends ICanvasGraphicsRendererOwnProps, ICanvasGraphicsRendererExternalProps {}
 
 @Consume<IGraphicsContext, ICanvasGraphicsRendererProps>(graphicsContextManager)
@@ -79,6 +78,7 @@ export class CanvasGraphicsRenderer
   */
 
   public componentWillMount(): void {
+
     // Enable rendering.
     this.internalRenderingService.setRenderObjects(this.props.internalRenderingItems);
     this.externalRenderingService.setRenderObjects(this.props.externalRenderingItems);

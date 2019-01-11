@@ -83,7 +83,24 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
   }
 
   public handleContextDown(point: IPoint): void {
-    this.setSelectedObject(null);
+
+    if (!this.interactionEnabled) {
+      return;
+    }
+
+    for (let it: number = this.rendererObjects.length - 1; it >= 0; it --) {
+
+      const renderObject = this.rendererObjects[it];
+
+      if (renderObject.isVisible() && renderObject.isInteractive()) {
+
+        const movableRenderObject: AbstractCanvasGraphicsMovableObject<any> = renderObject as AbstractCanvasGraphicsMovableObject<any>;
+
+        if (movableRenderObject.isInBounds(point)) {
+          return movableRenderObject.toggleEnabled();
+        }
+      }
+    }
   }
 
   public handleMouseDown(point: IPoint): void {
@@ -101,7 +118,7 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
       const renderObject = this.rendererObjects[it];
 
-      if (renderObject.isEnabled() && renderObject.isInteractive()) {
+      if (renderObject.isVisible() && renderObject.isInteractive()) {
 
         const movableRenderObject: AbstractCanvasGraphicsMovableObject<any> = renderObject as AbstractCanvasGraphicsMovableObject<any>;
 
@@ -123,7 +140,7 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
     const oldTouchPosition: IPoint = this.lastMouseTouch || point;
     const interactiveSelectedObject: AbstractCanvasGraphicsResizableObject<any> | null = (
-      this.selectedObject !== null && this.selectedObject.isEnabled() && this.selectedObject.isMovable()
+      this.selectedObject !== null && this.selectedObject.isVisible() && this.selectedObject.isMovable()
       ? this.selectedObject as AbstractCanvasGraphicsResizableObject<any>
       : null
     );

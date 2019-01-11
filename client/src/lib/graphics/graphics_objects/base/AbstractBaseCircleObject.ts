@@ -1,7 +1,7 @@
 import {ICanvasGraphicsSizingContext, ICircleSizing, IPoint} from "../../types";
 import {RelativeRenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
-import {ResizeHandler} from "./ResizeHandler";
+import {ResizeHandler} from "./assist/ResizeHandler";
 
 export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphicsResizableObject<T> {
 
@@ -71,6 +71,13 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
   public renderInteraction(context: CanvasRenderingContext2D): void {
     this.renderSelectionOverElement(context);
     this.renderResizeControls(context);
+  }
+
+  public renderDisabled(context: CanvasRenderingContext2D): void {
+
+    this.renderSelf(context);
+
+    RelativeRenderUtils.renderFilledCircle(this.getSizing(), context, this.position.center, this.position.radius, this.disabledColor, this.disabledColor, 0);
   }
 
   protected renderSelectionOverElement(context: CanvasRenderingContext2D): void {
