@@ -7,6 +7,7 @@ echo "Building SPA bundle (production).";
 
 # CAN BE CHANGED, NOTE:
 echo "Moving SPA bundle into resources folder.";
+mkdir -p ./server/src/main/resources/public/spa;
 cp -r ./client/target/dist/* ./server/src/main/resources/public/spa/;
 
 echo "Job has been finished.";
