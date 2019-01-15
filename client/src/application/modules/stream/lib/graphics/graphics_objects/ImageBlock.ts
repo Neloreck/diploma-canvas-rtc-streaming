@@ -1,5 +1,5 @@
 // Lib.
-import {AbstractBaseRectangleObject} from "@Lib/graphics";
+import {AbstractBaseRectangleObject, ISerializedGraphicsObject} from "@Lib/graphics";
 import {Optional} from "@Lib/ts/types";
 
 // Api.
@@ -14,7 +14,7 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
     width: 1280,
   };
 
-  private loaded = false;
+  private loaded: boolean = false;
 
   public constructor(source?: string) {
     super();
@@ -36,6 +36,11 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
     cloned.config.height = this.config.height;
 
     return cloned;
+  }
+
+  public applySerialized(serialized: ISerializedGraphicsObject): void {
+    super.applySerialized(serialized);
+    this.setNewUrl(this.config.imageSrc);
   }
 
   public applyConfiguration(configuration: typeof ImageBlock.prototype.config): void {
