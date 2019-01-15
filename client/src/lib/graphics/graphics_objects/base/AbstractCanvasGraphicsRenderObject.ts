@@ -3,12 +3,12 @@ import {ICanvasGraphicsSizingContext} from "../../types";
 import {generateUUID} from "../../utils";
 import {AbstractCanvasGraphicsSerializableObject} from "./AbstractCanvasGraphicsSerializableObject";
 
-export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanvasGraphicsSerializableObject<T> {
+export abstract class AbstractCanvasGraphicsRenderObject<T extends object> extends AbstractCanvasGraphicsSerializableObject<T> {
 
   protected readonly createdAt: number = Date.now();
-  protected readonly id: string = "0";
+  protected id: string = "0";
 
-  protected readonly disabledColor: string = "rgba(255, 0, 0, 0.5)";
+  protected readonly disabledColor: string = "rgba(230, 0, 0, 0.25)";
 
   protected name: string | null = null;
   protected sizing: ICanvasGraphicsSizingContext = null as any;
@@ -48,7 +48,7 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
     return this.context;
   }
 
-  public setSizing(sizing: ICanvasGraphicsSizingContext) {
+  public setSizing(sizing: ICanvasGraphicsSizingContext): void {
     this.sizing = sizing;
   }
 
@@ -108,6 +108,10 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
     return false;
   }
 
+  public hasFixedSizing(): boolean {
+    return false;
+  }
+
   /*
    * Cleanup lifecycle related.
    */
@@ -136,13 +140,13 @@ export abstract class AbstractCanvasGraphicsRenderObject<T> extends AbstractCanv
     this.sizing = null as any;
   }
 
-  public getCopy(): AbstractCanvasGraphicsRenderObject<any> {
+  public getCopy(): AbstractCanvasGraphicsRenderObject<T> {
 
-    const cloned = new (Object.getPrototypeOf(this)).constructor();
+    const cloned: AbstractCanvasGraphicsRenderObject<T> = new (Object.getPrototypeOf(this)).constructor();
 
     cloned.id = generateUUID();
     cloned.position = cloneDeep(this.position);
-    cloned.configuration = cloneDeep(this.configuration);
+    cloned.config = cloneDeep(this.config);
 
     return cloned;
   }

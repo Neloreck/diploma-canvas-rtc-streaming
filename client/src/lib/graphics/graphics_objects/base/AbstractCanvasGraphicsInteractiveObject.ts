@@ -1,7 +1,7 @@
 import {IPoint} from "../../types";
 import {AbstractCanvasGraphicsRenderObject} from "./AbstractCanvasGraphicsRenderObject";
 
-export abstract class AbstractCanvasGraphicsInteractiveObject<T> extends AbstractCanvasGraphicsRenderObject<T> {
+export abstract class AbstractCanvasGraphicsInteractiveObject<T extends object> extends AbstractCanvasGraphicsRenderObject<T> {
 
   protected selected: boolean = false;
   protected readonly interactionSpacing: number = 0;
@@ -27,6 +27,16 @@ export abstract class AbstractCanvasGraphicsInteractiveObject<T> extends Abstrac
 
   // Is shape in coordinate bounds.
   public abstract isInBounds(checkPoint: IPoint): boolean;
-  public abstract renderInteraction(context: CanvasRenderingContext2D): void;
+
+  public abstract isInDeleteBounds(checkPoint: IPoint): boolean;
+
+  public renderInteraction(context: CanvasRenderingContext2D): void {
+    this.renderSelection(context);
+    this.renderControls(context);
+  }
+
+  protected abstract renderControls(context: CanvasRenderingContext2D): void;
+
+  protected abstract renderSelection(context: CanvasRenderingContext2D): void;
 
 }

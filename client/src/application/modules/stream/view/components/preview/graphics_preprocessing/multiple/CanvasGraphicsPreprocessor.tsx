@@ -48,7 +48,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
   }
 
   /*
-   * Rendering context configuration:
+   * Rendering context config:
    */
 
   /* Everything visible on preview. */

@@ -1,3 +1,5 @@
+/* tslint:disable: typedef */
+
 // Lib.
 import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
 
@@ -31,27 +33,27 @@ export const DESCRIPTORS_MAP = {
     description: "Simple rectangle",
     formDescriptor: [
       {
-        getValue: (object: SimpleRectangle): boolean => object.configuration.renderBackground,
+        getValue: (object: SimpleRectangle): boolean => object.config.renderBackground,
         label: "Render background",
-        setValue: (object: SimpleRectangle, render: boolean) => object.configuration.renderBackground = render,
+        setValue: (object: SimpleRectangle, render: boolean) => object.config.renderBackground = render,
         type: EEditingFormType.BOOLEAN
       },
       {
-        getValue: (object: SimpleRectangle): string => object.configuration.backgroundColor,
+        getValue: (object: SimpleRectangle): string => object.config.backgroundColor,
         label: "Background color",
-        setValue: (object: SimpleRectangle, color: string) => object.configuration.backgroundColor = color,
+        setValue: (object: SimpleRectangle, color: string) => object.config.backgroundColor = color,
         type: EEditingFormType.COLOR
       },
       {
-        getValue: (object: SimpleRectangle): number => object.configuration.borderWidth,
+        getValue: (object: SimpleRectangle): number => object.config.borderWidth,
         label: "Border width",
-        setValue: (object: SimpleRectangle, width: number) => object.configuration.borderWidth = width,
+        setValue: (object: SimpleRectangle, width: number) => object.config.borderWidth = width,
         type: EEditingFormType.NUMBER_FIELD
       },
       {
-        getValue: (object: SimpleRectangle): string => object.configuration.borderColor,
+        getValue: (object: SimpleRectangle): string => object.config.borderColor,
         label: "Border color",
-        setValue: (object: SimpleRectangle, color: string) => object.configuration.borderColor = color,
+        setValue: (object: SimpleRectangle, color: string) => object.config.borderColor = color,
         type: EEditingFormType.COLOR
       }
     ],
@@ -63,27 +65,27 @@ export const DESCRIPTORS_MAP = {
     description: "Fixed position rectangle",
     formDescriptor: [
       {
-        getValue: (object: SimpleFixedRectangle): boolean => object.configuration.renderBackground,
+        getValue: (object: SimpleFixedRectangle): boolean => object.config.renderBackground,
         label: "Render background",
-        setValue: (object: SimpleFixedRectangle, render: boolean) => object.configuration.renderBackground = render,
+        setValue: (object: SimpleFixedRectangle, render: boolean) => object.config.renderBackground = render,
         type: EEditingFormType.BOOLEAN
       },
       {
-        getValue: (object: SimpleFixedRectangle): string => object.configuration.backgroundColor,
+        getValue: (object: SimpleFixedRectangle): string => object.config.backgroundColor,
         label: "Background color",
-        setValue: (object: SimpleFixedRectangle, color: string) => object.configuration.backgroundColor = color,
+        setValue: (object: SimpleFixedRectangle, color: string) => object.config.backgroundColor = color,
         type: EEditingFormType.COLOR
       },
       {
-        getValue: (object: SimpleFixedRectangle): number => object.configuration.borderWidth,
+        getValue: (object: SimpleFixedRectangle): number => object.config.borderWidth,
         label: "Border width",
-        setValue: (object: SimpleFixedRectangle, width: number) => object.configuration.borderWidth = width,
+        setValue: (object: SimpleFixedRectangle, width: number) => object.config.borderWidth = width,
         type: EEditingFormType.NUMBER_FIELD
       },
       {
-        getValue: (object: SimpleFixedRectangle): string => object.configuration.borderColor,
+        getValue: (object: SimpleFixedRectangle): string => object.config.borderColor,
         label: "Border color",
-        setValue: (object: SimpleFixedRectangle, color: string) => object.configuration.borderColor = color,
+        setValue: (object: SimpleFixedRectangle, color: string) => object.config.borderColor = color,
         type: EEditingFormType.COLOR
       }
     ],
@@ -95,27 +97,27 @@ export const DESCRIPTORS_MAP = {
     description: "Simple circle",
     formDescriptor: [
       {
-        getValue: (object: SimpleCircle): boolean => object.configuration.renderBackground,
+        getValue: (object: SimpleCircle): boolean => object.config.renderBackground,
         label: "Render background",
-        setValue: (object: SimpleCircle, render: boolean) => object.configuration.renderBackground = render,
+        setValue: (object: SimpleCircle, render: boolean) => object.config.renderBackground = render,
         type: EEditingFormType.BOOLEAN
       },
       {
-        getValue: (object: SimpleCircle): string => object.configuration.backgroundColor,
+        getValue: (object: SimpleCircle): string => object.config.backgroundColor,
         label: "Background color",
-        setValue: (object: SimpleCircle, color: string) => object.configuration.backgroundColor = color,
+        setValue: (object: SimpleCircle, color: string) => object.config.backgroundColor = color,
         type: EEditingFormType.COLOR
       },
       {
-        getValue: (object: SimpleCircle): number => object.configuration.borderWidth,
+        getValue: (object: SimpleCircle): number => object.config.borderWidth,
         label: "Border width",
-        setValue: (object: SimpleCircle, width: number) => object.configuration.borderWidth = width,
+        setValue: (object: SimpleCircle, width: number) => object.config.borderWidth = width,
         type: EEditingFormType.NUMBER_FIELD
       },
       {
-        getValue: (object: SimpleCircle): string => object.configuration.borderColor,
+        getValue: (object: SimpleCircle): string => object.config.borderColor,
         label: "Border color",
-        setValue: (object: SimpleCircle, color: string) => object.configuration.borderColor = color,
+        setValue: (object: SimpleCircle, color: string) => object.config.borderColor = color,
         type: EEditingFormType.COLOR
       }
     ],
@@ -127,19 +129,19 @@ export const DESCRIPTORS_MAP = {
     description: "Additional video.",
     formDescriptor: [
       {
-        getValue: (object: VideoFrame): boolean => object.configuration.renderBorder,
+        getValue: (object: VideoFrame): boolean => object.config.renderBorder,
         label: "Render border",
-        setValue: (object: VideoFrame, render: boolean) => object.configuration.renderBorder = render,
+        setValue: (object: VideoFrame, render: boolean) => object.config.renderBorder = render,
         type: EEditingFormType.BOOLEAN
       },
       {
-        getValue: (object: VideoFrame): number => object.configuration.borderWidth,
+        getValue: (object: VideoFrame): number => object.config.borderWidth,
         label: "Border width",
-        setValue: (object: VideoFrame, width: number) => object.configuration.borderWidth = width,
+        setValue: (object: VideoFrame, width: number) => object.config.borderWidth = width,
         type: EEditingFormType.NUMBER_FIELD
       },
       {
-        getValue: (object: VideoFrame): string => object.configuration.videoDevice,
+        getValue: (object: VideoFrame): string => object.config.videoDevice,
         label: "Device",
         setValue: (object: VideoFrame, device: string) => object.setVideoDevice(device),
         type: EEditingFormType.VIDEO_DEVICE
@@ -160,23 +162,23 @@ export const DESCRIPTORS_MAP = {
     description: "Image display into stream",
     formDescriptor: [
       {
-        getValue: (object: ImageBlock): number => object.configuration.width,
+        getValue: (object: ImageBlock): number => object.config.width,
         label: "Width",
         max: 1280,
         min: 0,
-        setValue: (object: ImageBlock, width: number) => object.configuration.width = width,
+        setValue: (object: ImageBlock, width: number) => object.config.width = width,
         type: EEditingFormType.NUMBER_FIELD
       },
       {
-        getValue: (object: ImageBlock): number => object.configuration.height,
+        getValue: (object: ImageBlock): number => object.config.height,
         label: "Height",
         max: 720,
         min: 0,
-        setValue: (object: ImageBlock, height: number) => object.configuration.height = height,
+        setValue: (object: ImageBlock, height: number) => object.config.height = height,
         type: EEditingFormType.NUMBER_FIELD
       },
       {
-        getValue: (object: ImageBlock): string => object.configuration.imageSrc,
+        getValue: (object: ImageBlock): string => object.config.imageSrc,
         label: "Source",
         setValue: (object: ImageBlock, src: string) => object.setNewUrl(src),
         type: EEditingFormType.TEXT

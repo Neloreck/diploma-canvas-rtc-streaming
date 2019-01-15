@@ -33,8 +33,7 @@ export interface IHeaderBarUserMenuExternalProps extends WithStyles<typeof heade
 export interface IHeaderBarUserMenuProps extends IHeaderBarUserMenuOwnProps, IHeaderBarUserMenuExternalProps {}
 
 @Styled(headerBarUserMenuStyle)
-@Consume<IRouterContext, IHeaderBarUserMenuProps>(routerContextManager)
-@Consume<IAuthContext, IHeaderBarUserMenuProps>(authContextManager)
+@Consume(authContextManager, routerContextManager)
 export class HeaderBarUserMenu extends Component<IHeaderBarUserMenuProps, IHeaderBarUserMenuState> {
 
   public state: IHeaderBarUserMenuState = {

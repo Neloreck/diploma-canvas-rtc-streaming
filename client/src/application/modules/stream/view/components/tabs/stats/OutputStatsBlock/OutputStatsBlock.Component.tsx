@@ -25,8 +25,7 @@ export interface IOutputStatsBlockExternalProps extends WithStyles<typeof output
 export interface IOutputStatsBlockOwnProps {}
 export interface IOutputStatsBlockProps extends IOutputStatsBlockOwnProps, IOutputStatsBlockExternalProps {}
 
-@Consume<IGraphicsContext, IOutputStatsBlockProps>(graphicsContextManager)
-@Consume<ISourceContext, IOutputStatsBlockProps>(sourceContextManager)
+@Consume(graphicsContextManager, sourceContextManager)
 @Styled(outputStatsBlockStyle)
 export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputStatsBlockState> {
 

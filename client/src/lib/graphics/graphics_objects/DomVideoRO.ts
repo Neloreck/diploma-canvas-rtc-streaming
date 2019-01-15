@@ -7,7 +7,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
   private static spinnerOffset: number = 0;
 
   public position: never;
-  public configuration: never;
+  public config: never;
 
   private readonly mediaStream: MediaStream | null;
   private readonly hiddenVideoRenderer: HTMLVideoElement = document.createElement("video");
@@ -33,7 +33,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
     this.hiddenVideoRenderer.width = sizing.width;
     this.hiddenVideoRenderer.height = sizing.height;
 
-    if (this.isVideoRendering && this.mediaStream && this.mediaStream.active) {
+    if (this.isVideoRendering && this.mediaStream && this.mediaStream.active && this.mediaStream.getVideoTracks().length) {
       context.drawImage(this.hiddenVideoRenderer, 0, 0, sizing.width, sizing.height);
     } else {
 
@@ -50,7 +50,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
     const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
     const spinnersCount: number = 5;
 
-    for (let it = 0; it < spinnersCount; it ++) {
+    for (let it: number = 0; it < spinnersCount; it ++) {
 
       const elementOffset: number = DomVideoRO.spinnerOffset + (2 / spinnersCount) * it;
       const nextElementOffset: number = DomVideoRO.spinnerOffset + (2 / spinnersCount) * (it + 1 );

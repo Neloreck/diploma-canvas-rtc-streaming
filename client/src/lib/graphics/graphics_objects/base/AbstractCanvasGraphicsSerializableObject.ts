@@ -1,13 +1,15 @@
+import {cloneDeep} from "lodash";
+
 import {ISerializedGraphicsObject, TObjectPosition} from "../../types";
 
-export abstract class AbstractCanvasGraphicsSerializableObject<T extends {}> {
+export abstract class AbstractCanvasGraphicsSerializableObject<T extends object> {
 
-  public abstract configuration: T;
+  public abstract config: T;
   protected abstract position: TObjectPosition | never;
 
   // Getters <-> Setters.
 
-  public setPosition(position: TObjectPosition) {
+  public setPosition(position: TObjectPosition): void {
     this.position = position;
   }
 
@@ -17,9 +19,9 @@ export abstract class AbstractCanvasGraphicsSerializableObject<T extends {}> {
 
   public applyConfiguration(src: T | AbstractCanvasGraphicsSerializableObject<T>): void {
     if (src instanceof AbstractCanvasGraphicsSerializableObject) {
-      this.configuration = Object.assign({}, this.configuration, src.configuration);
+      this.config = Object.assign({}, this.config, src.config);
     } else {
-      this.configuration = Object.assign({}, this.configuration, src as T);
+      this.config = Object.assign({}, this.config, src as T);
     }
   }
 
@@ -28,14 +30,14 @@ export abstract class AbstractCanvasGraphicsSerializableObject<T extends {}> {
   public serialize(): ISerializedGraphicsObject {
     return {
       class: this.constructor.name,
-      configuration: this.configuration,
-      position: this.position
+      configuration: cloneDeep(this.config),
+      position: cloneDeep(this.position)
     };
   }
 
   public applySerialized(serialized: ISerializedGraphicsObject): void {
-    this.configuration = serialized.configuration;
-    this.position = serialized.position;
+    this.config = cloneDeep(serialized.configuration);
+    this.position = cloneDeep(serialized.position);
   }
 
 }

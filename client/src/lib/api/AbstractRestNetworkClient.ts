@@ -7,7 +7,7 @@ export abstract class AbstractRestNetworkClient extends AbstractNetworkClient {
 
   protected async doRequest(method: ERequestMethod, mapping: string, request?: IBaseRequest | URLSearchParams, headers?: Headers): Promise<IBaseResponse> {
 
-    const requestBody = request instanceof URLSearchParams ? request : request && JSON.stringify(request);
+    const requestBody: string | undefined | URLSearchParams = request instanceof URLSearchParams ? request : request && JSON.stringify(request);
 
     const rawRequest: RequestInit = {
       body: requestBody,

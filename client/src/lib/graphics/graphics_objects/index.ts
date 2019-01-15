@@ -9,7 +9,7 @@ export {AbstractBaseFixedPositionRectangleObject} from "./base/AbstractBaseFixed
 
 // Util:
 
-export * from "./utils/EObjectFixedPosition";
+export * from "./utils/fixedObjectPosition";
 
 // Implemented:
 

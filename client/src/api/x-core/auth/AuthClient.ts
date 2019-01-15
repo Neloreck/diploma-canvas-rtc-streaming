@@ -15,8 +15,8 @@ export class AuthClient extends AbstractRestNetworkClient {
 
   private static AUTH_MAPPING: string = "/auth";
 
-  public getHeaders = xCoreClientConfig.getDefaultHeaders;
-  public getServerUrl = xCoreClientConfig.getServerUrl;
+  public getHeaders: () => Headers = xCoreClientConfig.getDefaultHeaders;
+  public getServerUrl: () => string = xCoreClientConfig.getServerUrl;
 
   // Actions:
 

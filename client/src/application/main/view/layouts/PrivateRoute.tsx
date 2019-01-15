@@ -17,8 +17,7 @@ export interface IPrivateRouteOwnProps {
 export interface IPrivateRouteExternalProps extends IAuthContext, IRouterContext {}
 export interface IPrivateRouteProps extends IPrivateRouteOwnProps, IPrivateRouteExternalProps, RouteProps {}
 
-@Consume<IAuthContext, IPrivateRouteProps>(authContextManager)
-@Consume<IRouterContext, IPrivateRouteProps>(routerContextManager)
+@Consume(authContextManager, routerContextManager)
 export class PrivateRoute extends Route<IPrivateRouteProps> {
 
   private DEFAULT_REDIRECT: string = "/authentication/login";

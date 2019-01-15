@@ -27,8 +27,7 @@ export interface IPreviewConfigurationBlockExternalProps extends WithStyles<type
 export interface IPreviewConfigurationBlockOwnProps {}
 export interface IPreviewConfigurationBlockProps extends IPreviewConfigurationBlockOwnProps, IPreviewConfigurationBlockExternalProps {}
 
-@Consume<ISourceContext, IPreviewConfigurationBlockProps>(sourceContextManager)
-@Consume<IRenderingContext, IPreviewConfigurationBlockProps>(renderingContextManager)
+@Consume(sourceContextManager, renderingContextManager)
 @Styled(previewConfigurationBlockStyle)
 export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBlockProps, IPreviewConfigurationBlockState> {
 
@@ -50,7 +49,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
           alignItems={"center"}
           onClick={this.onPreviewBlockViewToggle}
         >
-          <Typography variant={"h6"}> View Configuration </Typography>
+          <Typography variant={"h6"}> Configuration </Typography>
           { showPreviewConfiguration ? <Remove fontSize={"small"}/> : <Add fontSize={"small"}/>}
         </Grid>
 
@@ -63,7 +62,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                 <Grid container>
                   <FormControlLabel
                     className={classes.configItem}
-                    label={"Lock Preview Mode"}
+                    label={"Show Result Preview"}
                     control={<Switch checked={showPreview} color={"primary"} onChange={this.onPreviewToggle}/>}
                   />
                 </Grid>

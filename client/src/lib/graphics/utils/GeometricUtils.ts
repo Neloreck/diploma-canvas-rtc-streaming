@@ -4,9 +4,9 @@ export class GeometricUtils {
 
   public static checkPointInTriangle(pt: IPoint, p1: IPoint, p2: IPoint, p3: IPoint): boolean {
 
-    const b1 = GeometricUtils.checkTrianglesSign(pt, p1, p2);
-    const b2 = GeometricUtils.checkTrianglesSign(pt, p2, p3);
-    const b3 = GeometricUtils.checkTrianglesSign(pt, p3, p1);
+    const b1: boolean = GeometricUtils.checkTrianglesSign(pt, p1, p2);
+    const b2: boolean = GeometricUtils.checkTrianglesSign(pt, p2, p3);
+    const b3: boolean = GeometricUtils.checkTrianglesSign(pt, p3, p1);
 
     return ((b1 === b2) && (b2 === b3));
   }

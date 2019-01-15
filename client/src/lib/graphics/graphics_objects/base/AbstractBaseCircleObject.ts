@@ -1,20 +1,20 @@
 import {ICanvasGraphicsSizingContext, ICircleSizing, IPoint} from "../../types";
 import {RelativeRenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
+import {FixedControlButton} from "./assist/FixedControlButton";
 import {ResizeHandler} from "./assist/ResizeHandler";
 
-export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphicsResizableObject<T> {
+export abstract class AbstractBaseCircleObject<T extends object> extends AbstractCanvasGraphicsResizableObject<T> {
 
-  public abstract configuration: any;
+  public abstract config: T;
 
   protected position: ICircleSizing = {
     center: { x: 50, y: 50 },
     radius: 10
   };
 
+  protected readonly deleteButton: FixedControlButton = new FixedControlButton(FixedControlButton.EButtonType.DELETE);
   protected resizeControl: ResizeHandler = new ResizeHandler(0, this);
-
-  // private readonly resizeControl: ResizeControl = new ResizeControl();
 
   // Construct with radius and center.
   public constructor();
@@ -28,8 +28,12 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
   // Base setters for context.
 
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
+
     super.setSizing(sizing);
+
+    this.deleteButton.setSizing(sizing);
     this.resizeControl.setSizing(sizing);
+
     this.updateResizerPosition();
   }
 
@@ -49,6 +53,10 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
     );
   }
 
+  public isInDeleteBounds(targetPoint: IPoint): boolean {
+    return this.deleteButton.isInBounds(targetPoint);
+  }
+
   public isInResizeBounds(target: IPoint): boolean {
 
     const {heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
@@ -66,13 +74,6 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
     this.resizeControl.dispose();
   }
 
-  /* Selection and interaction rendering. */
-
-  public renderInteraction(context: CanvasRenderingContext2D): void {
-    this.renderSelectionOverElement(context);
-    this.renderResizeControls(context);
-  }
-
   public renderDisabled(context: CanvasRenderingContext2D): void {
 
     this.renderSelf(context);
@@ -80,7 +81,7 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
     RelativeRenderUtils.renderFilledCircle(this.getSizing(), context, this.position.center, this.position.radius, this.disabledColor, this.disabledColor, 0);
   }
 
-  protected renderSelectionOverElement(context: CanvasRenderingContext2D): void {
+  protected renderSelection(context: CanvasRenderingContext2D): void {
 
     const piOffset: number = (Date.now() - this.createdAt) / 2000 * Math.PI;
     const segmentsCount: number = 8;
@@ -89,7 +90,7 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
     // Moving around selection.
     for (let it: number = 0; it < segmentsCount; it ++) {
 
-      const offset = Math.PI * 2 / segmentsCount * it;
+      const offset: number = Math.PI * 2 / segmentsCount * it;
 
       RelativeRenderUtils.renderCircleSegment(
         this.getSizing(),
@@ -103,7 +104,8 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
     }
   }
 
-  protected renderResizeControls(context: CanvasRenderingContext2D): void {
+  protected renderControls(context: CanvasRenderingContext2D): void {
+    this.deleteButton.render(context);
     this.resizeControl.render(context);
   }
 
@@ -150,10 +152,20 @@ export abstract class AbstractBaseCircleObject<T> extends AbstractCanvasGraphics
   // For resizers.
 
   private updateResizerPosition(): void {
+
+    const position: ICircleSizing = this.position;
+
     this.resizeControl.setRoot({
-      x: this.position.center.x - this.absoluteToPercentsWidth(this.resizeControl.absoluteSize) / 2,
-      y: this.position.center.y - this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(this.position.radius))
+      x: position.center.x - this.absoluteToPercentsWidth(this.resizeControl.absoluteSize) / 2,
+      y: position.center.y - this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(position.radius))
     });
+
+    this.deleteButton.root = {
+      x: position.center.x + this.deleteButton.size + position.radius > 100 ? position.center.x - position.radius : position.center.x + position.radius,
+      y: (position.center.y - this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(position.radius)) < 0)
+        ? position.center.y + this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(position.radius))
+        : position.center.y - this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(position.radius))
+    };
   }
 
 }

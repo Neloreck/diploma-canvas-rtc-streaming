@@ -2,12 +2,9 @@ import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 
 // Lib.
+import {IInputSourceDevices, MediaUtils} from "@Lib/media";
 import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
-
-// Data.
-import {localMediaService} from "@Module/stream/data/services/local_media";
-import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 export interface ISourceContext {
   sourceActions: {
@@ -57,10 +54,10 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   @Bind()
   public dispose(): void {
 
-    const state = this.context.sourceState;
+    const {sourceState: state} = this.context;
 
-    localMediaService.killStream(state.inputStream);
-    localMediaService.killStream(state.outputStream);
+    MediaUtils.killStream(state.inputStream);
+    MediaUtils.killStream(state.outputStream);
 
     state.inputStream = null;
     state.outputStream = null;
@@ -82,7 +79,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   protected setAudioCapturing(captureAudio: boolean): void {
 
     if (this.context.sourceState.inputStream) {
-      localMediaService.setStreamAudioEnabled(this.context.sourceState.inputStream, captureAudio);
+      MediaUtils.setStreamAudioEnabled(this.context.sourceState.inputStream, captureAudio);
     }
 
     this.updateStateRef();
@@ -111,9 +108,9 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
 
     if (oldStream && inputStream) {
-      localMediaService.moveTracks(oldStream, inputStream);
+      MediaUtils.moveTracks(oldStream, inputStream);
     } else {
-      localMediaService.killStream(oldStream);
+      MediaUtils.killStream(oldStream);
       this.context.sourceState.inputStream = inputStream;
     }
 
@@ -140,9 +137,9 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
 
     if (oldStream && inputStream) {
-      localMediaService.moveTracks(oldStream, inputStream);
+      MediaUtils.moveTracks(oldStream, inputStream);
     } else {
-      localMediaService.killStream(oldStream);
+      MediaUtils.killStream(oldStream);
       this.context.sourceState.inputStream = inputStream;
     }
 

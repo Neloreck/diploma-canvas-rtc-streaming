@@ -23,7 +23,7 @@ export interface IVideoControlButtonExternalProps extends WithStyles<typeof vide
 export interface IVideoControlButtonOwnProps {}
 export interface IVideoControlButtonProps extends IVideoControlButtonOwnProps, IVideoControlButtonExternalProps {}
 
-@Consume<ISourceContext, IVideoControlButtonProps>(sourceContextManager)
+@Consume(sourceContextManager)
 @Styled(videoControlButtonStyle)
 export class VideoControlButton extends PureComponent<IVideoControlButtonProps> {
 

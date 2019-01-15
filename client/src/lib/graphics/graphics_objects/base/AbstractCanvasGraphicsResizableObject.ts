@@ -1,7 +1,7 @@
 import {IBoundingRect, IPoint} from "../../types";
 import {AbstractCanvasGraphicsMovableObject} from "./AbstractCanvasGraphicsMovableObject";
 
-export abstract class AbstractCanvasGraphicsResizableObject<T> extends AbstractCanvasGraphicsMovableObject<T> {
+export abstract class AbstractCanvasGraphicsResizableObject<T extends object> extends AbstractCanvasGraphicsMovableObject<T> {
 
   // Mark for proper casting.
   public isResizable(): boolean {

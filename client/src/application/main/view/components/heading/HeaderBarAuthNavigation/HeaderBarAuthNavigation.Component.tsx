@@ -22,8 +22,7 @@ export interface IHeaderBarAuthNavigationExternalProps extends WithStyles<typeof
 export interface IHeaderBarAuthNavigationProps extends IHeaderBarAuthNavigationOwnProps, IHeaderBarAuthNavigationExternalProps {}
 
 @Styled(headerBarAuthNavigationStyle)
-@Consume<IRouterContext, IHeaderBarAuthNavigationProps>(routerContextManager)
-@Consume<IAuthContext, IHeaderBarAuthNavigationProps>(authContextManager)
+@Consume(authContextManager, routerContextManager)
 export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigationProps> {
 
   public render(): ReactNode {

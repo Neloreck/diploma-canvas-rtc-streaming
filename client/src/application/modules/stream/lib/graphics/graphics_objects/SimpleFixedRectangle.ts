@@ -1,21 +1,50 @@
-import {AbstractBaseFixedPositionRectangleObject} from "@Lib/graphics";
+import {
+  AbstractBaseFixedPositionRectangleObject,
+  EObjectFixedSize, fixedObjectsGrid,
+  IAbstractSizing,
+  IPoint
+} from "@Lib/graphics";
+import {fixedObjectsSizing} from "@Lib/graphics/graphics_objects/utils/fixedObjectPosition";
 
-export class SimpleFixedRectangle extends AbstractBaseFixedPositionRectangleObject<typeof SimpleFixedRectangle.prototype.configuration> {
+export interface ISimpleFixedRectangleConfig {
+  backgroundColor: string;
+  borderColor: string;
+  borderWidth: number;
+  root: IPoint;
+  renderBackground: boolean;
+  size: number;
+}
 
-  public readonly configuration = {
+export class SimpleFixedRectangle extends AbstractBaseFixedPositionRectangleObject<ISimpleFixedRectangleConfig> {
+
+  public readonly config: ISimpleFixedRectangleConfig = {
     backgroundColor: "#666",
     borderColor: "#000000",
     borderWidth: 3,
-    renderBackground: true
+    renderBackground: true,
+    root: { x: 0, y: 0 },
+    size: EObjectFixedSize.XS
   };
+
+  protected readonly sizingPresets: Array<IAbstractSizing> = [
+    fixedObjectsSizing[EObjectFixedSize.XS],
+    fixedObjectsSizing[EObjectFixedSize.SM_HOR],
+    fixedObjectsSizing[EObjectFixedSize.MD_HOR],
+    fixedObjectsSizing[EObjectFixedSize.LG_HOR],
+    fixedObjectsSizing[EObjectFixedSize.XL_HOR]
+  ];
+
+  public constructor() {
+    super(fixedObjectsGrid[0][0], fixedObjectsSizing[EObjectFixedSize.XS]);
+  }
 
   public renderSelf(context: CanvasRenderingContext2D): void {
 
     const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
-    const configuration = this.configuration;
+    const configuration: ISimpleFixedRectangleConfig = this.config;
 
-    context.strokeStyle = this.configuration.borderColor;
-    context.lineWidth = this.configuration.borderWidth;
+    context.strokeStyle = this.config.borderColor;
+    context.lineWidth = this.config.borderWidth;
 
     context.beginPath();
 

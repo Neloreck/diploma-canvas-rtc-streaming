@@ -42,7 +42,7 @@ export interface ILoginFormExternalProps extends WithStyles<typeof loginFormStyl
 export interface ILoginFormOwnProps {}
 export interface ILoginFormProps extends ILoginFormOwnProps, ILoginFormExternalProps {}
 
-@Consume<IAuthContext, ILoginFormProps>(authContextManager)
+@Consume(authContextManager)
 @Styled(loginFormStyle)
 export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
 

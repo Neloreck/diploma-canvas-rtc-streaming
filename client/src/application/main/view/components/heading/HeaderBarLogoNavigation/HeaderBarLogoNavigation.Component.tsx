@@ -23,8 +23,8 @@ export interface IHeaderBarLogoNavigationOwnProps {}
 export interface IHeaderBarLogoNavigationExternalProps extends WithStyles<typeof headerBarLogoNavigationStyle>, IRouterContext {}
 export interface IHeaderBarLogoNavigationProps extends IHeaderBarLogoNavigationOwnProps, IHeaderBarLogoNavigationExternalProps {}
 
+@Consume(routerContextManager)
 @Styled(headerBarLogoNavigationStyle)
-@Consume<IRouterContext, IHeaderBarLogoNavigationProps>(routerContextManager)
 export class HeaderBarLogoNavigation extends PureComponent<IHeaderBarLogoNavigationProps> {
 
   public render(): ReactNode {

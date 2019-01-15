@@ -1,7 +1,7 @@
 import * as path from "path";
 
 const root: string = path.resolve(__dirname, "../../../");
-// For a detailed explanation regarding each configuration property, visit:
+// For a detailed explanation regarding each config property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {

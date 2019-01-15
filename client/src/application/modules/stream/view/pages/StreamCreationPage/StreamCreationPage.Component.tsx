@@ -34,8 +34,7 @@ export interface IStreamCreationPageExternalProps extends WithStyles<typeof stre
 export interface IStreamCreationPageOwnProps {}
 export interface IStreamCreationPageProps extends IStreamCreationPageOwnProps, IStreamCreationPageExternalProps, ILiveContext, IRouterContext {}
 
-@Consume<ILiveContext, IStreamCreationPageProps>(liveContextManager)
-@Consume<IRouterContext, IStreamCreationPageProps>(routerContextManager)
+@Consume(routerContextManager, liveContextManager)
 @Styled(streamCreationPageStyle)
 export class StreamCreationPage extends Component<IStreamCreationPageProps, IStreamCreationPageState> {
 

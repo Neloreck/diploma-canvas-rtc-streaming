@@ -13,7 +13,7 @@ import {IEventCreateResponse} from "@Api/x-core/live/response/IEventCreateRespon
 import {IGetEventResponse} from "@Api/x-core/live/response/IGetEventResponse";
 
 // Data.
-import {applicationConfig} from "@Main/data/config";
+import {applicationConfig} from "@Main/data/configs";
 import {authContextManager} from "@Main/data/store";
 import {sourceContextManager} from "@Module/stream/data/store";
 import {LiveService} from "@Module/stream/lib/live/LiveService";

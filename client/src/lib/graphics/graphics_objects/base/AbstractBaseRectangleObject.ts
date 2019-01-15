@@ -1,9 +1,11 @@
 import {IBoundingRect, ICanvasGraphicsSizingContext, IPoint, IRectSizing} from "../../types";
 import {GeometricUtils, RelativeRenderUtils, RenderUtils} from "../../utils";
 import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
+
+import {FixedControlButton} from "./assist/FixedControlButton";
 import {ResizeHandler} from "./assist/ResizeHandler";
 
-export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraphicsResizableObject<T> {
+export abstract class AbstractBaseRectangleObject<T extends object> extends AbstractCanvasGraphicsResizableObject<T> {
 
   protected position: IRectSizing = {
     height: 20,
@@ -12,9 +14,13 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
     width: 20
   };
 
+  protected readonly deleteButton: FixedControlButton = new FixedControlButton(FixedControlButton.EButtonType.DELETE);
   protected readonly resizeControls: Array<ResizeHandler> = [
     new ResizeHandler(0, this), new ResizeHandler(1, this), new ResizeHandler(2, this), new ResizeHandler(3, this)
   ];
+
+  private minWidth: number = 3;
+  private minHeight: number = 5;
 
   public constructor();
   public constructor(left: number, top: number, width: number, height: number);
@@ -34,9 +40,13 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
   /* Base context interaction. */
 
   public setSizing(sizing: ICanvasGraphicsSizingContext): void {
+
     super.setSizing(sizing);
+
     this.resizeControls.forEach((control: ResizeHandler): void => control.setSizing(sizing));
-    this.updateResizersPositions();
+    this.deleteButton.setSizing(sizing);
+
+    this.updateControlsPositions();
   }
 
   /* Complex checks. */
@@ -44,6 +54,10 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
   public isInBounds(targetPoint: IPoint): boolean {
     const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
     return GeometricUtils.checkPointInTriangle(targetPoint, botLeft, topLeft, topRight) || GeometricUtils.checkPointInTriangle(targetPoint, botLeft, botRight, topRight);
+  }
+
+  public isInDeleteBounds(targetPoint: IPoint): boolean {
+    return this.deleteButton.isInBounds(targetPoint);
   }
 
   public isInResizeBounds(target: IPoint): boolean {
@@ -64,35 +78,48 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
       case 0:
 
         diffY = resizerRect.topRight.y - bounds.topRight.y;
-        this.position.top += diffY;
-        this.position.height -= diffY;
-        this.position.width = resizerRect.topRight.x - this.position.left;
+
+        if (this.position.height - diffY > this.minHeight) {
+          this.position.top += diffY;
+          this.position.height -= diffY;
+        }
+
+        this.position.width = Math.max(resizerRect.topRight.x - this.position.left, this.minWidth);
         break;
 
       case 1:
 
         diffY = resizerRect.topRight.y - bounds.topRight.y;
-        this.position.top += diffY;
-        this.position.height -= diffY;
+
+        if (this.position.height - diffY > this.minHeight) {
+          this.position.top += diffY;
+          this.position.height -= diffY;
+        }
 
         diffX = resizerRect.topLeft.x - bounds.topLeft.x;
-        this.position.left += diffX;
-        this.position.width -= diffX;
+
+        if (this.position.width - diffX > this.minWidth) {
+          this.position.left += diffX;
+          this.position.width -= diffX;
+        }
 
         break;
 
       case 2:
 
         diffX = resizerRect.topLeft.x - bounds.topLeft.x;
-        this.position.left += diffX;
-        this.position.width -= diffX;
 
-        this.position.height = this.position.height + (resizerRect.botRight.y - bounds.botRight.y);
+        if (this.position.width - diffX > this.minWidth) {
+          this.position.left += diffX;
+          this.position.width -= diffX;
+        }
+
+        this.position.height = Math.max(this.position.height + (resizerRect.botRight.y - bounds.botRight.y), this.minHeight);
         break;
 
       case 3:
-        this.position.height = this.position.height + (resizerRect.botRight.y - bounds.botRight.y);
-        this.position.width = resizerRect.topRight.x - this.position.left;
+        this.position.height = Math.max(this.position.height + (resizerRect.botRight.y - bounds.botRight.y), this.minHeight);
+        this.position.width = Math.max(resizerRect.topRight.x - this.position.left, this.minWidth);
         break;
 
       default:
@@ -101,11 +128,6 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
   }
 
   /* Selection and interaction rendering. */
-
-  public renderInteraction(context: CanvasRenderingContext2D): void {
-    this.renderResizeControls(context);
-    this.renderSelectionOverElement(context);
-  }
 
   public renderDisabled(context: CanvasRenderingContext2D): void {
 
@@ -122,7 +144,7 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
     this.resizeControls.forEach((control: ResizeHandler): void => control.dispose());
   }
 
-  protected renderSelectionOverElement(context: CanvasRenderingContext2D): void {
+  protected renderSelection(context: CanvasRenderingContext2D): void {
 
     const absoluteBoundingRect: IBoundingRect = this.getAbsoluteSizingBoundingRect();
 
@@ -142,15 +164,16 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
     );
   }
 
-  protected renderResizeControls(context: CanvasRenderingContext2D): void {
+  protected renderControls(context: CanvasRenderingContext2D): void {
     this.resizeControls.forEach((control: ResizeHandler): void => control.render(context));
+    this.deleteButton.renderSelf(context);
   }
 
   /* Moving. */
 
   protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
     this.setRoot({ x: this.position.left + (moveTo.x - moveFrom.x), y: this.position.top + (moveTo.y - moveFrom.y) });
-    this.updateResizersPositions();
+    this.updateControlsPositions();
   }
 
   /* Resizing. */
@@ -179,7 +202,7 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
   }
 
   protected afterResize(): void {
-    this.updateResizersPositions();
+    this.updateControlsPositions();
   }
 
   /*
@@ -226,7 +249,12 @@ export abstract class AbstractBaseRectangleObject<T> extends AbstractCanvasGraph
 
   // For resizers.
 
-  private updateResizersPositions(): void {
+  protected updateControlsPositions(): void {
+
+    this.deleteButton.root = {
+      x: this.position.left + this.position.width + this.deleteButton.size > 100 ? this.position.left - 1 - this.deleteButton.size : this.position.left + this.position.width + 1,
+      y: this.position.top < 0 ? this.position.top + this.position.height - 1 - this.deleteButton.size : this.position.top
+    };
 
     this.resizeControls.forEach((control: ResizeHandler): void => {
 

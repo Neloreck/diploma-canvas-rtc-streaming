@@ -3,14 +3,13 @@ import * as React from "react";
 import {Component, ReactNode} from "react";
 
 // Lib.
+import {EDeviceKind, IInputDevicesBundle, IInputSourceDevices, MediaUtils} from "@Lib/media";
 import {DomVideo} from "@Lib/react_lib/components";
 import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {EDeviceKind, localMediaService} from "@Module/stream/data/services/local_media";
-import {IInputDevicesBundle} from "@Module/stream/data/services/local_media/IInputDevicesBundle";
-import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
+import {streamConfig} from "@Module/stream/data/configs";
 
 // View.
 import {
@@ -77,7 +76,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
     // Unmount.
     if (nextProps.show === false && this.props.show === true) {
-      localMediaService.killStream(this.state.previewStream);
+      MediaUtils.killStream(this.state.previewStream);
       this.setState({ previewStream: null, selectedInputSources: { audioInput: null, videoInput: null }});
     }
   }
@@ -150,10 +149,10 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
         <InputLabel htmlFor="select-multiple">{label}</InputLabel>
         <Select
           value={(selected && selected.deviceId) || -1}
-          onChange={(e) => this.handleDeviceSelection(devices.find((it) => it.deviceId === e.target.value))}
+          onChange={(e) => this.handleDeviceSelection(devices.find((it: MediaDeviceInfo) => it.deviceId === e.target.value))}
           input={<Input/>}
         >
-          {devices.map((device, idx) => (
+          {devices.map((device: MediaDeviceInfo, idx: number) => (
             <MenuItem
               key={device.deviceId}
               value={device.deviceId}
@@ -169,11 +168,11 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
   @Bind()
   private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
-    const inputSources: IInputDevicesBundle = await localMediaService.getInputDevicesBundled();
+    const inputSources: IInputDevicesBundle = await MediaUtils.getInputDevicesBundled();
     const {selectedDevices} = this.props;
     const {selectedInputSources: {videoInput, audioInput}} = this.state;
 
-    const newState = {
+    const newState: IInputSourcesConfigurationDrawerState = {
       ...this.state,
       audioInputSources: inputSources.audio,
       selectedInputSources: { ...this.state.selectedInputSources },
@@ -181,12 +180,12 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
     };
 
     if (videoInput === null ||
-      !inputSources.video.find((videoDevice) => videoDevice.deviceId === videoInput.deviceId)) {
+      !inputSources.video.find((videoDevice: MediaDeviceInfo) => videoDevice.deviceId === videoInput.deviceId)) {
       newState.selectedInputSources.videoInput = selectedDevices.videoInput || inputSources.video[0] || null;
     }
 
     if (audioInput === null ||
-      !inputSources.audio.find((audioDevice) => audioDevice.deviceId === audioInput.deviceId)) {
+      !inputSources.audio.find((audioDevice: MediaDeviceInfo) => audioDevice.deviceId === audioInput.deviceId)) {
       newState.selectedInputSources.audioInput = selectedDevices.audioInput || inputSources.audio[0] || null;
     }
 
@@ -211,7 +210,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
       return;
     }
 
-    const newState = { ...this.state, selectedInputSources: { ...this.state.selectedInputSources } };
+    const newState: IInputSourcesConfigurationDrawerState = { ...this.state, selectedInputSources: { ...this.state.selectedInputSources } };
 
     switch (device.kind) {
 
@@ -252,9 +251,9 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
   private async updatePreviewStream(videoDevice: Optional<MediaDeviceInfo>, audioDevice: Optional<MediaDeviceInfo>): Promise<void> {
 
-    const stream: MediaStream = await localMediaService.getUserMedia(videoDevice, audioDevice);
+    const stream: MediaStream = await MediaUtils.getUserMedia(streamConfig.getMediaConstraints(videoDevice, audioDevice));
 
-    localMediaService.killStream(this.state.previewStream);
+    MediaUtils.killStream(this.state.previewStream);
 
     this.setState({
       previewStream: stream,

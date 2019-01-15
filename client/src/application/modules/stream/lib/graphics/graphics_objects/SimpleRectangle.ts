@@ -1,8 +1,15 @@
 import {AbstractBaseRectangleObject} from "@Lib/graphics";
 
-export class SimpleRectangle extends AbstractBaseRectangleObject<typeof SimpleRectangle.prototype.configuration> {
+export interface ISimpleRectangleConfig {
+  backgroundColor: string;
+  borderColor: string;
+  borderWidth: number;
+  renderBackground: boolean;
+}
 
-  public readonly configuration = {
+export class SimpleRectangle extends AbstractBaseRectangleObject<ISimpleRectangleConfig> {
+
+  public readonly config: ISimpleRectangleConfig = {
     backgroundColor: "#666",
     borderColor: "#000000",
     borderWidth: 3,
@@ -12,10 +19,10 @@ export class SimpleRectangle extends AbstractBaseRectangleObject<typeof SimpleRe
   public renderSelf(context: CanvasRenderingContext2D): void {
 
     const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
-    const configuration = this.configuration;
+    const configuration: ISimpleRectangleConfig = this.config;
 
-    context.strokeStyle = this.configuration.borderColor;
-    context.lineWidth = this.configuration.borderWidth;
+    context.strokeStyle = this.config.borderColor;
+    context.lineWidth = this.config.borderWidth;
 
     context.beginPath();
 

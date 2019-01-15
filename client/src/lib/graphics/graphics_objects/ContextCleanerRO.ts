@@ -4,7 +4,7 @@ import {AbstractCanvasGraphicsRenderObject} from "./base/AbstractCanvasGraphicsR
 export class ContextCleanerRO extends AbstractCanvasGraphicsRenderObject<never> {
 
   public position: never;
-  public configuration: never;
+  public config: never;
 
   public constructor() {
     super();

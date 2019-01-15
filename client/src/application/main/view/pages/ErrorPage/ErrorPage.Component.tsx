@@ -18,6 +18,7 @@ export interface IErrorPageProps extends IErrorPageOwnProps, IErrorPageExternalP
 export class ErrorPage extends PureComponent<IErrorPageProps> {
 
   public render(): ReactNode {
+
     const {classes} = this.props;
 
     return (

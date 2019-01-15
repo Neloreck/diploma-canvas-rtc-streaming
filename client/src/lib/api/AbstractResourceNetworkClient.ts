@@ -16,7 +16,7 @@ export abstract class AbstractResourceNetworkClient {
   }
 
   public loadImage(src: string): Promise<FileReader | null> {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve: (reader: FileReader | null) => void, reject: (error: Error) => void) => {
 
       try {
         const blob: Blob = (await this.get(src)) as any;
@@ -27,7 +27,7 @@ export abstract class AbstractResourceNetworkClient {
 
         const reader: FileReader = new FileReader();
 
-        reader.onload = (it) => resolve(it.currentTarget as FileReader | null);
+        reader.onload = (it: ProgressEvent): void => resolve(it.currentTarget as FileReader | null);
         reader.readAsDataURL(blob);
       } catch (error) {
         reject(error);
@@ -39,7 +39,7 @@ export abstract class AbstractResourceNetworkClient {
 
   protected async doRequest(method: ERequestMethod, mapping: string, request?: IBaseRequest | URLSearchParams, headers?: Headers): Promise<IBaseResponse | Blob> {
 
-    const requestBody = request instanceof URLSearchParams ? request : request && JSON.stringify(request);
+    const requestBody: undefined | string | URLSearchParams = (request instanceof URLSearchParams ? request : request && JSON.stringify(request));
 
     const rawRequest: RequestInit = {
       body: requestBody,

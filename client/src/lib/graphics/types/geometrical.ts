@@ -15,6 +15,11 @@ export interface ICanvasGraphicsSizingContext {
   height: number;
 }
 
+export interface IAbstractSizing {
+  width: number;
+  height: number;
+}
+
 export interface ICircleSizing {
   radius: number;
   center: IPoint;

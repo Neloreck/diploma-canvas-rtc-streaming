@@ -8,13 +8,13 @@ import ReactResizeDetector from "react-resize-detector";
 import {
   AbstractCanvasGraphicsRenderObject, CommonRenderingService, ERenderingServiceEvent, IGraphicsRendererReactComponent, IPoint
 } from "@Lib/graphics";
+import {MediaUtils} from "@Lib/media";
 import {DomVideo} from "@Lib/react_lib/components";
 import {Optional} from "@Lib/ts/types";
 import {DomSizingUtils, Logger} from "@Lib/utils";
 
 // Data.
-import {applicationConfig} from "@Main/data/config";
-import {localMediaService} from "@Module/stream/data/services/local_media";
+import {applicationConfig} from "@Main/data/configs";
 import {
   graphicsContextManager,
   IGraphicsContext,
@@ -40,12 +40,11 @@ export interface ICanvasGraphicsRendererOwnProps {
 export interface ICanvasGraphicsRendererExternalProps extends IGraphicsContext, IRenderingContext {}
 export interface ICanvasGraphicsRendererProps extends ICanvasGraphicsRendererOwnProps, ICanvasGraphicsRendererExternalProps {}
 
-@Consume<IGraphicsContext, ICanvasGraphicsRendererProps>(graphicsContextManager)
-@Consume<IRenderingContext, ICanvasGraphicsRendererProps>(renderingContextManager)
+@Consume(graphicsContextManager, renderingContextManager)
 export class CanvasGraphicsRenderer
   extends Component<ICanvasGraphicsRendererProps, ICanvasGraphicsRendererState> implements IGraphicsRendererReactComponent {
 
-  public state = {
+  public state: ICanvasGraphicsRendererState = {
     videoSizing: { width: undefined, height: undefined }
   };
 
@@ -137,7 +136,7 @@ export class CanvasGraphicsRenderer
     this.log.info("Cleanup streams.");
 
     this.props.onOutputStreamReady(null);
-    localMediaService.killStream(this.internalStream);
+    MediaUtils.killStream(this.internalStream);
     this.internalStream = null;
   }
 
@@ -244,8 +243,24 @@ export class CanvasGraphicsRenderer
   }
 
   @Bind()
+  public onRenderingObjectRemove(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
+
+    const {renderingState: {propagateRendererEvents}, graphicsActions: {removeObject}} = this.props;
+
+    if (!object) {
+      throw new Error("Unexpected object removal. Got null.");
+    }
+
+    if (propagateRendererEvents) {
+      removeObject(object);
+    }
+  }
+
+  @Bind()
   private attachServiceHandlers(): void {
+
     this.internalRenderingService.addEventListener(ERenderingServiceEvent.OBJECT_SELECTED, this.onRenderingObjectSelected);
+    this.internalRenderingService.addEventListener(ERenderingServiceEvent.OBJECT_REMOVE, this.onRenderingObjectRemove);
   }
 
 }

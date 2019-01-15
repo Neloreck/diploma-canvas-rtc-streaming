@@ -4,6 +4,7 @@ import * as React from "react";
 import {Component, Fragment, ReactNode} from "react";
 
 // Lib.
+import {MediaUtils} from "@Lib/media";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Api.
@@ -11,7 +12,7 @@ import {ILiveEvent} from "@Api/x-core/live/models";
 
 // Data.
 import {IRouterContext, routerContextManager} from "@Main/data/store";
-import {localMediaService} from "@Module/stream/data/services/local_media";
+import {streamConfig} from "@Module/stream/data/configs";
 import {
   ILiveContext,
   IRenderingContext,
@@ -45,9 +46,7 @@ export interface IStreamingPageExternalProps extends ISourceContext, IRenderingC
 export interface IStreamingPageOwnProps {}
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
 
-@Consume<ISourceContext, IStreamingPageProps>(sourceContextManager)
-@Consume<ILiveContext, IStreamingPageProps>(liveContextManager)
-@Consume<IRouterContext, IStreamingPageProps>(routerContextManager)
+@Consume(liveContextManager, routerContextManager, sourceContextManager)
 @Styled(streamingPageStyle)
 export class StreamingPage extends Component<IStreamingPageProps, IStreamingPageState> {
 
@@ -146,7 +145,10 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   private async getDefaultMedia(): Promise<void> {
 
     const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureVideo, captureAudio, selectedDevices}} = this.props;
-    const stream: MediaStream = await localMediaService.getUserMedia(captureVideo && (selectedDevices.videoInput || true), captureAudio && (selectedDevices.audioInput || true));
+
+    const stream: MediaStream = await MediaUtils.getUserMedia(
+      streamConfig.getMediaConstraints(captureVideo && (selectedDevices.videoInput || true), captureAudio && (selectedDevices.audioInput || true))
+    );
 
     updateInputStreamAndSources(stream, selectedDevices);
   }

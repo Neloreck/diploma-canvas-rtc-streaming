@@ -4,21 +4,21 @@ import * as React from "react";
 import {Component, Fragment, ReactNode} from "react";
 
 // Lib.
+import {IInputSourceDevices, MediaUtils} from "@Lib/media";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {localMediaService} from "@Module/stream/data/services/local_media";
 import {
   ISourceContext,
   sourceContextManager
 } from "@Module/stream/data/store";
-import {IInputSourceDevices} from "@Module/stream/data/store/source/models/IInputSourceDevices";
 
 // View.
 import {Fab, Tooltip, WithStyles} from "@material-ui/core";
 import {MoreVert} from "@material-ui/icons";
 import {IInputSourcesConfigurationDrawerExternalProps, InputSourcesConfigurationDrawer} from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationDrawer/InputSourcesConfigurationDrawer.Component";
 import {inputSourcesConfigurationButtonStyle} from "./InputSourcesConfigurationButton.Style";
+import {streamConfig} from "@Module/stream/data/configs";
 
 // Props.
 export interface IInputSourcesConfigurationButtonState {
@@ -29,7 +29,7 @@ export interface IInputSourcesConfigurationButtonExternalProps extends WithStyle
 export interface IInputSourcesConfigurationButtonOwnProps {}
 export interface IInputSourcesConfigurationButtonProps extends IInputSourcesConfigurationButtonOwnProps, IInputSourcesConfigurationButtonExternalProps {}
 
-@Consume<ISourceContext, IInputSourcesConfigurationButtonProps>(sourceContextManager)
+@Consume(sourceContextManager)
 @Styled(inputSourcesConfigurationButtonStyle)
 export class InputSourcesConfigurationButton extends Component<IInputSourcesConfigurationButtonProps, IInputSourcesConfigurationButtonState> {
 
@@ -70,7 +70,11 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
     const {sourceState: {captureVideo}, sourceActions: {updateInputStreamAndSources, updateInputSources}} = this.props;
 
     if (captureVideo) {
-      const stream: MediaStream = await localMediaService.getUserMedia(devices.videoInput, devices.audioInput);
+
+      const stream: MediaStream = await MediaUtils.getUserMedia(
+        streamConfig.getMediaConstraints(devices.videoInput, devices.audioInput)
+      );
+
       updateInputStreamAndSources(stream, devices);
     } else {
       updateInputSources(devices);

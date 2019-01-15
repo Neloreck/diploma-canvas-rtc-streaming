@@ -30,8 +30,7 @@ export interface IHeaderBarExternalProps extends WithStyles<typeof headerBarStyl
 export interface IHeaderBarProps extends IHeaderBarOwnProps, IHeaderBarExternalProps {}
 
 @Styled(headerBarStyle)
-@Consume<IRouterContext, IHeaderBarProps>(routerContextManager)
-@Consume<IAuthContext, IHeaderBarProps>(authContextManager)
+@Consume(authContextManager, routerContextManager)
 export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
   public render(): ReactNode {

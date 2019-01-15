@@ -3,11 +3,16 @@ import * as React from "react";
 import {Component, ReactNode} from "react";
 
 // Lib.
-import {AbstractBaseCircleObject, AbstractBaseRectangleObject, AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
+import {
+  AbstractBaseCircleObject,
+  AbstractBaseFixedPositionRectangleObject,
+  AbstractBaseRectangleObject,
+  AbstractCanvasGraphicsRenderObject
+} from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {renderingService} from "@Module/stream/data/services/rendering";
+import {renderingService} from "@Module/stream/data/services/index";
 import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
 // View.
@@ -154,7 +159,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
   @Bind()
   private getLocalCopyForPreview(object: AbstractCanvasGraphicsRenderObject<any>): AbstractCanvasGraphicsRenderObject<any> {
 
-    const localObjectCopy = this.state && this.state.localObjectCopy;
+    const localObjectCopy: AbstractCanvasGraphicsRenderObject<any> = this.state && this.state.localObjectCopy;
 
     if (localObjectCopy) {
       localObjectCopy.dispose();

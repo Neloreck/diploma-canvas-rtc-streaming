@@ -10,7 +10,7 @@ import {IThemeContext} from "@Main/data/store/theme/ThemeContextManager";
 // Props.
 export interface IGlobalThemeProviderProps extends IThemeContext {}
 
-@Consume<IThemeContext, IGlobalThemeProviderProps>(themeContextManager)
+@Consume(themeContextManager)
 export class GlobalThemeProvider extends PureComponent<IGlobalThemeProviderProps> {
 
   public render(): ReactNode {

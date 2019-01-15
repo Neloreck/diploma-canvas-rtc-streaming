@@ -30,7 +30,7 @@ export interface IObjectAdditionButtonProps extends IObjectAdditionButtonOwnProp
 /*
  * Object addition button with menu.
  */
-@Consume<ISourceContext, IObjectAdditionButtonProps>(sourceContextManager)
+@Consume(sourceContextManager)
 @Styled(objectAdditionButtonStyle)
 export class ObjectAdditionButton extends Component<IObjectAdditionButtonProps, IObjectAdditionButtonState> {
 
@@ -71,6 +71,7 @@ export class ObjectAdditionButton extends Component<IObjectAdditionButtonProps, 
     );
   }
 
+  // Todo: Mui utility without manual implementation.
   @Bind()
   private handleWindowClick(event: MouseEvent): void {
 

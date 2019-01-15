@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import {ComponentClass, Fragment, PureComponent, ReactNode} from "react";
 import {Route, Switch} from "react-router";
 
 // View.
@@ -8,7 +8,7 @@ import {lazyLoadComponentFactory} from "@Main/view/utils";
 
 /* Stream routes: */
 
-const HomePage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "home@home-page" */"@Module/home/view/pages/HomePage"));
+const HomePage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "home@home-page" */"@Module/home/view/pages/HomePage"));
 
 export class ModuleRouter extends PureComponent {
 

@@ -1,16 +1,38 @@
 // Lib.
-import {AbstractBaseRectangleObject, ICanvasGraphicsSizingContext, IRectSizing} from "@Lib/graphics";
+import {
+  AbstractBaseFixedPositionRectangleObject,
+  EObjectFixedSize, fixedObjectsGrid, fixedObjectsSizing, IAbstractSizing,
+  ICanvasGraphicsSizingContext, IPoint,
+  IRectSizing
+} from "@Lib/graphics";
+import {MediaUtils} from "@Lib/media";
 
 // Data.
-import {localMediaService} from "@Module/stream/data/services/local_media";
+import {streamConfig} from "@Module/stream/data/configs";
 
-export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.prototype.configuration> {
+export interface IVideoFrameConfig {
+  borderWidth: number;
+  renderBorder: boolean;
+  videoDevice: string;
+  root: IPoint;
+  size: EObjectFixedSize;
+}
 
-  public configuration = {
+export class VideoFrame extends AbstractBaseFixedPositionRectangleObject<IVideoFrameConfig> {
+
+  public config: IVideoFrameConfig = {
     borderWidth: 1,
     renderBorder: true,
+    root: { x: 0, y: 0 },
+    size: EObjectFixedSize.XS,
     videoDevice: ""
   };
+
+  protected sizingPresets: Array<IAbstractSizing> = [
+    fixedObjectsSizing[EObjectFixedSize.XS],
+    fixedObjectsSizing[EObjectFixedSize.SM],
+    fixedObjectsSizing[EObjectFixedSize.XL]
+  ];
 
   private mediaStream: MediaStream = new MediaStream();
   private isVideoRendering: boolean = false;
@@ -18,7 +40,7 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
 
   public constructor() {
 
-    super();
+    super(fixedObjectsGrid[0][0], fixedObjectsSizing[EObjectFixedSize.XS]);
 
     this.hiddenVideoRenderer.srcObject = this.mediaStream;
     this.hiddenVideoRenderer.autoplay = true;
@@ -28,8 +50,8 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
   }
 
   public async setVideoDevice(deviceId: string): Promise<void> {
-    this.configuration.videoDevice = deviceId;
-    this.updateMediaStream(await localMediaService.getUserMedia(deviceId as any, false));
+    this.config.videoDevice = deviceId;
+    this.updateMediaStream(await MediaUtils.getUserMedia(streamConfig.getMediaConstraints(deviceId as any, false)));
   }
 
   public renderSelf(context: CanvasRenderingContext2D): void {
@@ -37,7 +59,7 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
     const absoluteRect: IRectSizing = this.getAbsoluteSizing();
 
-    const configuration = this.configuration;
+    const configuration: IVideoFrameConfig = this.config;
 
     this.hiddenVideoRenderer.width = sizing.width;
     this.hiddenVideoRenderer.height = sizing.height;
@@ -56,7 +78,8 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
     }
   }
 
-  public applyConfiguration(src: VideoFrame | typeof VideoFrame.prototype.configuration): void {
+  public applyConfiguration(src: VideoFrame | typeof VideoFrame.prototype.config): void {
+
     super.applyConfiguration(src);
 
     if (src instanceof VideoFrame) {
@@ -65,8 +88,10 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
   }
 
   public dispose(): void {
-    localMediaService.killStream(this.mediaStream);
+
+    MediaUtils.killStream(this.mediaStream);
     delete this.hiddenVideoRenderer;
+
     // @ts-ignore dispose item.
     this.mediaStream = null;
 
@@ -74,12 +99,13 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
   }
 
   private updateMediaStream(stream: MediaStream): void {
-    localMediaService.moveTracks(this.mediaStream, stream);
+
+    MediaUtils.moveTracks(this.mediaStream, stream);
 
     const videoTracks: Array<MediaStreamTrack> = this.mediaStream.getVideoTracks();
-    const oldDevice: string = this.configuration.videoDevice;
+    const oldDevice: string = this.config.videoDevice;
 
-    this.configuration.videoDevice = videoTracks.length !== 0
+    this.config.videoDevice = videoTracks.length !== 0
       ? videoTracks[0].getSettings().deviceId || oldDevice
       : oldDevice;
   }
@@ -87,7 +113,7 @@ export class VideoFrame extends AbstractBaseRectangleObject<typeof VideoFrame.pr
   // Internal.
 
   private async getDefaultVideo(): Promise<void> {
-    this.updateMediaStream(await localMediaService.getUserMedia(true, false));
+    this.updateMediaStream(await MediaUtils.getUserMedia(streamConfig.getMediaConstraints(true, false)));
   }
 
   private async startVideo(): Promise<void> {

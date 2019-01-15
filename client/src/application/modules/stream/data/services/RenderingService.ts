@@ -8,18 +8,20 @@ import {DESCRIPTORS_MAP, ICanvasObjectDescriptor} from "@Module/stream/lib/graph
 
 export class RenderingService {
 
-  public getRenderingDescriptors()/*: Array<ICanvasObjectDescriptor> */ {
+  public getRenderingDescriptors(): typeof DESCRIPTORS_MAP /*: Array<ICanvasObjectDescriptor> */ {
     return DESCRIPTORS_MAP;
   }
 
-  public getDescriptor(object: AbstractCanvasGraphicsRenderObject<any> | string) {
+  public getDescriptor(object: AbstractCanvasGraphicsRenderObject<any> | string): ICanvasObjectDescriptor<any> {
 
     const isString: boolean = TypeUtils.isString(object);
 
     if (isString) {
       return DESCRIPTORS_MAP[object as string];
     } else {
-      const descriptor =  Object.values(DESCRIPTORS_MAP).find((it) => it.prototype === Object.getPrototypeOf(object));
+      const descriptor: ICanvasObjectDescriptor<any> | undefined = Object.values(DESCRIPTORS_MAP).find(
+        (it: any) => it.prototype === Object.getPrototypeOf(object)
+      );
 
       if (!descriptor) {
         throw new Error("Could not match descriptor for " + Object.getPrototypeOf(object).name);
@@ -30,15 +32,17 @@ export class RenderingService {
   }
 
   public serializeObjects(objects: Array<AbstractCanvasGraphicsSerializableObject<any>>): Array<ISerializedGraphicsObject> {
-    return objects.map((object) => object.serialize());
+    return objects.map((object: AbstractCanvasGraphicsSerializableObject<any>) => object.serialize());
   }
 
   public deserializeObject(objectSerialized: ISerializedGraphicsObject): AbstractCanvasGraphicsRenderObject<any> {
 
     const descriptor: ICanvasObjectDescriptor<any> = this.getDescriptor(objectSerialized.class);
+    const object: AbstractCanvasGraphicsRenderObject<any> = new (descriptor.prototype.constructor)();
 
-    // @ts-ignore constuction
-    return new (descriptor.prototype.constructor)();
+    object.applySerialized(objectSerialized);
+
+    return object;
   }
 
 }

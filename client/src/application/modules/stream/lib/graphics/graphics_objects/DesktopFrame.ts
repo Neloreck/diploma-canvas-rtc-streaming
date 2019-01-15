@@ -1,13 +1,22 @@
 // Lib.
 import {AbstractBaseRectangleObject, IRectSizing} from "@Lib/graphics";
 import {ICanvasGraphicsSizingContext} from "@Lib/graphics";
+import {MediaUtils} from "@Lib/media";
 
 // Data.
-import {localMediaService} from "@Module/stream/data/services/local_media";
 
-export class DesktopFrame extends AbstractBaseRectangleObject<typeof DesktopFrame.prototype.configuration> {
+export interface IDesktopFrameConfig {
+  backgroundColor: string;
+  borderColor: string;
+  borderWidth: number;
+  renderBackground: boolean;
+  renderBorder: boolean;
+  videoDevice: string;
+}
 
-  public configuration = {
+export class DesktopFrame extends AbstractBaseRectangleObject<IDesktopFrameConfig> {
+
+  public config: IDesktopFrameConfig = {
     backgroundColor: "#dadada",
     borderColor: "#24242b",
     borderWidth: 4,
@@ -28,20 +37,18 @@ export class DesktopFrame extends AbstractBaseRectangleObject<typeof DesktopFram
   }
 
   public async getDefaultVideo(): Promise<void> {
-    const mediaStream: MediaStream = await localMediaService.getUserScreenMedia();
-    this.updateMediaStream(mediaStream);
+    // todo;
   }
 
   public updateMediaStream(stream: MediaStream): void {
-    localMediaService.moveTracks(this.mediaStream, stream);
+    MediaUtils.moveTracks(this.mediaStream, stream);
   }
 
   public renderSelf(context: CanvasRenderingContext2D): void {
 
     const sizing: ICanvasGraphicsSizingContext = this.getSizing();
     const absoluteRect: IRectSizing = this.getAbsoluteSizing();
-
-    const configuration = this.configuration;
+    const configuration: IDesktopFrameConfig = this.config;
 
     this.hiddenVideoRenderer.width = sizing.width;
     this.hiddenVideoRenderer.height = sizing.height;
@@ -65,7 +72,8 @@ export class DesktopFrame extends AbstractBaseRectangleObject<typeof DesktopFram
   }
 
   public dispose(): void {
-    localMediaService.killStream(this.mediaStream);
+
+    MediaUtils.killStream(this.mediaStream);
     // @ts-ignore dispose item.
     this.mediaStream = null;
 

@@ -51,7 +51,7 @@ export interface ISignUpFormExternalProps extends WithStyles<typeof signUpFormSt
 export interface ISignUpFormOwnProps {}
 export interface ISignUpFormProps extends ISignUpFormOwnProps, ISignUpFormExternalProps {}
 
-@Consume<IAuthContext, ISignUpFormProps>(authContextManager)
+@Consume(authContextManager)
 @Styled(signUpFormStyle)
 export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 

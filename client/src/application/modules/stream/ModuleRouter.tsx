@@ -1,5 +1,6 @@
+import {Provide} from "@redux-cbd/context";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import {ComponentClass, Fragment, PureComponent, ReactNode} from "react";
 import {Route, Switch} from "react-router";
 
 // View.
@@ -12,18 +13,14 @@ import {
   renderingContextManager,
   sourceContextManager
 } from "@Module/stream/data/store";
-import {Provide} from "@redux-cbd/context";
 
 /* Stream routes: */
 
-const StreamingPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@streaming-page" */"@Module/stream/view/pages/StreamingPage"));
-const StreamCreationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-creation-page" */"@Module/stream/view/pages/StreamCreationPage"));
-const StreamConfigurationPage = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-configuration-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
+const StreamingPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@streaming-page" */"@Module/stream/view/pages/StreamingPage"));
+const StreamCreationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-creation-page" */"@Module/stream/view/pages/StreamCreationPage"));
+const StreamConfigurationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-config-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
 
-@Provide(graphicsContextManager)
-@Provide(renderingContextManager)
-@Provide(sourceContextManager)
-@Provide(liveContextManager)
+@Provide(graphicsContextManager, liveContextManager, renderingContextManager, sourceContextManager)
 export class ModuleRouter extends PureComponent {
 
   private readonly modulePrefix: string = "/stream";

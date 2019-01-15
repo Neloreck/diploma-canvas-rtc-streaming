@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Component, ComponentType, ReactNode} from "react";
+import {Component, ComponentClass, ComponentType, ReactNode} from "react";
 
 // View.
 import {
@@ -13,7 +13,7 @@ interface ILazyComponentState {
 
 export class LazyLoadComponentFactory {
 
-  public getComponent(importFunc: () => Promise<any>, componentNamedExport?: string) {
+  public getComponent(importFunc: () => Promise<any>, componentNamedExport?: string): ComponentClass {
 
     // tslint:disable-next-line
     class LazyComponent extends Component<any, ILazyComponentState, any> {

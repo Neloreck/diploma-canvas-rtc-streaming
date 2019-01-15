@@ -1,13 +1,13 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {PureComponent, ReactNode} from "react";
+import {ChangeEvent, PureComponent, ReactNode} from "react";
 
 // Lib.
+import {MediaUtils} from "@Lib/media";
 import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {localMediaService} from "@Module/stream/data/services/local_media";
 
 // View.
 import {
@@ -60,11 +60,11 @@ export class VideoDeviceSwitcher extends PureComponent<IVideoDeviceSwitcherProps
             <InputLabel htmlFor="select-multiple">{label}</InputLabel>
             <Select
               value={value || (videoInputSources[0]) && videoInputSources[0].deviceId}
-              onChange={(e) => this.onChange(videoInputSources.find((it) => it.deviceId === e.target.value) as MediaDeviceInfo)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>): void => this.onChange(videoInputSources.find((it: MediaDeviceInfo) => it.deviceId === e.target.value) as MediaDeviceInfo)}
               input={<Input/>}
             >
               {
-                videoInputSources.map((device, idx) => (
+                videoInputSources.map((device: MediaDeviceInfo, idx: number) => (
                   <MenuItem
                     key={device.deviceId}
                     value={device.deviceId}
@@ -89,7 +89,7 @@ export class VideoDeviceSwitcher extends PureComponent<IVideoDeviceSwitcherProps
   @Bind()
   private async onUpdateMediaDevices(): Promise<void> {
 
-    const videoDevices: Array<MediaDeviceInfo> = await localMediaService.getVideoInputs();
+    const videoDevices: Array<MediaDeviceInfo> = await MediaUtils.getVideoInputs();
 
     this.setState({ videoInputSources: videoDevices });
   }

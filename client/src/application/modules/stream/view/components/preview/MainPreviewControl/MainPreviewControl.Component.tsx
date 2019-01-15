@@ -48,9 +48,7 @@ export interface IMainPreviewControlExternalProps extends WithStyles<typeof main
 export interface IMainPreviewControlOwnProps {}
 export interface IMainPreviewControlProps extends IMainPreviewControlOwnProps, IMainPreviewControlExternalProps {}
 
-@Consume<IGraphicsContext, IMainPreviewControlProps>(graphicsContextManager)
-@Consume<IRenderingContext, IMainPreviewControlProps>(renderingContextManager)
-@Consume<ISourceContext, IMainPreviewControlProps>(sourceContextManager)
+@Consume(graphicsContextManager, renderingContextManager, sourceContextManager)
 @Styled(mainPreviewControlStyle)
 export class MainPreviewControl extends Component<IMainPreviewControlProps> {
 

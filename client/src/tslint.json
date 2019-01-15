@@ -15,7 +15,20 @@
     "no-empty-interface": false,
     "trailing-comma": false,
     "no-bitwise": false,
-    "object-literal-key-quotes": [true, "as-needed"]
+    "object-literal-key-quotes": [
+      true, "as-needed"
+    ],
+    "typedef": [
+      true,
+      "array-destructuring",
+      "arrow-call-signature",
+      "arrow-parameter",
+      "call-signature",
+      "member-variable-declaration",
+      "parameter",
+      "property-declaration",
+      "variable-declaration"
+    ]
   },
 
 

@@ -23,7 +23,7 @@ export interface ISoundControlButtonExternalProps extends WithStyles<typeof soun
 export interface ISoundControlButtonOwnProps {}
 export interface ISoundControlButtonProps extends ISoundControlButtonOwnProps, ISoundControlButtonExternalProps {}
 
-@Consume<ISourceContext, ISoundControlButtonProps>(sourceContextManager)
+@Consume(sourceContextManager)
 @Styled(soundControlButtonStyle)
 export class SoundControlButton extends PureComponent<ISoundControlButtonProps> {
 

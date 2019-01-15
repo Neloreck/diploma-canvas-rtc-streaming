@@ -23,7 +23,7 @@ export interface IObjectAdditionMenuProps extends IObjectAdditionMenuOwnProps, I
 /*
  * Object addition button menu content list.
  */
-@Consume<IGraphicsContext, IObjectAdditionMenuProps>(graphicsContextManager)
+@Consume(graphicsContextManager)
 @Styled(objectAdditionMenuStyle)
 export class ObjectAdditionMenu extends PureComponent<IObjectAdditionMenuProps> {
 

@@ -1,8 +1,8 @@
 import {AbstractBaseCircleObject} from "@Lib/graphics";
 
-export class SimpleCircle extends AbstractBaseCircleObject<typeof SimpleCircle.prototype.configuration> {
+export class SimpleCircle extends AbstractBaseCircleObject<typeof SimpleCircle.prototype.config> {
 
-  public configuration = {
+  public config = {
     backgroundColor: "#666",
     borderColor: "#000000",
     borderWidth: 3,
@@ -11,7 +11,7 @@ export class SimpleCircle extends AbstractBaseCircleObject<typeof SimpleCircle.p
 
   public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const configuration = this.configuration;
+    const configuration = this.config;
 
     context.strokeStyle = configuration.borderColor;
     context.lineWidth = configuration.borderWidth;

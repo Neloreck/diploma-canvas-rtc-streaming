@@ -31,10 +31,8 @@ export interface IStreamingHeaderBarOwnProps {}
 export interface IStreamingHeaderBarExternalProps extends WithStyles<typeof streamingHeaderBarStyle>, ILiveContext, IAuthContext, IRouterContext {}
 export interface IStreamingHeaderBarProps extends IStreamingHeaderBarOwnProps, IStreamingHeaderBarExternalProps {}
 
+@Consume(authContextManager, routerContextManager, liveContextManager)
 @Styled(streamingHeaderBarStyle)
-@Consume<IAuthContext, IStreamingHeaderBarProps>(authContextManager)
-@Consume<IRouterContext, IStreamingHeaderBarProps>(routerContextManager)
-@Consume<ILiveContext, IStreamingHeaderBarProps>(liveContextManager)
 export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> {
 
   public render(): ReactNode {

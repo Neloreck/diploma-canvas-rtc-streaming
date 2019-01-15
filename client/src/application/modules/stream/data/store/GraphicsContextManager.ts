@@ -7,7 +7,7 @@ import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 
 // Data.
-import {renderingContextManager} from "@Module/stream/data/store";
+import {renderingContextManager} from "./index";
 
 // Props.
 export interface IGraphicsContext {
@@ -40,16 +40,16 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     }
   };
 
-  private log: Logger = new Logger("[🏭C-GFX]", true);
+  private readonly log: Logger = new Logger("[🏭C-GFX]", true);
 
   @Bind()
   public dispose(): void {
 
-    const state = this.context.graphicsState;
+    const {graphicsState} = this.context;
 
-    state.objects.forEach((object) => object.dispose());
-    state.objects = [];
-    state.selectedObject = null;
+    graphicsState.objects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
+    graphicsState.objects = [];
+    graphicsState.selectedObject = null;
 
     this.log.info("Disposed graphics storage.");
   }
@@ -75,7 +75,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     this.context.graphicsState = { ...this.context.graphicsState, objects: [], selectedObject: null };
     this.update();
 
-    oldObjects.forEach((object) => object.dispose());
+    oldObjects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
   }
 
   @Bind()

@@ -11,8 +11,8 @@ export class LiveClient extends AbstractRestNetworkClient {
 
   private static LIVE_MAPPING: string = "/api/live";
 
-  public getHeaders = xCoreClientConfig.getDefaultHeaders;
-  public getServerUrl = xCoreClientConfig.getServerUrl;
+  public getHeaders: () => Headers = xCoreClientConfig.getDefaultHeaders;
+  public getServerUrl: () => string = xCoreClientConfig.getServerUrl;
 
   // Actions:
 

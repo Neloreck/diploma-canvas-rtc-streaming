@@ -10,7 +10,7 @@ import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {renderingService} from "@Module/stream/data/services/rendering";
+import {renderingService} from "@Module/stream/data/services";
 import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
 import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
@@ -37,7 +37,7 @@ export interface IObjectsConfigurationTabExternalProps extends WithStyles<typeof
 export interface IObjectsConfigurationTabOwnProps {}
 export interface IObjectsConfigurationTabProps extends IObjectsConfigurationTabOwnProps, IObjectsConfigurationTabExternalProps {}
 
-@Consume<IGraphicsContext, IObjectsConfigurationTabProps>(graphicsContextManager)
+@Consume(graphicsContextManager)
 @Styled(objectsConfigurationTabStyle)
 export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabProps, IObjectsConfigurationTabState> {
 

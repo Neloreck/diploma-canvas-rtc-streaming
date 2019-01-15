@@ -90,7 +90,7 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
     for (let it: number = this.rendererObjects.length - 1; it >= 0; it --) {
 
-      const renderObject = this.rendererObjects[it];
+      const renderObject: AbstractCanvasGraphicsRenderObject<any> = this.rendererObjects[it];
 
       if (renderObject.isVisible() && renderObject.isInteractive()) {
 
@@ -116,7 +116,7 @@ export abstract class AbstractInteractiveRenderingService extends AbstractRender
 
     for (let it: number = this.rendererObjects.length - 1; it >= 0; it --) {
 
-      const renderObject = this.rendererObjects[it];
+      const renderObject: AbstractCanvasGraphicsRenderObject<any> = this.rendererObjects[it];
 
       if (renderObject.isVisible() && renderObject.isInteractive()) {
 

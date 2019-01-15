@@ -5,9 +5,9 @@ import {Optional} from "@Lib/ts/types";
 // Api.
 import {resourceLoader} from "@Api/general";
 
-export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.prototype.configuration> {
+export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.prototype.config> {
 
-  public readonly configuration = {
+  public readonly config = {
     height: 720,
     image: new Image(1280, 720) ,
     imageSrc: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
@@ -19,26 +19,26 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
   public constructor(source?: string) {
     super();
 
-    this.configuration.imageSrc = source || this.configuration.imageSrc;
+    this.config.imageSrc = source || this.config.imageSrc;
 
-    this.configuration.image.addEventListener("load", () => this.loaded = true);
+    this.config.image.addEventListener("load", () => this.loaded = true);
 
-    resourceLoader.loadImage(this.configuration.imageSrc)
-      .then((reader: Optional<FileReader>) => reader ? this.configuration.image.src = reader.result as string : null)
+    resourceLoader.loadImage(this.config.imageSrc)
+      .then((reader: Optional<FileReader>) => reader ? this.config.image.src = reader.result as string : null)
       .catch(() => this.loaded = false);
   }
 
   public getCopy(): ImageBlock {
 
-    const cloned: ImageBlock = new ImageBlock(this.configuration.imageSrc);
+    const cloned: ImageBlock = new ImageBlock(this.config.imageSrc);
 
-    cloned.configuration.width = this.configuration.width;
-    cloned.configuration.height = this.configuration.height;
+    cloned.config.width = this.config.width;
+    cloned.config.height = this.config.height;
 
     return cloned;
   }
 
-  public applyConfiguration(configuration: typeof ImageBlock.prototype.configuration): void {
+  public applyConfiguration(configuration: typeof ImageBlock.prototype.config): void {
     this.loaded = false;
     super.applyConfiguration(configuration);
   }
@@ -47,15 +47,15 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
 
     this.loaded = false;
 
-    this.configuration.imageSrc = src;
-    this.configuration.image = new Image(this.configuration.width, this.configuration.height);
-    this.configuration.image.addEventListener("load", () => this.loaded = true);
+    this.config.imageSrc = src;
+    this.config.image = new Image(this.config.width, this.config.height);
+    this.config.image.addEventListener("load", () => this.loaded = true);
 
     try {
-      const reader: Optional<FileReader> = await resourceLoader.loadImage(this.configuration.imageSrc);
+      const reader: Optional<FileReader> = await resourceLoader.loadImage(this.config.imageSrc);
 
       if (reader) {
-        this.configuration.image.src = reader.result as string;
+        this.config.image.src = reader.result as string;
       }
 
     } catch (error) {
@@ -68,7 +68,7 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
   public renderSelf(context: CanvasRenderingContext2D): void {
 
     const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
-    const {image} = this.configuration;
+    const {image} = this.config;
 
     if (this.loaded) {
       context.drawImage(image, pWidth * this.position.left, pHeight * this.position.top, pWidth * this.position.width, pHeight * this.position.height);
@@ -83,7 +83,7 @@ export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.pr
 
   public dispose(): void {
     this.loaded = false;
-    delete this.configuration.image;
+    delete this.config.image;
     super.dispose();
   }
 

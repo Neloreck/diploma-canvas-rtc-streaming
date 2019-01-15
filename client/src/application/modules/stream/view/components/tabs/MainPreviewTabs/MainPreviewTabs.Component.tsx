@@ -36,8 +36,7 @@ export interface IMainPreviewTabsExternalProps extends WithStyles<typeof mainPre
 export interface IMainPreviewTabsOwnProps {}
 export interface IMainPreviewTabsProps extends IMainPreviewTabsOwnProps, IMainPreviewTabsExternalProps {}
 
-@Consume<IGraphicsContext, IMainPreviewTabsProps>(graphicsContextManager)
-@Consume<ISourceContext, IMainPreviewTabsProps>(sourceContextManager)
+@Consume(graphicsContextManager, sourceContextManager)
 @Styled(mainPreviewTabsStyle)
 export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPreviewTabsState> {
 

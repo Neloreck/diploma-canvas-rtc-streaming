@@ -1,8 +1,10 @@
-import {AbstractBaseRectangleObject} from "../AbstractBaseRectangleObject";
+import {IBoundingRect, IPoint} from "../../../types";
+import {GeometricUtils} from "../../../utils";
+import {AbstractCanvasGraphicsResizableObject} from "../AbstractCanvasGraphicsResizableObject";
 
-export class FixedControlButton extends AbstractBaseRectangleObject<never> {
+export class FixedControlButton extends AbstractCanvasGraphicsResizableObject<never> {
 
-  public static EButtonType = {
+  public static EButtonType: { [index: string]: string } = {
     DEFAULT: "DEFAULT",
     DELETE: "DELETE",
     ENLARGE: "ENLARGE",
@@ -13,17 +15,35 @@ export class FixedControlButton extends AbstractBaseRectangleObject<never> {
     MOVE_TOP: "MOVE_TOP"
   };
 
-  public configuration: never = null as never;
+  public position: never;
+  public config: never;
 
   public readonly buttonType: string;
 
-  public root = { x: 0, y: 0};
+  public root: IPoint = { x: 0, y: 0};
   public size: number = 2;
 
   public constructor(buttonType: string) {
     super();
 
     this.buttonType = buttonType;
+  }
+
+  public isInDeleteBounds(checkPoint: IPoint): boolean {
+    return false;
+  }
+
+  public isMovable(): boolean {
+    return false;
+  }
+
+  public isInResizeBounds(checkPoint: IPoint): boolean {
+    return false;
+  }
+
+  public isInBounds(targetPoint: IPoint): boolean {
+    const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
+    return GeometricUtils.checkPointInTriangle(targetPoint, botLeft, topLeft, topRight) || GeometricUtils.checkPointInTriangle(targetPoint, botLeft, botRight, topRight);
   }
 
   public renderSelf(context: CanvasRenderingContext2D): void {
@@ -33,14 +53,14 @@ export class FixedControlButton extends AbstractBaseRectangleObject<never> {
 
     const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
 
-    const absHeight = this.size * pWidth;
-    const absWidth = this.size * pWidth;
+    const absHeight: number = this.size * pWidth;
+    const absWidth: number = this.size * pWidth;
 
-    const absX = this.root.x * pWidth;
-    const absY =  this.root.y * pHeight;
+    const absX: number = this.root.x * pWidth;
+    const absY: number =  this.root.y * pHeight;
 
-    const absSegSize = absWidth / 5;
-    const absSegPadding = absSegSize;
+    const absSegSize: number = absWidth / 5;
+    const absSegPadding: number = absSegSize;
 
     switch (this.buttonType) {
 
@@ -176,6 +196,31 @@ export class FixedControlButton extends AbstractBaseRectangleObject<never> {
         context.closePath();
     }
 
+  }
+
+  protected getBoundingRect(): IBoundingRect {
+    return {
+      botLeft:  { x: this.root.x, y: this.root.y + this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(this.size)) },
+      botRight: { x: this.root.x + this.size, y: this.root.y + this.absoluteToPercentsHeight(this.percentsToAbsoluteWidth(this.size)) },
+      topLeft: { x: this.root.x , y: this.root.y },
+      topRight: { x: this.root.x + this.size, y: this.root.y }
+    };
+  }
+
+  protected renderControls(): void {
+    // Nothing to do there.
+  }
+
+  protected onMove(moveTo: IPoint, moveFrom: IPoint): void {
+    // Nothing to do.
+  }
+
+  protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
+    // Nothing to do.
+  }
+
+  protected renderSelection(context: CanvasRenderingContext2D): void {
+    // Nothing to do.
   }
 
 }

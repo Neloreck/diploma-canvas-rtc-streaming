@@ -1,28 +1,30 @@
+import {Provide} from "@redux-cbd/context";
 import {Wrapped} from "@redux-cbd/utils";
 import {History} from "history";
 import * as React from "react";
-import {PureComponent, ReactNode} from "react";
+import {ComponentClass, PureComponent, ReactNode} from "react";
 import {Route, Router as ReactRouter} from "react-router";
 import {Switch} from "react-router-dom";
 
 // Data
-import {routerContextManager} from "@Main/data/store";
+import {authContextManager, routerContextManager, themeContextManager} from "@Main/data/store";
 
 // View.
-import {GlobalContextProvider} from "@Main/view/layouts/GlobalContextProvider";
+import {GlobalThemeProvider} from "@Main/view/layouts/GlobalThemeProvider";
 import {lazyLoadComponentFactory} from "@Main/view/utils";
 
 /*
  * Application submodules:
 */
 
-export const AuthorizationModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@authorization" */"@Module/authentication"));
-export const StreamModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@stream" */"@Module/stream"));
-export const HomeModule = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@home" */"@Module/home"));
+export const AuthorizationModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@authorization" */"@Module/authentication"));
+export const StreamModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@stream" */"@Module/stream"));
+export const HomeModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@home" */"@Module/home"));
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-@Wrapped(GlobalContextProvider)
+@Provide(authContextManager, routerContextManager, themeContextManager)
+@Wrapped(GlobalThemeProvider)
 export class Router extends PureComponent<any> {
 
   public render(): ReactNode {
@@ -36,6 +38,7 @@ export class Router extends PureComponent<any> {
 
           <Route exact={true} path={"/authentication*"} component={AuthorizationModule}/>
           <Route exact={true} path={"/stream*"} component={StreamModule}/>
+
           <Route exact={true} path={"*"} component={HomeModule}/>
 
         </Switch>
