@@ -109,7 +109,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
           </Grid>
 
           {
-            objects.map((item, idx) => {
+            objects.map((item: AbstractCanvasGraphicsRenderObject<any>, idx: number) => {
 
               const descriptor: Optional<ICanvasObjectDescriptor<any>> = renderingService.getDescriptor(item);
 
@@ -210,7 +210,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
   }
 
   @Bind()
-  private onConfigurableObjectSelected(object: AbstractCanvasGraphicsRenderObject<any>) {
+  private onConfigurableObjectSelected(object: AbstractCanvasGraphicsRenderObject<any>): void {
     this.props.graphicsActions.selectObject(object);
   }
 

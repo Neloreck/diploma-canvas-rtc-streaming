@@ -28,7 +28,7 @@ export class LiveWebSocketController extends AbstractWebSocketController {
     this.destinationPrefix = destinationPrefix;
     this.receivalPrefix = receivalPrefix;
 
-    this.client.debug = () => { /* RESTRICTED */ };
+    this.client.debug = (): void => { /* RESTRICTED */ };
   }
 
   @Bind()

@@ -1,7 +1,7 @@
 import {TObjectPosition} from "./geometrical";
 
 export interface ISerializedGraphicsObject {
-  class: string;
+  className: string;
   configuration: any;
   position: TObjectPosition;
 }

@@ -5,9 +5,11 @@ import lombok.{Builder, NonNull}
 import javax.persistence._
 import java.io.Serializable
 import java.security.Principal
+import java.util.Date
 
 import com.xcore.application.modules.authentication.models.role.EApplicationAccessLevel
 import org.codehaus.jackson.annotate.JsonIgnore
+import org.springframework.data.annotation.CreatedDate
 import org.springframework.security.core.GrantedAuthority
 
 @Entity
@@ -17,6 +19,11 @@ class ApplicationUser extends Serializable with UserDetails with Principal {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long = _;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @CreatedDate
+  @Column(nullable = false, updatable = false)
+  var created: Date = new Date();
 
   @Column
   @NonNull

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Slf4j(topic = "[LIVE EVENT SERVICE]")
@@ -29,7 +30,7 @@ public final class LiveEventService {
    * Methods:
    */
 
-  public LiveEvent getLiveEventById(final String eventId) throws EventNotFoundException {
+  public LiveEvent getLiveEventById(final UUID eventId) throws EventNotFoundException {
 
     Optional<LiveEvent> event = liveEventRepository.findById(eventId);
 

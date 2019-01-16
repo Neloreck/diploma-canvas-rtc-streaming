@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import {Component, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
@@ -14,7 +14,8 @@ import {ILiveContext, liveContextManager} from "@Module/stream/data/store";
 import {ILiveEvent} from "@Api/x-core/live/models";
 
 // View.
-import {Fade, Grid, WithStyles} from "@material-ui/core";
+import {AnimatedMount} from "@Main/view/utils/animations/AnimatedMount";
+import {Grid, WithStyles} from "@material-ui/core";
 import {
   EventCreationForm,
   IEventCreationFormExternalProps
@@ -26,21 +27,13 @@ import {
 import {streamCreationPageStyle} from "./StreamCreationPage.Style";
 
 // Props.
-export interface IStreamCreationPageState {
-  mounted: boolean;
-}
-
 export interface IStreamCreationPageExternalProps extends WithStyles<typeof streamCreationPageStyle> {}
 export interface IStreamCreationPageOwnProps {}
 export interface IStreamCreationPageProps extends IStreamCreationPageOwnProps, IStreamCreationPageExternalProps, ILiveContext, IRouterContext {}
 
 @Consume(routerContextManager, liveContextManager)
 @Styled(streamCreationPageStyle)
-export class StreamCreationPage extends Component<IStreamCreationPageProps, IStreamCreationPageState> {
-
-  public state: IStreamCreationPageState = {
-    mounted: true
-  };
+export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> {
 
   public componentWillMount(): void {
 
@@ -51,25 +44,16 @@ export class StreamCreationPage extends Component<IStreamCreationPageProps, IStr
     }
   }
 
-  public componentDidMount(): void {
-    this.setState({ mounted: true });
-  }
-
-  public componentWillUnmount(): void {
-    this.setState({ mounted: false } );
-  }
-
   public render(): ReactNode {
 
     const {classes, liveState: {liveEventLoading}} = this.props;
-    const {mounted} = this.state;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
         <StreamingHeaderBar {...{} as IStreamingHeaderBarExternalProps}/>
 
-        <Fade in={mounted}>
+        <AnimatedMount>
 
           <Grid className={classes.content} direction={"column"} wrap={"nowrap"} alignItems={"center"} justify={"center"} container>
 
@@ -77,7 +61,7 @@ export class StreamCreationPage extends Component<IStreamCreationPageProps, IStr
 
           </Grid>
 
-        </Fade>
+        </AnimatedMount>
 
       </Grid>
     );

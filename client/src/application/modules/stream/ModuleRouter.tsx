@@ -8,6 +8,7 @@ import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/Priva
 import {ErrorPage} from "@Main/view/pages/ErrorPage";
 import {lazyLoadComponentFactory} from "@Main/view/utils";
 import {
+  bookmarkContextManager,
   graphicsContextManager,
   liveContextManager,
   renderingContextManager,
@@ -20,7 +21,7 @@ const StreamingPage: ComponentClass = lazyLoadComponentFactory.getComponent(() =
 const StreamCreationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-creation-page" */"@Module/stream/view/pages/StreamCreationPage"));
 const StreamConfigurationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-config-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
 
-@Provide(graphicsContextManager, liveContextManager, renderingContextManager, sourceContextManager)
+@Provide(graphicsContextManager, liveContextManager, renderingContextManager, sourceContextManager, bookmarkContextManager)
 export class ModuleRouter extends PureComponent {
 
   private readonly modulePrefix: string = "/stream";

@@ -1,15 +1,8 @@
 import {AbstractRestNetworkClient} from "@Lib/api/AbstractRestNetworkClient";
 
-import {xCoreClientConfig} from "@Api/x-core";
-
-import {IXCoreFailedResponse} from "@Api/x-core/general/IXCoreFailedResponse";
-
-import {IAuthInfoRequest} from "@Api/x-core/auth/request/IAuthInfoRequest";
-import {IRegisterRequest} from "@Api/x-core/auth/request/IRegisterRequest";
-import {ITokensRequest} from "@Api/x-core/auth/request/ITokensRequest";
-import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
-import {IRegisterResponse} from "@Api/x-core/auth/response/IRegisterResponse";
-import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
+import {IXCoreFailedResponse, xCoreClientConfig} from "@Api/x-core";
+import {IAuthInfoRequest, IRegisterRequest, ITokensRequest} from "@Api/x-core/auth/requests";
+import {IAuthInfoResponse, IRegisterResponse, ITokensResponse} from "@Api/x-core/auth/responses";
 
 export class AuthClient extends AbstractRestNetworkClient {
 

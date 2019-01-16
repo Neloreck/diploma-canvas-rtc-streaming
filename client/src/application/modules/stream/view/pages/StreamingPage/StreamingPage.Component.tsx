@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, Fragment, ReactNode} from "react";
+import {Component, Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {MediaUtils} from "@Lib/media";
@@ -22,7 +22,8 @@ import {
 } from "@Module/stream/data/store";
 
 // View.
-import {CircularProgress, Fade, Grid, WithStyles} from "@material-ui/core";
+import {AnimatedMount} from "@Main/view/utils/animations/AnimatedMount";
+import {CircularProgress, Grid, WithStyles} from "@material-ui/core";
 import {
   IStreamingHeaderBarExternalProps,
   StreamingHeaderBar
@@ -34,25 +35,17 @@ import {
 import {
   IMainPreviewTabsExternalProps,
   MainPreviewTabs
-} from "@Module/stream/view/components/tabs/MainPreviewTabs";
+} from "@Module/stream/view/components/tabs";
 import {streamingPageStyle} from "./StreamingPage.Style";
 
 // Props.
-export interface IStreamingPageState {
-  mounted: boolean;
-}
-
 export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, ILiveContext, IRouterContext, WithStyles<typeof streamingPageStyle> {}
 export interface IStreamingPageOwnProps {}
 export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
 
 @Consume(liveContextManager, routerContextManager, sourceContextManager)
 @Styled(streamingPageStyle)
-export class StreamingPage extends Component<IStreamingPageProps, IStreamingPageState> {
-
-  public state: IStreamingPageState = {
-    mounted: true
-  };
+export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
   public componentWillMount(): void {
     this.mountComponent().then();
@@ -77,15 +70,9 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
     }
   }
 
-  public componentDidMount(): void {
-    this.setState({ mounted: true });
-  }
-
   public componentWillUnmount(): void {
 
     const {liveActions: {stop: stopLive}} = this.props;
-
-    this.setState({ mounted: false });
 
     stopLive()
       .then();
@@ -108,14 +95,13 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
   public render(): ReactNode {
 
     const {classes, liveState: {liveEvent}} = this.props;
-    const {mounted} = this.state;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
         <StreamingHeaderBar {...{} as IStreamingHeaderBarExternalProps}/>
 
-        <Fade in={mounted}>
+        <AnimatedMount>
 
           <Grid className={classes.content} direction={"column"} wrap={"nowrap"} container>
 
@@ -135,7 +121,7 @@ export class StreamingPage extends Component<IStreamingPageProps, IStreamingPage
 
           </Grid>
 
-        </Fade>
+        </AnimatedMount>
 
       </Grid>
     );

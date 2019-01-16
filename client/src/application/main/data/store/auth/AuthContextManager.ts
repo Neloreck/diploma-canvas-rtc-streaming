@@ -2,16 +2,18 @@ import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 
 // Lib.
-import {authClient} from "@Api/x-core";
 import {Optional} from "@Lib/ts/types";
 import {DocumentStoreUtils, Logger} from "@Lib/utils";
 
 // Api.
-import {IAuthInfoResponse} from "@Api/x-core/auth/response/IAuthInfoResponse";
-import {ITokensResponse} from "@Api/x-core/auth/response/ITokensResponse";
-import {IXCoreFailedResponse} from "@Api/x-core/general/IXCoreFailedResponse";
-import {ITokenData} from "@Api/x-core/ITokenData";
-import {IUserAuthData} from "@Main/data/store/auth/models/IUserAuthData";
+import {
+  authClient,
+  IAuthInfoResponse, IRegisterResponse,
+  ITokenData,
+  ITokensResponse,
+  IUserAuthData,
+  IXCoreFailedResponse
+} from "@Api/x-core";
 
 // Data.
 import {routerContextManager} from "@Main/data/store";
@@ -106,7 +108,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info(`Logging in new user: '${username}'.`);
 
-    let state = this.context.authState;
+    let {authState: state} = this.context;
 
     // Do not dup requests.
     if (state.authorizing) {
@@ -146,7 +148,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info("Registering new user:", username, mail);
 
-    let state = this.context.authState;
+    let {authState: state} = this.context;
 
     // Do not dup requests.
     if (state.authorizing) {
@@ -159,7 +161,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     state = this.context.authState;
 
-    const response = await authClient.register({ username, mail, password });
+    const response: IRegisterResponse | IXCoreFailedResponse = await authClient.register({ username, mail, password });
 
     if (response.error) {
       state.errorMessage = (response as IXCoreFailedResponse).error.message;

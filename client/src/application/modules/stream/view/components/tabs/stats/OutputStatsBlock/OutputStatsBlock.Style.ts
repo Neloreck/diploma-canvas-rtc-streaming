@@ -11,11 +11,10 @@ export const outputStatsBlockStyle = (theme: Theme) => createStyles({
     transition: "0.75s"
   },
   root: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   },
   statBlock: {
-    backgroundColor: theme.palette.background.paper,
     margin: `${theme.spacing.unit}px 0px`,
     padding: theme.spacing.unit
   },

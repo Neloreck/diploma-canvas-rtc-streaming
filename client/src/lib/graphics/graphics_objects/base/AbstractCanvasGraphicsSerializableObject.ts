@@ -29,7 +29,7 @@ export abstract class AbstractCanvasGraphicsSerializableObject<T extends object>
 
   public serialize(): ISerializedGraphicsObject {
     return {
-      class: this.constructor.name,
+      className: this.constructor.name,
       configuration: cloneDeep(this.config),
       position: cloneDeep(this.position)
     };

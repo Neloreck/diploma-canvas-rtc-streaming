@@ -1,8 +1,10 @@
+import {BookmarkContextManager} from "@Module/stream/data/store/BookmarkContextManager";
 import {GraphicsContextManager} from "@Module/stream/data/store/GraphicsContextManager";
 import {LiveContextManager} from "@Module/stream/data/store/LiveContextManager";
 import {RenderingContextManager} from "@Module/stream/data/store/RenderingContextManager";
 import {SourceContextManager} from "@Module/stream/data/store/SourceContextManager";
 
+export const bookmarkContextManager: BookmarkContextManager = new BookmarkContextManager();
 export const renderingContextManager: RenderingContextManager = new RenderingContextManager();
 export const graphicsContextManager: GraphicsContextManager = new GraphicsContextManager();
 export const sourceContextManager: SourceContextManager = new SourceContextManager();
@@ -12,3 +14,4 @@ export {LiveContextManager, ILiveContext} from "@Module/stream/data/store/LiveCo
 export {RenderingContextManager, IRenderingContext} from "@Module/stream/data/store/RenderingContextManager";
 export {GraphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/GraphicsContextManager";
 export {SourceContextManager, ISourceContext} from "@Module/stream/data/store/SourceContextManager";
+export {BookmarkContextManager, IBookmarkContext} from "@Module/stream/data/store/BookmarkContextManager";

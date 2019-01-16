@@ -37,7 +37,7 @@ export class RenderingService {
 
   public deserializeObject(objectSerialized: ISerializedGraphicsObject): AbstractCanvasGraphicsRenderObject<any> {
 
-    const descriptor: ICanvasObjectDescriptor<any> = this.getDescriptor(objectSerialized.class);
+    const descriptor: ICanvasObjectDescriptor<any> = this.getDescriptor(objectSerialized.className);
     const object: AbstractCanvasGraphicsRenderObject<any> = new (descriptor.prototype.constructor)();
 
     object.applySerialized(objectSerialized);

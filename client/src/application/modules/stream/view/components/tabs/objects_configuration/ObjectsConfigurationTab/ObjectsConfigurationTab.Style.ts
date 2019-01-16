@@ -26,12 +26,13 @@ export const objectsConfigurationTabStyle = (theme: Theme) => createStyles({
     transition: "500ms"
   },
   objectsConfigurationBlock: {
+    backgroundColor: theme.palette.secondary.dark,
     flexGrow: 3,
     minWidth: "40%",
     overflowY: "auto"
   },
   objectsList: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     boxSizing: "border-box",
     flexGrow: 1,
     minWidth: theme.spacing.unit * 45,

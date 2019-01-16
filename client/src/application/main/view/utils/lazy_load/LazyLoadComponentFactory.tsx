@@ -13,7 +13,7 @@ interface ILazyComponentState {
 
 export class LazyLoadComponentFactory {
 
-  public getComponent(importFunc: () => Promise<any>, componentNamedExport?: string): ComponentClass {
+  public getComponent(importFunc: () => Promise<any>): ComponentClass {
 
     // tslint:disable-next-line
     class LazyComponent extends Component<any, ILazyComponentState, any> {
@@ -29,7 +29,7 @@ export class LazyLoadComponentFactory {
 
         if (!RenderComponent) {
           const module: any = await importFunc();
-          const ImportedRenderComponent: ComponentType = module[componentNamedExport || Object.keys(module)[0]];
+          const ImportedRenderComponent: ComponentType = module[Object.keys(module)[0]];
 
           LazyComponent.COMPONENT_INSTANCE = ImportedRenderComponent;
 

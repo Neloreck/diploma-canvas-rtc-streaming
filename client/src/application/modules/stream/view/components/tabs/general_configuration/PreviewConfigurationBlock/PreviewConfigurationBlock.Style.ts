@@ -17,6 +17,7 @@ export const previewConfigurationBlockStyle = (theme: Theme) => createStyles({
     "& label": {
       width: theme.spacing.unit * 30,
     },
+    backgroundColor: theme.palette.background.default,
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   }
 });

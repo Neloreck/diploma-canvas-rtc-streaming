@@ -111,12 +111,12 @@ export class LiveWebRtcController {
     const actualVideoTrack: Optional<MediaStreamTrack> = this.mediaStream.getVideoTracks()[0] || null;
     const actualPeerConnection: RTCPeerConnection = this.webRtcPeer as RTCPeerConnection;
 
-    if (actualVideoTrack) {
+    if (actualPeerConnection && actualVideoTrack) {
 
       this.mediaStream.removeTrack(actualVideoTrack);
       this.mediaStream.addTrack(videoTrack);
 
-      actualPeerConnection.getSenders().forEach((sender) => {
+      actualPeerConnection.getSenders().forEach((sender: RTCRtpSender) => {
         if (sender.track === actualVideoTrack) {
           sender.replaceTrack(videoTrack).then();
           return;
@@ -140,14 +140,14 @@ export class LiveWebRtcController {
       return;
     }
 
-    if (actualAudioTrack) {
+    if (actualPeerConnection && actualAudioTrack) {
 
       this.log.info("Replacing audio capturing device.");
 
       this.mediaStream.removeTrack(actualAudioTrack);
       this.mediaStream.addTrack(audioTrack);
 
-      const oldSender: Optional<RTCRtpSender> = actualPeerConnection.getSenders().filter((it) => it.track === actualAudioTrack)[0];
+      const oldSender: Optional<RTCRtpSender> = actualPeerConnection.getSenders().filter((it: RTCRtpSender): boolean => it.track === actualAudioTrack)[0];
       oldSender.replaceTrack(audioTrack).then();
     }
   }

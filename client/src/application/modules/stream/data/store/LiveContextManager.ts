@@ -6,11 +6,7 @@ import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 
 // Api.
-import {liveClient} from "@Api/x-core";
-import {IXCoreFailedResponse} from "@Api/x-core/general/IXCoreFailedResponse";
-import {ILiveEvent} from "@Api/x-core/live/models";
-import {IEventCreateResponse} from "@Api/x-core/live/response/IEventCreateResponse";
-import {IGetEventResponse} from "@Api/x-core/live/response/IGetEventResponse";
+import {IEventCreateResponse, IGetEventResponse, ILiveEvent, IXCoreFailedResponse, liveClient} from "@Api/x-core";
 
 // Data.
 import {applicationConfig} from "@Main/data/configs";

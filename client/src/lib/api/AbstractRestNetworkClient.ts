@@ -1,11 +1,9 @@
 import {AbstractNetworkClient} from "@Lib/api/AbstractNetworkClient";
-import {ERequestMethod} from "@Lib/api/ERequestMethod";
-import {IBaseRequest} from "@Lib/api/IBaseRequest";
-import {IBaseResponse} from "@Lib/api/IBaseResponse";
+import {ERequestMethod} from "@Lib/api/types";
 
 export abstract class AbstractRestNetworkClient extends AbstractNetworkClient {
 
-  protected async doRequest(method: ERequestMethod, mapping: string, request?: IBaseRequest | URLSearchParams, headers?: Headers): Promise<IBaseResponse> {
+  protected async doRequest(method: ERequestMethod, mapping: string, request?: object | URLSearchParams, headers?: Headers): Promise<object> {
 
     const requestBody: string | undefined | URLSearchParams = request instanceof URLSearchParams ? request : request && JSON.stringify(request);
 

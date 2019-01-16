@@ -17,7 +17,10 @@ public class FailedApiResponse extends ApiResponse {
   }
 
   public FailedApiResponse(Exception ex) {
-    this.error = new FailedApiResponseDetail(ex.getClass().getTypeName(), ex.getMessage());
+
+    final String[] parts = ex.getClass().getTypeName().split("\\.");
+
+    this.error = new FailedApiResponseDetail(parts[parts.length - 1], ex.getMessage());
   }
 
 }

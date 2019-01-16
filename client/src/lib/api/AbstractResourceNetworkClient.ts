@@ -1,6 +1,4 @@
-import {ERequestMethod} from "@Lib/api/ERequestMethod";
-import {IBaseRequest} from "@Lib/api/IBaseRequest";
-import {IBaseResponse} from "@Lib/api/IBaseResponse";
+import {ERequestMethod} from "@Lib/api/types";
 
 export abstract class AbstractResourceNetworkClient {
 
@@ -11,12 +9,12 @@ export abstract class AbstractResourceNetworkClient {
     "Content-Type": "application/json"
   });
 
-  public async get(mapping: string, headers?: Headers): Promise<Blob | IBaseResponse> {
+  public async get(mapping: string, headers?: Headers): Promise<Blob | object> {
     return this.doRequest(ERequestMethod.GET, mapping, undefined, headers);
   }
 
   public loadImage(src: string): Promise<FileReader | null> {
-    return new Promise(async (resolve: (reader: FileReader | null) => void, reject: (error: Error) => void) => {
+    return new Promise(async (resolve: (reader: FileReader | null) => void, reject: (error: Error) => void): Promise<void> => {
 
       try {
         const blob: Blob = (await this.get(src)) as any;
@@ -37,7 +35,7 @@ export abstract class AbstractResourceNetworkClient {
 
   }
 
-  protected async doRequest(method: ERequestMethod, mapping: string, request?: IBaseRequest | URLSearchParams, headers?: Headers): Promise<IBaseResponse | Blob> {
+  protected async doRequest(method: ERequestMethod, mapping: string, request?: object | URLSearchParams, headers?: Headers): Promise<object | Blob> {
 
     const requestBody: undefined | string | URLSearchParams = (request instanceof URLSearchParams ? request : request && JSON.stringify(request));
 
