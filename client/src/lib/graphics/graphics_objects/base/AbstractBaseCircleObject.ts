@@ -76,9 +76,23 @@ export abstract class AbstractBaseCircleObject<T extends object> extends Abstrac
 
   public renderDisabled(context: CanvasRenderingContext2D): void {
 
+    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
+    const {radius, center: {x, y}} = this.position;
+
     this.renderSelf(context);
 
     RelativeRenderUtils.renderFilledCircle(this.getSizing(), context, this.position.center, this.position.radius, this.disabledColor, this.disabledColor, 0);
+
+    context.strokeStyle = this.disabledColor;
+    context.lineWidth = 4;
+
+    context.beginPath();
+    context.moveTo(x * pWidth, y * pHeight - radius * pWidth);
+    context.lineTo(x * pWidth, y * pHeight + radius * pWidth);
+    context.moveTo((x - radius) * pWidth, y * pHeight);
+    context.lineTo((x + radius) * pWidth, y * pHeight);
+    context.stroke();
+    context.closePath();
   }
 
   protected renderSelection(context: CanvasRenderingContext2D): void {

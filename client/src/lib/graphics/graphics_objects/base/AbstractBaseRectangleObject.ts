@@ -131,12 +131,26 @@ export abstract class AbstractBaseRectangleObject<T extends object> extends Abst
 
   public renderDisabled(context: CanvasRenderingContext2D): void {
 
+    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
+    const {left, top, width, height} = this.position;
+
     this.renderSelf(context);
 
     RelativeRenderUtils.renderFilledRectangle(this.getSizing(), context,
       { x: this.position.left, y: this.position.top },
       { x: this.position.left + this.position.width, y: this.position.top + this.position.height },
       this.disabledColor, this.disabledColor, 0);
+
+    context.strokeStyle = this.disabledColor;
+    context.lineWidth = 4;
+
+    context.beginPath();
+    context.moveTo(left * pWidth, top * pHeight);
+    context.lineTo((left  + width) * pWidth, (top + height) * pHeight);
+    context.moveTo(left * pWidth, (top + height) * pHeight);
+    context.lineTo((left  + width) * pWidth, top * pHeight);
+    context.stroke();
+    context.closePath();
   }
 
   public dispose(): void {

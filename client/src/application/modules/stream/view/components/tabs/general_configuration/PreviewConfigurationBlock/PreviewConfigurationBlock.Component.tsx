@@ -62,7 +62,7 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
                 <Grid container>
                   <FormControlLabel
                     className={classes.configItem}
-                    label={"Show Result Preview"}
+                    label={"Preview Mode"}
                     control={<Switch checked={showPreview} color={"primary"} onChange={this.onPreviewToggle}/>}
                   />
                 </Grid>

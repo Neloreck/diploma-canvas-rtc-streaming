@@ -8,7 +8,7 @@ export abstract class AbstractCanvasGraphicsRenderObject<T extends object> exten
   protected readonly createdAt: number = Date.now();
   protected id: string = "0";
 
-  protected readonly disabledColor: string = "rgba(230, 0, 0, 0.25)";
+  protected readonly disabledColor: string = "rgba(2000, 10, 10, 0.3)";
 
   protected name: string | null = null;
   protected sizing: ICanvasGraphicsSizingContext = null as any;
