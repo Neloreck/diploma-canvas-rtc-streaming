@@ -83,7 +83,10 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
     this.log.info(`Removing object: ${object.getName()}.`);
 
-    this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.filter((it) => it !== object)};
+    this.context.graphicsState = {
+      ...this.context.graphicsState,
+      objects: this.context.graphicsState.objects.filter((it: AbstractCanvasGraphicsRenderObject<any>): boolean => it !== object)
+    };
 
     if (object === this.context.graphicsState.selectedObject) {
       this.context.graphicsState.selectedObject = null;

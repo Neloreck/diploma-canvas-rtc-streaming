@@ -9,10 +9,12 @@ import {Optional} from "@Lib/ts/types";
 // Data.
 import {bookmarkContextManager, IBookmarkContext, ILiveContext, liveContextManager} from "@Module/stream/data/store";
 
+// Api.
+import {ILiveEventLayoutBookmark} from "@Api/x-core";
+
 // View.
 import {Button, CircularProgress, Grid, WithStyles} from "@material-ui/core";
 import {layoutConfigurationTabStyle} from "./LayoutConfigurationTab.Style";
-import {ILiveEventLayoutBookmark} from "@Api/x-core";
 
 // Props.
 

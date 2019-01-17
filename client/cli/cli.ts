@@ -1,14 +1,31 @@
-import {executeCmd} from "./_cli/executeCmd";
+import {EntryPoint} from "@redux-cbd/utils";
+import {CommandRunner} from "./_cli/CommandRunner";
 
-// tslint:disable-next-line
-const cliConfig = require("./cli.json");
-const processArgs: Array<string> = process.argv;
+import cliConfig from "./cli.json";
 
-const cmd: string = processArgs[2];
-const cmdArgs: Array<string> = processArgs.slice(3);
-const script: string | Array<string> = cliConfig["scripts"][cmd];
-const config: string | Array<string> = cliConfig["config"][cmd];
+@EntryPoint()
+export class CliRunner {
 
-executeCmd(cmd, cmdArgs, script, config)
-  .then(() => process.exit(0))
-  .catch(() => { process.exit(1); });
+  public static readonly scriptsKey: string = "scripts";
+  public static readonly configKey: string = "config";
+
+  public static async main(): Promise<void> {
+
+    const processArgs: Array<string> = process.argv;
+    const cmd: string = processArgs[2];
+    const script: string | Array<string> = cliConfig[CliRunner.scriptsKey][cmd];
+    const config: string | Array<string> = cliConfig[CliRunner.configKey][cmd];
+
+    const commandRunner: CommandRunner = new CommandRunner(cmd, script, config);
+
+    try {
+
+      await commandRunner.run();
+
+      process.exit(0);
+    } catch (error) {
+      process.exit(1);
+    }
+  }
+
+}

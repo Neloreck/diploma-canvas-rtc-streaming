@@ -3,7 +3,7 @@ import * as React from "react";
 import {createRef, PureComponent, ReactNode, RefObject} from "react";
 import {MouseEvent as ReactMouseEvent} from "react";
 
-import {DocumentUtils} from "../../../utils";
+import {DocumentUtils} from "@Lib/utils";
 
 // Props.
 export interface IVerticalDraggableVHResizer {
@@ -12,11 +12,9 @@ export interface IVerticalDraggableVHResizer {
   target?: HTMLElement;
 }
 
-const style = {
-  wrapper: {
-    cursor: "ew-resize",
-    position: "relative" as "relative"
-  }
+const wrapperStyle: object = {
+  cursor: "ew-resize",
+  position: "relative" as "relative"
 };
 
 export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggableVHResizer> {
@@ -38,7 +36,7 @@ export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggable
     return (
       <div
         className={this.props.className}
-        style={{ ...style.wrapper, minWidth: "4px"}}
+        style={{ ...wrapperStyle, minWidth: "4px"}}
         ref={this.divElementRef}
         onMouseMove={this.handleMouseMove}
         onMouseDown={this.handleMouseDown}

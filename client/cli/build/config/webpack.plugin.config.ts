@@ -1,0 +1,64 @@
+import {CheckerPlugin, TsConfigPathsPlugin} from "awesome-typescript-loader";
+import * as path from "path";
+import {HotModuleReplacementPlugin, NoEmitOnErrorsPlugin, Options, Plugin} from "webpack";
+
+// tslint:disable: no-var-requires typedef
+const DotEnv = require("dotenv-webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+
+import {ENVIRONMENT, IS_PRODUCTION, PROJECT_ROOT_PATH} from "./webpack.constants";
+
+export const PLUGIN_CONFIG: {
+  PLUGINS: Array<Plugin>,
+  OPTIMIZATION: Options.Optimization
+} = {
+  OPTIMIZATION: {
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+        sourceMap: !IS_PRODUCTION,
+        terserOptions: {
+          compress: {},
+          ecma: 6,
+          ie8: false,
+          keep_classnames: undefined,
+          keep_fnames: false,
+          mangle: true,
+          module: true,
+          nameCache: null,
+          output: {
+            beautify: false
+          },
+          parse: {},
+          safari10: false,
+          toplevel: false,
+          unused: false,
+          warnings: false
+        },
+      })
+    ]
+  },
+  PLUGINS: [
+    new TsConfigPathsPlugin({}),
+    new CheckerPlugin(),
+    new HtmlWebpackPlugin({
+      ENVIRONMENT,
+      favicon: path.resolve(PROJECT_ROOT_PATH, "cli/build/template/favicon.ico"),
+      filename: "index.html",
+      inject: true,
+      minify: {
+        minifyCSS: true,
+        preserveLineBreaks: true,
+        quoteCharacter: "'",
+        removeTagWhitespace: true,
+        trimCustomFragments: true
+      },
+      template: path.resolve(PROJECT_ROOT_PATH, "cli/build/template/index.hbs")
+    }),
+    new DotEnv({
+      path: path.resolve(PROJECT_ROOT_PATH, "cli/build/config/.env")
+    }),
+    IS_PRODUCTION ? new NoEmitOnErrorsPlugin() : new HotModuleReplacementPlugin()
+  ],
+};

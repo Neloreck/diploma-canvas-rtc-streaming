@@ -1,10 +1,9 @@
 import * as path from "path";
 
-const root: string = path.resolve(__dirname, "../../../");
-// For a detailed explanation regarding each config property, visit:
-// https://jestjs.io/docs/en/configuration.html
+const ROOT_PATH: string = path.resolve(__dirname, "../../../");
+const TS_CONFIG_PATH: string = path.resolve(ROOT_PATH, "./src/tsconfig.json");
 
-module.exports = {
+export const JEST_CONFIG: object = {
 
   // automock: false,
 
@@ -12,15 +11,15 @@ module.exports = {
 
   // browser: false,
 
-  // cacheDirectory: "/var/folders/nd/fmdkftmj11l8f2m9lnh_y70w0000gn/T/jest_dx",
+  cacheDirectory: "<rootDir>/target/test/cache",
 
   clearMocks: true,
 
-  // collectCoverage: false,
+  collectCoverage: true,
 
   // collectCoverageFrom: null,
 
-  coverageDirectory: "<rootDir>/target/coverage:report",
+  coverageDirectory: "<rootDir>/target/test/coverage:report",
 
   coveragePathIgnorePatterns: [
     "/node_modules/"
@@ -43,9 +42,9 @@ module.exports = {
 
   // globalTeardown: null,
 
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  moduleDirectories: [
+     "node_modules"
+  ],
 
   moduleFileExtensions: [
     "ts",
@@ -57,14 +56,6 @@ module.exports = {
   ],
 
   moduleNameMapper: {
-    "@Annotate$": "<rootDir>/src/main/data/lib/annotate/index",
-    "@Redux": "<rootDir>/./src/main/data/lib/redux/index",
-
-    "@Components/(.*)$": "<rootDir>/./src/main/view/components/$1",
-    "@Containers/(.*)$": "<rootDir>/./src/main/view/containers/$1",
-    "@Layouts/(.*)$": "<rootDir>/./src/main/view/layouts/$1",
-    "@Store/(.*)$": "<rootDir>/./src/main/data/store/$1",
-
     "@App/(.*)$": "<rootDir>/src/main/$1",
     "@Lib/(.*)$": "<rootDir>/src/lib/$1",
     "@Test/(.*)$": "<rootDir>/src/__test__/$1",
@@ -90,7 +81,7 @@ module.exports = {
 
   // restoreMocks: false,
 
-  rootDir: root,
+  rootDir: ROOT_PATH,
 
   roots: [
     "<rootDir>"
@@ -143,9 +134,9 @@ module.exports = {
 
   // watchman: true,
 
-    globals: {
+  globals: {
     "ts-jest": {
-      tsConfigFile: path.resolve(__dirname, "./tsconfig.json"),
+      tsConfig: TS_CONFIG_PATH,
     }
   }
 

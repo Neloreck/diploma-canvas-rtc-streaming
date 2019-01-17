@@ -5,7 +5,7 @@ export class DomSizingUtils {
     let childWidth: number = 0;
     let childHeight: number = 0;
 
-    const maxHeight = width / aspectRatio;
+    const maxHeight: number = width / aspectRatio;
 
     if (maxHeight <= height) {
       childHeight = maxHeight;

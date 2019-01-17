@@ -5,9 +5,16 @@ import {Optional} from "@Lib/ts/types";
 // Api.
 import {resourceLoader} from "@Api/general";
 
-export class ImageBlock extends AbstractBaseRectangleObject<typeof ImageBlock.prototype.config> {
+export interface IImageBlockConfig {
+  height: number;
+  image: HTMLImageElement;
+  imageSrc: string;
+  width: number;
+}
 
-  public readonly config = {
+export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
+
+  public readonly config: IImageBlockConfig = {
     height: 720,
     image: new Image(1280, 720) ,
     imageSrc: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",

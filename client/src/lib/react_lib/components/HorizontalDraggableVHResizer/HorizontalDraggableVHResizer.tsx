@@ -4,7 +4,7 @@ import {createRef, PureComponent, ReactNode, RefObject} from "react";
 import {MouseEvent as ReactMouseEvent} from "react";
 
 // Lib.
-import {DocumentUtils} from "../../../utils";
+import {DocumentUtils} from "@Lib/utils";
 
 // Props.
 export interface IHorizontalVHDraggableResizerProps {
@@ -13,11 +13,9 @@ export interface IHorizontalVHDraggableResizerProps {
   target?: HTMLElement;
 }
 
-const style = {
-  wrapper: {
-    cursor: "ns-resize",
-    position: "relative" as "relative"
-  }
+const wrapperStyle: object = {
+  cursor: "ns-resize",
+  position: "relative" as "relative"
 };
 
 export class HorizontalDraggableVHResizer extends PureComponent<IHorizontalVHDraggableResizerProps> {
@@ -39,7 +37,7 @@ export class HorizontalDraggableVHResizer extends PureComponent<IHorizontalVHDra
     return (
       <div
         className={this.props.className}
-        style={{ ...style.wrapper, minHeight: "4px"}}
+        style={{ ...wrapperStyle, minHeight: 4}}
         ref={this.divElementRef}
         onMouseMove={this.handleMouseMove}
         onMouseDown={this.handleMouseDown}

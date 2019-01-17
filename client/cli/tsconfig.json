@@ -1,10 +1,12 @@
 {
   "extends": "../src/tsconfig.json",
   "compilerOptions": {
+    "resolveJsonModule": true,
     "target": "esnext",
-    "esModuleInterop": true,
+    "experimentalDecorators": true,
     "sourceMap": false,
     "module": "commonjs",
+    "suppressImplicitAnyIndexErrors": true,
     "lib": ["es5", "es6",  "es7",  "es2018", "dom"],
     "baseUrl": "./"
   }

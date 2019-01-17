@@ -24,7 +24,7 @@ export class MainLoadingProgressComponent extends PureComponent<IMainLoadingProg
 
     return (
       <Grid id={"lazy-load-spinner"} className={classes.root} alignContent={"center"} justify={"center"} container>
-        <CircularProgress size={250} />
+        <CircularProgress size={250}/>
       </Grid>
     );
   }

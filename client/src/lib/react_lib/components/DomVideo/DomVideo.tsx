@@ -29,7 +29,7 @@ export class DomVideo extends PureComponent<IDomVideoProps> {
 
     const {width, height, muted, autoPlay} = this.props;
 
-    const style = {
+    const style: object = {
       height: height !== undefined ? height + "px" : undefined,
       width: width !== undefined ? width + "px" : undefined
     };

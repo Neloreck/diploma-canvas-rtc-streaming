@@ -32,14 +32,14 @@ export class MediaUtils {
 
     const oldTracks: Array<MediaStreamTrack> = to.getTracks();
 
-    from.getTracks().forEach((track) => {
+    from.getTracks().forEach((track: MediaStreamTrack): void => {
       to.addTrack(track);
       from.removeTrack(track);
     });
 
     this.killStream(from);
 
-    oldTracks.forEach((track) => {
+    oldTracks.forEach((track: MediaStreamTrack): void => {
       to.removeTrack(track);
       track.stop();
     });
@@ -73,7 +73,7 @@ export class MediaUtils {
 
   public static purgeStream(stream: MediaStream): void {
     this.killStream(stream);
-    stream.getTracks().forEach((track) => stream.removeTrack(track));
+    stream.getTracks().forEach((track: MediaStreamTrack): void => stream.removeTrack(track));
   }
 
   public static async getUserMedia(constraints: MediaStreamConstraints): Promise<MediaStream> {

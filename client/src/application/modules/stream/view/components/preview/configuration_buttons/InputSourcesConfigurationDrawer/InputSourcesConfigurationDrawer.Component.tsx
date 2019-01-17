@@ -1,6 +1,6 @@
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import {ChangeEvent, Component, ReactNode} from "react";
 
 // Lib.
 import {EDeviceKind, IInputDevicesBundle, IInputSourceDevices, MediaUtils} from "@Lib/media";
@@ -142,14 +142,18 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
     );
   }
 
-  private renderDevicesSelection(devices: Array<MediaDeviceInfo>, selected: Optional<MediaDeviceInfo>,
-                                 label: string): ReactNode {
+  private renderDevicesSelection(
+    devices: Array<MediaDeviceInfo>,
+    selected: Optional<MediaDeviceInfo>,
+    label: string
+  ): ReactNode {
+
     return (
       <FormControl className={this.props.classes.inputSelectForm}>
         <InputLabel htmlFor="select-multiple">{label}</InputLabel>
         <Select
           value={(selected && selected.deviceId) || -1}
-          onChange={(e) => this.handleDeviceSelection(devices.find((it: MediaDeviceInfo) => it.deviceId === e.target.value))}
+          onChange={(e: ChangeEvent<any>): void => this.handleDeviceSelection(devices.find((it: MediaDeviceInfo) => it.deviceId === e.target.value))}
           input={<Input/>}
         >
           {devices.map((device: MediaDeviceInfo, idx: number) => (

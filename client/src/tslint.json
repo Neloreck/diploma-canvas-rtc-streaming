@@ -8,7 +8,9 @@
   "linterOptions": {
     "exclude": [
       "target/**",
-      "*.Style.ts"
+      "**/*.Style.ts",
+      "**/*.Spec.ts",
+      "**/*.Test.ts"
     ]
   },
 

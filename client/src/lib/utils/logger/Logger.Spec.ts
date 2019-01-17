@@ -1,3 +1,4 @@
+/* tslint:disable: no-console */
 import {Logger} from "./Logger";
 
 describe("Application Logger behaviour.", () => {
@@ -9,17 +10,18 @@ describe("Application Logger behaviour.", () => {
   it("Should have proper prefixing for messages and prefixing concatenation.", () => {
     changeEnvironment("development");
 
-    let log = new Logger("[Prefix]");
-    console.info = jest.fn((...args) => expect(args[0]).toBe("[Prefix]"));
+    let log: Logger = new Logger("[Prefix]");
+    console.info = jest.fn((...args: Array<any>) => expect(args[0]).toBe("%c[Prefix]"));
     log.info("Something.");
 
     log = log.getPrefixed("[Another]");
-    console.info = jest.fn((...args) => expect(args[0]).toBe("[Prefix] [Another]"));
+    console.info = jest.fn((...args: Array<any>) => expect(args[0]).toBe("%c[Prefix] [Another]"));
     log.info("Something");
   });
 
   it("Should log only in dev mode.", () => {
-    const log = new Logger("[Prefix]");
+
+    const log: Logger = new Logger("[Prefix]");
     const mockFn = console.log = console.error = console.warn = console.info = jest.fn();
 
     changeEnvironment("development");
@@ -38,7 +40,8 @@ describe("Application Logger behaviour.", () => {
   });
 
   it("Should log errors always.", () => {
-    const log = new Logger("[Prefix]");
+
+    const log: Logger = new Logger("[Prefix]");
     const mockFn = console.log = console.error = console.warn = console.info = jest.fn();
 
     changeEnvironment("development");

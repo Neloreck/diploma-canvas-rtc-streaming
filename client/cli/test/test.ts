@@ -1,7 +1,17 @@
+import {EntryPoint} from "@redux-cbd/utils";
 // @ts-ignore
 import * as jest from "jest";
-import * as config from "./config/jest.config";
+import {JEST_CONFIG} from "./config/jest.config";
 
-const args: Array<string> = process.argv.slice(2);
+@EntryPoint()
+export class TestRunner {
 
-jest.run([...args, "--all", "--config", JSON.stringify(config), "--detectOpenHandles"]);
+  public static main(): void {
+
+    const args: Array<string> = process.argv.slice(2);
+
+    process.stdout.write(`Starting testing. \n`);
+    jest.run([...args, "--all", "--config", JSON.stringify(JEST_CONFIG), "--detectOpenHandles"]);
+  }
+
+}

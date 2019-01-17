@@ -1,11 +1,12 @@
 import {Single, TypeUtils} from "@redux-cbd/utils";
 
+// Lib.
 import {Optional} from "@Lib/ts/types";
 
 @Single()
 export class StreamConfig {
 
-  private static readonly DEFAULT_VIDEO_CONSTRAINTS = {
+  private static readonly DEFAULT_VIDEO_CONSTRAINTS: object = {
     advanced: [
       { aspectRatio: { min: 16 / 9, exact: 16 / 9 } },
       { width: { min: 640, max: 1920 } }
@@ -15,14 +16,15 @@ export class StreamConfig {
     height: { min: 360, ideal: 720, max: 1080 }
   };
 
-  private static readonly DESKTOP_CAPTURING_CONSTRAINT = {
+  private static readonly DESKTOP_CAPTURING_CONSTRAINT: object = {
     audio: false,
-    video: {
-      mediaSource: "screen"
-    }
+    video: {}
   };
 
-  public getMediaConstraints(videoInput: Optional<MediaDeviceInfo> | string | boolean, audioInput: Optional<MediaDeviceInfo> | string | boolean): MediaStreamConstraints {
+  public getMediaConstraints(
+    videoInput: Optional<MediaDeviceInfo> | string | boolean,
+    audioInput: Optional<MediaDeviceInfo> | string | boolean
+  ): MediaStreamConstraints {
 
     return {
       audio:

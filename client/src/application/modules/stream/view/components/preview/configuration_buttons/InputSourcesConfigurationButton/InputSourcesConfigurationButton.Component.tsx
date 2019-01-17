@@ -8,17 +8,14 @@ import {IInputSourceDevices, MediaUtils} from "@Lib/media";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {
-  ISourceContext,
-  sourceContextManager
-} from "@Module/stream/data/store";
+import {streamConfig} from "@Module/stream/data/configs";
+import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
 import {Fab, Tooltip, WithStyles} from "@material-ui/core";
 import {MoreVert} from "@material-ui/icons";
 import {IInputSourcesConfigurationDrawerExternalProps, InputSourcesConfigurationDrawer} from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationDrawer/InputSourcesConfigurationDrawer.Component";
 import {inputSourcesConfigurationButtonStyle} from "./InputSourcesConfigurationButton.Style";
-import {streamConfig} from "@Module/stream/data/configs";
 
 // Props.
 export interface IInputSourcesConfigurationButtonState {

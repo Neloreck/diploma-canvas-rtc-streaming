@@ -1,1 +1,1 @@
-export const InitialNull = null as any;
+export const InitialNull: any = null as any;

@@ -5,14 +5,13 @@ import {Component, ReactNode} from "react";
 // Lib.
 import {
   AbstractBaseCircleObject,
-  AbstractBaseFixedPositionRectangleObject,
   AbstractBaseRectangleObject,
   AbstractCanvasGraphicsRenderObject
 } from "@Lib/graphics";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {renderingService} from "@Module/stream/data/services/index";
+import {renderingService} from "@Module/stream/data/services";
 import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
 
 // View.
@@ -82,20 +81,20 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
           <Grid className={classes.objectHeadingTitle}>
             <Typography variant={"h6"}>{objectDescriptor.name} </Typography>
-            <IconButton disabled={index === maxIndex} onClick={() => onObjectIndexSwap(index, index + 1)}> <ArrowUpward fontSize={"small"}/> </IconButton>
-            <IconButton disabled={index === 0} onClick={() => onObjectIndexSwap(index, index - 1)}> <ArrowDownward fontSize={"small"}/> </IconButton>
+            <IconButton disabled={index === maxIndex} onClick={(): void => onObjectIndexSwap(index, index + 1)}> <ArrowUpward fontSize={"small"}/> </IconButton>
+            <IconButton disabled={index === 0} onClick={(): void => onObjectIndexSwap(index, index - 1)}> <ArrowDownward fontSize={"small"}/> </IconButton>
           </Grid>
 
           <Grid>
             <Checkbox
               color={"secondary"}
-              onChange={() => {
+              onChange={(): void => {
                 object.isDisabled() ? object.setDisabled(false) : object.setDisabled(true);
                 this.forceUpdate();
               }}
               checked={!object.isDisabled()}
             />
-            <Button onClick={() => onSelectedRemove(object)}><Delete/></Button>
+            <Button onClick={(): void => onSelectedRemove(object)}><Delete/></Button>
             <Button onClick={onCancelSelection}><Close/></Button>
           </Grid>
 

@@ -6,8 +6,8 @@ import {Styled} from "@Lib/react_lib/mui";
 
 // View.
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
-import {AnimatedMount} from "@Main/view/utils/animations/AnimatedMount";
-import {Grid, Grow, WithStyles} from "@material-ui/core";
+import {AnimatedMount} from "@Main/view/utils";
+import {Grid, WithStyles} from "@material-ui/core";
 import {homePageStyle} from "./HomePage.Style";
 
 // Props.

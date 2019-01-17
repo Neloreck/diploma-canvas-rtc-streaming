@@ -51,7 +51,7 @@ export class ObjectAdditionMenu extends PureComponent<IObjectAdditionMenuProps> 
         <ListItemText primary={descriptor.name}/>
 
         <ListItemSecondaryAction className={classes.descriptorItemSecondary}>
-          <IconButton aria-label="Add" onClick={() => this.onCanvasObjectAdded(descriptor)}>
+          <IconButton aria-label={"Add"} onClick={(): void => this.onCanvasObjectAdded(descriptor)}>
             <Add/>
           </IconButton>
         </ListItemSecondaryAction>

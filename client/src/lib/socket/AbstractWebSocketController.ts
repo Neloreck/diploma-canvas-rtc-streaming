@@ -48,9 +48,9 @@ export abstract class AbstractWebSocketController {
   }
 
   @Bind()
-  public removeSubscription(subscription: StompSubscription) {
+  public removeSubscription(subscription: StompSubscription): void {
     this.client.unsubscribe(subscription.id);
-    this.subscriptions = this.subscriptions.filter((it) => it.id !== subscription.id);
+    this.subscriptions = this.subscriptions.filter((it: StompSubscription): boolean => it.id !== subscription.id);
   }
 
   /*
@@ -59,7 +59,7 @@ export abstract class AbstractWebSocketController {
 
   @Bind()
   public connect(): void {
-    this.client.webSocketFactory = () => new SockJS(`${this.socketUrl}?access_token=${this.accessToken}`);
+    this.client.webSocketFactory = (): any => new SockJS(`${this.socketUrl}?access_token=${this.accessToken}`);
     this.client.activate();
   }
 

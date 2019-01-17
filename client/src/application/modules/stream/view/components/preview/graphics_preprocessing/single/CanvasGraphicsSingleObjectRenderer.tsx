@@ -31,7 +31,7 @@ export interface ICanvasGraphicsSingleObjectRendererProps extends ICanvasGraphic
 export class CanvasGraphicsSingleObjectRenderer
   extends Component<ICanvasGraphicsSingleObjectRendererProps, ICanvasGraphicsSingleObjectRendererState> {
 
-  public state = {
+  public state: ICanvasGraphicsSingleObjectRendererState = {
     videoSizing: { width: undefined, height: undefined }
   };
 
