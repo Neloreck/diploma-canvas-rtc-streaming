@@ -20,7 +20,7 @@ export class ApiConfig {
   @Bind()
   public getDefaultHeaders(): Headers {
 
-    const tokenData: any = DocumentStoreUtils.getFromLocalStorege("token_data");
+    const tokenData: any = DocumentStoreUtils.getFromLocalStorage("token_data");
 
     if (tokenData && tokenData.access_token) {
       ApiConfig.DEFAULT_HEADERS.set("Authorization", `Bearer ${tokenData.access_token}`);

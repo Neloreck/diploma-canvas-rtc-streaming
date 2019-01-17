@@ -1,13 +1,12 @@
 import * as path from "path";
 
-import {TsConfigPathsPlugin} from "awesome-typescript-loader";
-
-// tslint:disable: no-var-requires
+// tslint:disable: no-var-requires typedef
 const DotEnv = require("dotenv-webpack");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
+import {CheckerPlugin, TsConfigPathsPlugin} from "awesome-typescript-loader";
 import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin} from "webpack";
 
 type EnvironmentType = ("development" | "production");
@@ -16,6 +15,7 @@ const environment: EnvironmentType = process.env.NODE_ENV as EnvironmentType;
 const isProduction: boolean = (environment === "production");
 const projectRoot: string = path.resolve(__dirname, "../../../");
 const backendPublicPath: string = "/";
+const tsConfigFilePath: string = path.resolve(projectRoot, "src/tsconfig.json");
 
 export class WebpackBuildConfig implements Configuration {
 
@@ -35,11 +35,11 @@ export class WebpackBuildConfig implements Configuration {
 
   public entry = isProduction
     ? [
-      path.resolve(projectRoot, "src/application/Application.tsx")
+      path.resolve(projectRoot, "src/application/Application.ts")
     ]
     : [
       "webpack/hot/dev-server",
-      path.resolve(projectRoot, "src/application/Application.tsx")
+      path.resolve(projectRoot, "src/application/Application.ts")
     ];
 
   public output = {
@@ -52,8 +52,8 @@ export class WebpackBuildConfig implements Configuration {
 
   public resolve = {
     alias: {
-      "@Application": path.resolve(projectRoot, "./src/application/"),
       "@Api": path.resolve(projectRoot, "./src/api/"),
+      "@Application": path.resolve(projectRoot, "./src/application/"),
       "@Lib": path.resolve(projectRoot, "./src/lib/"),
       "@Main": path.resolve(projectRoot, "./src/application/main"),
       "@Module": path.resolve(projectRoot, "./src/application/modules/")
@@ -72,9 +72,9 @@ export class WebpackBuildConfig implements Configuration {
         exclude: /(node_modules)/,
         loader: "awesome-typescript-loader",
         query: {
-          configFileName: path.resolve(projectRoot, "src/tsconfig.json")
+          configFileName: tsConfigFilePath
         },
-        test: /\.tsx?$/
+        test: /\.(ts|tsx)$/
       },
       // Style loading.
       {
@@ -131,10 +131,11 @@ export class WebpackBuildConfig implements Configuration {
 
   public plugins = [
     new TsConfigPathsPlugin({}),
+    new CheckerPlugin(),
     new HtmlWebpackPlugin({
       environment,
-      filename: "index.html",
       favicon: path.resolve(projectRoot, "cli/build/template/favicon.ico"),
+      filename: "index.html",
       inject: true,
       minify: {
         minifyCSS: true,
@@ -157,11 +158,8 @@ export class WebpackBuildConfig implements Configuration {
       new TerserPlugin({
         sourceMap: !isProduction,
         terserOptions: {
+          compress: {},
           ecma: 6,
-          warnings: false,
-          parse: {},
-          compress: {
-          },
           mangle: true,
           module: true,
           output: {
@@ -173,31 +171,33 @@ export class WebpackBuildConfig implements Configuration {
           unused: false,
           keep_classnames: undefined,
           keep_fnames: false,
+          parse: {},
+          warnings: false,
           safari10: false
         },
         extractComments: false
       })
     ],
     splitChunks: {
-      chunks: "async" as "async",
-      minSize: 2000,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 7,
-      maxInitialRequests: 5,
-      automaticNameDelimiter: '~',
-      name: true,
+      automaticNameDelimiter: "~",
       cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
-        },
         default: {
           minChunks: 2,
           priority: -15,
           reuseExistingChunk: true
+        },
+        vendors: {
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/
         }
-      }
+      },
+      chunks: "async" as "async",
+      maxAsyncRequests: 7,
+      maxInitialRequests: 5,
+      maxSize: 0,
+      minChunks: 1,
+      minSize: 2000,
+      name: true
     }
   };
   /* eslint-enable camelcase */

@@ -71,7 +71,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   }
 
   public getAccessToken(): Optional<string> {
-    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorege("token_data");
+    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorage("token_data");
     return tokenData && (this.isTokenDataNonExpired(tokenData)) ? tokenData.access_token : null;
   }
 
@@ -254,7 +254,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected hasAuthToken(): boolean {
-    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorege("token_data");
+    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorage("token_data");
     return tokenData !== null && Boolean(tokenData.access_token) && this.isTokenDataNonExpired(tokenData);
   }
 

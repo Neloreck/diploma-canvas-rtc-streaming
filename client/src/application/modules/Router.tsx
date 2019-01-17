@@ -1,6 +1,5 @@
 import {Provide} from "@redux-cbd/context";
 import {Wrapped} from "@redux-cbd/utils";
-import {History} from "history";
 import * as React from "react";
 import {ComponentClass, PureComponent, ReactNode} from "react";
 import {Route, Router as ReactRouter} from "react-router";
@@ -15,7 +14,7 @@ import {lazyLoadComponentFactory} from "@Main/view/utils";
 
 /*
  * Application submodules:
-*/
+ */
 
 export const AuthorizationModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@authorization" */"@Module/authentication"));
 export const StreamModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@stream" */"@Module/stream"));
@@ -25,11 +24,11 @@ export const HomeModule: ComponentClass = lazyLoadComponentFactory.getComponent(
 
 @Provide(authContextManager, routerContextManager, themeContextManager)
 @Wrapped(GlobalThemeProvider)
-export class Router extends PureComponent<any> {
+export class Router extends PureComponent<object> {
 
   public render(): ReactNode {
 
-    const history: History = routerContextManager.context.routingState.history;
+    const {context: {routingState: {history}}} = routerContextManager;
 
     return (
       <ReactRouter history={history}>

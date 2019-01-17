@@ -5,6 +5,13 @@
     "tslint:recommended"
   ],
 
+  "linterOptions": {
+    "exclude": [
+      "target/**",
+      "*.Style.ts"
+    ]
+  },
+
   "jsRules": {},
 
   "rules": {
