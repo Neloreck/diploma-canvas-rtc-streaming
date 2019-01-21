@@ -26,8 +26,8 @@ export const IO_CONFIG: {
     },
     chunks: "async" as "async",
     maxAsyncRequests: 7,
-    maxInitialRequests: 5,
-    maxSize: 0,
+    maxInitialRequests: 6,
+    maxSize: 500_000,
     minChunks: 1,
     minSize: 2000,
     name: true

@@ -21,12 +21,11 @@ export const DEV_SERVER_CONFIG: Configuration = {
       context: [ "/api/**" ],
       secure: false,
       target: "http://localhost:8080"
-    },
-    {
+    }, {
       context: ["!/authentication/**", "/auth/**"],
       secure: false,
       target: "http://localhost:8080"
     }
   ],
-  publicPath: BACKEND_PUBLIC_PATH,
+  publicPath: BACKEND_PUBLIC_PATH
 };

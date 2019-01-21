@@ -10,7 +10,7 @@
   },
   "compilerOptions": {
     "strict": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "sourceMap": true,

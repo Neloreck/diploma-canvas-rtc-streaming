@@ -27,6 +27,10 @@ export interface ICanvasObjectDescriptor<T extends AbstractCanvasGraphicsRenderO
  * OBJECTS DESCRIPTORS.
  */
 
+/*
+ * TODO: IN PROD MODE.
+ */
+
 export const DESCRIPTORS_MAP = {
 
   [SimpleRectangle.name]: {

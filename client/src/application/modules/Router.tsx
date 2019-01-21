@@ -35,9 +35,8 @@ export class Router extends PureComponent<object> {
 
         <Switch>
 
-          <Route exact={true} path={"/authentication*"} component={AuthorizationModule}/>
-          <Route exact={true} path={"/stream*"} component={StreamModule}/>
-
+          <Route exact={true} path={"/authentication/*"} component={AuthorizationModule}/>
+          <Route exact={true} path={"/stream/*"} component={StreamModule}/>
           <Route exact={true} path={"*"} component={HomeModule}/>
 
         </Switch>
