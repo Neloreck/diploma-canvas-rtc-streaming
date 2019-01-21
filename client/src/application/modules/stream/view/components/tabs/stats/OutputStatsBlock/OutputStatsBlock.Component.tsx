@@ -7,9 +7,7 @@ import {Component, ReactNode} from "react";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {
-  graphicsContextManager, IGraphicsContext, ISourceContext, sourceContextManager
-} from "@Module/stream/data/store";
+import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.
 import {Grid, Grow, Typography, WithStyles} from "@material-ui/core";
@@ -21,11 +19,11 @@ export interface IOutputStatsBlockState {
   showStatsConfiguration: boolean;
 }
 
-export interface IOutputStatsBlockExternalProps extends WithStyles<typeof outputStatsBlockStyle>, IGraphicsContext, ISourceContext {}
+export interface IOutputStatsBlockExternalProps extends WithStyles<typeof outputStatsBlockStyle>, ISourceContext {}
 export interface IOutputStatsBlockOwnProps {}
 export interface IOutputStatsBlockProps extends IOutputStatsBlockOwnProps, IOutputStatsBlockExternalProps {}
 
-@Consume(graphicsContextManager, sourceContextManager)
+@Consume(sourceContextManager)
 @Styled(outputStatsBlockStyle)
 export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputStatsBlockState> {
 

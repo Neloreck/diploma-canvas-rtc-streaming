@@ -10,7 +10,7 @@ import {ModuleRouter} from "@Module/authentication/ModuleRouter";
 export class Module extends PureComponent {
 
   public componentDidMount(): void {
-    log.info("Module 'AUTHORIZATION' has been mounted.");
+    log.info("*** Module 'AUTHORIZATION' has been mounted.");
   }
 
   public render(): ReactNode {

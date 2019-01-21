@@ -6,7 +6,14 @@ import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 
 // Api.
-import {IEventCreateResponse, IGetEventResponse, ILiveEvent, IXCoreFailedResponse, liveClient} from "@Api/x-core";
+import {
+  createLiveEvent,
+  getLiveEvent,
+  IEventCreateResponse,
+  IGetEventResponse,
+  ILiveEvent,
+  IXCoreFailedResponse
+} from "@Api/x-core";
 
 // Data.
 import {applicationConfig} from "@Main/data/configs";
@@ -98,7 +105,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     this.context.liveState.liveEventLoading = true;
     this.update();
 
-    const eventResponse: IEventCreateResponse | IXCoreFailedResponse = await liveClient.createLiveEvent({ name, description, secured, securedKey });
+    const eventResponse: IEventCreateResponse | IXCoreFailedResponse = await createLiveEvent({ name, description, secured, securedKey });
 
     if (eventResponse.success) {
 
@@ -129,7 +136,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     this.context.liveState.liveEventLoading = true;
     this.update();
 
-    const eventResponse: IGetEventResponse | IXCoreFailedResponse = await liveClient.getLiveEvent(eventId);
+    const eventResponse: IGetEventResponse | IXCoreFailedResponse = await getLiveEvent(eventId);
 
     if (eventResponse.success) {
 

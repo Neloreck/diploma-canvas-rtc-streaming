@@ -1,4 +1,4 @@
-import {IXCoreRequest} from "@Api/x-core/general/requests";
+import {IXCoreRequest} from "@Api/x-core";
 
 export interface IAuthInfoRequest extends IXCoreRequest {
 }

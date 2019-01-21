@@ -3,7 +3,7 @@ import {AbstractBaseRectangleObject, ISerializedGraphicsObject} from "@Lib/graph
 import {Optional} from "@Lib/ts/types";
 
 // Api.
-import {resourceLoader} from "@Api/general";
+import {loadImage} from "@Api/general";
 
 export interface IImageBlockConfig {
   height: number;
@@ -30,7 +30,7 @@ export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
 
     this.config.image.addEventListener("load", () => this.loaded = true);
 
-    resourceLoader.loadImage(this.config.imageSrc)
+    loadImage(this.config.imageSrc)
       .then((reader: Optional<FileReader>) => reader ? this.config.image.src = reader.result as string : null)
       .catch(() => this.loaded = false);
   }
@@ -64,7 +64,7 @@ export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
     this.config.image.addEventListener("load", () => this.loaded = true);
 
     try {
-      const reader: Optional<FileReader> = await resourceLoader.loadImage(this.config.imageSrc);
+      const reader: Optional<FileReader> = await loadImage(this.config.imageSrc);
 
       if (reader) {
         this.config.image.src = reader.result as string;

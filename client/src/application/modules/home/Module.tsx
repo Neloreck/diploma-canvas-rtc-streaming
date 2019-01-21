@@ -10,7 +10,7 @@ import {ModuleRouter} from "@Module/home/ModuleRouter";
 export class Module extends PureComponent {
 
   public componentDidMount(): void {
-    log.info("Module 'HOME' has been mounted.");
+    log.info("*** Module 'HOME' has been mounted.");
   }
 
   public render(): ReactNode {

@@ -35,8 +35,7 @@
       "call-signature",
       "member-variable-declaration",
       "parameter",
-      "property-declaration",
-      "variable-declaration"
+      "property-declaration"
     ]
   },
 

@@ -7,12 +7,14 @@ import {DocumentStoreUtils, Logger} from "@Lib/utils";
 
 // Api.
 import {
-  authClient,
-  IAuthInfoResponse, IRegisterResponse,
-  ITokenData,
+  getAuthInfo,
+  getTokens,
+  IAuthInfoResponse,
+  IRegisterResponse, ITokenData,
   ITokensResponse,
   IUserAuthData,
-  IXCoreFailedResponse
+  IXCoreFailedResponse,
+  register
 } from "@Api/x-core";
 
 // Data.
@@ -120,7 +122,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     this.update();
 
     // Try to authorize.
-    const response: ITokensResponse = await authClient.getTokens({ grant_type: "password", username, password });
+    const response: ITokensResponse = await getTokens({ grant_type: "password", username, password });
     state = this.context.authState;
 
     if (response.error) {
@@ -161,7 +163,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     state = this.context.authState;
 
-    const response: IRegisterResponse | IXCoreFailedResponse = await authClient.register({ username, mail, password });
+    const response: IRegisterResponse | IXCoreFailedResponse = await register({ username, mail, password });
 
     if (response.error) {
       state.errorMessage = (response as IXCoreFailedResponse).error.message;
@@ -214,7 +216,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     authState = this.context.authState;
 
-    const response: IAuthInfoResponse = await authClient.getAuthInfo({});
+    const response: IAuthInfoResponse = await getAuthInfo({});
 
     if (response.success && response.authenticated) {
       authState.authData = {username: response.username};

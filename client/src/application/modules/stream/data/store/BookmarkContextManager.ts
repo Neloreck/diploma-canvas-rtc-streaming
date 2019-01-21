@@ -2,11 +2,11 @@ import {ReactContextManager} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 
 // Lib.
+import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 
 // Api.
-import {IBookmarksResponse, ILiveEventLayoutBookmark, IXCoreFailedResponse, liveClient} from "@Api/x-core";
-import {Optional} from "@Lib/ts/types";
+import {getLiveEventBookmarks, IBookmarksResponse, ILiveEventLayoutBookmark, IXCoreFailedResponse} from "@Api/x-core";
 
 // Data.
 
@@ -57,7 +57,7 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
 
     try {
 
-      const response: IBookmarksResponse | IXCoreFailedResponse = await liveClient.getLiveEventBookmarks(eventId);
+      const response: IBookmarksResponse | IXCoreFailedResponse = await getLiveEventBookmarks(eventId);
 
       this.updateStateRef();
 

@@ -4,7 +4,7 @@
     "doTypeCheck": true,
     "forkChecker": true,
     "isolatedModules": true,
-    "cacheDirectory": "target/ts-cache",
+    "cacheDirectory": "target/ts/cache",
     "useBabel": true,
     "useCache": true
   },
