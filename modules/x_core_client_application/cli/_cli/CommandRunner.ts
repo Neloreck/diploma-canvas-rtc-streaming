@@ -5,33 +5,6 @@ export class CommandRunner {
 
   protected static readonly PARENT?: string = process.env.PARENT;
 
-  protected static runProcess(item: string, args: Array<string>): Promise<void> {
-
-    return new Promise((resolve: () => void, reject: (error: Error) => void): void => {
-
-      try {
-        const childProcess: ChildProcess = spawn(item, args,  {
-          cwd: process.cwd(),
-          detached: true,
-          env: { ...process.env, PARENT: "X-CORE-CLI" },
-          shell: true,
-          stdio: [process.stdin, process.stdout, process.stderr]
-        });
-
-        const checkCode: (code: number) => void = (code: number): void => code === 0
-          ? resolve()
-          : reject(new Error("Command exited with non 0 code: " + code + "."));
-
-        childProcess.on("error", (data: string) => reject(new Error(data.toString())));
-        childProcess.on("close", checkCode);
-        childProcess.on("exit", checkCode);
-
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
   private readonly cmd: string;
   private readonly script: string | Array<string>;
   private readonly config: any;
@@ -39,11 +12,16 @@ export class CommandRunner {
   private finished: boolean = false;
   private startTime: number = NaN;
 
+  private childProcess: ChildProcess | null = null;
+
   public constructor(cmd: string, script: string | Array<string>, config?: any) {
 
     this.cmd = cmd;
     this.script = script;
     this.config = config;
+
+    process.on("exit" as any, this.onProcessShutdown.bind(this));
+    process.on("disconnect" as any, this.onProcessShutdown.bind(this));
   }
 
   public async run(): Promise<void> {
@@ -91,7 +69,7 @@ export class CommandRunner {
       try {
 
         const scriptArgs: Array<string> = scriptToExecute.split(" ");
-        await CommandRunner.runProcess(scriptArgs[0], [...scriptArgs.slice(1)]);
+        await this.runProcess(scriptArgs[0], [...scriptArgs.slice(1)]);
 
         if (hasMany) {
           this.onPartialSuccess(scriptToExecute);
@@ -102,6 +80,54 @@ export class CommandRunner {
         throw error;
       }
 
+    }
+  }
+
+  protected runProcess(item: string, args: Array<string>): Promise<void> {
+
+    return new Promise((resolve: () => void, reject: (error: Error) => void): void => {
+
+      try {
+        this.childProcess = spawn(item, args,  {
+          cwd: process.cwd(),
+          detached: true,
+          env: { ...process.env, PARENT: "X-CORE-CLI" },
+          shell: true,
+          stdio: [process.stdin, process.stdout, process.stderr]
+        });
+
+        const checkCode = (code: number): void => {
+          if (code === 0) {
+            resolve();
+            this.childProcess = null;
+          } else {
+            this.childProcess = null;
+            reject(new Error("Command exited with non 0 code: " + code + "."));
+          }
+        };
+
+        this.childProcess.on("error", (data: string) => {
+          (this.childProcess as ChildProcess).kill("1");
+          reject(new Error(data.toString()));
+        });
+        this.childProcess.on("close", checkCode);
+        this.childProcess.on("exit", checkCode);
+
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /*
+   * Process events.
+   */
+
+  protected onProcessShutdown(signal: string): void {
+
+    if (this.childProcess) {
+      this.childProcess.kill(signal);
+      this.childProcess = null;
     }
   }
 

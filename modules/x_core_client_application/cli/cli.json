@@ -12,7 +12,7 @@
       "npm run cli lint",
       "npm run cli jest"
     ],
-    "jest": "npx ts-node --project ./cli/tsconfig.json ./cli/test/test.ts",
+    "jest": "npx ts-node --project ./cli/tsconfig.json ./cli/test/TestRunner.ts",
     "lint": "npx tslint --project ./src/"
   }
 }

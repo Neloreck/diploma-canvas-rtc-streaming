@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017",
+      "es2018",
+      "dom"
+    ],
+    "baseUrl": ".",
+    "outDir": "../target/dist:raw",
+    "paths": {
+      "@Application/*": [ "./main/application/*" ],
+      "@Application": [ "./main/application/index" ],
+      "@Lib/*": [ "./main/lib/*" ],
+      "@Server/*": [ "./main/server/*" ]
+    }
+  },
+  "types": [
+    "node"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
