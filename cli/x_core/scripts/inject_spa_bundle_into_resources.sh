@@ -9,7 +9,6 @@ echo "Building SPA bundle (production).";
 # CAN BE CHANGED, NOTE:
 echo "Moving SPA bundle into resources folder.";
 
-mkdir -p ./packages/x_core_server_application/src/main/resources/public/spa;
-cp -r ./packages/x_core_client_application/target/dist/* ./server/src/main/resources/public/spa/;
+# todo;
 
 echo "Job has been finished.";
