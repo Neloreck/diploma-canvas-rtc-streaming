@@ -48,8 +48,10 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     log.info("Configuring httpSecurity and session management.")
 
     httpSecurity
-      .cors().disable()
-      .csrf().disable();
-    }
+      .csrf
+        .disable
+      .cors;
+
+  }
 
 }

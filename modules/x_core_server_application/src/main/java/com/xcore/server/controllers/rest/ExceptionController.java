@@ -23,7 +23,7 @@ public class ExceptionController {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ExceptionHandler(AccessDeniedException.class)
   public FailedApiResponse handleUnauthorizedError() {
-    return  new FailedApiResponse("Access was denied.");
+    return new FailedApiResponse("Access was denied.");
   }
 
 }

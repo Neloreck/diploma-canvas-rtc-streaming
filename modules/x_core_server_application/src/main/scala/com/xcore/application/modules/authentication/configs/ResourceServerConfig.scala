@@ -66,15 +66,13 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
       .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     httpSecurity
-      .csrf()
-        .disable()
-      .cors()
-        .disable();
+      .csrf
+        .disable
+      .cors;
 
     httpSecurity
       .authorizeRequests()
-      .antMatchers("/auth/**").permitAll()
-      .antMatchers("/api/**").authenticated();
+        .antMatchers("/api/**").authenticated();
 
     httpSecurity
       .exceptionHandling()

@@ -14,11 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class GeneralController {
 
-  @RequestMapping("/")
-  public String handleBaseRoute() {
-    return "redirect:/home";
-  }
-
   @ResponseBody
   @RequestMapping("/api/**")
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
