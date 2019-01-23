@@ -1,0 +1,43 @@
+{
+  "defaultSeverity": "error",
+
+  "extends": [
+    "tslint:recommended"
+  ],
+
+  "linterOptions": {
+    "exclude": [
+      "target/**",
+      "**/*.Style.ts",
+      "**/*.Spec.ts",
+      "**/*.Test.ts"
+    ]
+  },
+
+  "jsRules": {},
+
+  "rules": {
+    "array-type": [true, "generic"],
+    "comma-dangle": ["error", "never"],
+    "semicolon": true,
+    "max-line-length": [false],
+    "no-empty-interface": false,
+    "trailing-comma": false,
+    "no-bitwise": false,
+    "object-literal-key-quotes": [
+      true, "as-needed"
+    ],
+    "typedef": [
+      true,
+      "array-destructuring",
+      "arrow-parameter",
+      "call-signature",
+      "member-variable-declaration",
+      "parameter",
+      "property-declaration"
+    ]
+  },
+
+
+  "rulesDirectory": []
+}
