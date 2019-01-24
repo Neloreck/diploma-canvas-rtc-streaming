@@ -3,8 +3,6 @@ import {blue, green, red, yellow} from "colors";
 
 export class Logger {
 
-  private static isDev = (): boolean => process.env.NODE_ENV === "development";
-
   private readonly prefix: string;
   private enabled: boolean = true;
 
@@ -14,10 +12,6 @@ export class Logger {
     if (enabled !== undefined) {
       this.enabled = enabled;
     }
-  }
-
-  public isEnabled(): boolean {
-    return this.enabled === true;
   }
 
   public enable(): void {
@@ -35,13 +29,13 @@ export class Logger {
   }
 
   public debug(...args: Array<any>): void {
-    if (Logger.isDev() && this.isEnabled()) {
+    if (this.enabled === true) {
       console.debug(`${blue(this.prefix)}`, "[D]", ...args);
     }
   }
 
   public warn(...args: Array<any>): void {
-    if (Logger.isDev() && this.isEnabled()) {
+    if (this.enabled === true) {
       console.warn(`${yellow(this.prefix)}`, ...args);
     }
   }
@@ -51,7 +45,7 @@ export class Logger {
   }
 
   public info(...args: Array<any>): void {
-    if (Logger.isDev() && this.isEnabled()) {
+    if (this.enabled === true) {
       console.info(`${green(this.prefix)}`, ...args);
     }
   }

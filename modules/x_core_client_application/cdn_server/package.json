@@ -2,10 +2,16 @@
   "name": "x-core-cdn",
   "version": "1.0.0",
   "description": "CDN application for static files.",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "npx cross-env NODE_ENV=production node ./src/server/server",
-    "start:dev": "npx cross-env NODE_ENV=development ts-node -P ./src/tsconfig.json -r tsconfig-paths/register ./src/main/server/CdnServer",
+    "start": "npx cross-env NODE_ENV=production node ./target/index.js",
+    "start:dev": "npx cross-env NODE_ENV=development ts-node -P ./src/tsconfig.json -r tsconfig-paths/register ./src/index.ts",
+    "=====": "========================================================================================================",
+    "build": "npm run clean && npm run transpile:ts && npm run transpile:babel",
+    "transpile:ts": "tsc -p ./src/tsconfig.json --outdir ./target/ts-transpiled ",
+    "transpile:babel": "npx babel ./target/ts-transpiled --out-dir ./target --extensions \".ts,.js\" && rm -r ./target/ts-transpiled",
+    "clean": "npx rimraf ./target",
+    "======": "=======================================================================================================",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +24,39 @@
     "url": "https://github.com/Neloreck/x-core/issues"
   },
   "homepage": "https://github.com/Neloreck/x-core#readme",
+  "babel": {
+    "presets": [
+      "@babel/preset-typescript",
+      [
+        "@babel/preset-env",
+        {
+          "targets": { "node": true }
+        }
+      ]
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./target/ts"
+          ],
+          "alias": {
+            "@Application": "./target/ts-transpiled/main/application",
+            "@Lib": "./target/ts-transpiled/main/lib",
+            "@Server": "./target/ts-transpiled/main/server"
+          },
+          "extensions": [
+            ".js",
+            ".ts"
+          ]
+        }
+      ],
+      ["@babel/plugin-proposal-decorators", { "decoratorsBeforeExport": true }],
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread"
+    ]
+  },
   "dependencies": {
     "colors": "^1.3.3",
     "compression": "^1.7.3",
@@ -29,6 +68,13 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.1",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-typescript": "^7.1.0",
     "@types/compression": "0.0.36",
     "@types/cookie-parser": "^1.4.1",
     "@types/debug": "0.0.31",
@@ -36,6 +82,7 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.12.18",
     "@types/node-fetch": "^2.1.4",
+    "babel-plugin-module-resolver": "^3.1.3",
     "ts-node": "^8.0.1",
     "tsconfig-paths": "^3.7.0",
     "tslint": "^5.12.1",

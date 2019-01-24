@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+source ./cli/config.cfg
+
 # Run x-core api.
 
 echo "Starting api server."
 
-(cd ./modules/x_core_server_application/ && mvn spring-boot:run -Drun.profiles=development)
+(cd ${X_CORE_API_SERVER_DIR} && mvn spring-boot:run -Dspring-boot.run.profiles=development)

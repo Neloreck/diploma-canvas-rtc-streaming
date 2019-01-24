@@ -2,12 +2,11 @@ import {green, magenta} from "colors";
 import {Express, RequestHandler, Router} from "express";
 
 // Libs.
-import {AbstractController} from "@Lib/express/controllers";
+import {AbstractController, CONTROLLERS_POOL} from "@Lib/express/controllers";
 import {EMetadataKeys, ERequestMethod} from "@Lib/express/types";
 import {log, Logger} from "@Lib/utils/logger";
 
 const logger: Logger = log.getPrefixed("[REST]");
-const controllersPool: Array<AbstractController> = [];
 
 const putRoute = (router: Router, method: ERequestMethod, mapping: string, handler: RequestHandler) => {
 
@@ -63,7 +62,11 @@ export const mapControllers = (express: Express, ...controllerClasses: Array<typ
         // @ts-ignore
         const controller: AbstractController = new controllerClass.prototype.constructor();
 
-        controllersPool.push(controller);
+        if (CONTROLLERS_POOL[controllerClass.name]) {
+          throw new Error("Trying to define controller with same name. Such operation is not supported.");
+        }
+
+        CONTROLLERS_POOL[controllerClass.name] = controller;
 
         for (const method of controllerMethods) {
 

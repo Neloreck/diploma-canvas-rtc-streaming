@@ -4,7 +4,7 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,

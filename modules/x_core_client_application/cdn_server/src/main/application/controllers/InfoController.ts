@@ -9,7 +9,7 @@ import {statsService} from "@Application/services";
 @Controller("/api/info")
 export class InfoController extends AbstractController {
 
-  @Get("/")
+  @Get("/stats")
   private getRootInfo(req: Request, res: Response, next: NextFunction): void {
 
     const currentTime: Date = new Date();
