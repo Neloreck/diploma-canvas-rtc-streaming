@@ -4,4 +4,4 @@
 
 cd $(dirname "$0");
 
-java -jar ./server.jar com.xcore.server.XCoreServer --spring.profiles.active=production
+java -jar ./server.jar com.xcore.server.XCoreServer --spring.profiles.active=production;

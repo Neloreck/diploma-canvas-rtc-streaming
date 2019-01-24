@@ -6,5 +6,6 @@ source ./cli/config.cfg;
 
 echo "Starting api server.";
 
-cd ${X_CORE_API_SERVER_DIR};
-mvn spring-boot:run -Dspring-boot.run.profiles=development;
+cd ${X_CORE_API_SERVER_DIR}/cli/development;
+
+docker-compose up;

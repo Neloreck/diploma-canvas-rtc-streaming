@@ -22,18 +22,17 @@ echo "Building src.";
 cd ${X_CORE_CDN_SERVER_DIR};
 npm install;
 npm run build;
-wait;
 cd ${X_CORE_ROOT};
 
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 
 echo "Moving package.";
-cp ${X_CORE_CDN_SERVER_DIR}/package* ${CDN_DIR}/
-mv ${X_CORE_CDN_SERVER_DIR}/target ${CDN_DIR}/target
+cp ${X_CORE_CDN_SERVER_DIR}/package* ${CDN_DIR}/;
+mv ${X_CORE_CDN_SERVER_DIR}/target ${CDN_DIR}/target;
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 
 echo "Installing dependencies.";
-cd ${CDN_DIR} && npm install --prodiction
+cd ${CDN_DIR} && npm install --prodiction;
 echo "Package built.";
 cd ${X_CORE_ROOT};
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
@@ -51,7 +50,7 @@ cd ${X_CORE_ROOT};
 mkdir -p ${PUBLIC_DIR};
 mv ${X_CORE_WEB_CLIENT_DIR}/target/dist/* ${PUBLIC_DIR}/;
 
-cp $(dirname "$0")/start.sh ${CDN_DIR}/
+cp $(dirname "$0")/start.sh ${CDN_DIR}/;
 
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 echo "Finished.";
