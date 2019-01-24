@@ -28,45 +28,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @SpringBootTest(classes = {XCoreServer.class})
 @ActiveProfiles(profiles = {"testing"})
-public class OAuthMvcTest {
+public class ClientTokenAuthTest {
 
   @Autowired
   private WebApplicationContext wac;
 
   @Autowired
-  private FilterChainProxy springSecurityFilterChain;
+  private WebSecurityOptions webSecurityOptions;
 
   @Autowired
-  private WebSecurityOptions webSecurityOptions;
+  private FilterChainProxy springSecurityFilterChain;
+
+  // Manual.
 
   private MockMvc mockMvc;
 
   @Before
-  public void initialize() {
+  public void setup() {
     this.mockMvc = MockMvcBuilders
       .webAppContextSetup(this.wac)
-      .addFilter(springSecurityFilterChain)
-      .build();
+      .addFilter(this.springSecurityFilterChain).build();
   }
 
   @Test
   public void testAccessTokensForDefaultUsers() throws Exception {
 
-    String adminToken = obtainAccessToken("admin", "admin");
-    String moderatorToken = obtainAccessToken("moderator", "moderator");
+    final String adminToken = obtainClientAppAccessToken("admin", "admin");
+    final String moderatorToken = obtainClientAppAccessToken("moderator", "moderator");
 
   }
 
-  private String obtainAccessToken(final String username, final String password) throws Exception {
+  private String obtainClientAppAccessToken(final String username, final String password) throws Exception {
 
-    MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+    final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 
     params.add("client_id", webSecurityOptions.CLIENT_APPLICATION_ID());
     params.add("grant_type", "password");
     params.add("username", username);
     params.add("password", password);
 
-    ResultActions result = mockMvc
+    final ResultActions result = mockMvc
       .perform(post("/auth/token")
       .params(params)
       .with(httpBasic(webSecurityOptions.CLIENT_APPLICATION_ID(), webSecurityOptions.CLIENT_APPLICATION_SECRET()))
@@ -74,15 +75,13 @@ public class OAuthMvcTest {
       .andExpect(status().isOk())
       .andExpect(content().contentType("application/json;charset=UTF-8"));
 
-    String resultString = result.andReturn().getResponse().getContentAsString();
-    JacksonJsonParser jsonParser = new JacksonJsonParser();
+    final String resultString = result.andReturn().getResponse().getContentAsString();
+    final JacksonJsonParser jsonParser = new JacksonJsonParser();
 
     return jsonParser
-        .parseMap(resultString)
-        .get("access_token")
-        .toString();
+      .parseMap(resultString)
+      .get("access_token")
+      .toString();
   }
-
-
 
 }
