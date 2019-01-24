@@ -3,6 +3,7 @@
 # Run x-core web client dev server
 
 source ./cli/config.cfg;
+set -e;
 
 CDN_DIR=${X_CORE_TARGET_DIR}/cdn;
 PUBLIC_DIR=${CDN_DIR}/target/resources/public;

@@ -3,6 +3,7 @@
 # Run x-core web client dev server
 
 source ./cli/config.cfg;
+set -e;
 
 API_DIR=${X_CORE_TARGET_DIR}/api;
 
