@@ -3,7 +3,6 @@
 Diploma application. <br/>
 Allows to record and modify streams via WebRTC. <br/>
 
-
 ## Development
 
     ./cli/development/api/setupEnvironment.sh # Docker env for API server.
