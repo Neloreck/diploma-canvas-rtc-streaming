@@ -51,7 +51,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
                 <Fragment>
 
                   <Button variant={"outlined"} size={"small"} onClick={this.onGoLive}>
-                    Create Event <LiveTv className={classes.liveIcon} fontSize={"small"}/>
+                    Go Live <LiveTv className={classes.liveIcon} fontSize={"small"}/>
                   </Button>
 
                   <HeaderBarUserMenu {...{} as IHeaderBarUserMenuExternalProps}/>

@@ -1,11 +1,11 @@
 import {Theme} from "@material-ui/core/es";
 import {createStyles} from "@material-ui/core/styles";
 
-import homePageMainImage from "@Module/home/view/assets/images/home/main-preview.jpg";
+import backgroundImage from "@Module/home/view/assets/images/main-background.jpg";
 
 export const homePageStyle = (theme: Theme) => createStyles({
   content: {
-    background: `url(${homePageMainImage}) no-repeat center center fixed`,
+    background: `url(${backgroundImage}) no-repeat center center fixed`,
     backgroundSize: "cover",
     flexGrow: 24,
     padding: theme.spacing.unit,

@@ -1,12 +1,20 @@
 import {CONFIG, getRequest, IBookmarkResponse, IBookmarksResponse, IXCoreFailedResponse, postRequest} from "@Api/x-core";
 import {IBookmarkCreateRequest, IEventCreateRequest} from "@Api/x-core/live/requests";
-import {IEventCreateResponse, IGetEventResponse, ILayoutBookmarkGraphicsResponse} from "@Api/x-core/live/responses";
+import {
+  IEventCreateResponse,
+  IGetActiveEventResponse,
+  IGetEventResponse,
+  ILayoutBookmarkGraphicsResponse
+} from "@Api/x-core/live/responses";
 
 export const LIVE_MAPPING: string = CONFIG.X_CORE_SERVER_URL + "/api/live";
 
 /*
- * LAYOUT EVENT:
+ * LIVE EVENT:
  */
+
+export const checkActiveEvent = async (): Promise<IGetActiveEventResponse | IXCoreFailedResponse> =>
+  await getRequest(`${LIVE_MAPPING}/stats/user/activeEvent`) as IGetActiveEventResponse;
 
 export const getLiveEvent = async (eventId: string): Promise<IGetEventResponse | IXCoreFailedResponse> =>
   await getRequest(`${LIVE_MAPPING}/events/${eventId}`) as IGetEventResponse;

@@ -15,6 +15,7 @@ import {ILiveEventLayoutBookmark} from "@Api/x-core";
 // View.
 import {Button, CircularProgress, Grid, WithStyles} from "@material-ui/core";
 import {layoutConfigurationTabStyle} from "./LayoutConfigurationTab.Style";
+import {Bind} from "@redux-cbd/utils";
 
 // Props.
 
@@ -65,7 +66,7 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
     return (
       <Grid className={classes.menu}>
 
-        <Button>Create</Button>
+        <Button onClick={this.onCreateButtonClicked}>Create</Button>
         <Button>Placeholder</Button>
 
         <Grid direction={"column"} container>
@@ -93,6 +94,14 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
     } else {
       return null;
     }
+  }
+
+  @Bind()
+  private onCreateButtonClicked(): void {
+
+    const {bookmarkActions: {createBookmark}} = this.props;
+
+    createBookmark();
   }
 
 }

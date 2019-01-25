@@ -19,5 +19,5 @@ export interface ILiveEventLayoutBookmark {
   id: number;
   created: number;
   name: string;
-  graphicsObject: Array<any> | null;
+  graphicsObjects: Array<ISerializedGraphicsObject>;
 }

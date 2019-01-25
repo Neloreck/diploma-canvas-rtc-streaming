@@ -2,6 +2,7 @@ package com.xcore.application.modules.live.models.sessions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xcore.application.modules.live.exceptions.session.*;
+import com.xcore.application.modules.live.models.events.LiveEvent;
 import com.xcore.application.modules.live.services.LiveMessagingService;
 import io.netty.util.internal.ConcurrentSet;
 import lombok.*;
@@ -26,6 +27,7 @@ public class LiveStreamingSession {
   private final String id;
   private final Long ownerId;
   private final String messagingRoom;
+  private UUID liveEventId;
 
   private final Date created = new Date();
   private Date lastActive = new Date();

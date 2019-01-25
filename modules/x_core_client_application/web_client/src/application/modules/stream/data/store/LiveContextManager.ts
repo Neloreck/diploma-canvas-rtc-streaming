@@ -7,6 +7,7 @@ import {Logger} from "@Lib/utils";
 
 // Api.
 import {
+  checkActiveEvent,
   createLiveEvent,
   getLiveEvent,
   IEventCreateResponse,
@@ -17,13 +18,15 @@ import {
 
 // Data.
 import {applicationConfig} from "@Main/data/configs";
-import {authContextManager} from "@Main/data/store";
+import {authContextManager, routerContextManager} from "@Main/data/store";
 import {sourceContextManager} from "@Module/stream/data/store";
 import {LiveService} from "@Module/stream/lib/live/LiveService";
+import {IGetActiveEventResponse} from "@Api/x-core/live/responses";
 
 export interface ILiveContext {
   liveActions: {
     createEvent(name: string, description: string, secured: boolean, securedKey: string): Promise<ILiveEvent>;
+    checkActiveEvent(): Promise<void>;
     syncLiveEvent(eventId: string): Promise<ILiveEvent>;
     start(): Promise<void>;
     stop(): Promise<void>;
@@ -43,8 +46,9 @@ export interface ILiveContext {
 
 export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
-  protected context: ILiveContext = {
+  public context: ILiveContext = {
     liveActions: {
+      checkActiveEvent: this.checkActiveEvent,
       connectRTC: this.connectWebRTC,
       createEvent: this.createEvent,
       disconnectRTC: this.disconnectWebRtc,
@@ -127,6 +131,34 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
       throw new Error(eventResponse.error.mesage);
     }
+  }
+
+  @Bind()
+  public async checkActiveEvent(): Promise<void> {
+
+    this.updateStateRef();
+    this.context.liveState.liveEventLoading = true;
+    this.update();
+
+    const response: IGetActiveEventResponse | IXCoreFailedResponse = await checkActiveEvent();
+
+    this.updateStateRef();
+
+    if (response.success) {
+
+      const activeLiveEvent: Optional<ILiveEvent> = (response as IGetActiveEventResponse).liveEvent;
+
+      if (activeLiveEvent) {
+        this.log.info("User already has live event created. Using it.");
+        this.context.liveState.liveEvent = activeLiveEvent;
+      }
+
+    } else {
+      this.log.error("Failed to check active live event:", response.error);
+    }
+
+    this.context.liveState.liveEventLoading = false;
+    this.update();
   }
 
   @Bind()
@@ -226,7 +258,13 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   @Bind()
   protected async startStreaming(): Promise<void> {
 
-    await this.liveService.startStream();
+    const liveEvent: ILiveEvent | null = this.context.liveState.liveEvent;
+
+    if (!liveEvent) {
+      throw new Error("Cannot connect, event is not provided.");
+    }
+
+    await this.liveService.startStream(liveEvent.id);
 
     this.updateStateRef();
     this.context.liveState.live = true;

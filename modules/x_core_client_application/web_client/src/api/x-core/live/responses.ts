@@ -6,6 +6,10 @@ export interface IEventCreateResponse extends IXCoreResponse {
   owner: number;
 }
 
+export interface IGetActiveEventResponse extends IXCoreResponse {
+  liveEvent: ILiveEvent | null;
+}
+
 export interface IGetEventResponse extends IXCoreResponse {
   liveEvent: ILiveEvent;
 }

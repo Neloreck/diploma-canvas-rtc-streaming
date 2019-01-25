@@ -1,7 +1,8 @@
-package com.xcore.application.modules.live.controllers;
+package com.xcore.application.modules.live.controllers.media;
 
 import com.xcore.application.modules.live.models.messages.LiveICECandidateMessage;
 import com.xcore.application.modules.live.models.messages.LiveSdpMessage;
+import com.xcore.application.modules.live.models.messages.LiveStartMessage;
 import com.xcore.application.modules.live.models.messages.LiveWebSocketMessage;
 import com.xcore.application.modules.live.services.LiveMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,12 @@ public final class LiveMediaSocketController {
   /* RECORD: */
 
   @MessageMapping("/live.{eventId}.record.start")
-  public void onStartRecord(@DestinationVariable final String eventId, @Payload final LiveWebSocketMessage<LiveSdpMessage> message, final SimpMessageHeaderAccessor headerAccessor) {
-    liveMediaService.handleStartRecord(eventId, headerAccessor.getSessionId());
+  public void onStartRecord(@DestinationVariable final String eventId, @Payload final LiveWebSocketMessage<LiveStartMessage> message, final SimpMessageHeaderAccessor headerAccessor) {
+    liveMediaService.handleStartRecord(eventId, headerAccessor.getSessionId(), message.getBody().getEventId());
   }
 
   @MessageMapping("/live.{eventId}.record.stop")
-  public void onStopRecord(@DestinationVariable final String eventId, @Payload final LiveWebSocketMessage<LiveSdpMessage> message, final SimpMessageHeaderAccessor headerAccessor) {
+  public void onStopRecord(@DestinationVariable final String eventId, @Payload final LiveWebSocketMessage<Object> message, final SimpMessageHeaderAccessor headerAccessor) {
     liveMediaService.handleStopRecord(eventId, headerAccessor.getSessionId());
   }
 

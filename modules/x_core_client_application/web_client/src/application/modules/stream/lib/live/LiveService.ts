@@ -113,9 +113,12 @@ export class LiveService {
   }
 
   @Bind()
-  public async startStream(): Promise<void> {
+  public async startStream(eventId: string): Promise<void> {
     this.log.info("Starting stream record.");
-    await this.liveWebSocketController.sendMessage("record.start", { type: ELiveSocketMessageType.START_RECORD, body: {} });
+    await this.liveWebSocketController.sendMessage("record.start", {
+      body: { eventId },
+      type: ELiveSocketMessageType.START_RECORD
+    });
   }
 
   @Bind()

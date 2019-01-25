@@ -7,7 +7,9 @@ import {Styled} from "@Lib/react_lib/mui";
 // View.
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
 import {AnimatedMount} from "@Main/view/utils";
-import {Card, CardContent, Grid, Typography, WithStyles} from "@material-ui/core";
+import {Grid, WithStyles} from "@material-ui/core";
+import {IIndexFooterExternalProps, IndexFooter} from "@Module/home/view/components/general/IndexFooter";
+import {HomeLayout, IHomeLayoutExternalProps} from "@Module/home/view/components/home/HomeLayout";
 import {homePageStyle} from "./HomePage.Style";
 
 // Props.
@@ -34,41 +36,9 @@ export class HomePage extends PureComponent<IHomePageProps> {
               justify={"space-around"} direction={"column"} alignItems={"stretch"} container
             >
 
-              <Grid container>
+              <HomeLayout {...{} as IHomeLayoutExternalProps}/>
 
-                <Grid sm={8} item>
-                  <Card>
-                    <CardContent>
-                      <Typography color={"textSecondary"} gutterBottom>
-                        Welcome to X-Core streaming platform.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid sm={4} item>
-                  <Card>
-                    <CardContent>
-                      <Typography color={"textSecondary"} gutterBottom>
-                        Welcome to X-Core streaming platform.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardContent>
-                      <Typography color={"textSecondary"} gutterBottom>
-                        Welcome to X-Core streaming platform.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-              </Grid>
-
-              <Grid container>
-                Footer
-              </Grid>
+              <IndexFooter {...{} as IIndexFooterExternalProps}/>
 
             </Grid>
 

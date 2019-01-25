@@ -6,17 +6,26 @@ import {Optional} from "@Lib/ts/types";
 import {Logger} from "@Lib/utils";
 
 // Api.
-import {getLiveEventBookmarks, IBookmarksResponse, ILiveEventLayoutBookmark, IXCoreFailedResponse} from "@Api/x-core";
+import {
+  createLiveEventBookmark,
+  getLiveEventBookmarks, IBookmarkResponse,
+  IBookmarksResponse,
+  ILiveEventLayoutBookmark,
+  IXCoreFailedResponse
+} from "@Api/x-core";
+import {liveContextManager} from "@Module/stream/data/store/index";
 
 // Data.
 
 export interface IBookmarkContext {
   bookmarkActions: {
     loadBookmarks(eventId: string): void;
+    createBookmark(): void;
   };
   bookmarkState: {
     selectedBookmark: Optional<number>;
     bookmarks: Array<ILiveEventLayoutBookmark>;
+    bookmarksCreating: boolean;
     bookmarksLoading: boolean;
   };
 }
@@ -25,10 +34,12 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
 
   protected context: IBookmarkContext = {
     bookmarkActions: {
+      createBookmark: this.createBookmark,
       loadBookmarks: this.loadBookmarks
     },
     bookmarkState: {
       bookmarks: [],
+      bookmarksCreating: false,
       bookmarksLoading: false,
       selectedBookmark: null
     }
@@ -41,6 +52,7 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
 
     this.context.bookmarkState = {
       bookmarks: [],
+      bookmarksCreating: false,
       bookmarksLoading: false,
       selectedBookmark: null
     };
@@ -75,6 +87,33 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
       this.context.bookmarkState.bookmarksLoading = false;
       this.update();
     }
+  }
+
+  @Bind()
+  public async createBookmark(): Promise<void> {
+
+    const {liveEvent} = liveContextManager.context.liveState;
+
+    if (!liveEvent) {
+      throw new Error("Cannot create bookmark. No events selected.");
+    }
+
+    this.updateStateRef();
+    this.context.bookmarkState.bookmarksCreating = true;
+    this.update();
+
+    const response = await createLiveEventBookmark(liveEvent.id, { name: "New one." });
+
+    this.updateStateRef();
+
+    if (response.success) {
+      this.context.bookmarkState.bookmarks.push((response as IBookmarkResponse).bookmark);
+    } else {
+      this.log.error("Failed to create bookmark:", response.error);
+    }
+
+    this.context.bookmarkState.bookmarksCreating = false;
+    this.update();
   }
 
   // Utility.
