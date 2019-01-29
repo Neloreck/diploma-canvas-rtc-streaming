@@ -118,7 +118,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
       this.updateStateRef();
       this.context.liveState.liveEvent = liveEvent;
-      this.context.liveState.liveEventStatus = ELiveEventStatus.CREATING;
+      this.context.liveState.liveEventStatus = ELiveEventStatus.PREVIEW;
       this.update();
 
       this.log.info("Created live event.", liveEvent);
@@ -127,7 +127,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     } else {
 
       this.updateStateRef();
-      this.context.liveState.liveEventStatus = ELiveEventStatus.CREATING;
+      this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
       this.update();
 
       throw new Error(eventResponse.error.mesage);
