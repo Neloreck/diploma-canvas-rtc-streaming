@@ -17,16 +17,17 @@ import {
 } from "@Api/x-core";
 
 // Data.
-import {applicationConfig} from "@Main/data/configs";
-import {authContextManager, routerContextManager} from "@Main/data/store";
-import {sourceContextManager} from "@Module/stream/data/store";
-import {LiveService} from "@Module/stream/lib/live/LiveService";
 import {IGetActiveEventResponse} from "@Api/x-core/live/responses";
+import {applicationConfig} from "@Main/data/configs";
+import {authContextManager} from "@Main/data/store";
+import {sourceContextManager} from "@Module/stream/data/store";
+import {ELiveEventStatus} from "@Module/stream/data/store/live/types";
+import {LiveService} from "@Module/stream/lib/live/LiveService";
 
 export interface ILiveContext {
   liveActions: {
     createEvent(name: string, description: string, secured: boolean, securedKey: string): Promise<ILiveEvent>;
-    checkActiveEvent(): Promise<void>;
+    checkActiveEvent(): Promise<Optional<ILiveEvent>>;
     syncLiveEvent(eventId: string): Promise<ILiveEvent>;
     start(): Promise<void>;
     stop(): Promise<void>;
@@ -38,8 +39,8 @@ export interface ILiveContext {
   liveState: {
     live: boolean;
     liveEvent: Optional<ILiveEvent>;
-    liveEventLoading: boolean;
-    socketOnline: boolean;
+    liveEventStatus: ELiveEventStatus,
+    socketConnected: boolean;
     rtcConnected: boolean;
   };
 }
@@ -61,9 +62,9 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     liveState: {
       live: false,
       liveEvent: null,
-      liveEventLoading: false,
+      liveEventStatus: ELiveEventStatus.ABSENT,
       rtcConnected: false,
-      socketOnline: false
+      socketConnected: false
     }
   };
 
@@ -83,9 +84,9 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     this.context.liveState = {
       live: false,
       liveEvent: null,
-      liveEventLoading: false,
+      liveEventStatus: ELiveEventStatus.ABSENT,
       rtcConnected: false,
-      socketOnline: false
+      socketConnected: false
     };
 
     this.liveService.stop()
@@ -106,7 +107,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     }
 
     this.updateStateRef();
-    this.context.liveState.liveEventLoading = true;
+    this.context.liveState.liveEventStatus = ELiveEventStatus.CREATING;
     this.update();
 
     const eventResponse: IEventCreateResponse | IXCoreFailedResponse = await createLiveEvent({ name, description, secured, securedKey });
@@ -117,7 +118,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
       this.updateStateRef();
       this.context.liveState.liveEvent = liveEvent;
-      this.context.liveState.liveEventLoading = false;
+      this.context.liveState.liveEventStatus = ELiveEventStatus.CREATING;
       this.update();
 
       this.log.info("Created live event.", liveEvent);
@@ -126,7 +127,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     } else {
 
       this.updateStateRef();
-      this.context.liveState.liveEventLoading = false;
+      this.context.liveState.liveEventStatus = ELiveEventStatus.CREATING;
       this.update();
 
       throw new Error(eventResponse.error.mesage);
@@ -134,19 +135,21 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   }
 
   @Bind()
-  public async checkActiveEvent(): Promise<void> {
+  public async checkActiveEvent(): Promise<Optional<ILiveEvent>> {
 
     this.updateStateRef();
-    this.context.liveState.liveEventLoading = true;
+    this.context.liveState.liveEventStatus = ELiveEventStatus.LOADING;
     this.update();
 
     const response: IGetActiveEventResponse | IXCoreFailedResponse = await checkActiveEvent();
 
     this.updateStateRef();
 
+    let activeLiveEvent: Optional<ILiveEvent> = null;
+
     if (response.success) {
 
-      const activeLiveEvent: Optional<ILiveEvent> = (response as IGetActiveEventResponse).liveEvent;
+      activeLiveEvent = (response as IGetActiveEventResponse).liveEvent;
 
       if (activeLiveEvent) {
         this.log.info("User already has live event created. Using it.");
@@ -157,15 +160,17 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
       this.log.error("Failed to check active live event:", response.error);
     }
 
-    this.context.liveState.liveEventLoading = false;
+    this.context.liveState.liveEventStatus = this.context.liveState.liveEvent ? ELiveEventStatus.PREVIEW : ELiveEventStatus.ABSENT;
     this.update();
+
+    return activeLiveEvent;
   }
 
   @Bind()
   public async syncLiveEvent(eventId: string): Promise<ILiveEvent> {
 
     this.updateStateRef();
-    this.context.liveState.liveEventLoading = true;
+    this.context.liveState.liveEventStatus = ELiveEventStatus.LOADING;
     this.update();
 
     const eventResponse: IGetEventResponse | IXCoreFailedResponse = await getLiveEvent(eventId);
@@ -175,8 +180,11 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
       const liveEvent: ILiveEvent = (eventResponse as IGetEventResponse).liveEvent;
 
       this.updateStateRef();
-      this.context.liveState.liveEvent = liveEvent;
-      this.context.liveState.liveEventLoading = false;
+      this.context.liveState = {
+        ...this.context.liveState,
+        liveEvent,
+        liveEventStatus: ELiveEventStatus.PREVIEW
+      };
       this.update();
 
       this.log.info("Got event.", liveEvent);
@@ -185,7 +193,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     } else {
 
       this.updateStateRef();
-      this.context.liveState.liveEventLoading = false;
+      this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
       this.update();
 
       this.log.info(`Failed to get event '${eventId}'.`);
@@ -287,7 +295,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   private onOnlineStatusUpdated(status: boolean): void {
 
     // Prevent odd renders.
-    if (this.context.liveState.socketOnline === status) {
+    if (this.context.liveState.socketConnected === status) {
       return;
     }
 
@@ -296,14 +304,14 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     }
 
     this.updateStateRef();
-    this.context.liveState.socketOnline = status;
+    this.context.liveState.socketConnected = status;
     this.update();
   }
 
   @Bind()
   private async onOutputChanged(stream: Optional<MediaStream>): Promise<void>  {
 
-    if (this.context.liveState.socketOnline && !this.context.liveState.rtcConnected) {
+    if (this.context.liveState.socketConnected && !this.context.liveState.rtcConnected) {
       await this.connectWebRTC();
       // Update live.
     } else if (this.context.liveState.rtcConnected && stream) {

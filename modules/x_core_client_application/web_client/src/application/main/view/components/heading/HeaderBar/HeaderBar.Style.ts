@@ -14,7 +14,7 @@ export const headerBarStyle = (theme: Theme) => createStyles({
     position: "relative"
   },
   root: {
-    backgroundColor: theme.palette.type === "dark" ? theme.palette.background.paper : theme.palette.background.default,
+    backgroundColor: theme.palette.background.default,
     width: "100%"
   },
 });

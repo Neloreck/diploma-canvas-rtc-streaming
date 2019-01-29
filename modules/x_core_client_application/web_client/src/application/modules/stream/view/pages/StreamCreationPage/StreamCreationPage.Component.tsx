@@ -5,10 +5,12 @@ import {Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {Styled} from "@Lib/react_lib/mui";
+import {Optional} from "@Lib/ts/types";
 
 // Data.
 import {IRouterContext, routerContextManager} from "@Main/data/store";
 import {ILiveContext, liveContextManager} from "@Module/stream/data/store";
+import {ELiveEventStatus} from "@Module/stream/data/store/live/types";
 
 // Api.
 import {ILiveEvent} from "@Api/x-core/live/models";
@@ -46,16 +48,12 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
     if (liveEvent) {
       replace("/stream/live/" + liveEvent.id);
     } else {
-      checkActiveEvent().then();
-    }
-  }
-
-  public componentWillReceiveProps(nextProps: IStreamCreationPageProps): void {
-
-    const {routingActions: {replace}} = this.props;
-
-    if (nextProps.liveState.liveEvent) {
-      replace("/stream/live/" + nextProps.liveState.liveEvent.id);
+      checkActiveEvent()
+        .then((optionalEvent: Optional<ILiveEvent>) =>
+          optionalEvent
+            ? replace(`/stream/live/${optionalEvent.id}`)
+            : null
+        );
     }
   }
 
@@ -72,9 +70,9 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
 
   private renderContent(): ReactNode {
 
-    const {classes, liveState: {liveEventLoading}} = this.props;
+    const {classes, liveState: {liveEventStatus}} = this.props;
 
-    if (liveEventLoading) {
+    if (liveEventStatus === ELiveEventStatus.LOADING) {
       return  <MainLoadingProgressComponent {...{} as IMainLoadingProgressComponentExternalProps}/>;
     }
 
@@ -87,11 +85,12 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
 
           <Grid className={classes.content} direction={"column"} wrap={"nowrap"} alignItems={"center"} justify={"center"} container>
 
-            {
-              liveEventLoading
-                ? null
-                : <EventCreationForm loading={liveEventLoading} onBack={this.onCancelCreation} onCreate={this.onCreateLiveEvent} {...{} as IEventCreationFormExternalProps}/>
-            }
+             <EventCreationForm
+               loading={liveEventStatus === ELiveEventStatus.CREATING}
+               onBack={this.onCancelCreation}
+               onCreate={this.onCreateLiveEvent}
+               {...{} as IEventCreationFormExternalProps}
+             />
 
           </Grid>
 
