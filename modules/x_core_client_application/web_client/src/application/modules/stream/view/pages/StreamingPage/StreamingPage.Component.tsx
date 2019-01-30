@@ -6,6 +6,7 @@ import {Component, Fragment, PureComponent, ReactNode} from "react";
 // Lib.
 import {MediaUtils} from "@Lib/media";
 import {Styled} from "@Lib/react_lib/mui";
+import {log} from "@Lib/utils";
 
 // Api.
 import {ILiveEvent} from "@Api/x-core/live/models";
@@ -59,6 +60,10 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
     try {
       const event: ILiveEvent = liveEvent || await syncLiveEvent(getLastPart());
 
+      if (event.finished) {
+        return replace(`/stream/stats/${event.id}`);
+      }
+
       await startLive();
 
       if (captureAudio || captureVideo) {
@@ -66,7 +71,8 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
       }
 
     } catch (error) {
-      replace("/stream/error");
+      log.error("Failed to get live event:", error);
+      replace("/stream/create");
     }
   }
 

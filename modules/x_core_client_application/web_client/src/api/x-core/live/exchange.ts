@@ -1,4 +1,13 @@
-import {CONFIG, getRequest, IBookmarkResponse, IBookmarksResponse, IXCoreFailedResponse, postRequest} from "@Api/x-core";
+import {ISerializedGraphicsObject} from "@Lib/graphics";
+
+import {
+  CONFIG,
+  getRequest,
+  IBookmarkResponse,
+  IBookmarksResponse, IServerSerializedGraphicsObject,
+  IXCoreFailedResponse,
+  postRequest, putRequest
+} from "@Api/x-core";
 import {IBookmarkCreateRequest, IEventCreateRequest} from "@Api/x-core/live/requests";
 import {
   IEventCreateResponse,
@@ -8,6 +17,16 @@ import {
 } from "@Api/x-core/live/responses";
 
 export const LIVE_MAPPING: string = CONFIG.X_CORE_SERVER_URL + "/api/live";
+
+/*
+ * UTILS:
+ */
+
+export const convertToServerSerializedGraphics = (item: ISerializedGraphicsObject): IServerSerializedGraphicsObject =>
+  ({ className: item.className, configuration: JSON.stringify(item.configuration), position: JSON.stringify(item.position)});
+
+export const convertFromServerSerializedGraphics = (item: IServerSerializedGraphicsObject): ISerializedGraphicsObject =>
+  ({ className: item.className, configuration: JSON.parse(item.configuration), position: JSON.parse(item.position)});
 
 /*
  * LIVE EVENT:
@@ -38,8 +57,8 @@ export const getBookmark = async (bookmarkId: number): Promise<IBookmarkResponse
 export const getBookmarkGraphics = async (bookmarkId: number): Promise<ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse> =>
   await getRequest(`${LIVE_MAPPING}/bookmarks/${bookmarkId}/graphics`) as ILayoutBookmarkGraphicsResponse;
 
-export const setBookmarkGraphics = async (bookmarkId: number, request: { objects: Array<any> }): Promise<ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse> =>
-  await postRequest(`${LIVE_MAPPING}/bookmarks/${bookmarkId}/graphics`, request) as ILayoutBookmarkGraphicsResponse;
+export const setBookmarkGraphics = async (bookmarkId: number, request: { objects: Array<IServerSerializedGraphicsObject> }): Promise<ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse> =>
+  await putRequest(`${LIVE_MAPPING}/bookmarks/${bookmarkId}/graphics`, request) as ILayoutBookmarkGraphicsResponse;
 
 // @ts-ignore
 window.t = getRequest;

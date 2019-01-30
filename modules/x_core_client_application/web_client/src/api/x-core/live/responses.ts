@@ -1,5 +1,5 @@
 import {IXCoreResponse} from "@Api/x-core";
-import {ILiveEvent, ILiveEventLayoutBookmark, ISerializedGraphicsObject} from "@Api/x-core/live/models";
+import {ILiveEvent, ILiveEventLayoutBookmark, IServerSerializedGraphicsObject} from "@Api/x-core/live/models";
 
 export interface IEventCreateResponse extends IXCoreResponse {
   liveEvent: ILiveEvent;
@@ -27,5 +27,5 @@ export interface IBookmarksResponse extends IXCoreResponse {
 export interface ILayoutBookmarkGraphicsResponse extends IXCoreResponse {
   liveEventId: string;
   bookmarkId: number;
-  objects: Array<ISerializedGraphicsObject>;
+  objects: Array<IServerSerializedGraphicsObject>;
 }

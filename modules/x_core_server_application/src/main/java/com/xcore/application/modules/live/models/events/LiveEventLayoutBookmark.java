@@ -27,7 +27,7 @@ public class LiveEventLayoutBookmark {
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private LiveEvent liveEvent;
 
-  @Embedded
+  @ElementCollection
   private List<LiveEventGraphicsObject> graphicsObjects = new ArrayList<>();
 
   // Own.

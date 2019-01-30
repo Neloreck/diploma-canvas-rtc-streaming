@@ -1,7 +1,7 @@
-export interface ISerializedGraphicsObject {
+export interface IServerSerializedGraphicsObject {
   className: string;
   position: string;
-  config: string;
+  configuration: string;
 }
 
 export interface ILiveEvent {
@@ -19,5 +19,5 @@ export interface ILiveEventLayoutBookmark {
   id: number;
   created: number;
   name: string;
-  graphicsObjects: Array<ISerializedGraphicsObject>;
+  graphicsObjects: Array<IServerSerializedGraphicsObject>;
 }

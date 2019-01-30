@@ -19,7 +19,7 @@ import {
 // Data.
 import {IGetActiveEventResponse} from "@Api/x-core/live/responses";
 import {applicationConfig} from "@Main/data/configs";
-import {authContextManager} from "@Main/data/store";
+import {authContextManager, routerContextManager} from "@Main/data/store";
 import {sourceContextManager} from "@Module/stream/data/store";
 import {ELiveEventStatus} from "@Module/stream/data/store/live/types";
 import {LiveService} from "@Module/stream/lib/live/LiveService";
@@ -76,6 +76,10 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
     sourceContextManager.onInputChanged = this.onInputChanged;
     sourceContextManager.onOutputChanged = this.onOutputChanged;
+
+    this.liveService.onOnlineStatusChange = this.onOnlineStatusUpdated;
+    this.liveService.onRecordStartReceived = this.onRecordStarted;
+    this.liveService.onRecordStopReceived = this.onRecordFinished;
   }
 
   @Bind()
@@ -154,13 +158,15 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
       if (activeLiveEvent) {
         this.log.info("User already has live event created. Using it.");
         this.context.liveState.liveEvent = activeLiveEvent;
+        this.context.liveState.liveEventStatus = activeLiveEvent.finished ? ELiveEventStatus.FINISHED : ELiveEventStatus.PREVIEW;
+      } else {
+        this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
       }
-
     } else {
       this.log.error("Failed to check active live event:", response.error);
+      this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
     }
 
-    this.context.liveState.liveEventStatus = this.context.liveState.liveEvent ? ELiveEventStatus.PREVIEW : ELiveEventStatus.ABSENT;
     this.update();
 
     return activeLiveEvent;
@@ -183,7 +189,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
       this.context.liveState = {
         ...this.context.liveState,
         liveEvent,
-        liveEventStatus: ELiveEventStatus.PREVIEW
+        liveEventStatus: liveEvent.finished ? ELiveEventStatus.FINISHED : ELiveEventStatus.PREVIEW
       };
       this.update();
 
@@ -198,7 +204,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
       this.log.info(`Failed to get event '${eventId}'.`);
 
-      throw new Error(eventResponse.error.mesage);
+      throw new Error(eventResponse.error.message);
     }
   }
 
@@ -212,7 +218,6 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     const liveEvent: ILiveEvent = this.context.liveState.liveEvent as ILiveEvent;
 
     this.log.info("Starting live service, eventId:", liveEvent.id);
-    this.liveService.onOnlineStatusChange = this.onOnlineStatusUpdated;
 
     await this.liveService.start(
       applicationConfig.serverLiveSocketUrl,
@@ -307,6 +312,30 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     this.context.liveState.socketConnected = status;
     this.update();
   }
+
+  @Bind()
+  private onRecordStarted(): void {
+    this.log.info("Record successfully started.");
+  }
+
+  @Bind()
+  private async onRecordFinished(): Promise<void> {
+
+    this.log.info("Record successfully stopped.");
+
+    if (!this.context.liveState.liveEvent) {
+      throw new Error("Got totally unexpected error. No events present while stopping record.");
+    }
+
+    this.updateStateRef();
+    this.context.liveState.liveEvent.finished = true;
+    this.context.liveState.liveEventStatus = ELiveEventStatus.FINISHED;
+    this.update();
+
+    routerContextManager.replace(`/stream/stats/${this.context.liveState.liveEvent.id}`);
+  }
+
+  // Input changes handling.
 
   @Bind()
   private async onOutputChanged(stream: Optional<MediaStream>): Promise<void>  {

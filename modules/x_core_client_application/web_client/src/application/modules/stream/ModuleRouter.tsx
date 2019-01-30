@@ -20,6 +20,7 @@ import {
 const StreamingPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@streaming-page" */"@Module/stream/view/pages/StreamingPage"));
 const StreamCreationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-creation-page" */"@Module/stream/view/pages/StreamCreationPage"));
 const StreamConfigurationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-config-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
+const StreamStatsPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-finished-page" */"@Module/stream/view/pages/StreamStatsPage"));
 
 @Provide(graphicsContextManager, liveContextManager, renderingContextManager, sourceContextManager, bookmarkContextManager)
 export class ModuleRouter extends PureComponent {
@@ -54,6 +55,14 @@ export class ModuleRouter extends PureComponent {
             redirect={true}
             path={`${this.modulePrefix}/configure/:id`}
             component={StreamConfigurationPage}
+            {...{} as IPrivateRouteExternalProps}
+          />
+
+          <PrivateRoute
+            exact={true}
+            redirect={true}
+            path={`${this.modulePrefix}/stats/:id`}
+            component={StreamStatsPage}
             {...{} as IPrivateRouteExternalProps}
           />
 

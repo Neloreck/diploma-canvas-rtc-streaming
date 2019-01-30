@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 public class LiveEventGraphicsObject {
 
   private String position;
-  private String config;
+  private String configuration;
   private String className;
 
 }

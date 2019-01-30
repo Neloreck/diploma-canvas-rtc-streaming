@@ -35,6 +35,10 @@ export class RenderingService {
     return objects.map((object: AbstractCanvasGraphicsSerializableObject<any>) => object.serialize());
   }
 
+  public deserializeObjects(objects: Array<ISerializedGraphicsObject>): Array<AbstractCanvasGraphicsRenderObject<any>> {
+    return objects.map((objectSerialized: ISerializedGraphicsObject) => this.deserializeObject(objectSerialized));
+  }
+
   public deserializeObject(objectSerialized: ISerializedGraphicsObject): AbstractCanvasGraphicsRenderObject<any> {
 
     const descriptor: ICanvasObjectDescriptor<any> = this.getDescriptor(objectSerialized.className);

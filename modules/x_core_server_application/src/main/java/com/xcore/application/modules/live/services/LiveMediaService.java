@@ -91,6 +91,8 @@ public final class LiveMediaService {
       liveStreamingSession.setLiveEventId(eventId);
       liveStreamingSession.startRecord();
 
+      this.liveMessagingService.sendRecordStart(room);
+
     } catch (SessionDisposedException | SessionRecordedException | SessionAlreadyRecordingException | SessionNotInitializedException | SessionNotStartedException ex) {
       this.handleError(room, socketSessionId, ex);
     }
@@ -102,8 +104,9 @@ public final class LiveMediaService {
       final LiveStreamingSession liveStreamingSession = this.liveSessionService.getSession(socketSessionId);
 
       this.liveEventService.setFinished(liveStreamingSession.getLiveEventId());
-
       liveStreamingSession.stopRecord();
+
+      this.liveMessagingService.sendRecordStop(room);
 
     } catch (EventNotFoundException | SessionNotStartedException | SessionNotInitializedException | SessionDisposedException | SessionRecordedException ex) {
       this.handleError(room, socketSessionId, ex);
@@ -130,7 +133,7 @@ public final class LiveMediaService {
 
     log.error("Got live error: '{}'.", errorMessage);
 
-    liveMessagingService.sendError(room, errorMessage);
+    this.liveMessagingService.sendError(room, errorMessage);
   }
 
   /*

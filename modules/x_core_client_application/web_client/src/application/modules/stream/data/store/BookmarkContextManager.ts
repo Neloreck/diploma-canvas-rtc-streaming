@@ -7,12 +7,15 @@ import {Logger} from "@Lib/utils";
 
 // Api.
 import {
+  convertToServerSerializedGraphics,
   createLiveEventBookmark,
   getLiveEventBookmarks, IBookmarkResponse,
   IBookmarksResponse,
-  ILiveEventLayoutBookmark,
-  IXCoreFailedResponse
+  ILiveEventLayoutBookmark, IServerSerializedGraphicsObject,
+  IXCoreFailedResponse, setBookmarkGraphics
 } from "@Api/x-core";
+import {ILayoutBookmarkGraphicsResponse} from "@Api/x-core/live/responses";
+import {ISerializedGraphicsObject} from "@Lib/graphics";
 import {liveContextManager} from "@Module/stream/data/store/index";
 
 // Data.
@@ -20,6 +23,7 @@ import {liveContextManager} from "@Module/stream/data/store/index";
 export interface IBookmarkContext {
   bookmarkActions: {
     loadBookmarks(eventId: string): void;
+    saveBookmarkGraphics(eventId: number, objects: Array<ISerializedGraphicsObject>): Promise<void>;
     createBookmark(): void;
   };
   bookmarkState: {
@@ -35,7 +39,8 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
   protected context: IBookmarkContext = {
     bookmarkActions: {
       createBookmark: this.createBookmark,
-      loadBookmarks: this.loadBookmarks
+      loadBookmarks: this.loadBookmarks,
+      saveBookmarkGraphics: this.saveBookmarkGraphics
     },
     bookmarkState: {
       bookmarks: [],
@@ -81,7 +86,7 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
       }
 
     } catch (error) {
-      this.log.error("Failed to load bookmarks, undexpected:", error);
+      this.log.error("Failed to load bookmarks, unexpected:", error);
       this.context.bookmarkState.bookmarks = [];
     } finally {
       this.context.bookmarkState.bookmarksLoading = false;
@@ -113,6 +118,37 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
     }
 
     this.context.bookmarkState.bookmarksCreating = false;
+    this.update();
+  }
+
+  @Bind()
+  public async saveBookmarkGraphics(bookmarkId: number, objects: Array<ISerializedGraphicsObject>): Promise<void> {
+
+    this.updateStateRef();
+    this.context.bookmarkState.bookmarksLoading = true;
+    this.update();
+
+    const serverSerializedObjects: Array<IServerSerializedGraphicsObject> = objects.map(convertToServerSerializedGraphics);
+    const response: ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse = await setBookmarkGraphics(
+      bookmarkId, { objects: serverSerializedObjects }
+    );
+
+    this.updateStateRef();
+    this.context.bookmarkState.bookmarksLoading = false;
+
+    if (response.success) {
+      this.log.info(`Saved bookmark ${bookmarkId} graphics.`);
+
+      this.context.bookmarkState.bookmarks.forEach((it: ILiveEventLayoutBookmark) => {
+        if (it.id === bookmarkId) {
+          it.graphicsObjects = serverSerializedObjects;
+        }
+      });
+
+    } else {
+      throw new Error("Failed to sync event bookmark graphics: " + response.error.message);
+    }
+
     this.update();
   }
 
