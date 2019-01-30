@@ -72,7 +72,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   protected setObjects(objects: Array<AbstractCanvasGraphicsRenderObject<any>>): void {
 
-    this.log.info(`Setting new objects: ${objects}.`);
+    this.log.info(`Setting new objects: (${objects.length}).`);
 
     this.context.graphicsState.objects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
     this.context.graphicsState = { ...this.context.graphicsState, objects, selectedObject: null };

@@ -18,7 +18,7 @@ import {
 } from "@Module/stream/data/store";
 
 // Api.
-import {convertFromServerSerializedGraphics, ILiveEventLayoutBookmark} from "@Api/x-core";
+import {ILiveEventLayoutBookmark} from "@Api/x-core";
 
 // View.
 import {Button, CircularProgress, Grid, WithStyles} from "@material-ui/core";
@@ -85,7 +85,7 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
             bookmarks.map((item: ILiveEventLayoutBookmark) => (
               <Grid key={item.id}>
                 {item.id} -> {item.name}
-                <Button onClick={(): void => setObjects(renderingService.deserializeObjects(item.graphicsObjects.map(convertFromServerSerializedGraphics)))}>Apply</Button>
+                <Button onClick={(): void => setObjects(renderingService.deserializeObjects(item.graphicsObjects))}>Apply</Button>
                 <Button onClick={(): Promise<void> => saveBookmarkGraphics(item.id, renderingService.serializeObjects(objects))}>Save</Button>
               </Grid>
               )

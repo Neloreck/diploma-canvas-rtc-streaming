@@ -7,11 +7,10 @@ import {Logger} from "@Lib/utils";
 
 // Api.
 import {
-  convertToServerSerializedGraphics,
   createLiveEventBookmark,
   getLiveEventBookmarks, IBookmarkResponse,
   IBookmarksResponse,
-  ILiveEventLayoutBookmark, IServerSerializedGraphicsObject,
+  ILiveEventLayoutBookmark,
   IXCoreFailedResponse, setBookmarkGraphics
 } from "@Api/x-core";
 import {ILayoutBookmarkGraphicsResponse} from "@Api/x-core/live/responses";
@@ -128,9 +127,8 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
     this.context.bookmarkState.bookmarksLoading = true;
     this.update();
 
-    const serverSerializedObjects: Array<IServerSerializedGraphicsObject> = objects.map(convertToServerSerializedGraphics);
     const response: ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse = await setBookmarkGraphics(
-      bookmarkId, { objects: serverSerializedObjects }
+      bookmarkId, { objects }
     );
 
     this.updateStateRef();
@@ -141,7 +139,7 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
 
       this.context.bookmarkState.bookmarks.forEach((it: ILiveEventLayoutBookmark) => {
         if (it.id === bookmarkId) {
-          it.graphicsObjects = serverSerializedObjects;
+          it.graphicsObjects = objects;
         }
       });
 
