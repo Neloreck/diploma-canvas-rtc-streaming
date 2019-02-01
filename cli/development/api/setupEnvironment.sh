@@ -6,11 +6,15 @@ source ./cli/config.cfg;
 
 echo "Starting api server.";
 
-cd ${X_CORE_API_SERVER_DIR}/cli/development;
+cd ./cli/development/api;
 
 # Mac OS;
 docker-machine start default;
 eval $(docker-machine env);
+
+# Remove old containers.
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 
 # Container up.
 docker-compose up;
