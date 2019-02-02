@@ -4,8 +4,7 @@ import * as React from "react";
 import {PureComponent, ReactNode} from "react";
 
 // Data.
-import {themeContextManager} from "@Main/data/store";
-import {IThemeContext} from "@Main/data/store/theme/ThemeContextManager";
+import {IThemeContext, themeContextManager} from "@Main/data/store";
 
 // Props.
 export interface IGlobalThemeProviderProps extends IThemeContext {}

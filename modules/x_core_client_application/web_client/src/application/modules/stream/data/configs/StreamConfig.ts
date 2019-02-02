@@ -1,12 +1,11 @@
-import {Single, TypeUtils} from "@redux-cbd/utils";
+import {TypeUtils} from "@redux-cbd/utils";
 
 // Lib.
 import {Optional} from "@Lib/ts/types";
 
-@Single()
-export class StreamConfig {
+export const streamConfig = {
 
-  private static readonly DEFAULT_VIDEO_CONSTRAINTS: object = {
+  DEFAULT_VIDEO_CONSTRAINTS: {
     advanced: [
       { aspectRatio: { min: 16 / 9, exact: 16 / 9 } },
       { width: { min: 640, max: 1920 } }
@@ -14,14 +13,14 @@ export class StreamConfig {
     aspectRatio: { exact: 16 / 9, ideal: 16 / 9 },
     frameRate: { min: 24, ideal: 30, max: 60 },
     height: { min: 360, ideal: 720, max: 1080 }
-  };
+  },
 
-  private static readonly DESKTOP_CAPTURING_CONSTRAINT: object = {
+  DESKTOP_CAPTURING_CONSTRAINT: {
     audio: false,
     video: {}
-  };
+  },
 
-  public getMediaConstraints(
+  getMediaConstraints(
     videoInput: Optional<MediaDeviceInfo> | string | boolean,
     audioInput: Optional<MediaDeviceInfo> | string | boolean
   ): MediaStreamConstraints {
@@ -33,9 +32,9 @@ export class StreamConfig {
           : false,
       video:
         videoInput
-          ? { ...StreamConfig.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: TypeUtils.isString(videoInput) ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId}}
+          ? { ...this.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : {exact: TypeUtils.isString(videoInput) ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId}}
           : false
     };
   }
 
-}
+};

@@ -8,7 +8,7 @@ import {
 import {MediaUtils} from "@Lib/media";
 
 // Data.
-import {streamConfig} from "@Module/stream/data/configs";
+import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
 
 export interface IVideoFrameConfig {
   borderWidth: number;

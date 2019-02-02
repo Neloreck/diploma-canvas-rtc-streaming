@@ -18,7 +18,7 @@ import {
 
 // Data.
 import {IGetActiveEventResponse} from "@Api/x-core/live/responses";
-import {applicationConfig} from "@Main/data/configs";
+import {applicationConfig} from "@Main/data/configs/ApplicationConfig";
 import {authContextManager, routerContextManager} from "@Main/data/store";
 import {sourceContextManager} from "@Module/stream/data/store";
 import {ELiveEventStatus} from "@Module/stream/data/store/live/types";

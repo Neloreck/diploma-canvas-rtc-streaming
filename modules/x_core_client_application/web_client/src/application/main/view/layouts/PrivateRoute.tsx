@@ -38,10 +38,12 @@ export class PrivateRoute extends Route<IPrivateRouteProps> {
   public componentWillReceiveProps(nextProps: IPrivateRouteProps): void {
 
     const {redirect, reversed, authState: {authorizing, authorized}, routingActions: {replace, getQueryParams}} = nextProps;
-    const next: string | Array<string> = getQueryParams().next;
 
     if (authorizing === false && (reversed ? authorized : !authorized)) {
-      replace(TypeUtils.isString(next) ? next as string : (TypeUtils.isString(redirect) ? redirect as string : "/todo"));
+
+			const {next} = getQueryParams();
+
+			replace(TypeUtils.isString(next) ? next as string : (TypeUtils.isString(redirect) ? redirect as string : "/todo"));
     }
   }
 
