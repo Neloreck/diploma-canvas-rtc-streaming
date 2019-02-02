@@ -1,5 +1,3 @@
-import {cloneDeep} from "lodash";
-
 import {ISerializedGraphicsObject, TObjectPosition} from "../../types";
 
 export abstract class AbstractCanvasGraphicsSerializableObject<T extends object> {
@@ -30,14 +28,14 @@ export abstract class AbstractCanvasGraphicsSerializableObject<T extends object>
   public serialize(): ISerializedGraphicsObject {
     return {
       className: this.constructor.name,
-      configuration: cloneDeep(this.config),
-      position: cloneDeep(this.position)
+      configuration: JSON.stringify(this.config),
+      position: JSON.stringify(this.position)
     };
   }
 
   public applySerialized(serialized: ISerializedGraphicsObject): void {
-    this.config = cloneDeep(serialized.configuration);
-    this.position = cloneDeep(serialized.position);
+    this.config = JSON.parse(serialized.configuration);
+    this.position = JSON.parse(serialized.position);
   }
 
 }

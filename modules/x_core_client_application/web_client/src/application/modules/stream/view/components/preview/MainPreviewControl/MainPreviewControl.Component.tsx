@@ -76,7 +76,8 @@ export class MainPreviewControl extends Component<IMainPreviewControlProps> {
             showGraphics={showGraphics}
             showPreview={showPreview}
             onOutputStreamReady={updateOutputStream}
-          />
+          >
+          </CanvasGraphicsPreprocessor>
         </Grid>
 
         {this.renderHelpingControlTooltipButtons()}

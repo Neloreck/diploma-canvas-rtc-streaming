@@ -82,7 +82,7 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
   private renderEventControlButtons(): Optional<ReactNode> {
 
-    const {classes, liveState: {socketOnline, rtcConnected, live}, liveActions: {startStreaming, stopStreaming}, routingState: {history}} = this.props;
+    const {classes, liveState: {socketConnected, rtcConnected, live}, liveActions: {startStreaming, stopStreaming}, routingState: {history}} = this.props;
 
     if (!/live\/.*$/.test(history.location.pathname)) {
       return null;
@@ -96,18 +96,18 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
             ?
             <Button variant={"outlined"} size={"small"}
                     onClick={stopStreaming}
-                    disabled={!rtcConnected || !socketOnline}>
+                    disabled={!rtcConnected || !socketConnected}>
               Stop
-              {(!socketOnline || !rtcConnected)
+              {(!socketConnected || !rtcConnected)
                 ? <CircularProgress className={classes.connectionProgress} size={12}/>
                 : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
             </Button>
 
             : <Button variant={"outlined"} size={"small"}
                       onClick={startStreaming}
-                      disabled={!rtcConnected || !socketOnline}>
+                      disabled={!rtcConnected || !socketConnected}>
               Go Live
-              {(!socketOnline || !rtcConnected)
+              {(!socketConnected || !rtcConnected)
                 ? <CircularProgress className={classes.connectionProgress} size={12}/>
                 : <LiveTv className={classes.startIcon} fontSize={"small"}/>}
             </Button>

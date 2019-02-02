@@ -5,32 +5,38 @@ import {createServer, Server} from "http";
 import "reflect-metadata";
 
 // Lib.
-import {EntryPoint} from "@Lib/utils/EntryPoint";
 import {Logger} from "@Lib/utils/logger";
 
 // App.
 import {CdnApplication} from "@Application";
 import {serverConfig} from "@Server/configs";
 
-@EntryPoint()
 export class CdnServer {
 
-  public static readonly log: Logger = new Logger("[✴️SERVER]");
+  public readonly log: Logger = new Logger("[✴️ SERVER]");
 
-  public static application: CdnApplication;
-  public static instance: Server;
+  public application: CdnApplication;
+  public instance!: Server;
 
-  public static main(): void {
+  constructor() {
+    this.application = new CdnApplication();
+  }
 
-    CdnServer.log.info("Server initialization.");
+  public start(): void {
 
-    CdnServer.application = new CdnApplication();
+    this.log.info("========================================");
+    this.log.info("= =      Server initialization.      = =");
+    this.log.info("========================================");
 
-    CdnServer.instance = createServer(CdnServer.application.getExpress());
+    this.instance = createServer(this.application.getExpress());
 
-    CdnServer.instance.on("error", (...args: Array<any>) => CdnServer.log.error("Server failed to start:", ...args));
-    CdnServer.instance.on("listening", () => CdnServer.log.info(`Server initialized. Listening port: ${serverConfig.port}.`));
-    CdnServer.instance.listen(serverConfig.port);
+    this.instance.on("error", (...args: Array<any>) => this.log.error("Server failed to start:", ...args));
+    this.instance.on("listening", () => {
+      this.log.info("========================================");
+      this.log.info(`= Server initialized. Listening port: '${serverConfig.port}'.`);
+      this.log.info("========================================");
+    });
+    this.instance.listen(serverConfig.port);
   }
 
 }

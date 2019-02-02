@@ -21,13 +21,19 @@ export class LiveService {
 
   public constructor() {
 
+    // Live session.
     this.liveWebSocketController.onSdpAnswerReceived = this.liveWebRtcController.handleSDPAnswer;
     this.liveWebSocketController.onICECandidateReceived = this.liveWebRtcController.handleAddICECandidate;
     this.liveWebSocketController.onErrorReceived = this.liveWebRtcController.handleRemoteError;
     this.liveWebSocketController.onSessionExchangeCompleted = this.onSessionExchangeCompleted;
     this.liveWebSocketController.onStatusChanged = this.handleStatusChange;
-
     this.liveWebRtcController.onSDPGenerationError = this.onSessionGenerationError;
+
+    // Record.
+    this.liveWebSocketController.onRecordStartReceived = this.handleRecordStart;
+    this.liveWebSocketController.onRecordStopReceived = this.handleRecordStop;
+
+    // External.
     this.liveWebRtcController.onSendMessage = this.liveWebSocketController.sendMessage;
   }
 
@@ -35,12 +41,24 @@ export class LiveService {
    * External.
    */
 
+  // Listeners:
+
   @Bind()
   public handleStatusChange(online: boolean): void {
     this.onOnlineStatusChange(online);
   }
 
-  public onOnlineStatusChange(status: boolean): void { /* INJECT */ }
+  @Bind()
+  public handleRecordStart(): void {
+    this.onRecordStartReceived();
+  }
+
+  @Bind()
+  public handleRecordStop(): void {
+    this.onRecordStopReceived();
+  }
+
+  // Dispatchers:
 
   @Bind()
   public onSessionGenerationError(error: Error): void {
@@ -51,6 +69,12 @@ export class LiveService {
   public onSessionExchangeCompleted(): void {
     this.log.info("Session exchange finish confirmation received.");
   }
+
+  public onOnlineStatusChange(status: boolean): void { /* INJECT */ }
+
+  public onRecordStartReceived(): void { /* INJECT */ }
+
+  public onRecordStopReceived(): void { /* INJECT */ }
 
   /*
    * Control.
@@ -113,9 +137,12 @@ export class LiveService {
   }
 
   @Bind()
-  public async startStream(): Promise<void> {
+  public async startStream(eventId: string): Promise<void> {
     this.log.info("Starting stream record.");
-    await this.liveWebSocketController.sendMessage("record.start", { type: ELiveSocketMessageType.START_RECORD, body: {} });
+    await this.liveWebSocketController.sendMessage("record.start", {
+      body: { eventId },
+      type: ELiveSocketMessageType.START_RECORD
+    });
   }
 
   @Bind()
