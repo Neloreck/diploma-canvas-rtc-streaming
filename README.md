@@ -16,11 +16,7 @@ Allows to record and modify streams via WebRTC. <br/>
 
     ./target/cdn/build.sh
     ./target/api/build.sh    
-    
-     Run:
 
-    ./target/cdn/start.sh
-    ./target/api/start.sh
 
 ### Tips:
 

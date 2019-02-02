@@ -23,7 +23,7 @@ const StreamConfigurationPage: ComponentClass = lazyLoadComponentFactory.getComp
 const StreamStatsPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-finished-page" */"@Module/stream/view/pages/StreamStatsPage"));
 
 @Provide(graphicsContextManager, liveContextManager, renderingContextManager, sourceContextManager, bookmarkContextManager)
-export class ModuleRouter extends PureComponent {
+export class StreamRouter extends PureComponent {
 
   private readonly modulePrefix: string = "/stream";
 

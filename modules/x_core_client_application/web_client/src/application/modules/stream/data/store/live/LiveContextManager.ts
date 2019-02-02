@@ -82,23 +82,6 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     this.liveService.onRecordStopReceived = this.onRecordFinished;
   }
 
-  @Bind()
-  public dispose(): void {
-
-    this.context.liveState = {
-      live: false,
-      liveEvent: null,
-      liveEventStatus: ELiveEventStatus.ABSENT,
-      rtcConnected: false,
-      socketConnected: false
-    };
-
-    this.liveService.stop()
-      .then();
-
-    this.log.info("Disposed live storage.");
-  }
-
   /*
    * Event management.
    */
@@ -269,7 +252,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
    */
 
   @Bind()
-  protected async startStreaming(): Promise<void> {
+  public async startStreaming(): Promise<void> {
 
     const liveEvent: ILiveEvent | null = this.context.liveState.liveEvent;
 
@@ -285,7 +268,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   }
 
   @Bind()
-  protected async stopStreaming(): Promise<void> {
+  public async stopStreaming(): Promise<void> {
 
     await this.liveService.stopStream();
 
@@ -297,7 +280,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   // State observing:
 
   @Bind()
-  private onOnlineStatusUpdated(status: boolean): void {
+  public onOnlineStatusUpdated(status: boolean): void {
 
     // Prevent odd renders.
     if (this.context.liveState.socketConnected === status) {
@@ -314,12 +297,12 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   }
 
   @Bind()
-  private onRecordStarted(): void {
+  public onRecordStarted(): void {
     this.log.info("Record successfully started.");
   }
 
   @Bind()
-  private async onRecordFinished(): Promise<void> {
+  public async onRecordFinished(): Promise<void> {
 
     this.log.info("Record successfully stopped.");
 
@@ -338,7 +321,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   // Input changes handling.
 
   @Bind()
-  private async onOutputChanged(stream: Optional<MediaStream>): Promise<void>  {
+  public async onOutputChanged(stream: Optional<MediaStream>): Promise<void>  {
 
     if (this.context.liveState.socketConnected && !this.context.liveState.rtcConnected) {
       await this.connectWebRTC();
@@ -349,12 +332,29 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   }
 
   @Bind()
-  private async onInputChanged(stream: Optional<MediaStream>): Promise<void> {
+  public async onInputChanged(stream: Optional<MediaStream>): Promise<void> {
     const audioTrack: Optional<MediaStreamTrack> = stream && stream.getAudioTracks()[0] || null;
     this.liveService.updateAudioTrack(audioTrack);
   }
 
   // Utility.
+
+  @Bind()
+  public onProvisionEnded(): void {
+
+    this.context.liveState = {
+      live: false,
+      liveEvent: null,
+      liveEventStatus: ELiveEventStatus.ABSENT,
+      rtcConnected: false,
+      socketConnected: false
+    };
+
+    this.liveService.stop()
+      .then();
+
+    this.log.info("Disposed live storage.");
+  }
 
   @Bind()
   private updateStateRef(): void {

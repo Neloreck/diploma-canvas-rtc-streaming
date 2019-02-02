@@ -46,8 +46,40 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
 
   private readonly log: Logger = new Logger("[🏭C-RND]", true);
 
+  // Actions:
+
   @Bind()
-  public dispose(): void {
+  public setAdditionVisibility(addDisabledObjects: boolean): void {
+    this.context.renderingState = { ...this.context.renderingState, addDisabledObjects };
+    this.update();
+  }
+
+  @Bind()
+  public setGridDisplay(showGrid: boolean): void {
+    this.context.renderingState = { ...this.context.renderingState, showGrid };
+    this.update();
+  }
+
+  @Bind()
+  public setGraphicsDisplay(showGraphics: boolean): void {
+    this.context.renderingState = { ...this.context.renderingState, showGraphics };
+    this.update();
+  }
+
+  @Bind()
+  public setPreviewDisplay(showPreview: boolean): void {
+    this.context.renderingState = { ...this.context.renderingState, showPreview };
+    this.update();
+  }
+
+  @Bind()
+  public setRendererEventsPropagation(propagateRendererEvents: boolean): void {
+    this.context.renderingState = { ...this.context.renderingState, propagateRendererEvents };
+    this.update();
+  }
+
+  @Bind()
+  public onProvisionEnded(): void {
 
     this.context.renderingState = {
       addDisabledObjects: true,
@@ -58,38 +90,6 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
     };
 
     this.log.info("Disposed rendering storage.");
-  }
-
-  // Actions:
-
-  @Bind()
-  protected setAdditionVisibility(addDisabledObjects: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, addDisabledObjects };
-    this.update();
-  }
-
-  @Bind()
-  protected setGridDisplay(showGrid: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, showGrid };
-    this.update();
-  }
-
-  @Bind()
-  protected setGraphicsDisplay(showGraphics: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, showGraphics };
-    this.update();
-  }
-
-  @Bind()
-  protected setPreviewDisplay(showPreview: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, showPreview };
-    this.update();
-  }
-
-  @Bind()
-  protected setRendererEventsPropagation(propagateRendererEvents: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, propagateRendererEvents };
-    this.update();
   }
 
 }
