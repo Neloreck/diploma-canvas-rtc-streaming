@@ -43,7 +43,9 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
         externalRenderingItems={this.getOutputRenderingObjectsContext()}
         internalRenderingItems={this.getPreviewRenderingObjectsContext()}
         {...{} as ICanvasGraphicsRendererExternalProps}
-      />
+      >
+        {this.props.children}
+      </CanvasGraphicsRenderer>
     );
   }
 

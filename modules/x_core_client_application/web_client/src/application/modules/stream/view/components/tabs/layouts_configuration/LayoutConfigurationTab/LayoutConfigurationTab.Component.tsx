@@ -1,4 +1,5 @@
 import {Consume} from "@redux-cbd/context";
+import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
 import {Fragment, PureComponent, ReactNode} from "react";
 
@@ -7,7 +8,14 @@ import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {bookmarkContextManager, IBookmarkContext, ILiveContext, liveContextManager} from "@Module/stream/data/store";
+import {renderingService} from "@Module/stream/data/services";
+import {
+  bookmarkContextManager,
+  graphicsContextManager,
+  IBookmarkContext, IGraphicsContext,
+  ILiveContext,
+  liveContextManager
+} from "@Module/stream/data/store";
 
 // Api.
 import {ILiveEventLayoutBookmark} from "@Api/x-core";
@@ -18,12 +26,11 @@ import {layoutConfigurationTabStyle} from "./LayoutConfigurationTab.Style";
 
 // Props.
 
-export interface ILayoutConfigurationTabExternalProps extends WithStyles<typeof layoutConfigurationTabStyle>, IBookmarkContext, ILiveContext {}
+export interface ILayoutConfigurationTabExternalProps extends WithStyles<typeof layoutConfigurationTabStyle>, IBookmarkContext, IGraphicsContext, ILiveContext {}
 export interface ILayoutConfigurationTabOwnProps {}
 export interface ILayoutConfigurationTabProps extends ILayoutConfigurationTabOwnProps, ILayoutConfigurationTabExternalProps {}
 
-@Consume(bookmarkContextManager)
-@Consume(liveContextManager)
+@Consume(bookmarkContextManager, graphicsContextManager, liveContextManager)
 @Styled(layoutConfigurationTabStyle)
 export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTabProps> {
 
@@ -60,18 +67,29 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
 
   private renderMenu(): ReactNode {
 
-    const {classes, bookmarkState: {bookmarks}} = this.props;
+    const {
+      classes,
+      bookmarkState: {bookmarks}, bookmarkActions: {saveBookmarkGraphics},
+      graphicsState: {objects}, graphicsActions: {eraseObjects, setObjects}
+    } = this.props;
 
     return (
       <Grid className={classes.menu}>
 
-        <Button>Create</Button>
-        <Button>Placeholder</Button>
+        <Button onClick={this.onCreateButtonClicked}>Create</Button>
+        <Button onClick={eraseObjects}>Clear</Button>
 
         <Grid direction={"column"} container>
 
           {
-            bookmarks.map((item: ILiveEventLayoutBookmark) => <Grid key={item.id}> {item.id} -> {item.name} </Grid>)
+            bookmarks.map((item: ILiveEventLayoutBookmark) => (
+              <Grid key={item.id}>
+                {item.id} -> {item.name}
+                <Button onClick={(): void => setObjects(renderingService.deserializeObjects(item.graphicsObjects))}>Apply</Button>
+                <Button onClick={(): Promise<void> => saveBookmarkGraphics(item.id, renderingService.serializeObjects(objects))}>Save</Button>
+              </Grid>
+              )
+            )
           }
 
         </Grid>
@@ -93,6 +111,14 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
     } else {
       return null;
     }
+  }
+
+  @Bind()
+  private onCreateButtonClicked(): void {
+
+    const {bookmarkActions: {createBookmark}} = this.props;
+
+    createBookmark();
   }
 
 }

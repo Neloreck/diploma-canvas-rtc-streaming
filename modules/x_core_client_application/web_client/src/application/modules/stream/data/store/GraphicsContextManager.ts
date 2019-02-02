@@ -20,6 +20,7 @@ export interface IGraphicsContext {
     eraseObjects(): void,
     swapObjectsByIndex(firstIndex: number, secondIndex: number): void,
     removeObject(object: AbstractCanvasGraphicsRenderObject<any>): void,
+    setObjects(objects: Array<AbstractCanvasGraphicsRenderObject<any>>): void,
     selectObject(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void,
   };
 }
@@ -32,6 +33,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
       eraseObjects: this.eraseObjects,
       removeObject: this.removeObject,
       selectObject: this.selectObject,
+      setObjects: this.setObjects,
       swapObjectsByIndex: this.swapObjectsByIndex
     },
     graphicsState: {
@@ -64,6 +66,17 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     }
 
     this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.concat(object)};
+    this.update();
+  }
+
+  @Bind()
+  protected setObjects(objects: Array<AbstractCanvasGraphicsRenderObject<any>>): void {
+
+    this.log.info(`Setting new objects: (${objects.length}).`);
+
+    this.context.graphicsState.objects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
+    this.context.graphicsState = { ...this.context.graphicsState, objects, selectedObject: null };
+
     this.update();
   }
 

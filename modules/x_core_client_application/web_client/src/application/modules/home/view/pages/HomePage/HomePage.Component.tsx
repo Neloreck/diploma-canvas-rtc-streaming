@@ -8,6 +8,8 @@ import {Styled} from "@Lib/react_lib/mui";
 import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
 import {AnimatedMount} from "@Main/view/utils";
 import {Grid, WithStyles} from "@material-ui/core";
+import {IIndexFooterExternalProps, IndexFooter} from "@Module/home/view/components/general/IndexFooter";
+import {HomeLayout, IHomeLayoutExternalProps} from "@Module/home/view/components/home/HomeLayout";
 import {homePageStyle} from "./HomePage.Style";
 
 // Props.
@@ -23,15 +25,21 @@ export class HomePage extends PureComponent<IHomePageProps> {
     const {classes} = this.props;
 
     return (
-        <Grid className={classes.root} container>
+        <Grid className={classes.root} wrap={"nowrap"} container>
 
           <HeaderBar {...{} as IHeaderBarExternalProps}/>
 
           <AnimatedMount>
 
-            <Grid className={classes.content} justify={"space-around"} alignItems={"center"} container>
-              <Grid> Home page </Grid>
-              <Grid> todo </Grid>
+            <Grid
+              className={classes.content}
+              justify={"space-around"} direction={"column"} alignItems={"stretch"} container
+            >
+
+              <HomeLayout {...{} as IHomeLayoutExternalProps}/>
+
+              <IndexFooter {...{} as IIndexFooterExternalProps}/>
+
             </Grid>
 
           </AnimatedMount>

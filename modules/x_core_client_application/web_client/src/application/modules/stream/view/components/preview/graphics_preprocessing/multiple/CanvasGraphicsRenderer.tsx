@@ -14,7 +14,7 @@ import {Optional} from "@Lib/ts/types";
 import {DomSizingUtils, Logger} from "@Lib/utils";
 
 // Data.
-import {applicationConfig} from "@Main/data/configs";
+import {applicationConfig} from "@Main/data/configs/ApplicationConfig";
 import {
   graphicsContextManager,
   IGraphicsContext,
@@ -161,6 +161,7 @@ export class CanvasGraphicsRenderer
           onMouseUp={this.handleLayoutMouseUp}
           onContextMenu={this.handleContextDown}
         >
+          {this.props.children}
           <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height} muted={true} autoPlay={true}/>
         </div>
 

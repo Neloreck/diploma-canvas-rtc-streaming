@@ -1,18 +1,19 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, Fragment, PureComponent, ReactNode} from "react";
+import {Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {MediaUtils} from "@Lib/media";
 import {Styled} from "@Lib/react_lib/mui";
+import {log} from "@Lib/utils";
 
 // Api.
 import {ILiveEvent} from "@Api/x-core/live/models";
 
 // Data.
 import {IRouterContext, routerContextManager} from "@Main/data/store";
-import {streamConfig} from "@Module/stream/data/configs";
+import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
 import {
   ILiveContext,
   IRenderingContext,
@@ -59,6 +60,10 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
     try {
       const event: ILiveEvent = liveEvent || await syncLiveEvent(getLastPart());
 
+      if (event.finished) {
+        return replace(`/stream/stats/${event.id}`);
+      }
+
       await startLive();
 
       if (captureAudio || captureVideo) {
@@ -66,7 +71,8 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
       }
 
     } catch (error) {
-      replace("/stream/error");
+      log.error("Failed to get live event:", error);
+      replace("/stream/create");
     }
   }
 

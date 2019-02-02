@@ -4,7 +4,7 @@
   "private": true,
   "repository": "https://github.com/neloreck/x-core",
   "description": "X-core project.",
-  "main": "./src/application/Application.ts",
+  "main": "./src/Application.ts",
   "scripts": {
     "start": "npx cross-env NODE_ENV=production npx webpack-dev-server --config ./cli/build/config/webpack.config.ts",
     "start:dev": "npx cross-env NODE_ENV=development npx webpack-dev-server --config ./cli/build/config/webpack.config.ts --inline --inspect $NODE_DEBUG_OPTION",

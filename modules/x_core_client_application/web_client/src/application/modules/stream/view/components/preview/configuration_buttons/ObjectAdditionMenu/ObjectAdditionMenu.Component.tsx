@@ -34,7 +34,6 @@ export class ObjectAdditionMenu extends PureComponent<IObjectAdditionMenuProps> 
     return (
       <Grid className={classes.root}>
         <List>
-          {JSON.stringify(DESCRIPTORS_MAP)}
           {Object.values(DESCRIPTORS_MAP).map(this.renderCanvasItem)}
         </List>
       </Grid>

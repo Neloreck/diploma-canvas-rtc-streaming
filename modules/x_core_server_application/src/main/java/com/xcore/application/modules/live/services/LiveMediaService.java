@@ -1,6 +1,7 @@
 package com.xcore.application.modules.live.services;
 
 import com.xcore.application.modules.live.configs.LiveMediaConfig;
+import com.xcore.application.modules.live.exceptions.event.EventNotFoundException;
 import com.xcore.application.modules.live.exceptions.session.*;
 import com.xcore.application.modules.live.models.sessions.LiveStreamingSession;
 import com.xcore.application.modules.storage.configs.StorageConfiguration;
@@ -10,12 +11,17 @@ import org.kurento.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Slf4j(topic = "[💣 LIVE MEDIA SERVICE]")
 @Service
 public final class LiveMediaService {
 
   @Autowired
   private LiveSessionService liveSessionService;
+
+  @Autowired
+  private LiveEventService liveEventService;
 
   @Autowired
   private LiveMessagingService liveMessagingService;
@@ -77,9 +83,16 @@ public final class LiveMediaService {
     }
   }
 
-  public void handleStartRecord(@NonNull final String room, @NonNull final String socketSessionId) {
+  public void handleStartRecord(@NonNull final String room, @NonNull final String socketSessionId, @NonNull final UUID eventId) {
     try {
-      this.liveSessionService.getSession(socketSessionId).startRecord();
+
+      final LiveStreamingSession liveStreamingSession = this.liveSessionService.getSession(socketSessionId);
+
+      liveStreamingSession.setLiveEventId(eventId);
+      liveStreamingSession.startRecord();
+
+      this.liveMessagingService.sendRecordStart(room);
+
     } catch (SessionDisposedException | SessionRecordedException | SessionAlreadyRecordingException | SessionNotInitializedException | SessionNotStartedException ex) {
       this.handleError(room, socketSessionId, ex);
     }
@@ -87,8 +100,15 @@ public final class LiveMediaService {
 
   public void handleStopRecord(@NonNull final String room, @NonNull final String socketSessionId) {
     try {
-      this.liveSessionService.getSession(socketSessionId).stopRecord();
-    } catch (SessionNotStartedException | SessionNotInitializedException | SessionDisposedException | SessionRecordedException ex) {
+
+      final LiveStreamingSession liveStreamingSession = this.liveSessionService.getSession(socketSessionId);
+
+      this.liveEventService.setFinished(liveStreamingSession.getLiveEventId());
+      liveStreamingSession.stopRecord();
+
+      this.liveMessagingService.sendRecordStop(room);
+
+    } catch (EventNotFoundException | SessionNotStartedException | SessionNotInitializedException | SessionDisposedException | SessionRecordedException ex) {
       this.handleError(room, socketSessionId, ex);
     }
   }
@@ -113,7 +133,7 @@ public final class LiveMediaService {
 
     log.error("Got live error: '{}'.", errorMessage);
 
-    liveMessagingService.sendError(room, errorMessage);
+    this.liveMessagingService.sendError(room, errorMessage);
   }
 
   /*

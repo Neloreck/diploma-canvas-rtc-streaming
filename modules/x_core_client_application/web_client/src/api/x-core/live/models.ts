@@ -1,8 +1,4 @@
-export interface ISerializedGraphicsObject {
-  className: string;
-  position: string;
-  config: string;
-}
+import {ISerializedGraphicsObject} from "@Lib/graphics";
 
 export interface ILiveEvent {
   id: string;
@@ -19,5 +15,5 @@ export interface ILiveEventLayoutBookmark {
   id: number;
   created: number;
   name: string;
-  graphicsObject: Array<any> | null;
+  graphicsObjects: Array<ISerializedGraphicsObject>;
 }

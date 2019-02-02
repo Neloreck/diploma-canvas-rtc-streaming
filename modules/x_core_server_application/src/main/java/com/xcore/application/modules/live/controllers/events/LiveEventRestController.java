@@ -1,6 +1,7 @@
 package com.xcore.application.modules.live.controllers.events;
 
 import com.xcore.application.modules.authentication.exceptions.UserNotFoundException;
+import com.xcore.application.modules.authentication.models.user.ApplicationUser;
 import com.xcore.application.modules.authentication.utils.AuthenticationUtils;
 import com.xcore.application.modules.live.controllers.events.exchange.LiveEventCreateRequest;
 import com.xcore.application.modules.live.controllers.events.exchange.LiveEventCreateResponse;
@@ -33,12 +34,17 @@ public class LiveEventRestController {
   @PostMapping()
   public ApiResponse createLiveEvent(@RequestBody final LiveEventCreateRequest request) {
 
-    final Long ownerId = AuthenticationUtils.getAuthorizedUserId();
+    final ApplicationUser applicationUser = AuthenticationUtils.getAuthorizedUser();
+    final Long ownerId = applicationUser.getId();
 
     try {
 
+      if (liveEventService.getUserActiveEvent(applicationUser) != null) {
+        return new FailedApiResponse("Failed to create new event. User already has active one.");
+      }
+
       final LiveEvent liveEvent = liveEventService.createLiveEvent(
-          ownerId, request.getName(), request.getDescription(), request.getSecured(), request.getSecuredKey()
+        ownerId, request.getName(), request.getDescription(), request.getSecured(), request.getSecuredKey()
       );
 
       log.info("User '{}' created live event, id: '{}'.", ownerId, liveEvent.getId());
@@ -50,7 +56,7 @@ public class LiveEventRestController {
   }
 
   @GetMapping("/{eventId}")
-  public ApiResponse getLiveEvent(@PathVariable UUID eventId) {
+  public ApiResponse getLiveEvent(@PathVariable final UUID eventId) {
 
     try {
       final LiveEvent liveEvent = liveEventService.getLiveEventById(eventId);

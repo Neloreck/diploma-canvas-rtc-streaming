@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class LiveSdpMessage {
+public class LiveSdpMessage  {
 
   private String sdp;
 

@@ -54,7 +54,7 @@ public class LiveEventGraphicsRestController {
     }
   }
 
-  @PostMapping("/graphics")
+  @PutMapping("/graphics")
   public ApiResponse setGraphicsObjects(@PathVariable Long bookmarkId, @RequestBody LayoutBookmarkSetGraphicsRequest request) {
 
     try {

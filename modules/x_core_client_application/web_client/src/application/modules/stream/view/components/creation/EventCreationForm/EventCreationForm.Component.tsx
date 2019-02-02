@@ -82,7 +82,7 @@ export class EventCreationForm extends PureComponent<IEventCreationFormProps> {
 
         <FormControl className={classes.editField} margin={"normal"}>
           <InputLabel>Description</InputLabel>
-          <Input placeholder={"Description"} value={description} onChange={this.onDescriptionChanged}/>
+          <Input placeholder={"description"} value={description} onChange={this.onDescriptionChanged}/>
         </FormControl>
 
         <Grid className={classes.securityBlock} container direction={"row"}>

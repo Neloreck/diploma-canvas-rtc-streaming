@@ -66,7 +66,9 @@ export class LiveWebSocketController extends AbstractWebSocketController {
     super.disconnect();
   }
 
-  // Handlers.
+  /// Handlers.
+
+  // Event.
 
   @Bind()
   public onStatusChanged(status: boolean): void {
@@ -93,27 +95,30 @@ export class LiveWebSocketController extends AbstractWebSocketController {
     throw new Error("Handler for 'onErrorReceived' should be injected.");
   }
 
+  // Record.
+
+  @Bind()
+  public onRecordStartReceived(message: ILiveSocketMessage): void {
+    throw new Error("Handler for 'onRecordStopReceived' should be injected.");
+  }
+
+  @Bind()
+  public onRecordStopReceived(message: ILiveSocketMessage): void {
+    throw new Error("Handler for 'onRecordStopReceived' should be injected.");
+  }
+
   // Implementation.
 
   @Bind()
   protected subscribe(): void {
 
-    this.addSubscription(`record.start`, (message: IMessage) => this.log.error("Start record.", message));
-    this.addSubscription(`record.stop`, (message: IMessage) => this.log.error("Stop record.", message));
+    this.addSubscription(`record.start`, (message: IMessage) => this.onRecordStartReceived(JSON.parse(message.body)));
+    this.addSubscription(`record.stop`, (message: IMessage) => this.onRecordStopReceived(JSON.parse(message.body)));
 
     this.addSubscription(`session.sdpAnswer`, (message: IMessage) =>  this.onSdpAnswerReceived(JSON.parse(message.body)));
     this.addSubscription(`session.iceCandidate`, (message: IMessage) =>  this.onICECandidateReceived(JSON.parse(message.body)));
     this.addSubscription(`session.error`, (message: IMessage) =>  this.onErrorReceived(JSON.parse(message.body)));
     this.addSubscription(`session.complete`, (message: IMessage) => this.onSessionExchangeCompleted());
-
-    this.addSubscription(`status`, this.onLogMessage);
-  }
-
-  // Listeners.
-
-  @Bind()
-  protected onLogMessage(message: IMessage): void {
-    this.log.error("LOG", JSON.parse(message.body));
   }
 
 }

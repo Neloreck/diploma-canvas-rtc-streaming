@@ -1,12 +1,29 @@
-import {CONFIG, getRequest, IBookmarkResponse, IBookmarksResponse, IXCoreFailedResponse, postRequest} from "@Api/x-core";
+import {ISerializedGraphicsObject} from "@Lib/graphics";
+
+import {
+  CONFIG,
+  getRequest,
+  IBookmarkResponse,
+  IBookmarksResponse,
+  IXCoreFailedResponse,
+  postRequest, putRequest
+} from "@Api/x-core";
 import {IBookmarkCreateRequest, IEventCreateRequest} from "@Api/x-core/live/requests";
-import {IEventCreateResponse, IGetEventResponse, ILayoutBookmarkGraphicsResponse} from "@Api/x-core/live/responses";
+import {
+  IEventCreateResponse,
+  IGetActiveEventResponse,
+  IGetEventResponse,
+  ILayoutBookmarkGraphicsResponse
+} from "@Api/x-core/live/responses";
 
 export const LIVE_MAPPING: string = CONFIG.X_CORE_SERVER_URL + "/api/live";
 
 /*
- * LAYOUT EVENT:
+ * LIVE EVENT:
  */
+
+export const checkActiveEvent = async (): Promise<IGetActiveEventResponse | IXCoreFailedResponse> =>
+  await getRequest(`${LIVE_MAPPING}/stats/user/activeEvent`) as IGetActiveEventResponse;
 
 export const getLiveEvent = async (eventId: string): Promise<IGetEventResponse | IXCoreFailedResponse> =>
   await getRequest(`${LIVE_MAPPING}/events/${eventId}`) as IGetEventResponse;
@@ -30,8 +47,5 @@ export const getBookmark = async (bookmarkId: number): Promise<IBookmarkResponse
 export const getBookmarkGraphics = async (bookmarkId: number): Promise<ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse> =>
   await getRequest(`${LIVE_MAPPING}/bookmarks/${bookmarkId}/graphics`) as ILayoutBookmarkGraphicsResponse;
 
-export const setBookmarkGraphics = async (bookmarkId: number, request: { objects: Array<any> }): Promise<ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse> =>
-  await postRequest(`${LIVE_MAPPING}/bookmarks/${bookmarkId}/graphics`, request) as ILayoutBookmarkGraphicsResponse;
-
-// @ts-ignore
-window.t = getRequest;
+export const setBookmarkGraphics = async (bookmarkId: number, request: { objects: Array<ISerializedGraphicsObject> }): Promise<ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse> =>
+  await putRequest(`${LIVE_MAPPING}/bookmarks/${bookmarkId}/graphics`, request) as ILayoutBookmarkGraphicsResponse;

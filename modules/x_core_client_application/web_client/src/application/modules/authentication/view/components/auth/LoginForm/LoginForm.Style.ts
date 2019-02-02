@@ -1,4 +1,5 @@
 import {createStyles, Theme} from "@material-ui/core";
+import {fade} from '@material-ui/core/styles/colorManipulator';
 
 export const loginFormStyle = (theme: Theme) => createStyles({
   errorLabel: {
@@ -15,7 +16,7 @@ export const loginFormStyle = (theme: Theme) => createStyles({
     height: 10,
   },
   root: {
-    backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : theme.palette.background.default,
+    backgroundColor: theme.palette.type === "light" ? theme.palette.secondary.light : fade(theme.palette.background.default, 0.9),
     width: 350
   },
   signInButton: {
