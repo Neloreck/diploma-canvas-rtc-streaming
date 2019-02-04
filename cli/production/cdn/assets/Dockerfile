@@ -28,9 +28,19 @@ RUN nginx -v
 
 # Api application
 
-RUN apt-get install -y node
+RUN apt-get update
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get update
+RUN apt-get install -y nodejs
 
 WORKDIR /application
-COPY ./application/* ./
+
+COPY ./application/node_modules ./node_modules
+COPY ./application/target ./target
+COPY ./application/package.json ./package.json
+COPY ./application/start.sh ./start.sh
+
+RUN ls;
 
 ENTRYPOINT nginx ; sh ./start.sh

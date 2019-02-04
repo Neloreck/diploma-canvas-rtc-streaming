@@ -67,7 +67,8 @@ export const MODULE_CONFIG: {
             loader: "url-loader",
             options: {
               // include <5KB files in bundle file
-              limit: 5000
+              limit: 5000,
+              name: "images/[name].[ext]"
             }
           }
         ]

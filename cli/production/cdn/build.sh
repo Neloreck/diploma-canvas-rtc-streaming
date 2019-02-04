@@ -60,7 +60,8 @@ echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 cp $(dirname "$0")/assets/Dockerfile ${CDN_DIR}/;
 cp $(dirname "$0")/assets/nginx.conf ${CDN_DIR}/nginx;
 
-# todo: Dockerfile and build.
+cd ${CDN_DIR}
+docker build -t x_core_cdn_server .;
 
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 echo "Finished.";
