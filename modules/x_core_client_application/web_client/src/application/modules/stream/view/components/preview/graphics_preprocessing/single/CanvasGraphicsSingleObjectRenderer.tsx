@@ -11,7 +11,7 @@ import {Optional} from "@Lib/ts/types";
 import {DomSizingUtils, Logger} from "@Lib/utils";
 
 // Data.
-import {applicationConfig} from "@Main/data/configs";
+import {applicationConfig} from "@Main/data/configs/ApplicationConfig";
 
 // View.
 import "../canvasStyling.scss";

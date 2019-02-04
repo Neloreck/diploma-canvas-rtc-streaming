@@ -1,7 +1,7 @@
 import {Consume} from "@redux-cbd/context";
 import {Bind} from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, Fragment, PureComponent, ReactNode} from "react";
+import {Fragment, PureComponent, ReactNode} from "react";
 
 // Lib.
 import {MediaUtils} from "@Lib/media";
@@ -13,7 +13,7 @@ import {ILiveEvent} from "@Api/x-core/live/models";
 
 // Data.
 import {IRouterContext, routerContextManager} from "@Main/data/store";
-import {streamConfig} from "@Module/stream/data/configs";
+import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
 import {
   ILiveContext,
   IRenderingContext,

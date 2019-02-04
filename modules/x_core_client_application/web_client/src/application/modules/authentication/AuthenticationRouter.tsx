@@ -13,7 +13,7 @@ const LoginPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => im
 const SignUpPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "authorization@register-page" */"@Module/authentication/view/pages/SignUpPage"));
 const ErrorPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "main@error-page" */"@Main/view/pages/ErrorPage"));
 
-export class ModuleRouter extends PureComponent {
+export class AuthenticationRouter extends PureComponent {
 
   private static MODULE_PREFIX: string = "/authentication";
 
@@ -21,8 +21,8 @@ export class ModuleRouter extends PureComponent {
     return (
       <Switch>
 
-        <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/login`} redirect={"/home"} component={LoginPage} reversed {...{} as IPrivateRouteExternalProps}/>
-        <PrivateRoute exact={true} path={`${ModuleRouter.MODULE_PREFIX}/register`} redirect={"/home"} component={SignUpPage} reversed {...{} as IPrivateRouteExternalProps}/>
+        <PrivateRoute exact={true} path={`${AuthenticationRouter.MODULE_PREFIX}/login`} redirect={"/home"} component={LoginPage} reversed {...{} as IPrivateRouteExternalProps}/>
+        <PrivateRoute exact={true} path={`${AuthenticationRouter.MODULE_PREFIX}/register`} redirect={"/home"} component={SignUpPage} reversed {...{} as IPrivateRouteExternalProps}/>
 
         <Route exact={true} path={"*"} component={ErrorPage}/>
 

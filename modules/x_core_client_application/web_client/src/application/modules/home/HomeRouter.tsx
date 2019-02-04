@@ -10,7 +10,7 @@ import {lazyLoadComponentFactory} from "@Main/view/utils";
 
 const HomePage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "home@home-page" */"@Module/home/view/pages/HomePage"));
 
-export class ModuleRouter extends PureComponent {
+export class HomeRouter extends PureComponent {
 
   private static MODULE_PREFIX: string = "/home";
 
@@ -22,7 +22,7 @@ export class ModuleRouter extends PureComponent {
         <Switch>
 
           <Route exact={true} path={`/`} component={HomePage}/>
-          <Route exact={true} path={`${ModuleRouter.MODULE_PREFIX}`} component={HomePage}/>
+          <Route exact={true} path={`${HomeRouter.MODULE_PREFIX}`} component={HomePage}/>
 
           <Route exact={true} path={"*"} component={ErrorPage}/>
 

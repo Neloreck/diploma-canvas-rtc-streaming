@@ -52,19 +52,6 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
   private log: Logger = new Logger("[🎲C-BOOKMARK]", true);
 
   @Bind()
-  public dispose(): void {
-
-    this.context.bookmarkState = {
-      bookmarks: [],
-      bookmarksCreating: false,
-      bookmarksLoading: false,
-      selectedBookmark: null
-    };
-
-    this.log.info("Disposed bookmark storage.");
-  }
-
-  @Bind()
   public async loadBookmarks(eventId: string): Promise<void> {
 
     this.updateStateRef();
@@ -151,6 +138,19 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
   }
 
   // Utility.
+
+  @Bind()
+  public onProvisionEnded(): void {
+
+    this.context.bookmarkState = {
+      bookmarks: [],
+      bookmarksCreating: false,
+      bookmarksLoading: false,
+      selectedBookmark: null
+    };
+
+    this.log.info("Disposed bookmark storage.");
+  }
 
   @Bind()
   private updateStateRef(): void {

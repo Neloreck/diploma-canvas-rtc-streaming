@@ -51,20 +51,6 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   private log: Logger = new Logger("[💥C-SRC]", true);
 
-  @Bind()
-  public dispose(): void {
-
-    const {sourceState: state} = this.context;
-
-    MediaUtils.killStream(state.inputStream);
-    MediaUtils.killStream(state.outputStream);
-
-    state.inputStream = null;
-    state.outputStream = null;
-
-    this.log.info("Disposed source storage.");
-  }
-
   // Injectable:
 
   @Bind()
@@ -76,7 +62,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   // Actions:
 
   @Bind()
-  protected setAudioCapturing(captureAudio: boolean): void {
+  public setAudioCapturing(captureAudio: boolean): void {
 
     if (this.context.sourceState.inputStream) {
       MediaUtils.setStreamAudioEnabled(this.context.sourceState.inputStream, captureAudio);
@@ -88,20 +74,20 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   }
 
   @Bind()
-  protected setVideoCapturing(captureVideo: boolean): void {
+  public setVideoCapturing(captureVideo: boolean): void {
     this.context.sourceState = { ...this.context.sourceState, captureVideo };
     this.update();
   }
 
   @Bind()
-  protected updateInputSources(selectedDevices: IInputSourceDevices): void {
+  public updateInputSources(selectedDevices: IInputSourceDevices): void {
     this.updateStateRef();
     this.context.sourceState.selectedDevices = selectedDevices;
     this.update();
   }
 
   @Bind()
-  protected updateInputStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
+  public updateInputStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
 
     this.updateStateRef();
 
@@ -121,7 +107,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   }
 
   @Bind()
-  protected updateOutputStream(outputStream: Optional<MediaStream>): void {
+  public updateOutputStream(outputStream: Optional<MediaStream>): void {
     this.updateStateRef();
     this.context.sourceState.outputStream = outputStream;
     this.update();
@@ -130,7 +116,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   }
 
   @Bind()
-  protected updateInputStream(inputStream: Optional<MediaStream>): void {
+  public updateInputStream(inputStream: Optional<MediaStream>): void {
 
     this.updateStateRef();
 
@@ -148,6 +134,20 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   }
 
   // Utils:
+
+  @Bind()
+  public onProvisionEnded(): void {
+
+    const {sourceState: state} = this.context;
+
+    MediaUtils.killStream(state.inputStream);
+    MediaUtils.killStream(state.outputStream);
+
+    state.inputStream = null;
+    state.outputStream = null;
+
+    this.log.info("Disposed source storage.");
+  }
 
   @Bind()
   private updateStateRef(): void {

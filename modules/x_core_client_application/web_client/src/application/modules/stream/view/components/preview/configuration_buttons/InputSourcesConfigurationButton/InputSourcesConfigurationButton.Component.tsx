@@ -8,7 +8,7 @@ import {IInputSourceDevices, MediaUtils} from "@Lib/media";
 import {Styled} from "@Lib/react_lib/mui";
 
 // Data.
-import {streamConfig} from "@Module/stream/data/configs";
+import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
 import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
 
 // View.

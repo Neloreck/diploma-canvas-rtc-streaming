@@ -9,7 +9,7 @@ import {Styled} from "@Lib/react_lib/mui";
 import {Optional} from "@Lib/ts/types";
 
 // Data.
-import {streamConfig} from "@Module/stream/data/configs";
+import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
 
 // View.
 import {

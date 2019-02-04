@@ -45,19 +45,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   private readonly log: Logger = new Logger("[🏭C-GFX]", true);
 
   @Bind()
-  public dispose(): void {
-
-    const {graphicsState} = this.context;
-
-    graphicsState.objects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
-    graphicsState.objects = [];
-    graphicsState.selectedObject = null;
-
-    this.log.info("Disposed graphics storage.");
-  }
-
-  @Bind()
-  protected addObject(object: AbstractCanvasGraphicsRenderObject<any>): void {
+  public addObject(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
     this.log.info(`Adding new object: ${object.getName()}.`);
 
@@ -70,7 +58,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected setObjects(objects: Array<AbstractCanvasGraphicsRenderObject<any>>): void {
+  public setObjects(objects: Array<AbstractCanvasGraphicsRenderObject<any>>): void {
 
     this.log.info(`Setting new objects: (${objects.length}).`);
 
@@ -81,7 +69,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected eraseObjects(): void {
+  public eraseObjects(): void {
 
     const oldObjects: Array<AbstractCanvasGraphicsRenderObject<any>> = this.context.graphicsState.objects;
 
@@ -92,7 +80,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected removeObject(object: AbstractCanvasGraphicsRenderObject<any>): void {
+  public removeObject(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
     this.log.info(`Removing object: ${object.getName()}.`);
 
@@ -110,7 +98,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected selectObject(selectedObject: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
+  public selectObject(selectedObject: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
     this.log.info(`Selected object: ${selectedObject && selectedObject.getName()}.`);
 
@@ -119,7 +107,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   }
 
   @Bind()
-  protected swapObjectsByIndex(firstIndex: number, secondIndex: number): void {
+  public swapObjectsByIndex(firstIndex: number, secondIndex: number): void {
 
     this.log.info(`Swapping object layout order: ${firstIndex} <-> ${secondIndex}.`);
 
@@ -130,6 +118,18 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     this.context.graphicsState.objects[secondIndex] = buffer;
 
     this.update();
+  }
+
+  @Bind()
+  public onProvisionEnded(): void {
+
+    const {graphicsState} = this.context;
+
+    graphicsState.objects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
+    graphicsState.objects = [];
+    graphicsState.selectedObject = null;
+
+    this.log.info("Disposed graphics storage.");
   }
 
 }
