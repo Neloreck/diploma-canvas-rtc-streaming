@@ -1,5 +1,3 @@
-export class ServerConfig {
-
-  public readonly port: number = 4000;
-
-}
+export const serverConfig = {
+  port: 4000
+};

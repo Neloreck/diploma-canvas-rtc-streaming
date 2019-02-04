@@ -17,7 +17,7 @@ VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/v
 # CONFIG related:
 COPY ./nginx/nginx.conf /etc/nginx/conf.d
 
-EXPOSE 80
+EXPOSE 81
 EXPOSE 443
 
 RUN nginx -v

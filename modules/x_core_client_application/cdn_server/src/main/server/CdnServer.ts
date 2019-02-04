@@ -9,7 +9,8 @@ import {Logger} from "@Lib/utils/logger";
 
 // App.
 import {CdnApplication} from "@Application";
-import {serverConfig} from "@Server/configs";
+import {applicationConfig} from "@Application/configs/ApplicationConfig";
+import {serverConfig} from "@Server/configs/ServerConfig";
 
 export class CdnServer {
 
@@ -33,7 +34,7 @@ export class CdnServer {
     this.instance.on("error", (...args: Array<any>) => this.log.error("Server failed to start:", ...args));
     this.instance.on("listening", () => {
       this.log.info("========================================");
-      this.log.info(`= Server initialized. Listening port: '${serverConfig.port}'.`);
+      this.log.info(`= Server initialized. Environment: ${applicationConfig.mode}. Listening port: '${serverConfig.port}'.`);
       this.log.info("========================================");
     });
     this.instance.listen(serverConfig.port);

@@ -4,5 +4,5 @@ export const applicationConfig = {
   defaultVideoScale: 16 / 9,
   env: (process.env.NODE_ENV as string),
   isDev: (process.env.NODE_ENV === "development"),
-  serverLiveSocketUrl: "http://localhost:8080/websocket/live"
+  serverLiveSocketUrl: (process.env.X_CORE__SERVER_URL as string) + "/websocket/live"
 };

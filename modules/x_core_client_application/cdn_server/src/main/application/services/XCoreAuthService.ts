@@ -1,6 +1,10 @@
+import {default as fetch, Headers} from "node-fetch";
+
+// Lib.
 import {log, Logger} from "@Lib/utils/logger";
 
-import {default as fetch, Headers} from "node-fetch";
+// Data.
+import {applicationConfig} from "@Application/configs/ApplicationConfig";
 
 export class XCoreAuthService {
 
@@ -26,7 +30,7 @@ export class XCoreAuthService {
     headers.set("Authorization", `Basic ${Buffer.from(`${XCoreAuthService.CLIENT_ID}:${XCoreAuthService.CLIENT_SECRET}`).toString("base64")}`);
     headers.set("Content-Type", "application/x-www-form-urlencoded");
 
-    const rawResponse: any = await fetch("http://localhost:8080/auth/token", {
+    const rawResponse: any = await fetch(`${applicationConfig.apiServerUrl}/auth/token`, {
       body: formData as any,
       headers: headers as any,
       method: "POST"
@@ -45,7 +49,7 @@ export class XCoreAuthService {
 
   public async getHeadersAuthorizedInfo(headers: Headers): Promise<object> {
 
-    const rawResponse: any = await fetch("http://localhost:8080/auth/info", {
+    const rawResponse: any = await fetch(`${applicationConfig.apiServerUrl}/auth/info`, {
       headers: headers as any,
       method: "GET",
     });
