@@ -56,40 +56,35 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   // Getters.
 
+  @Bind()
   public getCurrentUsername(): Optional<string> {
     return this.context.authState.authData && this.context.authState.authData.username;
   }
 
+  @Bind()
   public getAccessToken(): Optional<string> {
     const tokenData: Optional<ITokenData> = getFromLocalStorage("token_data");
     return tokenData && (this.isTokenDataNonExpired(tokenData)) ? tokenData.accessToken : null;
   }
 
-  // General.
-
   @Bind()
-  protected async initialize(): Promise<void> {
+  public hasAuthToken(): boolean {
 
-    this.log.info("Initialize current auth status.");
+    const tokenData: Optional<ITokenData> = getFromLocalStorage("token_data");
 
-    if (this.hasAuthToken()) {
-
-      this.log.info("Have valid access token.");
-
-      await this.updateUserInfo();
-
-    } else {
-      if (this.hasRefreshToken()) {
-        this.log.info("Have valid refresh token, trying to refresh current tokens.");
-        await this.refresh();
-      } else {
-        this.log.info("No tokens stored currently, continue with default flow.");
-      }
-    }
+    return tokenData !== null && Boolean(tokenData.accessToken) && this.isTokenDataNonExpired(tokenData);
   }
 
   @Bind()
+  public isTokenDataNonExpired(tokenData: ITokenData): boolean {
+    return tokenData.received + tokenData.expires > Date.now();
+  }
+
+  // General.
+
+  @Bind()
   protected async refresh(): Promise<void> {
+    // todo: Refresh tokens.
     removeLocalStorageItem("token_data");
   }
 
@@ -121,7 +116,12 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
       state.errorMessage = null;
       state.authData = { username };
 
-      this.saveTokenData(response);
+      setLocalStorageItem("token_data", {
+        accessToken: response.accessToken,
+        expires: response.expires * 1000,
+        received: Date.now(),
+        refreshToken: response.refreshToken
+      });
     }
 
     state.authorized = (state.authData !== null);
@@ -230,41 +230,27 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     }
   }
 
-  @Bind()
-  protected saveTokenData(loginResponse: ILoginResponse): void {
-
-    setLocalStorageItem("token_data", {
-      accessToken: loginResponse.accessToken,
-      expires: loginResponse.expires * 1000,
-      received: Date.now(),
-      refreshToken: loginResponse.refreshToken
-    });
-  }
-
-  // Different checks.
-
-  @Bind()
-  protected hasAuthToken(): boolean {
-
-    const tokenData: Optional<ITokenData> = getFromLocalStorage("token_data");
-
-    return tokenData !== null && Boolean(tokenData.accessToken) && this.isTokenDataNonExpired(tokenData);
-  }
-
-  @Bind()
-  protected hasRefreshToken(): boolean {
-    return Boolean(getFromLocalStorage("token_data"));
-  }
-
-  @Bind()
-  protected isTokenDataNonExpired(tokenData: ITokenData): boolean {
-    return tokenData.received + tokenData.expires > Date.now();
-  }
-
   // Lifecycle.
 
-  protected onProvisionStarted(): void {
-    this.initialize().then();
+  protected async onProvisionStarted(): Promise<void> {
+
+    this.log.info("Initialize current auth status.");
+
+    if (this.hasAuthToken()) {
+
+      this.log.info("Have valid access token.");
+
+      await this.updateUserInfo();
+
+    } else {
+      if (Boolean(getFromLocalStorage("token_data"))) {
+        this.log.info("Have valid refresh token, trying to refresh current tokens.");
+        await this.refresh();
+      } else {
+        this.log.info("No tokens stored currently, continue with default flow.");
+      }
+    }
+
   }
 
   @Bind()
