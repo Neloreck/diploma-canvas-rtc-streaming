@@ -38,6 +38,28 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
 
   protected log: Logger = new Logger("[🗺️C-ROUTER]", true);
 
+  // Getters.
+
+  @Bind()
+  public getLastPart(): string {
+
+    const path: string = this.context.routingState.history.location.pathname;
+
+    return path.substr(path.lastIndexOf("/") + 1);
+  }
+
+  @Bind()
+  public getCurrentLocation(): string {
+    return this.context.routingState.history.location.pathname;
+  }
+
+  @Bind()
+  public getQueryParams(): ParsedUrlQuery {
+    return parse(this.context.routingState.history.location.search.slice(1));
+  }
+
+  // Actions.
+
   @Bind()
   public replace(path: string): void {
 
@@ -60,24 +82,6 @@ export class RouterContextManager extends ReactContextManager<IRouterContext> {
     this.log.info(`Go back.`);
     this.context.routingState.history.goBack();
     this.update();
-  }
-
-  @Bind()
-  public getLastPart(): string {
-
-    const path: string = this.context.routingState.history.location.pathname;
-
-    return path.substr(path.lastIndexOf("/") + 1);
-  }
-
-  @Bind()
-  public getCurrentLocation(): string {
-    return this.context.routingState.history.location.pathname;
-  }
-
-  @Bind()
-  public getQueryParams(): ParsedUrlQuery {
-    return parse(this.context.routingState.history.location.search.slice(1));
   }
 
 }

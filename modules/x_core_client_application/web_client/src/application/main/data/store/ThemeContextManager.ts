@@ -44,10 +44,14 @@ export class ThemeContextManager extends ReactContextManager<IThemeContext> {
     }
   };
 
+  // Getters.
+
   @Bind()
   public isDark(): boolean {
     return (this.context.themeState.options.palette as PaletteOptions).type === "dark";
   }
+
+  // Actions.
 
   @Bind()
   public setDark(isDark: boolean): void {

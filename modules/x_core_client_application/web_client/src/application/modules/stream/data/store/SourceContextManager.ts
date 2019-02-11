@@ -51,7 +51,9 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   private log: Logger = new Logger("[💥C-SRC]", true);
 
-  // Injectable:
+  // Getters.
+
+  // Injectable.
 
   @Bind()
   public async onOutputChanged(stream: Optional<MediaStream>): Promise<void>  { /* Injectable. */}
@@ -59,7 +61,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   @Bind()
   public async onInputChanged(stream: Optional<MediaStream>): Promise<void> { /* Injectable. */ }
 
-  // Actions:
+  // Actions.
 
   @Bind()
   public setAudioCapturing(captureAudio: boolean): void {
@@ -137,8 +139,9 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     this.update();
   }
 
-  // Utils:
+  // Lifecycle:
 
+  @Bind()
   protected onProvisionEnded(): void {
 
     const { sourceState: state } = this.context;

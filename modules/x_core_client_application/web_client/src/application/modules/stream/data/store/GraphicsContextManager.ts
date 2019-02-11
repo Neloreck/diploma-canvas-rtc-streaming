@@ -44,6 +44,8 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
 
   private readonly log: Logger = new Logger("[🏭C-GFX]", true);
 
+  // Actions.
+
   @Bind()
   public addObject(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
@@ -120,6 +122,9 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     this.update();
   }
 
+  // Lifecycle.
+
+  @Bind()
   protected onProvisionEnded(): void {
 
     const { graphicsState } = this.context;

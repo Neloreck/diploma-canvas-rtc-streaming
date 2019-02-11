@@ -51,6 +51,8 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
 
   private log: Logger = new Logger("[🎲C-BOOKMARK]", true);
 
+  // Actions.
+
   @Bind()
   public async loadBookmarks(eventId: string): Promise<void> {
 
@@ -137,8 +139,9 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
     this.update();
   }
 
-  // Utility.
+  // Lifecycle.
 
+  @Bind()
   protected onProvisionEnded(): void {
 
     this.context.bookmarkState = {

@@ -78,6 +78,9 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
     this.update();
   }
 
+  // Lifecycle.
+
+  @Bind()
   protected onProvisionEnded(): void {
 
     this.context.renderingState = {

@@ -172,16 +172,16 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info("Logging out.");
 
-    const { authState } = this.context;
+    const { authState: state } = this.context;
 
-    if (authState.authorizing) {
+    if (state.authorizing) {
       throw new Error("Cannot logout while authorizing.");
     }
 
     removeLocalStorageItem("token_data");
 
-    authState.authData = null;
-    authState.authorized = false;
+    state.authData = null;
+    state.authorized = false;
 
     routerContextManager.push("/");
 
@@ -195,28 +195,28 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info("Updating user information.");
 
-    let { authState } = this.context;
+    let { authState: state } = this.context;
 
     // Set loading state.
-    authState.authorizing = true;
+    state.authorizing = true;
     this.update();
 
-    authState = this.context.authState;
+    state = this.context.authState;
 
     const response: IAuthInfoResponse = await getAuthInfo({});
 
     if (response.success && response.authenticated) {
-      authState.authData = { username: response.username };
+      state.authData = { username: response.username };
     } else {
       this.log.error("Auth request got error:", response.error);
 
       removeLocalStorageItem("token_data");
     }
 
-    authState.authorized = (authState.authData !== null);
-    authState.authorizing = false;
+    state.authorized = (state.authData !== null);
+    state.authorizing = false;
 
-    this.log.info(`Current auth status: '${authState.authorized}', '${authState.errorMessage}'.`);
+    this.log.info(`Current auth status: '${state.authorized}', '${state.errorMessage}'.`);
 
     this.update();
   }
@@ -232,6 +232,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   // Lifecycle.
 
+  @Bind()
   protected async onProvisionStarted(): Promise<void> {
 
     this.log.info("Initialize current auth status.");
