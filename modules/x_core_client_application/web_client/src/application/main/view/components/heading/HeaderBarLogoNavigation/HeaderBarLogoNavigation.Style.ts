@@ -1,5 +1,5 @@
-import {Theme} from "@material-ui/core";
-import {createStyles} from "@material-ui/core/styles";
+import { Theme } from "@material-ui/core";
+import { createStyles } from "@material-ui/core/styles";
 
 export const headerBarLogoNavigationStyle = (theme: Theme) => createStyles({
   homeButton: {

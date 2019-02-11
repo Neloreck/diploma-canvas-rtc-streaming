@@ -1,4 +1,4 @@
-import {createStyles, Theme} from "@material-ui/core/styles";
+import { createStyles, Theme } from "@material-ui/core/styles";
 
 export const inputSourcesConfigurationButtonStyle = (theme: Theme) => createStyles({
   root: {

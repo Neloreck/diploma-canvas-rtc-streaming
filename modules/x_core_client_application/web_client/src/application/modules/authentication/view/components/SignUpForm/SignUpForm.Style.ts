@@ -1,5 +1,5 @@
-import {createStyles, Theme} from "@material-ui/core";
-import {fade} from '@material-ui/core/styles/colorManipulator';
+import { createStyles, Theme } from "@material-ui/core";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
 export const signUpFormStyle = (theme: Theme) => createStyles({
   errorLabel: {

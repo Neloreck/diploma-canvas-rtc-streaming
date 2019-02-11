@@ -1,5 +1,5 @@
-import {createStyles, Theme} from "@material-ui/core";
-import {StyleRules} from "@material-ui/core/styles/withStyles";
+import { createStyles, Theme } from "@material-ui/core";
+import { StyleRules } from "@material-ui/core/styles/withStyles";
 
 export const mainPreviewTabsStyle = (theme: Theme): StyleRules => createStyles({
   resizer: {

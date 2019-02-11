@@ -1,6 +1,6 @@
-import {Theme} from "@material-ui/core";
-import {createStyles} from "@material-ui/core/styles";
-import {fade} from '@material-ui/core/styles/colorManipulator';
+import { Theme } from "@material-ui/core";
+import { createStyles } from "@material-ui/core/styles";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
 export const eventCreationFormStyle = (theme: Theme) => createStyles({
   controlBlock: {
