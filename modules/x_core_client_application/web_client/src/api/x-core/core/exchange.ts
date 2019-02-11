@@ -1,6 +1,6 @@
-import {ERequestMethod} from "@Lib/api/types";
+import { ERequestMethod } from "@Lib/api/types";
 
-import {CONFIG} from "./config";
+import { CONFIG } from "./config";
 
 const doRequest = async (method: ERequestMethod, mapping: string, request?: object | URLSearchParams, headers?: Headers): Promise<object> => {
 

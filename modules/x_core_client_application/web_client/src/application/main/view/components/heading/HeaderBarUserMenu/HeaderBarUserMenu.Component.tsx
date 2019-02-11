@@ -1,11 +1,11 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, Fragment, MouseEvent, ReactNode} from "react";
+import { Component, Fragment, MouseEvent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
 import {
@@ -19,8 +19,8 @@ import {
 import {
   IconButton, Menu, MenuItem, WithStyles,
 } from "@material-ui/core";
-import {AccountCircle} from "@material-ui/icons";
-import {headerBarUserMenuStyle} from "./HeaderBarUserMenu.Style";
+import { AccountCircle } from "@material-ui/icons";
+import { headerBarUserMenuStyle } from "./HeaderBarUserMenu.Style";
 
 // Props.
 export interface IHeaderBarUserMenuState {
@@ -43,8 +43,8 @@ export class HeaderBarUserMenu extends Component<IHeaderBarUserMenuProps, IHeade
 
   public render(): ReactNode {
 
-    const {authState: {authData}} = this.props;
-    const {menuAnchor, showContextMenu} = this.state;
+    const { authState: { authData } } = this.props;
+    const { menuAnchor, showContextMenu } = this.state;
 
     return (
       <Fragment>
@@ -81,7 +81,7 @@ export class HeaderBarUserMenu extends Component<IHeaderBarUserMenuProps, IHeade
 
   @Bind()
   private onProfileMenuToggle(event: MouseEvent<HTMLDivElement>): void {
-    const {showContextMenu, menuAnchor} = this.state;
+    const { showContextMenu, menuAnchor } = this.state;
     this.setState({ menuAnchor: menuAnchor ? null : event.target as HTMLDivElement, showContextMenu: !showContextMenu });
   }
 

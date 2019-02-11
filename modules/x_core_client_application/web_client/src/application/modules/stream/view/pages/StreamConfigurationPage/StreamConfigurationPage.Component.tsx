@@ -1,18 +1,18 @@
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import { Component, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 
 // View.
-import {Fade, Grid, WithStyles} from "@material-ui/core";
+import { Fade, Grid, WithStyles } from "@material-ui/core";
 import {
   IStreamingHeaderBarExternalProps,
   StreamingHeaderBar
 } from "@Module/stream/view/components/heading/StreamingHeaderBar";
-import {streamConfigurationPageStyle} from "./StreamConfigurationPage.Style";
+import { streamConfigurationPageStyle } from "./StreamConfigurationPage.Style";
 
 // Props.
 export interface IStreamConfigurationPageState {
@@ -40,8 +40,8 @@ export class StreamConfigurationPage extends Component<IStreamConfigurationPageP
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
-    const {mounted} = this.state;
+    const { classes } = this.props;
+    const { mounted } = this.state;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>

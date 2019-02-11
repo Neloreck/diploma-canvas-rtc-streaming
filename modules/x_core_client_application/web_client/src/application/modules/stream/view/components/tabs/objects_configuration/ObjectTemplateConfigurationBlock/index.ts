@@ -1,1 +1,1 @@
-export {ObjectTemplateConfigurationBlock, IObjectTemplateConfigurationBlockExternalProps} from "./ObjectTemplateConfigurationBlock.Component";
+export { ObjectTemplateConfigurationBlock, IObjectTemplateConfigurationBlockExternalProps } from "./ObjectTemplateConfigurationBlock.Component";

@@ -1,10 +1,10 @@
-import {TypeUtils} from "@redux-cbd/utils";
+import { TypeUtils } from "@redux-cbd/utils";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject, AbstractCanvasGraphicsSerializableObject, ISerializedGraphicsObject} from "@Lib/graphics";
+import { AbstractCanvasGraphicsRenderObject, AbstractCanvasGraphicsSerializableObject, ISerializedGraphicsObject } from "@Lib/graphics";
 
 // Data.
-import {DESCRIPTORS_MAP, ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
+import { DESCRIPTORS_MAP, ICanvasObjectDescriptor } from "@Module/stream/lib/graphics/description";
 
 export class RenderingService {
 

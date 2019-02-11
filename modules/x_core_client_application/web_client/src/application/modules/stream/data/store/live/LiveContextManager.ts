@@ -1,9 +1,9 @@
-import {ReactContextManager} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { ReactContextManager } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import {Optional} from "@Lib/ts/types";
-import {Logger} from "@Lib/utils";
+import { Optional } from "@Lib/ts/types";
+import { Logger } from "@Lib/utils";
 
 // Api.
 import {
@@ -17,12 +17,12 @@ import {
 } from "@Api/x-core";
 
 // Data.
-import {IGetActiveEventResponse} from "@Api/x-core/live/responses";
-import {applicationConfig} from "@Main/data/configs/ApplicationConfig";
-import {authContextManager, routerContextManager} from "@Main/data/store";
-import {sourceContextManager} from "@Module/stream/data/store";
-import {ELiveEventStatus} from "@Module/stream/data/store/live/types";
-import {LiveService} from "@Module/stream/lib/live/LiveService";
+import { IGetActiveEventResponse } from "@Api/x-core/live/responses";
+import { applicationConfig } from "@Main/data/configs/ApplicationConfig";
+import { authContextManager, routerContextManager } from "@Main/data/store";
+import { sourceContextManager } from "@Module/stream/data/store";
+import { ELiveEventStatus } from "@Module/stream/data/store/live/types";
+import { LiveService } from "@Module/stream/lib/live/LiveService";
 
 export interface ILiveContext {
   liveActions: {

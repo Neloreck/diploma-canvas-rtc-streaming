@@ -1,7 +1,7 @@
 /* tslint:disable: typedef */
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
+import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
 
 // View.
 import {
@@ -10,7 +10,7 @@ import {
   SimpleFixedRectangle, SimpleRectangle,
   VideoFrame
 } from "@Module/stream/lib/graphics";
-import {EEditingFormType, TFieldDescriptor} from "@Module/stream/lib/graphics/fieldDescription";
+import { EEditingFormType, TFieldDescriptor } from "@Module/stream/lib/graphics/fieldDescription";
 
 // Data.
 

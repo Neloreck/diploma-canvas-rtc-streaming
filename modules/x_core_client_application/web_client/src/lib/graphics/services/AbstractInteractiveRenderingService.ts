@@ -4,9 +4,9 @@ import {
   AbstractCanvasGraphicsRenderObject,
   AbstractCanvasGraphicsResizableObject
 } from "../graphics_objects";
-import {AbstractRenderingService} from "./AbstractRenderingService";
+import { AbstractRenderingService } from "./AbstractRenderingService";
 
-import {IPoint} from "../types";
+import { IPoint } from "../types";
 
 export abstract class AbstractInteractiveRenderingService extends AbstractRenderingService {
 

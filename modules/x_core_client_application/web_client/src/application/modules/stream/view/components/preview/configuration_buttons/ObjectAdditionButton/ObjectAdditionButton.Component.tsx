@@ -1,22 +1,22 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, createRef, ReactNode, RefObject} from "react";
+import { Component, createRef, ReactNode, RefObject } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
+import { ISourceContext, sourceContextManager } from "@Module/stream/data/store";
 
 // View.
-import {Collapse, Fab, Tooltip, WithStyles} from "@material-ui/core";
-import {Add, Remove} from "@material-ui/icons";
+import { Collapse, Fab, Tooltip, WithStyles } from "@material-ui/core";
+import { Add, Remove } from "@material-ui/icons";
 import {
   IObjectAdditionMenuExternalProps,
   ObjectAdditionMenu
 } from "@Module/stream/view/components/preview/configuration_buttons/ObjectAdditionMenu";
-import {objectAdditionButtonStyle} from "./ObjectAdditionButton.Style";
+import { objectAdditionButtonStyle } from "./ObjectAdditionButton.Style";
 
 // Props.
 export interface IObjectAdditionButtonState {
@@ -49,8 +49,8 @@ export class ObjectAdditionButton extends Component<IObjectAdditionButtonProps, 
   }
 
   public render(): ReactNode {
-    const {classes} = this.props;
-    const {showAdditionWindow} = this.state;
+    const { classes } = this.props;
+    const { showAdditionWindow } = this.state;
 
     return (
       <div className={showAdditionWindow ? classes.root : classes.rootEmpty} ref={this.contentRef}>

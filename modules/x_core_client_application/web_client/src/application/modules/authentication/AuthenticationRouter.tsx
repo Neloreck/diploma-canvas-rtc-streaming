@@ -1,11 +1,11 @@
 import * as React from "react";
-import {ComponentClass, PureComponent, ReactNode} from "react";
-import {Route} from "react-router";
-import {Switch} from "react-router-dom";
+import { ComponentClass, PureComponent, ReactNode } from "react";
+import { Route } from "react-router";
+import { Switch } from "react-router-dom";
 
 // View.
-import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/PrivateRoute";
-import {lazyLoadComponentFactory} from "@Main/view/utils";
+import { IPrivateRouteExternalProps, PrivateRoute } from "@Main/view/layouts/PrivateRoute";
+import { lazyLoadComponentFactory } from "@Main/view/utils";
 
 // Main routes.
 

@@ -1,4 +1,4 @@
-import {IXCoreResponse} from "@Api/x-core";
+import { IXCoreResponse } from "@Api/x-core";
 
 export interface IAuthInfoResponse extends IXCoreResponse {
   authenticated: boolean;

@@ -1,19 +1,19 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {MediaUtils} from "@Lib/media";
-import {Styled} from "@Lib/react_lib/mui";
-import {log} from "@Lib/utils";
+import { MediaUtils } from "@Lib/media";
+import { Styled } from "@Lib/react_lib/mui";
+import { log } from "@Lib/utils";
 
 // Api.
-import {ILiveEvent} from "@Api/x-core/live/models";
+import { ILiveEvent } from "@Api/x-core/live/models";
 
 // Data.
-import {IRouterContext, routerContextManager} from "@Main/data/store";
-import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
+import { IRouterContext, routerContextManager } from "@Main/data/store";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 import {
   ILiveContext,
   IRenderingContext,
@@ -23,8 +23,8 @@ import {
 } from "@Module/stream/data/store";
 
 // View.
-import {AnimatedMount} from "@Main/view/utils/animations/AnimatedMount";
-import {CircularProgress, Grid, WithStyles} from "@material-ui/core";
+import { AnimatedMount } from "@Main/view/utils/animations/AnimatedMount";
+import { CircularProgress, Grid, WithStyles } from "@material-ui/core";
 import {
   IStreamingHeaderBarExternalProps,
   StreamingHeaderBar
@@ -37,7 +37,7 @@ import {
   IMainPreviewTabsExternalProps,
   MainPreviewTabs
 } from "@Module/stream/view/components/tabs";
-import {streamingPageStyle} from "./StreamingPage.Style";
+import { streamingPageStyle } from "./StreamingPage.Style";
 
 // Props.
 export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, ILiveContext, IRouterContext, WithStyles<typeof streamingPageStyle> {}
@@ -55,7 +55,7 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
   public async mountComponent(): Promise<void> {
 
     // Display main video on mount.
-    const {sourceState: {captureVideo, captureAudio}, routingActions: {getLastPart, replace}, liveState: {liveEvent}, liveActions: {start: startLive, syncLiveEvent}} = this.props;
+    const { sourceState: { captureVideo, captureAudio }, routingActions: { getLastPart, replace }, liveState: { liveEvent }, liveActions: { start: startLive, syncLiveEvent } } = this.props;
 
     try {
       const event: ILiveEvent = liveEvent || await syncLiveEvent(getLastPart());
@@ -78,7 +78,7 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
   public componentWillUnmount(): void {
 
-    const {liveActions: {stop: stopLive}} = this.props;
+    const { liveActions: { stop: stopLive } } = this.props;
 
     stopLive()
       .then();
@@ -86,8 +86,8 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
   public componentDidUpdate(previousProps: IStreamingPageProps): void {
 
-    const {sourceState: currentState, sourceActions: {updateInputStream}} = this.props;
-    const {sourceState: previousState} = previousProps;
+    const { sourceState: currentState, sourceActions: { updateInputStream } } = this.props;
+    const { sourceState: previousState } = previousProps;
 
     if (currentState.captureVideo !== previousState.captureVideo || currentState.captureAudio !== previousState.captureAudio) {
       if (currentState.captureAudio || currentState.captureVideo) {
@@ -100,7 +100,7 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
   public render(): ReactNode {
 
-    const {classes, liveState: {liveEvent}} = this.props;
+    const { classes, liveState: { liveEvent } } = this.props;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
@@ -136,7 +136,7 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
   @Bind()
   private async getDefaultMedia(): Promise<void> {
 
-    const {sourceActions: {updateInputStreamAndSources}, sourceState: {captureVideo, captureAudio, selectedDevices}} = this.props;
+    const { sourceActions: { updateInputStreamAndSources }, sourceState: { captureVideo, captureAudio, selectedDevices } } = this.props;
 
     const stream: MediaStream = await MediaUtils.getUserMedia(
       streamConfig.getMediaConstraints(captureVideo && (selectedDevices.videoInput || true), captureAudio && (selectedDevices.audioInput || true))

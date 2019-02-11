@@ -1,5 +1,5 @@
 import * as React from "react";
-import {createRef, PureComponent, ReactNode, RefObject} from "react";
+import { createRef, PureComponent, ReactNode, RefObject } from "react";
 
 // Props.
 export interface IDomVideoProps {
@@ -27,7 +27,7 @@ export class DomVideo extends PureComponent<IDomVideoProps> {
 
   public render(): ReactNode {
 
-    const {width, height, muted, autoPlay} = this.props;
+    const { width, height, muted, autoPlay } = this.props;
 
     const style: object = {
       height: height !== undefined ? height + "px" : undefined,

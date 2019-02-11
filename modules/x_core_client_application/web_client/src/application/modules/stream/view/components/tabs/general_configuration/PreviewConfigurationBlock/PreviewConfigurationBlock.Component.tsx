@@ -1,10 +1,10 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, ReactNode} from "react";
+import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 import {
@@ -14,9 +14,9 @@ import {
 } from "@Module/stream/data/store";
 
 // View.
-import {Divider, FormControlLabel, Grid, Grow, Switch, Typography, WithStyles} from "@material-ui/core";
-import {Add, Remove} from "@material-ui/icons";
-import {previewConfigurationBlockStyle} from "./PreviewConfigurationBlock.Style";
+import { Divider, FormControlLabel, Grid, Grow, Switch, Typography, WithStyles } from "@material-ui/core";
+import { Add, Remove } from "@material-ui/icons";
+import { previewConfigurationBlockStyle } from "./PreviewConfigurationBlock.Style";
 
 // Props.
 export interface IPreviewConfigurationBlockState {
@@ -37,8 +37,8 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
 
   public render(): ReactNode {
 
-    const {classes, renderingState: {addDisabledObjects, showPreview, showGrid, showGraphics, propagateRendererEvents}} = this.props;
-    const {showPreviewConfiguration} = this.state;
+    const { classes, renderingState: { addDisabledObjects, showPreview, showGrid, showGraphics, propagateRendererEvents } } = this.props;
+    const { showPreviewConfiguration } = this.state;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>

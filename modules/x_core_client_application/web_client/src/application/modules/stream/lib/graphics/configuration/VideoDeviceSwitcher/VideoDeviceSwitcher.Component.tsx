@@ -1,11 +1,11 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, PureComponent, ReactNode} from "react";
+import { ChangeEvent, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {MediaUtils} from "@Lib/media";
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { MediaUtils } from "@Lib/media";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
 
@@ -19,8 +19,8 @@ import {
   Select,
   WithStyles
 } from "@material-ui/core";
-import {Refresh} from "@material-ui/icons";
-import {videoDeviceSwitcherStyle} from "./VideoDeviceSwitcher.Style";
+import { Refresh } from "@material-ui/icons";
+import { videoDeviceSwitcherStyle } from "./VideoDeviceSwitcher.Style";
 
 // Props.
 export interface IVideoDeviceSwitcherState {
@@ -49,8 +49,8 @@ export class VideoDeviceSwitcher extends PureComponent<IVideoDeviceSwitcherProps
 
   public render(): ReactNode {
 
-    const {label, classes, value} = this.props;
-    const {videoInputSources} = this.state;
+    const { label, classes, value } = this.props;
+    const { videoInputSources } = this.state;
 
     return (
       <Grid className={classes.root} container>

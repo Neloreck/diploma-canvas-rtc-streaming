@@ -1,14 +1,14 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
-import {renderingService} from "@Module/stream/data/services";
+import { renderingService } from "@Module/stream/data/services";
 import {
   bookmarkContextManager,
   graphicsContextManager,
@@ -18,11 +18,11 @@ import {
 } from "@Module/stream/data/store";
 
 // Api.
-import {ILiveEventLayoutBookmark} from "@Api/x-core";
+import { ILiveEventLayoutBookmark } from "@Api/x-core";
 
 // View.
-import {Button, CircularProgress, Grid, WithStyles} from "@material-ui/core";
-import {layoutConfigurationTabStyle} from "./LayoutConfigurationTab.Style";
+import { Button, CircularProgress, Grid, WithStyles } from "@material-ui/core";
+import { layoutConfigurationTabStyle } from "./LayoutConfigurationTab.Style";
 
 // Props.
 
@@ -36,7 +36,7 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
 
   public componentWillMount(): void {
 
-    const {bookmarkActions: {loadBookmarks}, liveState: {liveEvent}} = this.props;
+    const { bookmarkActions: { loadBookmarks }, liveState: { liveEvent } } = this.props;
 
     if (liveEvent) {
       loadBookmarks(liveEvent.id);
@@ -47,7 +47,7 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
 
   public render(): ReactNode {
 
-    const {classes, bookmarkState: {bookmarksLoading}} = this.props;
+    const { classes, bookmarkState: { bookmarksLoading } } = this.props;
 
     return (
       <Grid className={classes.root} direction={"row"} wrap={"nowrap"} alignItems={"center"} justify={"center"} container>
@@ -69,8 +69,8 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
 
     const {
       classes,
-      bookmarkState: {bookmarks}, bookmarkActions: {saveBookmarkGraphics},
-      graphicsState: {objects}, graphicsActions: {eraseObjects, setObjects}
+      bookmarkState: { bookmarks }, bookmarkActions: { saveBookmarkGraphics },
+      graphicsState: { objects }, graphicsActions: { eraseObjects, setObjects }
     } = this.props;
 
     return (
@@ -100,7 +100,7 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
 
   private renderDetail(): Optional<ReactNode> {
 
-    const {classes, bookmarkState: {bookmarks, selectedBookmark}} = this.props;
+    const { classes, bookmarkState: { bookmarks, selectedBookmark } } = this.props;
 
     if (selectedBookmark) {
       return (
@@ -116,7 +116,7 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
   @Bind()
   private onCreateButtonClicked(): void {
 
-    const {bookmarkActions: {createBookmark}} = this.props;
+    const { bookmarkActions: { createBookmark } } = this.props;
 
     createBookmark();
   }

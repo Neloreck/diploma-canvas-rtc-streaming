@@ -1,4 +1,4 @@
-import {ISerializedGraphicsObject} from "@Lib/graphics";
+import { ISerializedGraphicsObject } from "@Lib/graphics";
 
 import {
   CONFIG,
@@ -8,7 +8,7 @@ import {
   IXCoreFailedResponse,
   postRequest, putRequest
 } from "@Api/x-core";
-import {IBookmarkCreateRequest, IEventCreateRequest} from "@Api/x-core/live/requests";
+import { IBookmarkCreateRequest, IEventCreateRequest } from "@Api/x-core/live/requests";
 import {
   IEventCreateResponse,
   IGetActiveEventResponse,

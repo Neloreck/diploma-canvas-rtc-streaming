@@ -1,9 +1,9 @@
-import {ReactContextManager} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { ReactContextManager } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import {Optional} from "@Lib/ts/types";
-import {DocumentStoreUtils, Logger} from "@Lib/utils";
+import { Optional } from "@Lib/ts/types";
+import { getFromLocalStorage, Logger, removeLocalStorageItem, setLocalStorageItem } from "@Lib/utils";
 
 // Api.
 import {
@@ -18,7 +18,7 @@ import {
 } from "@Api/x-core";
 
 // Data.
-import {routerContextManager} from "@Main/data/store";
+import { routerContextManager } from "@Main/data/store";
 
 export interface IAuthContext {
   authActions: {
@@ -73,7 +73,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   }
 
   public getAccessToken(): Optional<string> {
-    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorage("token_data");
+    const tokenData: Optional<ITokenData> = getFromLocalStorage("token_data");
     return tokenData && (this.isTokenDataNonExpired(tokenData)) ? tokenData.accessToken : null;
   }
 
@@ -102,7 +102,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected async refresh(): Promise<void> {
-    DocumentStoreUtils.removeLocalStorageItem("token_data");
+    removeLocalStorageItem("token_data");
   }
 
   @Bind()
@@ -110,7 +110,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info(`Logging in new user: '${username}'.`);
 
-    let {authState: state} = this.context;
+    let { authState: state } = this.context;
 
     // Do not dup requests.
     if (state.authorizing) {
@@ -149,7 +149,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info("Registering new user:", username, mail);
 
-    let {authState: state} = this.context;
+    let { authState: state } = this.context;
 
     // Do not dup requests.
     if (state.authorizing) {
@@ -184,13 +184,13 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info("Logging out.");
 
-    const {authState} = this.context;
+    const { authState } = this.context;
 
     if (authState.authorizing) {
       throw new Error("Cannot logout while authorizing.");
     }
 
-    DocumentStoreUtils.removeLocalStorageItem("token_data");
+    removeLocalStorageItem("token_data");
 
     authState.authData = null;
     authState.authorized = false;
@@ -207,7 +207,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
     this.log.info("Updating user information.");
 
-    let {authState} = this.context;
+    let { authState } = this.context;
 
     // Set loading state.
     authState.authorizing = true;
@@ -218,11 +218,11 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     const response: IAuthInfoResponse = await getAuthInfo({});
 
     if (response.success && response.authenticated) {
-      authState.authData = {username: response.username};
+      authState.authData = { username: response.username };
     } else {
       this.log.error("Auth request got error:", response.error);
 
-      DocumentStoreUtils.removeLocalStorageItem("token_data");
+      removeLocalStorageItem("token_data");
     }
 
     authState.authorized = (authState.authData !== null);
@@ -243,7 +243,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected saveTokenData(loginResponse: ILoginResponse): void {
-    DocumentStoreUtils.setLocalStorageItem("token_data", {
+    setLocalStorageItem("token_data", {
       accessToken: loginResponse.accessToken,
       expires: loginResponse.expires * 1000,
       received: Date.now(),
@@ -255,13 +255,13 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected hasAuthToken(): boolean {
-    const tokenData: Optional<ITokenData> = DocumentStoreUtils.getFromLocalStorage("token_data");
+    const tokenData: Optional<ITokenData> = getFromLocalStorage("token_data");
     return tokenData !== null && Boolean(tokenData.accessToken) && this.isTokenDataNonExpired(tokenData);
   }
 
   @Bind()
   protected hasRefreshToken(): boolean {
-    return Boolean(DocumentStoreUtils.getFromLocalStorage("token_data"));
+    return Boolean(getFromLocalStorage("token_data"));
   }
 
   @Bind()

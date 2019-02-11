@@ -1,13 +1,13 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {IRouterContext, routerContextManager} from "@Main/data/store";
+import { IRouterContext, routerContextManager } from "@Main/data/store";
 
 // View.
 import {
@@ -15,8 +15,8 @@ import {
   Typography,
   WithStyles,
 } from "@material-ui/core";
-import {Home} from "@material-ui/icons";
-import {headerBarLogoNavigationStyle} from "./HeaderBarLogoNavigation.Style";
+import { Home } from "@material-ui/icons";
+import { headerBarLogoNavigationStyle } from "./HeaderBarLogoNavigation.Style";
 
 // Props.
 export interface IHeaderBarLogoNavigationOwnProps {}
@@ -29,7 +29,7 @@ export class HeaderBarLogoNavigation extends PureComponent<IHeaderBarLogoNavigat
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Fragment>
@@ -54,7 +54,7 @@ export class HeaderBarLogoNavigation extends PureComponent<IHeaderBarLogoNavigat
   @Bind()
   private redirectToIndexPage(): void {
 
-    const {routingActions: {push}} = this.props;
+    const { routingActions: { push } } = this.props;
 
     push("/home");
   }

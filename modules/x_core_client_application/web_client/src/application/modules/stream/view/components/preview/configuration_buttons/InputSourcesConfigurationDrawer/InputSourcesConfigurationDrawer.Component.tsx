@@ -1,15 +1,15 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, ReactNode} from "react";
+import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
-import {EDeviceKind, IInputDevicesBundle, IInputSourceDevices, MediaUtils} from "@Lib/media";
-import {DomVideo} from "@Lib/react_lib/components";
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { EDeviceKind, IInputDevicesBundle, IInputSourceDevices, MediaUtils } from "@Lib/media";
+import { DomVideo } from "@Lib/react_lib/components";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
-import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 
 // View.
 import {
@@ -26,8 +26,8 @@ import {
   Typography,
   WithStyles
 } from "@material-ui/core";
-import {Check, Close, MusicNote, MusicOff, Refresh} from "@material-ui/icons";
-import {inputSourcesConfigurationDrawerStyle} from "./InputSourcesConfigurationDrawer.Style";
+import { Check, Close, MusicNote, MusicOff, Refresh } from "@material-ui/icons";
+import { inputSourcesConfigurationDrawerStyle } from "./InputSourcesConfigurationDrawer.Style";
 
 // Props.
 export interface IInputSourcesConfigurationDrawerState {
@@ -77,14 +77,14 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
     // Unmount.
     if (nextProps.show === false && this.props.show === true) {
       MediaUtils.killStream(this.state.previewStream);
-      this.setState({ previewStream: null, selectedInputSources: { audioInput: null, videoInput: null }});
+      this.setState({ previewStream: null, selectedInputSources: { audioInput: null, videoInput: null } });
     }
   }
 
   public render(): ReactNode {
 
-    const {classes, show, onHide, onShow} = this.props;
-    const {audioInputSources, videoInputSources, selectedInputSources, previewStream, listen} = this.state;
+    const { classes, show, onHide, onShow } = this.props;
+    const { audioInputSources, videoInputSources, selectedInputSources, previewStream, listen } = this.state;
 
     return (
       <SwipeableDrawer
@@ -173,8 +173,8 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
   private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
     const inputSources: IInputDevicesBundle = await MediaUtils.getInputDevicesBundled();
-    const {selectedDevices} = this.props;
-    const {selectedInputSources: {videoInput, audioInput}} = this.state;
+    const { selectedDevices } = this.props;
+    const { selectedInputSources: { videoInput, audioInput } } = this.state;
 
     const newState: IInputSourcesConfigurationDrawerState = {
       ...this.state,
@@ -195,7 +195,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
     // Update preview stream, if modal does not have anything selected.
 
-    const {selectedInputSources} = newState;
+    const { selectedInputSources } = newState;
 
     if (this.shouldPreviewStreamUpdate(this.state, newState)) {
       this.updatePreviewStream(selectedInputSources.videoInput, selectedInputSources.audioInput)
@@ -247,8 +247,8 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
   private shouldPreviewStreamUpdate(oldState: IInputSourcesConfigurationDrawerState, newState: IInputSourcesConfigurationDrawerState): boolean {
 
-    const {selectedInputSources: oldSources} = oldState;
-    const {selectedInputSources: newSources} = newState;
+    const { selectedInputSources: oldSources } = oldState;
+    const { selectedInputSources: newSources } = newState;
 
     return (oldSources.audioInput !== newSources.audioInput || oldSources.videoInput !== newSources.videoInput);
   }

@@ -1,14 +1,14 @@
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import { Component, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // View.
-import {HeaderBar, IHeaderBarExternalProps} from "@Main/view/components/heading";
-import {Grid, Grow, WithStyles} from "@material-ui/core";
-import {ISignUpFormExternalProps, SignUpForm} from "@Module/authentication/view/components/SignUpForm";
-import {signUpPageStyle} from "./SignUpPage.Style";
+import { HeaderBar, IHeaderBarExternalProps } from "@Main/view/components/heading";
+import { Grid, Grow, WithStyles } from "@material-ui/core";
+import { ISignUpFormExternalProps, SignUpForm } from "@Module/authentication/view/components/SignUpForm";
+import { signUpPageStyle } from "./SignUpPage.Style";
 
 // Props.
 export interface ILoginPageState {
@@ -36,8 +36,8 @@ export class SignUpPage extends Component<ISignUpPageProps> {
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
-    const {mounted} = this.state;
+    const { classes } = this.props;
+    const { mounted } = this.state;
 
     return (
       <Grid className={classes.root} container>

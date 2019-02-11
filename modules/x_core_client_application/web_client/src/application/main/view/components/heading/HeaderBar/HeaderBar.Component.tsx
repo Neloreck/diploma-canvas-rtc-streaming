@@ -1,13 +1,13 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
+import { authContextManager, IAuthContext, IRouterContext, routerContextManager } from "@Main/data/store";
 
 // View.
 import {
@@ -16,12 +16,12 @@ import {
 import {
   HeaderBarLogoNavigation, IHeaderBarLogoNavigationExternalProps
 } from "@Main/view/components/heading/HeaderBarLogoNavigation";
-import {HeaderBarUserMenu, IHeaderBarUserMenuExternalProps} from "@Main/view/components/heading/HeaderBarUserMenu";
+import { HeaderBarUserMenu, IHeaderBarUserMenuExternalProps } from "@Main/view/components/heading/HeaderBarUserMenu";
 import {
   AppBar, Button, Grid, Toolbar, WithStyles,
 } from "@material-ui/core";
-import {LiveTv} from "@material-ui/icons";
-import {headerBarStyle} from "./HeaderBar.Style";
+import { LiveTv } from "@material-ui/icons";
+import { headerBarStyle } from "./HeaderBar.Style";
 
 // Props.
 
@@ -35,7 +35,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
   public render(): ReactNode {
 
-    const {classes, authState: {authorized}} = this.props;
+    const { classes, authState: { authorized } } = this.props;
 
     return (
       <AppBar className={classes.root} position={"static"}>
@@ -69,7 +69,7 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
   @Bind()
   private onGoLive(): void {
 
-    const {routingActions: {push}} = this.props;
+    const { routingActions: { push } } = this.props;
 
     push("/stream/create");
   }

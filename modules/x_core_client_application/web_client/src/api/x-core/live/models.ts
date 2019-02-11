@@ -1,4 +1,4 @@
-import {ISerializedGraphicsObject} from "@Lib/graphics";
+import { ISerializedGraphicsObject } from "@Lib/graphics";
 
 export interface ILiveEvent {
   id: string;

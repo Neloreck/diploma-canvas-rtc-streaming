@@ -1,9 +1,9 @@
 import * as React from "react";
-import {PureComponent, ReactNode} from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Optional} from "@Lib/ts/types";
+import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
 import {
@@ -16,7 +16,7 @@ import {
   IVideoDeviceSwitcherExternalProps,
   VideoDeviceSwitcher
 } from "@Module/stream/lib/graphics/configuration/VideoDeviceSwitcher";
-import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
+import { ICanvasObjectDescriptor } from "@Module/stream/lib/graphics/description";
 import {
   EEditingFormType,
   IBooleanSwitcherFieldDescriptor,
@@ -35,7 +35,7 @@ export class CanvasObjectConfigurationFormBuilder extends PureComponent<INoContr
 
   public render(): ReactNode {
 
-    const {descriptor, object} = this.props;
+    const { descriptor, object } = this.props;
 
     if (descriptor.formDescriptor.length === 0) {
       return (<NoControlProvidedForm object={object}/>);
@@ -46,7 +46,7 @@ export class CanvasObjectConfigurationFormBuilder extends PureComponent<INoContr
 
   private renderCompleteForm(): Array<ReactNode> {
 
-    const {descriptor, object} = this.props;
+    const { descriptor, object } = this.props;
 
     return descriptor.formDescriptor.map((fieldDescriptor: TFieldDescriptor<any>, idx: number) => {
 

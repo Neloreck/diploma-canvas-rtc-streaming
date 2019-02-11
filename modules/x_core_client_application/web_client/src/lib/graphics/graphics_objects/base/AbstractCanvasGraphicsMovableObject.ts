@@ -1,5 +1,5 @@
-import {IPoint} from "../../types";
-import {AbstractCanvasGraphicsInteractiveObject} from "./AbstractCanvasGraphicsInteractiveObject";
+import { IPoint } from "../../types";
+import { AbstractCanvasGraphicsInteractiveObject } from "./AbstractCanvasGraphicsInteractiveObject";
 
 export abstract class AbstractCanvasGraphicsMovableObject<T extends object> extends AbstractCanvasGraphicsInteractiveObject<T> {
 

@@ -1,1 +1,1 @@
-export {LoginForm, ILoginFormExternalProps} from "./LoginForm.Component";
+export { LoginForm, ILoginFormExternalProps } from "./LoginForm.Component";

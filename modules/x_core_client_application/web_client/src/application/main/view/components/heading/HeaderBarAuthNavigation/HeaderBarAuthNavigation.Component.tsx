@@ -1,20 +1,20 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
+import { authContextManager, IAuthContext, IRouterContext, routerContextManager } from "@Main/data/store";
 
 // View.
 import {
   Button,
   WithStyles, Zoom,
 } from "@material-ui/core";
-import {headerBarAuthNavigationStyle} from "./HeaderBarAuthNavigation.Style";
+import { headerBarAuthNavigationStyle } from "./HeaderBarAuthNavigation.Style";
 
 // Props.
 export interface IHeaderBarAuthNavigationOwnProps {}
@@ -27,7 +27,7 @@ export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigat
 
   public render(): ReactNode {
 
-    const {routingActions: {getCurrentLocation}, authState: {authorizing}} = this.props;
+    const { routingActions: { getCurrentLocation }, authState: { authorizing } } = this.props;
 
     const currentLocation: string = getCurrentLocation();
     const isLoginPage: boolean = (currentLocation === "/authentication/login");
@@ -54,7 +54,7 @@ export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigat
   @Bind()
   private redirectToLoginPage(): void {
 
-    const {routingActions: {push}} = this.props;
+    const { routingActions: { push } } = this.props;
 
     push("/authentication/login");
   }
@@ -62,7 +62,7 @@ export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigat
   @Bind()
   private redirectToSignUpPage(): void {
 
-    const {routingActions: {push}} = this.props;
+    const { routingActions: { push } } = this.props;
 
     push("/authentication/register");
   }

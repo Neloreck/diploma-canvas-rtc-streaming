@@ -1,1 +1,1 @@
-export {InputSourcesConfigurationButton, IInputSourcesConfigurationButtonExternalProps} from "./InputSourcesConfigurationButton.Component";
+export { InputSourcesConfigurationButton, IInputSourcesConfigurationButtonExternalProps } from "./InputSourcesConfigurationButton.Component";

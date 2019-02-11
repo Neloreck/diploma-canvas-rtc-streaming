@@ -1,14 +1,14 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, KeyboardEvent, ReactNode} from "react";
+import { ChangeEvent, Component, KeyboardEvent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
-import {AuthContextManager, authContextManager, IAuthContext} from "@Main/data/store";
+import { AuthContextManager, authContextManager, IAuthContext } from "@Main/data/store";
 
 // View.
 import {
@@ -21,7 +21,7 @@ import {
   LinearProgress,
   WithStyles
 } from "@material-ui/core";
-import {signUpFormStyle} from "./SignUpForm.Style";
+import { signUpFormStyle } from "./SignUpForm.Style";
 
 // Props.
 export interface ISignUpFormState {
@@ -87,14 +87,14 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 
   public componentWillUnmount(): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
 
     cleanupErrorMessage();
   }
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Card className={classes.root}>
@@ -106,7 +106,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 
   private renderProgressBar(): ReactNode {
 
-    const {classes, authState: {authorizing}} = this.props;
+    const { classes, authState: { authorizing } } = this.props;
 
     return authorizing
       ? <LinearProgress color="secondary" className={classes.linearLoader}/>
@@ -115,8 +115,8 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 
   private renderFormBody(): ReactNode {
 
-    const {classes, authState: {authorizing, errorMessage}} = this.props;
-    const {usernameInput, mailInput, passwordInput, passwordConfirmationInput} = this.state;
+    const { classes, authState: { authorizing, errorMessage } } = this.props;
+    const { usernameInput, mailInput, passwordInput, passwordConfirmationInput } = this.state;
 
     return (
       <Grid className={classes.formWrapper} onKeyDown={this.onKeyDown} direction={"column"} container>
@@ -173,7 +173,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private onUsernameChanged(event: ChangeEvent<HTMLInputElement>): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
     if (value.length < AuthContextManager.MAX_USERNAME_LENGTH) {
@@ -185,7 +185,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private onMailChanged(event: ChangeEvent<HTMLInputElement>): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
     if (value.length < AuthContextManager.MAX_USERNAME_LENGTH) {
@@ -197,7 +197,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private onPasswordChanged(event: ChangeEvent<HTMLInputElement>): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
     if (value.length < AuthContextManager.MAX_PASSWORD_LENGTH) {
@@ -209,7 +209,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private onPasswordConfirmationChanged(event: ChangeEvent<HTMLInputElement>): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
     if (value.length < AuthContextManager.MAX_PASSWORD_LENGTH) {
@@ -225,8 +225,8 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private isFormValid(): boolean {
 
-    const {authState: {authorizing, errorMessage}} = this.props;
-    const {usernameInput, passwordInput, passwordConfirmationInput, mailInput} = this.state;
+    const { authState: { authorizing, errorMessage } } = this.props;
+    const { usernameInput, passwordInput, passwordConfirmationInput, mailInput } = this.state;
 
     return !authorizing && errorMessage === null &&
       usernameInput.edited && passwordInput.edited && mailInput.edited && passwordConfirmationInput.edited &&
@@ -250,7 +250,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private getPasswordErrors(value: string, nextState: ISignUpFormState): Optional<string> {
 
-    const {passwordConfirmationInput} = nextState;
+    const { passwordConfirmationInput } = nextState;
 
     return value.length >= AuthContextManager.MIN_PASSWORD_LENGTH
       ? (passwordConfirmationInput.edited ? (value === passwordConfirmationInput.value ? null : "Passwords should match") : null)
@@ -260,7 +260,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private getPasswordMatchErrors(value: string, nextState: ISignUpFormState): Optional<string> {
 
-    const {passwordInput} = nextState;
+    const { passwordInput } = nextState;
 
     return value.length >= AuthContextManager.MIN_PASSWORD_LENGTH
       ? (passwordInput.edited ? (passwordInput.value === value ? null : "Passwords should match") : null)
@@ -281,8 +281,8 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   @Bind()
   private async onFormSubmit(): Promise<void> {
 
-    const {authActions: {register, login}} = this.props;
-    const {usernameInput, passwordInput, mailInput} = this.state;
+    const { authActions: { register, login } } = this.props;
+    const { usernameInput, passwordInput, mailInput } = this.state;
 
     // todo: Single register-login.
 

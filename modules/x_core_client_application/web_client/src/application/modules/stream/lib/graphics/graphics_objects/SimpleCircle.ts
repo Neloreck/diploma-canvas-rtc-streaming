@@ -1,4 +1,4 @@
-import {AbstractBaseCircleObject} from "@Lib/graphics";
+import { AbstractBaseCircleObject } from "@Lib/graphics";
 
 export interface ISimpleCircleConfig {
   backgroundColor: string;

@@ -1,12 +1,12 @@
-import {Provide} from "@redux-cbd/context";
+import { Provide } from "@redux-cbd/context";
 import * as React from "react";
-import {ComponentClass, Fragment, PureComponent, ReactNode} from "react";
-import {Route, Switch} from "react-router";
+import { ComponentClass, Fragment, PureComponent, ReactNode } from "react";
+import { Route, Switch } from "react-router";
 
 // View.
-import {IPrivateRouteExternalProps, PrivateRoute} from "@Main/view/layouts/PrivateRoute";
-import {ErrorPage} from "@Main/view/pages/ErrorPage";
-import {lazyLoadComponentFactory} from "@Main/view/utils";
+import { IPrivateRouteExternalProps, PrivateRoute } from "@Main/view/layouts/PrivateRoute";
+import { ErrorPage } from "@Main/view/pages/ErrorPage";
+import { lazyLoadComponentFactory } from "@Main/view/utils";
 import {
   bookmarkContextManager,
   graphicsContextManager,

@@ -1,8 +1,8 @@
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import { Component, ReactNode } from "react";
 
 // View.
-import {Grow} from "@material-ui/core";
+import { Grow } from "@material-ui/core";
 
 // Props.
 export interface IAnimatedMountState {

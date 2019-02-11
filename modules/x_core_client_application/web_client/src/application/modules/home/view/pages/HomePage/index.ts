@@ -1,1 +1,1 @@
-export {HomePage, IHomePageExternalProps} from "./HomePage.Component";
+export { HomePage, IHomePageExternalProps } from "./HomePage.Component";

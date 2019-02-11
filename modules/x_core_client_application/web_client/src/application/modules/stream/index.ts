@@ -1,1 +1,1 @@
-export {StreamRouter} from "@Module/stream/StreamRouter";
+export { StreamRouter } from "@Module/stream/StreamRouter";

@@ -1,1 +1,1 @@
-export {OutputStatsBlock, IOutputStatsBlockExternalProps} from "./OutputStatsBlock.Component";
+export { OutputStatsBlock, IOutputStatsBlockExternalProps } from "./OutputStatsBlock.Component";

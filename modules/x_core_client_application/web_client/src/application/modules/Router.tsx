@@ -1,16 +1,16 @@
-import {Provide} from "@redux-cbd/context";
-import {Wrapped} from "@redux-cbd/utils";
+import { Provide } from "@redux-cbd/context";
+import { Wrapped } from "@redux-cbd/utils";
 import * as React from "react";
-import {ComponentClass, PureComponent, ReactNode} from "react";
-import {Route, Router as ReactRouter} from "react-router";
-import {Switch} from "react-router-dom";
+import { ComponentClass, PureComponent, ReactNode } from "react";
+import { Route, Router as ReactRouter } from "react-router";
+import { Switch } from "react-router-dom";
 
 // Data
-import {authContextManager, routerContextManager, themeContextManager} from "@Main/data/store";
+import { authContextManager, routerContextManager, themeContextManager } from "@Main/data/store";
 
 // View.
-import {GlobalThemeProvider} from "@Main/view/layouts/GlobalThemeProvider";
-import {lazyLoadComponentFactory} from "@Main/view/utils";
+import { GlobalThemeProvider } from "@Main/view/layouts/GlobalThemeProvider";
+import { lazyLoadComponentFactory } from "@Main/view/utils";
 
 /*
  * Application submodules:
@@ -28,7 +28,7 @@ export class Router extends PureComponent<object> {
 
   public render(): ReactNode {
 
-    const {context: {routingState: {history}}} = routerContextManager;
+    const { context: { routingState: { history } } } = routerContextManager;
 
     return (
       <ReactRouter history={history}>

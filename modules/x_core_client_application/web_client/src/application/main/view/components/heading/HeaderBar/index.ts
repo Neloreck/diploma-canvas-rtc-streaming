@@ -1,1 +1,1 @@
-export {HeaderBar, IHeaderBarExternalProps} from "./HeaderBar.Component";
+export { HeaderBar, IHeaderBarExternalProps } from "./HeaderBar.Component";

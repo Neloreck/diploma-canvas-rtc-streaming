@@ -1,6 +1,6 @@
-import {IBoundingRect, IPoint} from "../../../types";
-import {GeometricUtils} from "../../../utils";
-import {AbstractCanvasGraphicsResizableObject} from "../AbstractCanvasGraphicsResizableObject";
+import { IBoundingRect, IPoint } from "../../../types";
+import { GeometricUtils } from "../../../utils";
+import { AbstractCanvasGraphicsResizableObject } from "../AbstractCanvasGraphicsResizableObject";
 
 export class FixedControlButton extends AbstractCanvasGraphicsResizableObject<never> {
 
@@ -20,7 +20,7 @@ export class FixedControlButton extends AbstractCanvasGraphicsResizableObject<ne
 
   public readonly buttonType: string;
 
-  public root: IPoint = { x: 0, y: 0};
+  public root: IPoint = { x: 0, y: 0 };
   public size: number = 2;
 
   public constructor(buttonType: string) {
@@ -42,7 +42,7 @@ export class FixedControlButton extends AbstractCanvasGraphicsResizableObject<ne
   }
 
   public isInBounds(targetPoint: IPoint): boolean {
-    const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
+    const { topLeft, topRight, botLeft, botRight } = this.getBoundingRect();
     return GeometricUtils.checkPointInTriangle(targetPoint, botLeft, topLeft, topRight) || GeometricUtils.checkPointInTriangle(targetPoint, botLeft, botRight, topRight);
   }
 
@@ -51,7 +51,7 @@ export class FixedControlButton extends AbstractCanvasGraphicsResizableObject<ne
     context.strokeStyle = "#000";
     context.lineWidth = 1;
 
-    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
 
     const absHeight: number = this.size * pWidth;
     const absWidth: number = this.size * pWidth;

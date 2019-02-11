@@ -1,9 +1,9 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, PureComponent, ReactNode} from "react";
+import { ChangeEvent, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // View.
 import {
@@ -15,7 +15,7 @@ import {
   Typography,
   WithStyles,
 } from "@material-ui/core";
-import {eventCreationFormStyle} from "./EventCreationForm.Style";
+import { eventCreationFormStyle } from "./EventCreationForm.Style";
 
 // Props.
 export interface IEventCreationFormState {
@@ -46,7 +46,7 @@ export class EventCreationForm extends PureComponent<IEventCreationFormProps> {
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Card className={classes.root}>
@@ -58,15 +58,15 @@ export class EventCreationForm extends PureComponent<IEventCreationFormProps> {
 
   private renderProgressBlock(): ReactNode {
 
-    const {classes, loading} = this.props;
+    const { classes, loading } = this.props;
 
     return loading ? <LinearProgress color={"secondary"}/> : <div className={classes.loaderPlaceholder}/>;
   }
 
   private renderEditingBlock(): ReactNode {
 
-    const {classes, loading} = this.props;
-    const {name, description, secured, securedKey} = this.state;
+    const { classes, loading } = this.props;
+    const { name, description, secured, securedKey } = this.state;
 
     return (
       <Grid className={classes.editBlock} direction={"column"} container>
@@ -140,7 +140,7 @@ export class EventCreationForm extends PureComponent<IEventCreationFormProps> {
   @Bind()
   private onGoBack(): void {
 
-    const {onBack} = this.props;
+    const { onBack } = this.props;
 
     onBack();
   }
@@ -148,8 +148,8 @@ export class EventCreationForm extends PureComponent<IEventCreationFormProps> {
   @Bind()
   private onCreate(): void {
 
-    const {onCreate} = this.props;
-    const {name, description, securedKey, secured} = this.state;
+    const { onCreate } = this.props;
+    const { name, description, securedKey, secured } = this.state;
 
     onCreate(name, description, secured, securedKey);
   }

@@ -1,4 +1,4 @@
-import {AbstractBaseRectangleObject} from "@Lib/graphics";
+import { AbstractBaseRectangleObject } from "@Lib/graphics";
 
 export interface ISimpleRectangleConfig {
   backgroundColor: string;

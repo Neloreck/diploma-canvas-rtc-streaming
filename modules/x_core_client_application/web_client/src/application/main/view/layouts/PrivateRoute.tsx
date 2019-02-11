@@ -1,10 +1,10 @@
-import {Consume} from "@redux-cbd/context";
+import { Consume } from "@redux-cbd/context";
 import * as React from "react";
-import {Route, RouteProps} from "react-router";
+import { Route, RouteProps } from "react-router";
 
 // Data.
-import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
-import {TypeUtils} from "@redux-cbd/utils";
+import { authContextManager, IAuthContext, IRouterContext, routerContextManager } from "@Main/data/store";
+import { TypeUtils } from "@redux-cbd/utils";
 
 // View.
 
@@ -24,7 +24,7 @@ export class PrivateRoute extends Route<IPrivateRouteProps> {
 
   public componentWillMount(): void {
 
-    const {redirect, reversed, routingActions: {replace}, routingState: {history}, authState: {authorized, authorizing}} = this.props;
+    const { redirect, reversed, routingActions: { replace }, routingState: { history }, authState: { authorized, authorizing } } = this.props;
 
     if (authorizing === false && (reversed ? authorized : !authorized)) {
       if (redirect === true) {
@@ -37,13 +37,13 @@ export class PrivateRoute extends Route<IPrivateRouteProps> {
 
   public componentWillReceiveProps(nextProps: IPrivateRouteProps): void {
 
-    const {redirect, reversed, authState: {authorizing, authorized}, routingActions: {replace, getQueryParams}} = nextProps;
+    const { redirect, reversed, authState: { authorizing, authorized }, routingActions: { replace, getQueryParams } } = nextProps;
 
     if (authorizing === false && (reversed ? authorized : !authorized)) {
 
-			const {next} = getQueryParams();
+      const { next } = getQueryParams();
 
-			replace(TypeUtils.isString(next) ? next as string : (TypeUtils.isString(redirect) ? redirect as string : "/todo"));
+      replace(TypeUtils.isString(next) ? next as string : (TypeUtils.isString(redirect) ? redirect as string : "/todo"));
     }
   }
 

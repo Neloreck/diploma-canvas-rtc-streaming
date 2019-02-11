@@ -1,5 +1,5 @@
-import {ICanvasGraphicsSizingContext} from "../types";
-import {AbstractCanvasGraphicsRenderObject} from "./base/AbstractCanvasGraphicsRenderObject";
+import { ICanvasGraphicsSizingContext } from "../types";
+import { AbstractCanvasGraphicsRenderObject } from "./base/AbstractCanvasGraphicsRenderObject";
 
 export class ContextCleanerRO extends AbstractCanvasGraphicsRenderObject<never> {
 

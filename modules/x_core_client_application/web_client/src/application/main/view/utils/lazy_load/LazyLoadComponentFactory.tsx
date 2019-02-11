@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Component, ComponentClass, ComponentType, ReactNode} from "react";
+import { Component, ComponentClass, ComponentType, ReactNode } from "react";
 
 // View.
 import {
@@ -20,7 +20,7 @@ export class LazyLoadComponentFactory {
 
       private static COMPONENT_INSTANCE: ComponentType;
 
-      public state: ILazyComponentState = {component: LazyComponent.COMPONENT_INSTANCE};
+      public state: ILazyComponentState = { component: LazyComponent.COMPONENT_INSTANCE };
       private mounted: boolean = false;
 
       public async componentWillMount(): Promise<void> {
@@ -34,7 +34,7 @@ export class LazyLoadComponentFactory {
           LazyComponent.COMPONENT_INSTANCE = ImportedRenderComponent;
 
           if (this.mounted) {
-            this.setState({component: ImportedRenderComponent});
+            this.setState({ component: ImportedRenderComponent });
           }
         }
       }
@@ -43,7 +43,7 @@ export class LazyLoadComponentFactory {
         this.mounted = true;
 
         if (!this.state.component) {
-          this.setState({component: LazyComponent.COMPONENT_INSTANCE});
+          this.setState({ component: LazyComponent.COMPONENT_INSTANCE });
         }
       }
 

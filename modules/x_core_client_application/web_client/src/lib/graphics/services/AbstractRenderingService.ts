@@ -1,7 +1,7 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 
-import {AbstractCanvasGraphicsRenderObject} from "../graphics_objects";
-import {ICanvasGraphicsSizingContext} from "../types";
+import { AbstractCanvasGraphicsRenderObject } from "../graphics_objects";
+import { ICanvasGraphicsSizingContext } from "../types";
 
 export abstract class AbstractRenderingService {
 

@@ -32,12 +32,16 @@ export class CdnServer {
     this.instance = createServer(this.application.getExpress());
 
     this.instance.on("error", (...args: Array<any>) => this.log.error("Server failed to start:", ...args));
-    this.instance.on("listening", () => {
-      this.log.info("========================================");
-      this.log.info(`= Server initialized. Environment: ${applicationConfig.mode}. Listening port: '${serverConfig.port}'.`);
-      this.log.info("========================================");
-    });
+    this.instance.on("listening", () => this.logStartInfo());
     this.instance.listen(serverConfig.port);
+  }
+
+  public logStartInfo(): void {
+    this.log.info("========================================");
+    this.log.info(`= Environment: ${applicationConfig.mode}.`);
+    this.log.info(`= Port: '${serverConfig.port}'.`);
+    this.log.info(`= API: '${applicationConfig.apiServerUrl}'.`);
+    this.log.info("========================================");
   }
 
 }

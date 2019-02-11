@@ -1,1 +1,1 @@
-export {StreamStatsPage, IStreamStatsPageExternalProps} from "./StreamStatsPage.Component";
+export { StreamStatsPage, IStreamStatsPageExternalProps } from "./StreamStatsPage.Component";

@@ -1,3 +1,3 @@
-export {MediaUtils} from "./MediaUtils";
+export { MediaUtils } from "./MediaUtils";
 
 export * from "./types";

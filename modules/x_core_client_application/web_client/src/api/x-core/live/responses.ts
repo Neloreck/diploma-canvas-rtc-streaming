@@ -1,7 +1,7 @@
-import {ISerializedGraphicsObject} from "@Lib/graphics";
+import { ISerializedGraphicsObject } from "@Lib/graphics";
 
-import {IXCoreResponse} from "@Api/x-core";
-import {ILiveEvent, ILiveEventLayoutBookmark} from "@Api/x-core/live/models";
+import { IXCoreResponse } from "@Api/x-core";
+import { ILiveEvent, ILiveEventLayoutBookmark } from "@Api/x-core/live/models";
 
 export interface IEventCreateResponse extends IXCoreResponse {
   liveEvent: ILiveEvent;

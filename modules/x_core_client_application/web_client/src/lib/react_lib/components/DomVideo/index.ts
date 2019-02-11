@@ -1,1 +1,1 @@
-export {DomVideo, IDomVideoProps} from "./DomVideo";
+export { DomVideo, IDomVideoProps } from "./DomVideo";

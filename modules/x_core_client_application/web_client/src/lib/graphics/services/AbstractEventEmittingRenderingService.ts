@@ -1,7 +1,7 @@
-import {AbstractBaseFixedPositionRectangleObject, IPoint} from "../../graphics";
-import {AbstractCanvasGraphicsRenderObject} from "../graphics_objects";
-import {AbstractInteractiveRenderingService} from "./AbstractInteractiveRenderingService";
-import {ERenderingServiceEvent} from "./ERenderingServiceEvent";
+import { AbstractBaseFixedPositionRectangleObject, IPoint } from "../../graphics";
+import { AbstractCanvasGraphicsRenderObject } from "../graphics_objects";
+import { AbstractInteractiveRenderingService } from "./AbstractInteractiveRenderingService";
+import { ERenderingServiceEvent } from "./ERenderingServiceEvent";
 
 export type TRenderingServiceEventHandler = (object: AbstractCanvasGraphicsRenderObject<any> | null) => void;
 

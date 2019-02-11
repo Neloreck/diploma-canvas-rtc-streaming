@@ -1,18 +1,18 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import { Component, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
+import { ISourceContext, sourceContextManager } from "@Module/stream/data/store";
 
 // View.
-import {Grid, Grow, Typography, WithStyles} from "@material-ui/core";
-import {Add, Remove} from "@material-ui/icons";
-import {outputStatsBlockStyle} from "./OutputStatsBlock.Style";
+import { Grid, Grow, Typography, WithStyles } from "@material-ui/core";
+import { Add, Remove } from "@material-ui/icons";
+import { outputStatsBlockStyle } from "./OutputStatsBlock.Style";
 
 // Props.
 export interface IOutputStatsBlockState {
@@ -33,8 +33,8 @@ export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputS
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
-    const {showStatsConfiguration} = this.state;
+    const { classes } = this.props;
+    const { showStatsConfiguration } = this.state;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
@@ -68,7 +68,7 @@ export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputS
 
   private renderOutputDetails(): ReactNode {
 
-    const {classes, sourceState: {outputStream, inputStream}} = this.props;
+    const { classes, sourceState: { outputStream, inputStream } } = this.props;
 
     if (outputStream === null) {
       return (
@@ -101,9 +101,9 @@ export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputS
 
   private renderAudioTracksDetail(mediaTrack: MediaStreamTrack): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
-    const {sampleRate}: MediaTrackSettings = mediaTrack.getSettings();
+    const { sampleRate }: MediaTrackSettings = mediaTrack.getSettings();
 
     return (
       <Grid className={classes.trackDetail} key={mediaTrack.id}>
@@ -116,9 +116,9 @@ export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputS
 
   private renderVideoTracksDetail(mediaTrack: MediaStreamTrack): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
-    const {frameRate, aspectRatio, width, height}: MediaTrackSettings = mediaTrack.getSettings();
+    const { frameRate, aspectRatio, width, height }: MediaTrackSettings = mediaTrack.getSettings();
 
     return (
       <Grid className={classes.trackDetail} key={mediaTrack.id}>

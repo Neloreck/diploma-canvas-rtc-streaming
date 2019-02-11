@@ -1,4 +1,4 @@
-import {ISerializedGraphicsObject, TObjectPosition} from "../../types";
+import { ISerializedGraphicsObject, TObjectPosition } from "../../types";
 
 export abstract class AbstractCanvasGraphicsSerializableObject<T extends object> {
 

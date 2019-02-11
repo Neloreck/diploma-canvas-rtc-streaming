@@ -1,1 +1,1 @@
-export {VideoDeviceSwitcher, IVideoDeviceSwitcherExternalProps} from "./VideoDeviceSwitcher.Component";
+export { VideoDeviceSwitcher, IVideoDeviceSwitcherExternalProps } from "./VideoDeviceSwitcher.Component";

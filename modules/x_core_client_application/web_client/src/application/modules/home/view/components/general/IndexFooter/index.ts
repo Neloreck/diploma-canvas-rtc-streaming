@@ -1,1 +1,1 @@
-export {IndexFooter, IIndexFooterExternalProps} from "./IndexFooter.Component";
+export { IndexFooter, IIndexFooterExternalProps } from "./IndexFooter.Component";

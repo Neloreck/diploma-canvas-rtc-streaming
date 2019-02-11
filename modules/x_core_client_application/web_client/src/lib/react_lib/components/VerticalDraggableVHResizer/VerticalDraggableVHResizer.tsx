@@ -1,9 +1,9 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {createRef, PureComponent, ReactNode, RefObject} from "react";
-import {MouseEvent as ReactMouseEvent} from "react";
+import { createRef, PureComponent, ReactNode, RefObject } from "react";
+import { MouseEvent as ReactMouseEvent } from "react";
 
-import {DocumentUtils} from "@Lib/utils";
+import { removeAnyPageTextSelection } from "@Lib/utils";
 
 // Props.
 export interface IVerticalDraggableVHResizer {
@@ -36,7 +36,7 @@ export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggable
     return (
       <div
         className={this.props.className}
-        style={{ ...wrapperStyle, minWidth: "4px"}}
+        style={{ ...wrapperStyle, minWidth: "4px" }}
         ref={this.divElementRef}
         onMouseMove={this.handleMouseMove}
         onMouseDown={this.handleMouseDown}
@@ -49,7 +49,7 @@ export class VerticalDraggableVHResizer extends PureComponent<IVerticalDraggable
   private handleMouseMove(event: MouseEvent | ReactMouseEvent): void {
     if (this.isMouseDown) {
       this.props.onHeightResize(event.pageX - this.getTargetSizings().left - this.getResizerSizings().width / 2);
-      DocumentUtils.removeAnyPageTextSelection();
+      removeAnyPageTextSelection();
     }
   }
 

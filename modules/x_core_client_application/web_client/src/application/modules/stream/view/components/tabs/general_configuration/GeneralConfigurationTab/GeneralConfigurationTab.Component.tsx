@@ -1,15 +1,15 @@
 import * as React from "react";
-import {PureComponent, ReactNode} from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // View.
-import {Grid, WithStyles} from "@material-ui/core";
+import { Grid, WithStyles } from "@material-ui/core";
 import {
   IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock
 } from "@Module/stream/view/components/tabs/general_configuration/PreviewConfigurationBlock";
-import {generalConfigurationTabStyle} from "./GeneralConfigurationTab.Style";
+import { generalConfigurationTabStyle } from "./GeneralConfigurationTab.Style";
 
 // Props.
 
@@ -22,7 +22,7 @@ export class GeneralConfigurationTab extends PureComponent<IGeneralConfiguration
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>

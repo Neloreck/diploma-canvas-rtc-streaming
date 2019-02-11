@@ -1,9 +1,9 @@
-import {IBoundingRect, ICanvasGraphicsSizingContext, IPoint, IRectSizing} from "../../types";
-import {GeometricUtils, RelativeRenderUtils, RenderUtils} from "../../utils";
-import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
+import { IBoundingRect, ICanvasGraphicsSizingContext, IPoint, IRectSizing } from "../../types";
+import { GeometricUtils, RelativeRenderUtils, RenderUtils } from "../../utils";
+import { AbstractCanvasGraphicsResizableObject } from "./AbstractCanvasGraphicsResizableObject";
 
-import {FixedControlButton} from "./assist/FixedControlButton";
-import {ResizeHandler} from "./assist/ResizeHandler";
+import { FixedControlButton } from "./assist/FixedControlButton";
+import { ResizeHandler } from "./assist/ResizeHandler";
 
 export abstract class AbstractBaseRectangleObject<T extends object> extends AbstractCanvasGraphicsResizableObject<T> {
 
@@ -52,7 +52,7 @@ export abstract class AbstractBaseRectangleObject<T extends object> extends Abst
   /* Complex checks. */
 
   public isInBounds(targetPoint: IPoint): boolean {
-    const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
+    const { topLeft, topRight, botLeft, botRight } = this.getBoundingRect();
     return GeometricUtils.checkPointInTriangle(targetPoint, botLeft, topLeft, topRight) || GeometricUtils.checkPointInTriangle(targetPoint, botLeft, botRight, topRight);
   }
 
@@ -131,8 +131,8 @@ export abstract class AbstractBaseRectangleObject<T extends object> extends Abst
 
   public renderDisabled(context: CanvasRenderingContext2D): void {
 
-    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
-    const {left, top, width, height} = this.position;
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
+    const { left, top, width, height } = this.position;
 
     this.renderSelf(context);
 
@@ -239,7 +239,7 @@ export abstract class AbstractBaseRectangleObject<T extends object> extends Abst
 
   protected getAbsoluteSizingBoundingRect(): IBoundingRect {
 
-    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
 
     return {
       botLeft:  { x: (this.position.left) * pWidth, y: (this.position.top + this.position.height) * pHeight },
@@ -251,7 +251,7 @@ export abstract class AbstractBaseRectangleObject<T extends object> extends Abst
 
   protected getAbsoluteSizing(): IRectSizing {
 
-    const {heightPercent: pHeight, widthPercent: pWidth} = this.getBasePercentSizing();
+    const { heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
 
     return {
       height: this.position.height * pHeight,
@@ -278,11 +278,11 @@ export abstract class AbstractBaseRectangleObject<T extends object> extends Abst
       switch (control.getIndex()) {
 
         case 0:
-          control.setRoot({ x: this.position.left + this.position.width - controlWidthSize, y: this.position.top});
+          control.setRoot({ x: this.position.left + this.position.width - controlWidthSize, y: this.position.top });
           break;
 
         case 1:
-          control.setRoot({ x: this.position.left, y: this.position.top});
+          control.setRoot({ x: this.position.left, y: this.position.top });
           break;
 
         case 2:

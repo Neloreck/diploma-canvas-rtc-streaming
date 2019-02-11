@@ -1,24 +1,24 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, ReactNode} from "react";
+import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
-import {HorizontalDraggableVHResizer} from "@Lib/react_lib/components";
-import {Styled} from "@Lib/react_lib/mui";
+import { HorizontalDraggableVHResizer } from "@Lib/react_lib/components";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 
 // View.
-import {AppBar, Grid, Tab, Tabs, WithStyles} from "@material-ui/core";
+import { AppBar, Grid, Tab, Tabs, WithStyles } from "@material-ui/core";
 import {
   GeneralConfigurationTab, IGeneralConfigurationTabExternalProps
 } from "@Module/stream/view/components/tabs/general_configuration/GeneralConfigurationTab";
-import {ILayoutConfigurationTabExternalProps, LayoutConfigurationTab} from "@Module/stream/view/components/tabs/layouts_configuration/LayoutConfigurationTab/LayoutConfigurationTab.Component";
+import { ILayoutConfigurationTabExternalProps, LayoutConfigurationTab } from "@Module/stream/view/components/tabs/layouts_configuration/LayoutConfigurationTab/LayoutConfigurationTab.Component";
 import {
   IObjectsConfigurationTabExternalProps, ObjectsConfigurationTab
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectsConfigurationTab";
-import {IStatsTabExternalProps, StatsTab} from "@Module/stream/view/components/tabs/stats/StatsTab";
-import {mainPreviewTabsStyle} from "./MainPreviewTabs.Style";
+import { IStatsTabExternalProps, StatsTab } from "@Module/stream/view/components/tabs/stats/StatsTab";
+import { mainPreviewTabsStyle } from "./MainPreviewTabs.Style";
 
 // Props.
 export interface IMainPreviewTabsState {
@@ -40,8 +40,8 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
-    const {currentTab, tabsHeight} = this.state;
+    const { classes } = this.props;
+    const { currentTab, tabsHeight } = this.state;
 
     let tabContent: ReactNode;
 

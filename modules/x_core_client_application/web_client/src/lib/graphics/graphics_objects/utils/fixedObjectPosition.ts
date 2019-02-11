@@ -1,6 +1,6 @@
 /* tslint:disable: typedef */
 
-import {IAbstractSizing, IPoint} from "@Lib/graphics";
+import { IAbstractSizing, IPoint } from "@Lib/graphics";
 
 export const BASE_GRID_LEVELS: number = 5;
 
@@ -61,7 +61,7 @@ export const fixedObjectsSizing: { [idx: number]: IAbstractSizing } = {
   // GEN:
   [EObjectFixedSize.XS]: { width: 19.2, height: 18.6 },
   [EObjectFixedSize.SM]: { width: 38.4, height: 37.2 },
-  [EObjectFixedSize.MD]: { width: 57.6, height: 55.8},
+  [EObjectFixedSize.MD]: { width: 57.6, height: 55.8 },
   [EObjectFixedSize.LG]: { width: 76.8, height: 74.4 },
   [EObjectFixedSize.XL]: { width: 96, height: 93 },
   // HOR:

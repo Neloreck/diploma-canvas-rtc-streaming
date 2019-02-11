@@ -5,10 +5,10 @@ import {
   ICanvasGraphicsSizingContext, IPoint,
   IRectSizing
 } from "@Lib/graphics";
-import {MediaUtils} from "@Lib/media";
+import { MediaUtils } from "@Lib/media";
 
 // Data.
-import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 
 export interface IVideoFrameConfig {
   borderWidth: number;

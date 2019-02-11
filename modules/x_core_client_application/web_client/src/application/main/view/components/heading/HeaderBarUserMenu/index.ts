@@ -1,1 +1,1 @@
-export {HeaderBarUserMenu, IHeaderBarUserMenuExternalProps} from "./HeaderBarUserMenu.Component";
+export { HeaderBarUserMenu, IHeaderBarUserMenuExternalProps } from "./HeaderBarUserMenu.Component";

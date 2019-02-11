@@ -1,10 +1,10 @@
-import {ReactContextManager} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { ReactContextManager } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import {IInputSourceDevices, MediaUtils} from "@Lib/media";
-import {Optional} from "@Lib/ts/types";
-import {Logger} from "@Lib/utils";
+import { IInputSourceDevices, MediaUtils } from "@Lib/media";
+import { Optional } from "@Lib/ts/types";
+import { Logger } from "@Lib/utils";
 
 export interface ISourceContext {
   sourceActions: {
@@ -138,7 +138,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   @Bind()
   public onProvisionEnded(): void {
 
-    const {sourceState: state} = this.context;
+    const { sourceState: state } = this.context;
 
     MediaUtils.killStream(state.inputStream);
     MediaUtils.killStream(state.outputStream);

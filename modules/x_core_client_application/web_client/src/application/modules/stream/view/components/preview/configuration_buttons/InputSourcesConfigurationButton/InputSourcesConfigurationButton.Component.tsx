@@ -1,21 +1,21 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, Fragment, ReactNode} from "react";
+import { Component, Fragment, ReactNode } from "react";
 
 // Lib.
-import {IInputSourceDevices, MediaUtils} from "@Lib/media";
-import {Styled} from "@Lib/react_lib/mui";
+import { IInputSourceDevices, MediaUtils } from "@Lib/media";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {streamConfig} from "@Module/stream/data/configs/StreamConfig";
-import {ISourceContext, sourceContextManager} from "@Module/stream/data/store";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
+import { ISourceContext, sourceContextManager } from "@Module/stream/data/store";
 
 // View.
-import {Fab, Tooltip, WithStyles} from "@material-ui/core";
-import {MoreVert} from "@material-ui/icons";
-import {IInputSourcesConfigurationDrawerExternalProps, InputSourcesConfigurationDrawer} from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationDrawer/InputSourcesConfigurationDrawer.Component";
-import {inputSourcesConfigurationButtonStyle} from "./InputSourcesConfigurationButton.Style";
+import { Fab, Tooltip, WithStyles } from "@material-ui/core";
+import { MoreVert } from "@material-ui/icons";
+import { IInputSourcesConfigurationDrawerExternalProps, InputSourcesConfigurationDrawer } from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationDrawer/InputSourcesConfigurationDrawer.Component";
+import { inputSourcesConfigurationButtonStyle } from "./InputSourcesConfigurationButton.Style";
 
 // Props.
 export interface IInputSourcesConfigurationButtonState {
@@ -36,8 +36,8 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
 
   public render(): ReactNode {
 
-    const {classes, sourceState: {selectedDevices}} = this.props;
-    const {showDrawer} = this.state;
+    const { classes, sourceState: { selectedDevices } } = this.props;
+    const { showDrawer } = this.state;
 
     return (
       <Fragment>
@@ -64,7 +64,7 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
   @Bind()
   private async onSourcesUpdate(devices: IInputSourceDevices): Promise<void> {
 
-    const {sourceState: {captureVideo}, sourceActions: {updateInputStreamAndSources, updateInputSources}} = this.props;
+    const { sourceState: { captureVideo }, sourceActions: { updateInputStreamAndSources, updateInputSources } } = this.props;
 
     if (captureVideo) {
 

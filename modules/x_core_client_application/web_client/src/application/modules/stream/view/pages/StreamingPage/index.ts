@@ -1,1 +1,1 @@
-export {StreamingPage, IStreamingPageExternalProps} from "./StreamingPage.Component";
+export { StreamingPage, IStreamingPageExternalProps } from "./StreamingPage.Component";

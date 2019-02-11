@@ -1,1 +1,1 @@
-export {ObjectAdditionButton, IObjectAdditionButtonExternalProps} from "./ObjectAdditionButton.Component";
+export { ObjectAdditionButton, IObjectAdditionButtonExternalProps } from "./ObjectAdditionButton.Component";

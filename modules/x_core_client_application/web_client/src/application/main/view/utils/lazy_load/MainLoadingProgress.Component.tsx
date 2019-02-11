@@ -1,14 +1,14 @@
 import * as React from "react";
-import {PureComponent, ReactNode} from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 
 // View.
-import {CircularProgress, Grid, WithStyles} from "@material-ui/core";
-import {mainLoadingProgressStyle} from "./MainLoadingProgress.Style";
+import { CircularProgress, Grid, WithStyles } from "@material-ui/core";
+import { mainLoadingProgressStyle } from "./MainLoadingProgress.Style";
 
 // Props.
 export interface IMainLoadingProgressComponentOwnProps {}
@@ -20,7 +20,7 @@ export class MainLoadingProgressComponent extends PureComponent<IMainLoadingProg
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Grid id={"lazy-load-spinner"} className={classes.root} alignContent={"center"} alignItems={"center"} justify={"center"} container>

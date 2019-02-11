@@ -1,13 +1,13 @@
-import {ReactContextManager} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { ReactContextManager } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Optional} from "@Lib/ts/types";
-import {Logger} from "@Lib/utils";
+import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
+import { Optional } from "@Lib/ts/types";
+import { Logger } from "@Lib/utils";
 
 // Data.
-import {renderingContextManager} from "./index";
+import { renderingContextManager } from "./index";
 
 // Props.
 export interface IGraphicsContext {
@@ -53,7 +53,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
       object.setDisabled(true);
     }
 
-    this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.concat(object)};
+    this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.concat(object) };
     this.update();
   }
 
@@ -123,7 +123,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
   @Bind()
   public onProvisionEnded(): void {
 
-    const {graphicsState} = this.context;
+    const { graphicsState } = this.context;
 
     graphicsState.objects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
     graphicsState.objects = [];

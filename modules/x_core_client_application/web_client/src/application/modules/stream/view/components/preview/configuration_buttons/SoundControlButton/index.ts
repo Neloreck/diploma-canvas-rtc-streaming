@@ -1,1 +1,1 @@
-export {SoundControlButton, ISoundControlButtonExternalProps} from "./SoundControlButton.Component";
+export { SoundControlButton, ISoundControlButtonExternalProps } from "./SoundControlButton.Component";

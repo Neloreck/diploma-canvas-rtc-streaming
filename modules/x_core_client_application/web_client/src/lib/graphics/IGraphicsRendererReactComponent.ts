@@ -1,7 +1,7 @@
-import {MouseEvent} from "react";
+import { MouseEvent } from "react";
 
-import {AbstractCanvasGraphicsRenderObject} from "./graphics_objects";
-import {IPoint} from "./types";
+import { AbstractCanvasGraphicsRenderObject } from "./graphics_objects";
+import { IPoint } from "./types";
 
 export interface IGraphicsRendererReactComponent {
 

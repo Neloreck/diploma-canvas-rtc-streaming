@@ -1,8 +1,8 @@
-import {Bind} from "@redux-cbd/utils";
-import {Client, IFrame, messageCallbackType, StompSubscription} from "@stomp/stompjs";
-import {default as SockJS} from "sockjs-client";
+import { Bind } from "@redux-cbd/utils";
+import { Client, IFrame, messageCallbackType, StompSubscription } from "@stomp/stompjs";
+import { default as SockJS } from "sockjs-client";
 
-import {IAbstractWebSocketMessage} from "./IAbstractWebSocketMessage";
+import { IAbstractWebSocketMessage } from "./IAbstractWebSocketMessage";
 
 export abstract class AbstractWebSocketController {
 

@@ -1,11 +1,11 @@
-import {Bind} from "@redux-cbd/utils";
-import {IMessage} from "@stomp/stompjs/esm5/i-message";
+import { Bind } from "@redux-cbd/utils";
+import { IMessage } from "@stomp/stompjs/esm5/i-message";
 
 // Lib.
-import {AbstractWebSocketController} from "@Lib/socket/AbstractWebSocketController";
-import {Optional} from "@Lib/ts/types";
-import {Logger} from "@Lib/utils";
-import {ILiveSocketMessage, ISdpExchangeMessage} from "@Module/stream/lib/live/messaging";
+import { AbstractWebSocketController } from "@Lib/socket/AbstractWebSocketController";
+import { Optional } from "@Lib/ts/types";
+import { Logger } from "@Lib/utils";
+import { ILiveSocketMessage, ISdpExchangeMessage } from "@Module/stream/lib/live/messaging";
 
 export class LiveWebSocketController extends AbstractWebSocketController {
 

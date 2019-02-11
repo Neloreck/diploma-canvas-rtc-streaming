@@ -1,7 +1,7 @@
-import {PaletteOptions} from "@material-ui/core/es/styles/createPalette";
-import {ThemeOptions} from "@material-ui/core/styles/createMuiTheme";
-import {ReactContextManager} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { PaletteOptions } from "@material-ui/core/es/styles/createPalette";
+import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
+import { ReactContextManager } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 
 export interface IThemeContext {
   themeActions: {

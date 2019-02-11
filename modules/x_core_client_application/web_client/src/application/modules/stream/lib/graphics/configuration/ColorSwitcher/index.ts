@@ -1,1 +1,1 @@
-export {ColorSwitcher, IColorSwitcherExternalProps} from "./ColorSwitcher.Component";
+export { ColorSwitcher, IColorSwitcherExternalProps } from "./ColorSwitcher.Component";

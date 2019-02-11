@@ -1,8 +1,8 @@
-import {BookmarkContextManager} from "@Module/stream/data/store/BookmarkContextManager";
-import {GraphicsContextManager} from "@Module/stream/data/store/GraphicsContextManager";
-import {LiveContextManager} from "@Module/stream/data/store/live/LiveContextManager";
-import {RenderingContextManager} from "@Module/stream/data/store/RenderingContextManager";
-import {SourceContextManager} from "@Module/stream/data/store/SourceContextManager";
+import { BookmarkContextManager } from "@Module/stream/data/store/BookmarkContextManager";
+import { GraphicsContextManager } from "@Module/stream/data/store/GraphicsContextManager";
+import { LiveContextManager } from "@Module/stream/data/store/live/LiveContextManager";
+import { RenderingContextManager } from "@Module/stream/data/store/RenderingContextManager";
+import { SourceContextManager } from "@Module/stream/data/store/SourceContextManager";
 
 export const bookmarkContextManager: BookmarkContextManager = new BookmarkContextManager();
 export const renderingContextManager: RenderingContextManager = new RenderingContextManager();
@@ -10,8 +10,8 @@ export const graphicsContextManager: GraphicsContextManager = new GraphicsContex
 export const sourceContextManager: SourceContextManager = new SourceContextManager();
 export const liveContextManager: LiveContextManager = new LiveContextManager();
 
-export {LiveContextManager, ILiveContext} from "@Module/stream/data/store/live/LiveContextManager";
-export {RenderingContextManager, IRenderingContext} from "@Module/stream/data/store/RenderingContextManager";
-export {GraphicsContextManager, IGraphicsContext} from "@Module/stream/data/store/GraphicsContextManager";
-export {SourceContextManager, ISourceContext} from "@Module/stream/data/store/SourceContextManager";
-export {BookmarkContextManager, IBookmarkContext} from "@Module/stream/data/store/BookmarkContextManager";
+export { LiveContextManager, ILiveContext } from "@Module/stream/data/store/live/LiveContextManager";
+export { RenderingContextManager, IRenderingContext } from "@Module/stream/data/store/RenderingContextManager";
+export { GraphicsContextManager, IGraphicsContext } from "@Module/stream/data/store/GraphicsContextManager";
+export { SourceContextManager, ISourceContext } from "@Module/stream/data/store/SourceContextManager";
+export { BookmarkContextManager, IBookmarkContext } from "@Module/stream/data/store/BookmarkContextManager";

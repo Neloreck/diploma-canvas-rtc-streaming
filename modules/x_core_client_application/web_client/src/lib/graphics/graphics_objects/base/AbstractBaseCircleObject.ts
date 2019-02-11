@@ -1,8 +1,8 @@
-import {ICanvasGraphicsSizingContext, ICircleSizing, IPoint} from "../../types";
-import {RelativeRenderUtils} from "../../utils";
-import {AbstractCanvasGraphicsResizableObject} from "./AbstractCanvasGraphicsResizableObject";
-import {FixedControlButton} from "./assist/FixedControlButton";
-import {ResizeHandler} from "./assist/ResizeHandler";
+import { ICanvasGraphicsSizingContext, ICircleSizing, IPoint } from "../../types";
+import { RelativeRenderUtils } from "../../utils";
+import { AbstractCanvasGraphicsResizableObject } from "./AbstractCanvasGraphicsResizableObject";
+import { FixedControlButton } from "./assist/FixedControlButton";
+import { ResizeHandler } from "./assist/ResizeHandler";
 
 export abstract class AbstractBaseCircleObject<T extends object> extends AbstractCanvasGraphicsResizableObject<T> {
 
@@ -42,7 +42,7 @@ export abstract class AbstractBaseCircleObject<T extends object> extends Abstrac
   public isInBounds(targetPoint: IPoint): boolean {
 
     const center: IPoint = this.getBoundsCenter();
-    const {heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
+    const { heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
 
     // Cast to avoid scale related things.
 
@@ -59,7 +59,7 @@ export abstract class AbstractBaseCircleObject<T extends object> extends Abstrac
 
   public isInResizeBounds(target: IPoint): boolean {
 
-    const {heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
+    const { heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
 
     const distance: number = Math.sqrt(Math.pow(pWidth * (target.x - this.position.center.x), 2) + Math.pow(pHeight * (target.y - this.position.center.y), 2));
     const isResizingOverBorder: boolean = (this.selected && Math.abs(this.position.radius * pWidth - distance) < 4);
@@ -76,8 +76,8 @@ export abstract class AbstractBaseCircleObject<T extends object> extends Abstrac
 
   public renderDisabled(context: CanvasRenderingContext2D): void {
 
-    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
-    const {radius, center: {x, y}} = this.position;
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
+    const { radius, center: { x, y } } = this.position;
 
     this.renderSelf(context);
 
@@ -139,7 +139,7 @@ export abstract class AbstractBaseCircleObject<T extends object> extends Abstrac
 
   protected onResize(resizeTo: IPoint, resizeFrom: IPoint): void {
 
-    const {heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
+    const { heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
     const distance: number = Math.sqrt(Math.pow(pWidth * (resizeTo.x - this.position.center.x), 2) + Math.pow(pHeight * (resizeTo.y - this.position.center.y), 2));
 
     this.position.radius = Math.max(this.absoluteToPercentsWidth(this.resizeControl.absoluteSize), this.absoluteToPercentsWidth(distance));

@@ -1,11 +1,11 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import {Optional} from "@Lib/ts/types";
-import {Logger} from "@Lib/utils";
-import {LiveWebRtcController} from "@Module/stream/lib/live/LiveWebRtcController";
-import {LiveWebSocketController} from "@Module/stream/lib/live/LiveWebSocketController";
-import {ELiveSocketMessageType} from "@Module/stream/lib/live/messaging";
+import { Optional } from "@Lib/ts/types";
+import { Logger } from "@Lib/utils";
+import { LiveWebRtcController } from "@Module/stream/lib/live/LiveWebRtcController";
+import { LiveWebSocketController } from "@Module/stream/lib/live/LiveWebSocketController";
+import { ELiveSocketMessageType } from "@Module/stream/lib/live/messaging";
 
 export class LiveService {
 

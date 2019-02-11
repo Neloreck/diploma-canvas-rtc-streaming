@@ -1,17 +1,17 @@
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import { Component, ReactNode } from "react";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Styled} from "@Lib/react_lib/mui";
+import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {CanvasObjectConfigurationFormBuilder} from "@Module/stream/lib/graphics";
-import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
+import { CanvasObjectConfigurationFormBuilder } from "@Module/stream/lib/graphics";
+import { ICanvasObjectDescriptor } from "@Module/stream/lib/graphics/description";
 
 // View.
-import {Grid, WithStyles} from "@material-ui/core";
-import {objectDescriptorConfigurationBlockStyle} from "./ObjectDescriptorConfigurationBlock.Style";
+import { Grid, WithStyles } from "@material-ui/core";
+import { objectDescriptorConfigurationBlockStyle } from "./ObjectDescriptorConfigurationBlock.Style";
 
 // Props.
 export interface IObjectDescriptorConfigurationBlockState {}
@@ -30,7 +30,7 @@ export class ObjectDescriptorConfigurationBlock extends Component<IObjectDescrip
 
   public render(): ReactNode {
 
-    const {classes, object, descriptor} = this.props;
+    const { classes, object, descriptor } = this.props;
 
     return (
       <Grid className={classes.root} wrap={"nowrap"} direction={"column"} container>

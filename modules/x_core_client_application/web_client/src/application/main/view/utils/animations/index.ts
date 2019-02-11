@@ -1,1 +1,1 @@
-export {AnimatedMount} from "@Main/view/utils/animations/AnimatedMount";
+export { AnimatedMount } from "@Main/view/utils/animations/AnimatedMount";

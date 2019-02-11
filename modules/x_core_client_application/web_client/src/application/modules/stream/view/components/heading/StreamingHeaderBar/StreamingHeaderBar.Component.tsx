@@ -1,15 +1,15 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
-import {authContextManager, IAuthContext, IRouterContext, routerContextManager} from "@Main/data/store";
-import {ILiveContext, liveContextManager} from "@Module/stream/data/store";
+import { authContextManager, IAuthContext, IRouterContext, routerContextManager } from "@Main/data/store";
+import { ILiveContext, liveContextManager } from "@Module/stream/data/store";
 
 // View.
 import {
@@ -18,12 +18,12 @@ import {
 import {
   HeaderBarLogoNavigation, IHeaderBarLogoNavigationExternalProps
 } from "@Main/view/components/heading/HeaderBarLogoNavigation";
-import {HeaderBarUserMenu, IHeaderBarUserMenuExternalProps} from "@Main/view/components/heading/HeaderBarUserMenu";
+import { HeaderBarUserMenu, IHeaderBarUserMenuExternalProps } from "@Main/view/components/heading/HeaderBarUserMenu";
 import {
   AppBar, Button, CircularProgress, Grid, IconButton, Toolbar, Typography, WithStyles,
 } from "@material-ui/core";
-import {LiveTv, Settings} from "@material-ui/icons";
-import {streamingHeaderBarStyle} from "./StreamingHeaderBar.Style";
+import { LiveTv, Settings } from "@material-ui/icons";
+import { streamingHeaderBarStyle } from "./StreamingHeaderBar.Style";
 
 // Props.
 
@@ -37,7 +37,7 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
   public render(): ReactNode {
 
-    const {classes, authState: {authorized}} = this.props;
+    const { classes, authState: { authorized } } = this.props;
 
     return (
       <AppBar className={classes.root} position={"static"}>
@@ -69,7 +69,7 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
   private renderStreamName(): Optional<ReactNode> {
 
-    const {liveState: {liveEvent}} = this.props;
+    const { liveState: { liveEvent } } = this.props;
 
     return liveEvent !== null
       ?
@@ -82,7 +82,7 @@ export class StreamingHeaderBar extends PureComponent<IStreamingHeaderBarProps> 
 
   private renderEventControlButtons(): Optional<ReactNode> {
 
-    const {classes, liveState: {socketConnected, rtcConnected, live}, liveActions: {startStreaming, stopStreaming}, routingState: {history}} = this.props;
+    const { classes, liveState: { socketConnected, rtcConnected, live }, liveActions: { startStreaming, stopStreaming }, routingState: { history } } = this.props;
 
     if (!/live\/.*$/.test(history.location.pathname)) {
       return null;

@@ -1,4 +1,4 @@
-import {EDeviceKind, IInputDevicesBundle} from "./types";
+import { EDeviceKind, IInputDevicesBundle } from "./types";
 
 export class MediaUtils {
 

@@ -1,12 +1,12 @@
 import * as React from "react";
-import {PureComponent, ReactNode} from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject, ContextCleanerRO, DomVideoRO, GridLayoutRO} from "@Lib/graphics";
-import {Optional} from "@Lib/ts/types";
+import { AbstractCanvasGraphicsRenderObject, ContextCleanerRO, DomVideoRO, GridLayoutRO } from "@Lib/graphics";
+import { Optional } from "@Lib/ts/types";
 
 // View.
-import {CanvasGraphicsRenderer, ICanvasGraphicsRendererExternalProps} from "./CanvasGraphicsRenderer";
+import { CanvasGraphicsRenderer, ICanvasGraphicsRendererExternalProps } from "./CanvasGraphicsRenderer";
 
 // Props.
 export interface ICanvasGraphicsPreprocessorProps {
@@ -56,7 +56,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
   /* Everything visible on preview. */
   private getPreviewRenderingObjectsContext(): Array<AbstractCanvasGraphicsRenderObject<any>> {
 
-    const {showGraphics, showGrid, showPreview, renderingObjects} = this.props;
+    const { showGraphics, showGrid, showPreview, renderingObjects } = this.props;
     let previewItems: Array<AbstractCanvasGraphicsRenderObject<any>> = [this.getMainVideoRenderer()];
 
     // Show grid for preview.
@@ -75,7 +75,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
   /* Everything visible on output. */
   private getOutputRenderingObjectsContext(): Array<AbstractCanvasGraphicsRenderObject<any>> {
 
-    const {showGraphics, renderingObjects} = this.props;
+    const { showGraphics, renderingObjects } = this.props;
     const outputItems: Array<AbstractCanvasGraphicsRenderObject<any>> = [this.getMainVideoRenderer()];
 
     // Output video and canvas items for external.
@@ -84,7 +84,7 @@ export class CanvasGraphicsPreprocessor extends PureComponent<ICanvasGraphicsPre
 
   private getMainVideoRenderer(): AbstractCanvasGraphicsRenderObject<any> {
 
-    const {showMainVideo} = this.props;
+    const { showMainVideo } = this.props;
 
     // If 'display' webcam video.
     if (showMainVideo) {

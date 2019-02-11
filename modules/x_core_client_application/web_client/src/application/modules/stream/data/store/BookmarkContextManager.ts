@@ -1,9 +1,9 @@
-import {ReactContextManager} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { ReactContextManager } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import {Optional} from "@Lib/ts/types";
-import {Logger} from "@Lib/utils";
+import { Optional } from "@Lib/ts/types";
+import { Logger } from "@Lib/utils";
 
 // Api.
 import {
@@ -13,9 +13,9 @@ import {
   ILiveEventLayoutBookmark,
   IXCoreFailedResponse, setBookmarkGraphics
 } from "@Api/x-core";
-import {ILayoutBookmarkGraphicsResponse} from "@Api/x-core/live/responses";
-import {ISerializedGraphicsObject} from "@Lib/graphics";
-import {liveContextManager} from "@Module/stream/data/store/index";
+import { ILayoutBookmarkGraphicsResponse } from "@Api/x-core/live/responses";
+import { ISerializedGraphicsObject } from "@Lib/graphics";
+import { liveContextManager } from "@Module/stream/data/store/index";
 
 // Data.
 
@@ -83,7 +83,7 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
   @Bind()
   public async createBookmark(): Promise<void> {
 
-    const {liveEvent} = liveContextManager.context.liveState;
+    const { liveEvent } = liveContextManager.context.liveState;
 
     if (!liveEvent) {
       throw new Error("Cannot create bookmark. No events selected.");

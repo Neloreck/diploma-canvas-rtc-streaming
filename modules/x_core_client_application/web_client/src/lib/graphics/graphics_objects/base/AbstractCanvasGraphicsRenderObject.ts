@@ -1,7 +1,7 @@
-import {cloneDeep} from "lodash";
-import {ICanvasGraphicsSizingContext} from "../../types";
-import {generateUUID} from "../../utils";
-import {AbstractCanvasGraphicsSerializableObject} from "./AbstractCanvasGraphicsSerializableObject";
+import { cloneDeep } from "lodash";
+import { ICanvasGraphicsSizingContext } from "../../types";
+import { generateUUID } from "../../utils";
+import { AbstractCanvasGraphicsSerializableObject } from "./AbstractCanvasGraphicsSerializableObject";
 
 export abstract class AbstractCanvasGraphicsRenderObject<T extends object> extends AbstractCanvasGraphicsSerializableObject<T> {
 

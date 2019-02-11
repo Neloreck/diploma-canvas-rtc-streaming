@@ -1,14 +1,14 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, KeyboardEvent, ReactNode} from "react";
+import { ChangeEvent, Component, KeyboardEvent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
-import {AuthContextManager, authContextManager, IAuthContext, IRouterContext} from "@Main/data/store";
+import { AuthContextManager, authContextManager, IAuthContext, IRouterContext } from "@Main/data/store";
 
 // View.
 import {
@@ -21,8 +21,8 @@ import {
   InputLabel,
   LinearProgress
 } from "@material-ui/core";
-import {WithStyles} from "@material-ui/core";
-import {loginFormStyle} from "./LoginForm.Style";
+import { WithStyles } from "@material-ui/core";
+import { loginFormStyle } from "./LoginForm.Style";
 
 // Props.
 export interface ILoginFormState {
@@ -61,14 +61,14 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
 
   public componentWillUnmount(): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
 
     cleanupErrorMessage();
   }
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Card className={classes.root}>
@@ -80,7 +80,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
 
   private renderLoadingProgressBar(): ReactNode {
 
-    const {classes, authState: {authorizing}} = this.props;
+    const { classes, authState: { authorizing } } = this.props;
 
     return authorizing
         ? <LinearProgress color={"secondary"} className={classes.linearLoader}/>
@@ -89,8 +89,8 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
 
   private renderFormBody(): ReactNode {
 
-    const {classes, authState: {authorizing, errorMessage}} = this.props;
-    const {usernameInput, passwordInput} = this.state;
+    const { classes, authState: { authorizing, errorMessage } } = this.props;
+    const { usernameInput, passwordInput } = this.state;
 
     return (
       <Grid className={classes.formWrapper} onKeyDown={this.onKeyDown} container>
@@ -130,7 +130,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   @Bind()
   private onUsernameChanged(event: ChangeEvent<HTMLInputElement>): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
     if (value.length < AuthContextManager.MAX_USERNAME_LENGTH) {
@@ -148,7 +148,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   @Bind()
   private onPasswordChanged(event: ChangeEvent<HTMLInputElement>): void {
 
-    const {authActions: {cleanupErrorMessage}} = this.props;
+    const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
     if (value.length < AuthContextManager.MAX_PASSWORD_LENGTH) {
@@ -173,8 +173,8 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   @Bind()
   private isFormValid(): boolean {
 
-    const {authState: {authorizing, errorMessage}} = this.props;
-    const {usernameInput, passwordInput} = this.state;
+    const { authState: { authorizing, errorMessage } } = this.props;
+    const { usernameInput, passwordInput } = this.state;
 
     return !authorizing && errorMessage === null &&
       usernameInput.edited && passwordInput.edited &&
@@ -188,8 +188,8 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
   @Bind()
   private async onFormSubmit(): Promise<void> {
 
-    const {authActions: {login}} = this.props;
-    const {usernameInput, passwordInput} = this.state;
+    const { authActions: { login } } = this.props;
+    const { usernameInput, passwordInput } = this.state;
 
     if (this.isFormValid()) {
       await login(usernameInput.value, passwordInput.value);

@@ -1,11 +1,11 @@
-import {EntryPoint} from "@redux-cbd/utils";
-import {createElement} from "react";
-import {render} from "react-dom";
+import { EntryPoint } from "@redux-cbd/utils";
+import { createElement } from "react";
+import { render } from "react-dom";
 
 import "@Main/view/assets/style/global.scss";
 import "typeface-roboto";
 
-import {Router} from "@Application/modules/Router";
+import { Router } from "@Application/modules/Router";
 
 @EntryPoint()
 export class Application {

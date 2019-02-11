@@ -1,5 +1,5 @@
 // Lib.
-import {DocumentStoreUtils} from "@Lib/utils";
+import { getFromLocalStorage } from "@Lib/utils";
 
 export const CONFIG = {
 
@@ -12,7 +12,7 @@ export const CONFIG = {
 
   getDefaultHeaders(): Headers {
 
-    const tokenData: any = DocumentStoreUtils.getFromLocalStorage("token_data");
+    const tokenData: any = getFromLocalStorage("token_data");
 
     if (tokenData && tokenData.accessToken) {
       CONFIG.DEFAULT_HEADERS.set("Authorization", `Bearer ${tokenData.accessToken}`);

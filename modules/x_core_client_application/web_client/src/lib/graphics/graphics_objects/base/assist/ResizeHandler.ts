@@ -1,6 +1,6 @@
-import {IBoundingRect, IPoint, IRectSizing} from "../../../types/index";
-import {GeometricUtils, RenderUtils} from "../../../utils/index";
-import {AbstractCanvasGraphicsResizableObject} from "../AbstractCanvasGraphicsResizableObject";
+import { IBoundingRect, IPoint, IRectSizing } from "../../../types/index";
+import { GeometricUtils, RenderUtils } from "../../../utils/index";
+import { AbstractCanvasGraphicsResizableObject } from "../AbstractCanvasGraphicsResizableObject";
 
 export class ResizeHandler extends AbstractCanvasGraphicsResizableObject<never> {
 
@@ -22,7 +22,7 @@ export class ResizeHandler extends AbstractCanvasGraphicsResizableObject<never> 
 
   public isInBounds(targetPoint: IPoint): boolean {
 
-    const {topLeft, topRight, botLeft, botRight} = this.getBoundingRect();
+    const { topLeft, topRight, botLeft, botRight } = this.getBoundingRect();
 
     return GeometricUtils.checkPointInTriangle(targetPoint, botLeft, topLeft, topRight) || GeometricUtils.checkPointInTriangle(targetPoint, botLeft, botRight, topRight);
   }

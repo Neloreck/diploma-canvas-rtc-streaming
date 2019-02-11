@@ -1,1 +1,1 @@
-export {HeaderBarLogoNavigation, IHeaderBarLogoNavigationExternalProps} from "./HeaderBarLogoNavigation.Component";
+export { HeaderBarLogoNavigation, IHeaderBarLogoNavigationExternalProps } from "./HeaderBarLogoNavigation.Component";

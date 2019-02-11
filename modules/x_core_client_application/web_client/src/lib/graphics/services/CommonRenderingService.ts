@@ -1,5 +1,5 @@
-import {AbstractCanvasGraphicsInteractiveObject} from "../graphics_objects";
-import {AbstractEventEmittingRenderingService} from "./AbstractEventEmittingRenderingService";
+import { AbstractCanvasGraphicsInteractiveObject } from "../graphics_objects";
+import { AbstractEventEmittingRenderingService } from "./AbstractEventEmittingRenderingService";
 
 export class CommonRenderingService extends AbstractEventEmittingRenderingService {
 

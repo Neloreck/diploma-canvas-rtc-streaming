@@ -1,1 +1,1 @@
-export {AuthenticationRouter} from "@Module/authentication/AuthenticationRouter";
+export { AuthenticationRouter } from "@Module/authentication/AuthenticationRouter";

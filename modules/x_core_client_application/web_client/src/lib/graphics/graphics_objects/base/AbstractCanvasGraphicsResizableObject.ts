@@ -1,5 +1,5 @@
-import {IBoundingRect, IPoint} from "../../types";
-import {AbstractCanvasGraphicsMovableObject} from "./AbstractCanvasGraphicsMovableObject";
+import { IBoundingRect, IPoint } from "../../types";
+import { AbstractCanvasGraphicsMovableObject } from "./AbstractCanvasGraphicsMovableObject";
 
 export abstract class AbstractCanvasGraphicsResizableObject<T extends object> extends AbstractCanvasGraphicsMovableObject<T> {
 

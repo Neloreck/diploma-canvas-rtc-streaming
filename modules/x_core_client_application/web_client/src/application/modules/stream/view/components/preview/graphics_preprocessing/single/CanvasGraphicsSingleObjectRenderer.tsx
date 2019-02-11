@@ -1,17 +1,17 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, createRef, Fragment, MouseEvent, ReactNode, RefObject} from "react";
+import { Component, createRef, Fragment, MouseEvent, ReactNode, RefObject } from "react";
 import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject, CommonRenderingService, IPoint} from "@Lib/graphics";
-import {MediaUtils} from "@Lib/media";
-import {DomVideo} from "@Lib/react_lib/components";
-import {Optional} from "@Lib/ts/types";
-import {DomSizingUtils, Logger} from "@Lib/utils";
+import { AbstractCanvasGraphicsRenderObject, CommonRenderingService, IPoint } from "@Lib/graphics";
+import { MediaUtils } from "@Lib/media";
+import { DomVideo } from "@Lib/react_lib/components";
+import { Optional } from "@Lib/ts/types";
+import { Logger, recalculateToRatio } from "@Lib/utils";
 
 // Data.
-import {applicationConfig} from "@Main/data/configs/ApplicationConfig";
+import { applicationConfig } from "@Main/data/configs/ApplicationConfig";
 
 // View.
 import "../canvasStyling.scss";
@@ -126,7 +126,7 @@ export class CanvasGraphicsSingleObjectRenderer
 
   @Bind()
   public resize(width: number, height: number): void {
-    this.setState({ videoSizing: DomSizingUtils.recalculateToRatio(width, height, this.ASPECT_RATIO) });
+    this.setState({ videoSizing: recalculateToRatio(width, height, this.ASPECT_RATIO) });
   }
 
 }

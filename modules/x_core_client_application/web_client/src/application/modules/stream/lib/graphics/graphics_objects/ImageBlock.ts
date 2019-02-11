@@ -1,9 +1,9 @@
 // Lib.
-import {AbstractBaseRectangleObject, ISerializedGraphicsObject} from "@Lib/graphics";
-import {Optional} from "@Lib/ts/types";
+import { AbstractBaseRectangleObject, ISerializedGraphicsObject } from "@Lib/graphics";
+import { Optional } from "@Lib/ts/types";
 
 // Api.
-import {loadImage} from "@Api/general";
+import { loadImage } from "@Api/general";
 
 export interface IImageBlockConfig {
   height: number;
@@ -79,8 +79,8 @@ export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
 
   public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
-    const {image} = this.config;
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
+    const { image } = this.config;
 
     if (this.loaded) {
       context.drawImage(image, pWidth * this.position.left, pHeight * this.position.top, pWidth * this.position.width, pHeight * this.position.height);

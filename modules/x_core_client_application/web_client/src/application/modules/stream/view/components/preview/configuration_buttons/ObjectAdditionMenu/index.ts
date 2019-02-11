@@ -1,1 +1,1 @@
-export {ObjectAdditionMenu, IObjectAdditionMenuExternalProps} from "./ObjectAdditionMenu.Component";
+export { ObjectAdditionMenu, IObjectAdditionMenuExternalProps } from "./ObjectAdditionMenu.Component";

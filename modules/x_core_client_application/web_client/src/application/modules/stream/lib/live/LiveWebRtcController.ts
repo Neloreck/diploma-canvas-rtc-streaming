@@ -1,8 +1,8 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import {Optional} from "@Lib/ts/types";
-import {Logger} from "@Lib/utils";
+import { Optional } from "@Lib/ts/types";
+import { Logger } from "@Lib/utils";
 
 // Data.
 import {
@@ -221,7 +221,7 @@ export class LiveWebRtcController {
     await this.webRtcPeer.setRemoteDescription({ sdp: message.body.sdp, type: "answer" });
 
     // Complete exchange order.
-    this.onSendMessage("session.complete", { type: ELiveSocketMessageType.CUSTOM, body: {}});
+    this.onSendMessage("session.complete", { type: ELiveSocketMessageType.CUSTOM, body: {} });
     this.trySynchronizeAccumulatedICECandidates();
 
     this.log.info("Exchange process completed.");

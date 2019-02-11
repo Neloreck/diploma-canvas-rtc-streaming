@@ -1,10 +1,10 @@
-import {ReactContextManager} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
-import {createBrowserHistory, History} from "history";
-import {parse, ParsedUrlQuery} from "querystring";
+import { ReactContextManager } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
+import { createBrowserHistory, History } from "history";
+import { parse, ParsedUrlQuery } from "querystring";
 
 // Lib.
-import {Logger} from "@Lib/utils";
+import { Logger } from "@Lib/utils";
 
 export interface IRouterContext {
   routingActions: {

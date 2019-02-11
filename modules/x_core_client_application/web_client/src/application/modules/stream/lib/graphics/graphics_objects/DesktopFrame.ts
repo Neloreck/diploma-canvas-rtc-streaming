@@ -1,7 +1,7 @@
 // Lib.
-import {AbstractBaseRectangleObject, IRectSizing} from "@Lib/graphics";
-import {ICanvasGraphicsSizingContext} from "@Lib/graphics";
-import {MediaUtils} from "@Lib/media";
+import { AbstractBaseRectangleObject, IRectSizing } from "@Lib/graphics";
+import { ICanvasGraphicsSizingContext } from "@Lib/graphics";
+import { MediaUtils } from "@Lib/media";
 
 // Data.
 

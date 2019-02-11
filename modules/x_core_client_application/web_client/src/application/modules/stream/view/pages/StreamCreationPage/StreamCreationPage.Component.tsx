@@ -1,27 +1,27 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Fragment, PureComponent, ReactNode} from "react";
+import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
-import {IRouterContext, routerContextManager} from "@Main/data/store";
-import {ILiveContext, liveContextManager} from "@Module/stream/data/store";
-import {ELiveEventStatus} from "@Module/stream/data/store/live/types";
+import { IRouterContext, routerContextManager } from "@Main/data/store";
+import { ILiveContext, liveContextManager } from "@Module/stream/data/store";
+import { ELiveEventStatus } from "@Module/stream/data/store/live/types";
 
 // Api.
-import {ILiveEvent} from "@Api/x-core/live/models";
+import { ILiveEvent } from "@Api/x-core/live/models";
 
 // View.
-import {AnimatedMount} from "@Main/view/utils/animations/AnimatedMount";
+import { AnimatedMount } from "@Main/view/utils/animations/AnimatedMount";
 import {
   IMainLoadingProgressComponentExternalProps,
   MainLoadingProgressComponent
 } from "@Main/view/utils/lazy_load/MainLoadingProgress.Component";
-import {Grid, WithStyles} from "@material-ui/core";
+import { Grid, WithStyles } from "@material-ui/core";
 import {
   EventCreationForm,
   IEventCreationFormExternalProps
@@ -30,7 +30,7 @@ import {
   IStreamingHeaderBarExternalProps,
   StreamingHeaderBar
 } from "@Module/stream/view/components/heading/StreamingHeaderBar";
-import {streamCreationPageStyle} from "./StreamCreationPage.Style";
+import { streamCreationPageStyle } from "./StreamCreationPage.Style";
 
 // Props.
 export interface IStreamCreationPageExternalProps extends WithStyles<typeof streamCreationPageStyle> {}
@@ -43,7 +43,7 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
 
   public componentWillMount(): void {
 
-    const {liveState: {liveEvent}, liveActions: {checkActiveEvent}, routingActions: {replace}} = this.props;
+    const { liveState: { liveEvent }, liveActions: { checkActiveEvent }, routingActions: { replace } } = this.props;
 
     if (liveEvent) {
       replace("/stream/live/" + liveEvent.id);
@@ -59,7 +59,7 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
 
   public render(): ReactNode {
 
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
@@ -70,7 +70,7 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
 
   private renderContent(): ReactNode {
 
-    const {classes, liveState: {liveEventStatus}} = this.props;
+    const { classes, liveState: { liveEventStatus } } = this.props;
 
     if (liveEventStatus === ELiveEventStatus.LOADING) {
       return  <MainLoadingProgressComponent {...{} as IMainLoadingProgressComponentExternalProps}/>;
@@ -103,7 +103,7 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
   @Bind()
   private onCancelCreation(): void {
 
-    const {routingActions: {replace}} = this.props;
+    const { routingActions: { replace } } = this.props;
 
     replace("/home");
   }
@@ -111,7 +111,7 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
   @Bind()
   private async onCreateLiveEvent(name: string, description: string, secured: boolean, securedKey: string): Promise<void> {
 
-    const {liveActions: {createEvent}, routingActions: {replace}} = this.props;
+    const { liveActions: { createEvent }, routingActions: { replace } } = this.props;
 
     const liveEvent: ILiveEvent = await createEvent(name, description, secured, securedKey);
 

@@ -1,13 +1,13 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, PureComponent, ReactNode} from "react";
+import { ChangeEvent, PureComponent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // View.
-import {FormControlLabel, Switch, WithStyles} from "@material-ui/core";
-import {booleanSwitcherStyle} from "./BooleanSwitcher.Style";
+import { FormControlLabel, Switch, WithStyles } from "@material-ui/core";
+import { booleanSwitcherStyle } from "./BooleanSwitcher.Style";
 
 // Props.
 export interface IBooleanSwitcherOwnProps {
@@ -24,7 +24,7 @@ export class BooleanSwitcher extends PureComponent<IBooleanSwitcherProps> {
 
   public render(): ReactNode {
 
-    const {label, classes, value} = this.props;
+    const { label, classes, value } = this.props;
 
     return (
       <FormControlLabel

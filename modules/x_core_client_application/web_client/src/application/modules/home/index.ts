@@ -1,1 +1,1 @@
-export {HomeRouter} from "@Module/home/HomeRouter";
+export { HomeRouter } from "@Module/home/HomeRouter";

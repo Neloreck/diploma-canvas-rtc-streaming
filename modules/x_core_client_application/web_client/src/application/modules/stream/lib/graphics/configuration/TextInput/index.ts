@@ -1,1 +1,1 @@
-export {TextInput, ITextInputExternalProps} from "./TextInput.Component";
+export { TextInput, ITextInputExternalProps } from "./TextInput.Component";

@@ -1,18 +1,18 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {ChangeEvent, Component, Fragment, ReactNode} from "react";
+import { ChangeEvent, Component, Fragment, ReactNode } from "react";
 
 // Lib.
-import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {VerticalDraggableVHResizer} from "@Lib/react_lib/components";
-import {Styled} from "@Lib/react_lib/mui";
-import {Optional} from "@Lib/ts/types";
+import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
+import { VerticalDraggableVHResizer } from "@Lib/react_lib/components";
+import { Styled } from "@Lib/react_lib/mui";
+import { Optional } from "@Lib/ts/types";
 
 // Data.
-import {renderingService} from "@Module/stream/data/services";
-import {graphicsContextManager, IGraphicsContext} from "@Module/stream/data/store";
-import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
+import { renderingService } from "@Module/stream/data/services";
+import { graphicsContextManager, IGraphicsContext } from "@Module/stream/data/store";
+import { ICanvasObjectDescriptor } from "@Module/stream/lib/graphics/description";
 
 // View.
 import {
@@ -20,12 +20,12 @@ import {
   Checkbox, FormControlLabel, Grid, Grow, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Switch,
   Typography, WithStyles
 } from "@material-ui/core";
-import {ArrowDownward, ArrowUpward, Delete, FileCopy} from "@material-ui/icons";
+import { ArrowDownward, ArrowUpward, Delete, FileCopy } from "@material-ui/icons";
 import {
   IObjectTemplateConfigurationBlockExternalProps,
   ObjectTemplateConfigurationBlock
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectTemplateConfigurationBlock";
-import {objectsConfigurationTabStyle} from "./ObjectsConfigurationTab.Style";
+import { objectsConfigurationTabStyle } from "./ObjectsConfigurationTab.Style";
 
 // Props.
 export interface IObjectsConfigurationTabState {
@@ -48,8 +48,8 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
 
   public render(): ReactNode {
 
-    const {classes, graphicsState: {selectedObject}} = this.props;
-    const {listWidth} = this.state;
+    const { classes, graphicsState: { selectedObject } } = this.props;
+    const { listWidth } = this.state;
 
     const sectionSize: number | undefined =  selectedObject !== null && listWidth ? listWidth : undefined;
 
@@ -58,7 +58,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
 
         <Grid
           className={classes.objectsList}
-          style={{width: sectionSize, maxWidth: sectionSize}}
+          style={{ width: sectionSize, maxWidth: sectionSize }}
         >
           {this.renderObjectsList()}
         </Grid>
@@ -79,8 +79,8 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
 
   private renderObjectsList(): ReactNode {
 
-    const {classes, graphicsState: {objects, selectedObject}, graphicsActions: {swapObjectsByIndex}} = this.props;
-    const {showLayerControls} = this.state;
+    const { classes, graphicsState: { objects, selectedObject }, graphicsActions: { swapObjectsByIndex } } = this.props;
+    const { showLayerControls } = this.state;
 
     if (objects.length === 0) {
       return (
@@ -170,7 +170,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
 
   private renderSelectedObjectConfigBlock(): Optional<ReactNode> {
 
-    const {graphicsState: {objects, selectedObject}, graphicsActions: {swapObjectsByIndex}} = this.props;
+    const { graphicsState: { objects, selectedObject }, graphicsActions: { swapObjectsByIndex } } = this.props;
 
     if (!selectedObject) {
       return null;
@@ -222,7 +222,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
   @Bind()
   private onObjectChangesApply(object: AbstractCanvasGraphicsRenderObject<any>): void {
 
-    const {graphicsState: {selectedObject}} = this.props;
+    const { graphicsState: { selectedObject } } = this.props;
 
     if (selectedObject) {
       selectedObject.applyConfiguration(object);

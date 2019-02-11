@@ -1,1 +1,1 @@
-export {LayoutConfigurationTab, ILayoutConfigurationTabExternalProps} from "./LayoutConfigurationTab.Component";
+export { LayoutConfigurationTab, ILayoutConfigurationTabExternalProps } from "./LayoutConfigurationTab.Component";

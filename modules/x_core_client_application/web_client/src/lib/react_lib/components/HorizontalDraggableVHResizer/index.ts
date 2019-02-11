@@ -1,1 +1,1 @@
-export {HorizontalDraggableVHResizer, IHorizontalVHDraggableResizerProps} from "./HorizontalDraggableVHResizer";
+export { HorizontalDraggableVHResizer, IHorizontalVHDraggableResizerProps } from "./HorizontalDraggableVHResizer";

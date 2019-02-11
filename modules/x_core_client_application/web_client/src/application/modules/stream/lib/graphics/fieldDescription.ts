@@ -1,6 +1,6 @@
 // Lib.
-import {AbstractCanvasGraphicsRenderObject} from "@Lib/graphics";
-import {Optional} from "@Lib/ts/types";
+import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
+import { Optional } from "@Lib/ts/types";
 
 /*
  * EDITING FORM TYPES DESCRIPTION.

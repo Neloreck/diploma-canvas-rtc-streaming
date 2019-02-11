@@ -1,6 +1,6 @@
-import {ICanvasGraphicsSizingContext} from "../types";
-import {RenderUtils} from "../utils";
-import {AbstractCanvasGraphicsRenderObject} from "./base/AbstractCanvasGraphicsRenderObject";
+import { ICanvasGraphicsSizingContext } from "../types";
+import { RenderUtils } from "../utils";
+import { AbstractCanvasGraphicsRenderObject } from "./base/AbstractCanvasGraphicsRenderObject";
 
 export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
 
@@ -47,7 +47,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
 
   private renderSpinner(context: CanvasRenderingContext2D): void {
 
-    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
     const spinnersCount: number = 5;
 
     for (let it: number = 0; it < spinnersCount; it ++) {
@@ -57,7 +57,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
 
       this.renderSpinningCircle(context, 20 + it + (elementOffset < 0.25 || elementOffset > 1.5 ? 5 : 0), elementOffset, "#6c9a6d");
       RenderUtils.renderLine(context, { x: pWidth * 50 + (Math.cos(elementOffset * Math.PI) * 20 * pWidth), y: pHeight * 50 + (Math.sin(elementOffset * Math.PI) * 10 * pHeight) },
-        { x: pWidth * 50 + (Math.cos(nextElementOffset * Math.PI) * 20 * pWidth), y: pHeight * 50 + (Math.sin(nextElementOffset * Math.PI) * 10 * pHeight)}, "#6c9a6d", 3);
+        { x: pWidth * 50 + (Math.cos(nextElementOffset * Math.PI) * 20 * pWidth), y: pHeight * 50 + (Math.sin(nextElementOffset * Math.PI) * 10 * pHeight) }, "#6c9a6d", 3);
     }
 
     DomVideoRO.spinnerOffset >= 2 ? DomVideoRO.spinnerOffset = 0 : DomVideoRO.spinnerOffset += 0.007;
@@ -65,7 +65,7 @@ export class DomVideoRO extends AbstractCanvasGraphicsRenderObject<never> {
 
   private renderSpinningCircle(context: CanvasRenderingContext2D, size: number, offset: number, color: string): void {
 
-    const {widthPercent: pWidth, heightPercent: pHeight} = this.getBasePercentSizing();
+    const { widthPercent: pWidth, heightPercent: pHeight } = this.getBasePercentSizing();
 
     context.fillStyle = color;
 

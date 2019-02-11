@@ -1,20 +1,20 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, createRef, Fragment, MouseEvent, ReactNode, RefObject} from "react";
+import { Component, createRef, Fragment, MouseEvent, ReactNode, RefObject } from "react";
 import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
 import {
   AbstractCanvasGraphicsRenderObject, CommonRenderingService, ERenderingServiceEvent, IGraphicsRendererReactComponent, IPoint
 } from "@Lib/graphics";
-import {MediaUtils} from "@Lib/media";
-import {DomVideo} from "@Lib/react_lib/components";
-import {Optional} from "@Lib/ts/types";
-import {DomSizingUtils, Logger} from "@Lib/utils";
+import { MediaUtils } from "@Lib/media";
+import { DomVideo } from "@Lib/react_lib/components";
+import { Optional } from "@Lib/ts/types";
+import { Logger, recalculateToRatio } from "@Lib/utils";
 
 // Data.
-import {applicationConfig} from "@Main/data/configs/ApplicationConfig";
+import { applicationConfig } from "@Main/data/configs/ApplicationConfig";
 import {
   graphicsContextManager,
   IGraphicsContext,
@@ -226,7 +226,7 @@ export class CanvasGraphicsRenderer
 
   @Bind()
   public resize(width: number, height: number): void {
-    this.setState({ videoSizing: DomSizingUtils.recalculateToRatio(width, height, this.ASPECT_RATIO) });
+    this.setState({ videoSizing: recalculateToRatio(width, height, this.ASPECT_RATIO) });
   }
 
   /*
@@ -236,7 +236,7 @@ export class CanvasGraphicsRenderer
   @Bind()
   public onRenderingObjectSelected(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
-    const {renderingState: {propagateRendererEvents}, graphicsActions: {selectObject}} = this.props;
+    const { renderingState: { propagateRendererEvents }, graphicsActions: { selectObject } } = this.props;
 
     if (propagateRendererEvents) {
       selectObject(object);
@@ -246,7 +246,7 @@ export class CanvasGraphicsRenderer
   @Bind()
   public onRenderingObjectRemove(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
-    const {renderingState: {propagateRendererEvents}, graphicsActions: {removeObject}} = this.props;
+    const { renderingState: { propagateRendererEvents }, graphicsActions: { removeObject } } = this.props;
 
     if (!object) {
       throw new Error("Unexpected object removal. Got null.");

@@ -4,7 +4,7 @@ import {
   IAbstractSizing,
   IPoint
 } from "@Lib/graphics";
-import {fixedObjectsSizing} from "@Lib/graphics/graphics_objects/utils/fixedObjectPosition";
+import { fixedObjectsSizing } from "@Lib/graphics/graphics_objects/utils/fixedObjectPosition";
 
 export interface ISimpleFixedRectangleConfig {
   backgroundColor: string;

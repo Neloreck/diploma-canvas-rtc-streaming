@@ -1,10 +1,10 @@
-import {Consume} from "@redux-cbd/context";
-import {Bind} from "@redux-cbd/utils";
+import { Consume } from "@redux-cbd/context";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, Fragment, ReactNode} from "react";
+import { Component, Fragment, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 import {
@@ -15,8 +15,8 @@ import {
 } from "@Module/stream/data/store";
 
 // View.
-import {Fab, Grid, Tooltip, WithStyles} from "@material-ui/core";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
+import { Fab, Grid, Tooltip, WithStyles } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import {
   IInputSourcesConfigurationButtonExternalProps, InputSourcesConfigurationButton
 } from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationButton";
@@ -35,8 +35,8 @@ import {
   IVideoControlButtonExternalProps,
   VideoControlButton
 } from "@Module/stream/view/components/preview/configuration_buttons/VideoControlButton";
-import {CanvasGraphicsPreprocessor} from "@Module/stream/view/components/preview/graphics_preprocessing";
-import {mainPreviewControlStyle} from "./MainPreviewControl.Style";
+import { CanvasGraphicsPreprocessor } from "@Module/stream/view/components/preview/graphics_preprocessing";
+import { mainPreviewControlStyle } from "./MainPreviewControl.Style";
 
 // Props.
 
@@ -60,8 +60,8 @@ export class MainPreviewControl extends Component<IMainPreviewControlProps> {
 
     const {
       classes,
-      graphicsState: {objects}, renderingState: {showGraphics, showGrid, showPreview},
-      sourceState: {inputStream, captureVideo}, sourceActions: {updateOutputStream}
+      graphicsState: { objects }, renderingState: { showGraphics, showGrid, showPreview },
+      sourceState: { inputStream, captureVideo }, sourceActions: { updateOutputStream }
     } = this.props;
 
     return (
@@ -88,8 +88,8 @@ export class MainPreviewControl extends Component<IMainPreviewControlProps> {
 
   private renderHelpingControlTooltipButtons(): ReactNode {
 
-    const {classes} = this.props;
-    const {showControls} = this.state;
+    const { classes } = this.props;
+    const { showControls } = this.state;
 
     return (
       <Fragment>

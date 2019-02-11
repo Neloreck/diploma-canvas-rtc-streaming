@@ -1,15 +1,15 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, Fragment, MouseEvent, ReactNode} from "react";
+import { Component, Fragment, MouseEvent, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // View.
-import {Grid, TextField, WithStyles} from "@material-ui/core";
-import {Close} from "@material-ui/icons";
-import {ChromePicker, ColorResult} from "react-color";
-import {colorSwitcherStyle} from "./ColorSwitcher.Style";
+import { Grid, TextField, WithStyles } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import { ChromePicker, ColorResult } from "react-color";
+import { colorSwitcherStyle } from "./ColorSwitcher.Style";
 
 // Props.
 
@@ -38,8 +38,8 @@ export class ColorSwitcher extends Component<IColorSwitcherProps, IColorSwitcher
 
   public render(): ReactNode {
 
-    const {label, classes, value} = this.props;
-    const {showModal} = this.state;
+    const { label, classes, value } = this.props;
+    const { showModal } = this.state;
 
     return (
       <Fragment>
@@ -61,7 +61,7 @@ export class ColorSwitcher extends Component<IColorSwitcherProps, IColorSwitcher
 
   private renderModal(): ReactNode {
 
-    const {classes, value} = this.props;
+    const { classes, value } = this.props;
 
     return (
       <Grid className={classes.modalRoot} alignItems={"center"} justify={"center"} container>
@@ -81,8 +81,8 @@ export class ColorSwitcher extends Component<IColorSwitcherProps, IColorSwitcher
   @Bind()
   private toggleModalVisibility(event: MouseEvent<any>): void {
 
-    const {value, onChange} = this.props;
-    const {showModal} = this.state;
+    const { value, onChange } = this.props;
+    const { showModal } = this.state;
 
     if (showModal) {
       onChange(this.lastColor);

@@ -1,11 +1,11 @@
-import {IAbstractSizing, ICanvasGraphicsSizingContext, IPoint, ISerializedGraphicsObject} from "../../types";
+import { IAbstractSizing, ICanvasGraphicsSizingContext, IPoint, ISerializedGraphicsObject } from "../../types";
 import {
   BASE_GRID_LEVELS,
   EObjectFixedSize,
   fixedObjectsGrid,
 } from "../utils/fixedObjectPosition";
-import {AbstractBaseRectangleObject} from "./AbstractBaseRectangleObject";
-import {FixedControlButton} from "./assist/FixedControlButton";
+import { AbstractBaseRectangleObject } from "./AbstractBaseRectangleObject";
+import { FixedControlButton } from "./assist/FixedControlButton";
 
 export interface IAbstractBaseFixedPositionRectangleObjectConfig {
   root: IPoint;

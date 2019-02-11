@@ -1,13 +1,13 @@
 import * as React from "react";
-import {ChangeEvent, Component, Fragment, ReactNode} from "react";
+import { ChangeEvent, Component, Fragment, ReactNode } from "react";
 
 // Lib.
-import {Styled} from "@Lib/react_lib/mui";
-import {Bind} from "@redux-cbd/utils";
+import { Styled } from "@Lib/react_lib/mui";
+import { Bind } from "@redux-cbd/utils";
 
 // View
-import {Button, Grid, TextField, WithStyles} from "@material-ui/core";
-import {textInputStyle} from "./TextInput.Style";
+import { Button, Grid, TextField, WithStyles } from "@material-ui/core";
+import { textInputStyle } from "./TextInput.Style";
 
 // Props.
 export interface ITextInputState {
@@ -38,8 +38,8 @@ export class TextInput extends Component<ITextInputProps, ITextInputState> {
 
   public render(): ReactNode {
 
-    const {classes, label} = this.props;
-    const {text} = this.state;
+    const { classes, label } = this.props;
+    const { text } = this.state;
 
     return (
       <Grid className={classes.root} container>

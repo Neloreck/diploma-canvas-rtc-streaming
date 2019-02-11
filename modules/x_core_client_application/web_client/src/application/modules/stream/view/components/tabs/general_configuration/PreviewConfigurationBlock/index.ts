@@ -1,1 +1,1 @@
-export {PreviewConfigurationBlock, IPreviewConfigurationBlockExternalProps} from "./PreviewConfigurationBlock.Component";
+export { PreviewConfigurationBlock, IPreviewConfigurationBlockExternalProps } from "./PreviewConfigurationBlock.Component";

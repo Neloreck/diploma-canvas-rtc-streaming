@@ -1,4 +1,4 @@
-import {IXCoreRequest} from "@Api/x-core";
+import { IXCoreRequest } from "@Api/x-core";
 
 export interface IBookmarkCreateRequest extends IXCoreRequest {
   name: string;

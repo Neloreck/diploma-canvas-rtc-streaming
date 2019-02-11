@@ -1,6 +1,6 @@
 /* tslint:disable: no-console */
 
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 
 export class Logger {
 

@@ -1,1 +1,1 @@
-export {VerticalDraggableVHResizer, IVerticalDraggableVHResizer} from "./VerticalDraggableVHResizer";
+export { VerticalDraggableVHResizer, IVerticalDraggableVHResizer } from "./VerticalDraggableVHResizer";

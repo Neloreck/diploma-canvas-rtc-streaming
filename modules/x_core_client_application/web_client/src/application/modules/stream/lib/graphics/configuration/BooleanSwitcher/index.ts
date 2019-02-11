@@ -1,1 +1,1 @@
-export {BooleanSwitcher, IBooleanSwitcherExternalProps} from "./BooleanSwitcher.Component";
+export { BooleanSwitcher, IBooleanSwitcherExternalProps } from "./BooleanSwitcher.Component";

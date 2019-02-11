@@ -1,1 +1,1 @@
-export {GeneralConfigurationTab, IGeneralConfigurationTabExternalProps} from "./GeneralConfigurationTab.Component";
+export { GeneralConfigurationTab, IGeneralConfigurationTabExternalProps } from "./GeneralConfigurationTab.Component";

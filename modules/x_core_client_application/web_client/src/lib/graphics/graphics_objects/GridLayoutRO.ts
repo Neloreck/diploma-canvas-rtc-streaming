@@ -1,11 +1,11 @@
-import {IPoint} from "@Lib/graphics";
-import {ICanvasGraphicsSizingContext} from "../types";
-import {RenderUtils} from "../utils";
-import {AbstractCanvasGraphicsRenderObject} from "./base/AbstractCanvasGraphicsRenderObject";
+import { IPoint } from "@Lib/graphics";
+import { ICanvasGraphicsSizingContext } from "../types";
+import { RenderUtils } from "../utils";
+import { AbstractCanvasGraphicsRenderObject } from "./base/AbstractCanvasGraphicsRenderObject";
 import {
   BASE_GRID_LEVELS,
 } from "./utils/fixedObjectPosition";
-import {fixedObjectsGrid} from "./utils/fixedObjectPosition";
+import { fixedObjectsGrid } from "./utils/fixedObjectPosition";
 
 export class GridLayoutRO extends AbstractCanvasGraphicsRenderObject<never> {
 
@@ -29,7 +29,7 @@ export class GridLayoutRO extends AbstractCanvasGraphicsRenderObject<never> {
 
   public renderSelf(context: CanvasRenderingContext2D): void {
 
-    const {width, height}: ICanvasGraphicsSizingContext = this.getSizing();
+    const { width, height }: ICanvasGraphicsSizingContext = this.getSizing();
 
     // Horizontal.
     for (let it: number = this.lineWidth / 2; it <= width + this.lineWidth; it += Math.floor(width / (this.verticalLinesCount + 1))) {
@@ -48,7 +48,7 @@ export class GridLayoutRO extends AbstractCanvasGraphicsRenderObject<never> {
 
   private renderPlaceholders(context: CanvasRenderingContext2D): void {
 
-    const { heightPercent: pHeight, widthPercent: pWidth} = this.getBasePercentSizing();
+    const { heightPercent: pHeight, widthPercent: pWidth } = this.getBasePercentSizing();
 
     context.strokeStyle = "red";
 

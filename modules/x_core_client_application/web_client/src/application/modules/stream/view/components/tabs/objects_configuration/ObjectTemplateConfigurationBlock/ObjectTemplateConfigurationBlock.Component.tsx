@@ -1,6 +1,6 @@
-import {Bind} from "@redux-cbd/utils";
+import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import {Component, ReactNode} from "react";
+import { Component, ReactNode } from "react";
 
 // Lib.
 import {
@@ -8,20 +8,20 @@ import {
   AbstractBaseRectangleObject,
   AbstractCanvasGraphicsRenderObject
 } from "@Lib/graphics";
-import {Styled} from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import {renderingService} from "@Module/stream/data/services";
-import {ICanvasObjectDescriptor} from "@Module/stream/lib/graphics/description";
+import { renderingService } from "@Module/stream/data/services";
+import { ICanvasObjectDescriptor } from "@Module/stream/lib/graphics/description";
 
 // View.
-import {Button, Checkbox, Grid, IconButton, Typography, WithStyles} from "@material-ui/core";
-import {ArrowDownward, ArrowUpward, Close, Delete} from "@material-ui/icons";
-import {CanvasGraphicsSingleObjectRenderer} from "@Module/stream/view/components/preview/graphics_preprocessing/single/CanvasGraphicsSingleObjectRenderer";
+import { Button, Checkbox, Grid, IconButton, Typography, WithStyles } from "@material-ui/core";
+import { ArrowDownward, ArrowUpward, Close, Delete } from "@material-ui/icons";
+import { CanvasGraphicsSingleObjectRenderer } from "@Module/stream/view/components/preview/graphics_preprocessing/single/CanvasGraphicsSingleObjectRenderer";
 import {
   IObjectDescriptorConfigurationBlockExternalProps, ObjectDescriptorConfigurationBlock
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectDescriptorConfigurationBlock";
-import {objectTemplateConfigurationBlockStyle} from "./ObjectTemplateConfigurationBlock.Style";
+import { objectTemplateConfigurationBlockStyle } from "./ObjectTemplateConfigurationBlock.Style";
 
 // Props.
 export interface IObjectTemplateConfigurationBlockState {
@@ -62,7 +62,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
   public componentWillUnmount(): void {
 
-    const {localObjectCopy} = this.state;
+    const { localObjectCopy } = this.state;
 
     if (localObjectCopy) {
       localObjectCopy.dispose();
@@ -71,8 +71,8 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
   public render(): ReactNode {
 
-    const {index, maxIndex, object, classes, onCancelSelection, onSelectedRemove, onObjectIndexSwap} = this.props;
-    const {objectDescriptor} = this.state;
+    const { index, maxIndex, object, classes, onCancelSelection, onSelectedRemove, onObjectIndexSwap } = this.props;
+    const { objectDescriptor } = this.state;
 
     return (
       <Grid className={classes.root} container={true} direction={"column"} wrap={"nowrap"}>
@@ -108,8 +108,8 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
   private renderControlBlock(): ReactNode {
 
-    const {classes} = this.props;
-    const {objectDescriptor, localObjectCopy} = this.state;
+    const { classes } = this.props;
+    const { objectDescriptor, localObjectCopy } = this.state;
 
     return (
       <Grid className={classes.templateConfigurationWrapper} direction={"row"} wrap={"nowrap"} container>
@@ -149,8 +149,8 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
   @Bind()
   private onLocalChangesApply(): void {
 
-    const {onChangesApply} = this.props;
-    const {localObjectCopy} = this.state;
+    const { onChangesApply } = this.props;
+    const { localObjectCopy } = this.state;
 
     onChangesApply(localObjectCopy);
   }
@@ -169,9 +169,9 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     newObject.setDisabled(false);
 
     if (newObject instanceof AbstractBaseRectangleObject) {
-      (newObject as AbstractBaseRectangleObject<any>).setPosition({ left: 10, top: 10, width: 80, height: 80});
+      (newObject as AbstractBaseRectangleObject<any>).setPosition({ left: 10, top: 10, width: 80, height: 80 });
     } else {
-      (newObject as AbstractBaseCircleObject<any>).setPosition({ radius: 25, center: { x: 50, y: 50 }});
+      (newObject as AbstractBaseCircleObject<any>).setPosition({ radius: 25, center: { x: 50, y: 50 } });
     }
 
     return newObject;

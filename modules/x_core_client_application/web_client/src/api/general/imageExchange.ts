@@ -1,4 +1,4 @@
-import {ERequestMethod} from "@Lib/api/types";
+import { ERequestMethod } from "@Lib/api/types";
 
 const getHeaders: () => Headers = (): Headers => new Headers({
   Accept: "application/json",
