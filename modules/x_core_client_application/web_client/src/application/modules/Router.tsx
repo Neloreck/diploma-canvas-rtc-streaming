@@ -12,15 +12,11 @@ import { authContextManager, routerContextManager, themeContextManager } from "@
 import { GlobalThemeProvider } from "@Main/view/layouts/GlobalThemeProvider";
 import { lazyLoadComponentFactory } from "@Main/view/utils";
 
-/*
- * Application submodules:
- */
+// Application submodules:
 
 export const AuthorizationModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@authorization" */"@Module/authentication"));
 export const StreamModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@stream" */"@Module/stream"));
 export const HomeModule: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "module@home" */"@Module/home"));
-
-/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
 @Provide(authContextManager, routerContextManager, themeContextManager)
 @Wrapped(GlobalThemeProvider)

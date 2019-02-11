@@ -5,7 +5,7 @@ import {
   ICanvasGraphicsSizingContext, IPoint,
   IRectSizing
 } from "@Lib/graphics";
-import { MediaUtils } from "@Lib/media";
+import { getUserMedia, killStream, moveTracks } from "@Lib/media";
 
 // Data.
 import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
@@ -51,7 +51,7 @@ export class VideoFrame extends AbstractBaseFixedPositionRectangleObject<IVideoF
 
   public async setVideoDevice(deviceId: string): Promise<void> {
     this.config.videoDevice = deviceId;
-    this.updateMediaStream(await MediaUtils.getUserMedia(streamConfig.getMediaConstraints(deviceId as any, false)));
+    this.updateMediaStream(await getUserMedia(streamConfig.getMediaConstraints(deviceId as any, false)));
   }
 
   public renderSelf(context: CanvasRenderingContext2D): void {
@@ -89,7 +89,7 @@ export class VideoFrame extends AbstractBaseFixedPositionRectangleObject<IVideoF
 
   public dispose(): void {
 
-    MediaUtils.killStream(this.mediaStream);
+    killStream(this.mediaStream);
     delete this.hiddenVideoRenderer;
 
     // @ts-ignore dispose item.
@@ -100,7 +100,7 @@ export class VideoFrame extends AbstractBaseFixedPositionRectangleObject<IVideoF
 
   private updateMediaStream(stream: MediaStream): void {
 
-    MediaUtils.moveTracks(this.mediaStream, stream);
+    moveTracks(this.mediaStream, stream);
 
     const videoTracks: Array<MediaStreamTrack> = this.mediaStream.getVideoTracks();
     const oldDevice: string = this.config.videoDevice;
@@ -113,7 +113,7 @@ export class VideoFrame extends AbstractBaseFixedPositionRectangleObject<IVideoF
   // Internal.
 
   private async getDefaultVideo(): Promise<void> {
-    this.updateMediaStream(await MediaUtils.getUserMedia(streamConfig.getMediaConstraints(true, false)));
+    this.updateMediaStream(await getUserMedia(streamConfig.getMediaConstraints(true, false)));
   }
 
   private async startVideo(): Promise<void> {

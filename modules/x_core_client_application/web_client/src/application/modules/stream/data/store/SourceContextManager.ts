@@ -2,7 +2,7 @@ import { ReactContextManager } from "@redux-cbd/context";
 import { Bind } from "@redux-cbd/utils";
 
 // Lib.
-import { IInputSourceDevices, MediaUtils } from "@Lib/media";
+import { IInputSourceDevices, killStream, moveTracks, setStreamAudioEnabled } from "@Lib/media";
 import { Optional } from "@Lib/ts/types";
 import { Logger } from "@Lib/utils";
 
@@ -65,7 +65,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
   public setAudioCapturing(captureAudio: boolean): void {
 
     if (this.context.sourceState.inputStream) {
-      MediaUtils.setStreamAudioEnabled(this.context.sourceState.inputStream, captureAudio);
+      setStreamAudioEnabled(this.context.sourceState.inputStream, captureAudio);
     }
 
     this.updateStateRef();
@@ -75,12 +75,15 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   @Bind()
   public setVideoCapturing(captureVideo: boolean): void {
-    this.context.sourceState = { ...this.context.sourceState, captureVideo };
+
+    this.updateStateRef();
+    this.context.sourceState.captureVideo = captureVideo;
     this.update();
   }
 
   @Bind()
   public updateInputSources(selectedDevices: IInputSourceDevices): void {
+
     this.updateStateRef();
     this.context.sourceState.selectedDevices = selectedDevices;
     this.update();
@@ -94,9 +97,9 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
 
     if (oldStream && inputStream) {
-      MediaUtils.moveTracks(oldStream, inputStream);
+      moveTracks(oldStream, inputStream);
     } else {
-      MediaUtils.killStream(oldStream);
+      killStream(oldStream);
       this.context.sourceState.inputStream = inputStream;
     }
 
@@ -108,6 +111,7 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   @Bind()
   public updateOutputStream(outputStream: Optional<MediaStream>): void {
+
     this.updateStateRef();
     this.context.sourceState.outputStream = outputStream;
     this.update();
@@ -123,9 +127,9 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
     const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
 
     if (oldStream && inputStream) {
-      MediaUtils.moveTracks(oldStream, inputStream);
+      moveTracks(oldStream, inputStream);
     } else {
-      MediaUtils.killStream(oldStream);
+      killStream(oldStream);
       this.context.sourceState.inputStream = inputStream;
     }
 
@@ -135,13 +139,12 @@ export class SourceContextManager extends ReactContextManager<ISourceContext> {
 
   // Utils:
 
-  @Bind()
-  public onProvisionEnded(): void {
+  protected onProvisionEnded(): void {
 
     const { sourceState: state } = this.context;
 
-    MediaUtils.killStream(state.inputStream);
-    MediaUtils.killStream(state.outputStream);
+    killStream(state.inputStream);
+    killStream(state.outputStream);
 
     state.inputStream = null;
     state.outputStream = null;

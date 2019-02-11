@@ -5,7 +5,7 @@ import ReactResizeDetector from "react-resize-detector";
 
 // Lib.
 import { AbstractCanvasGraphicsRenderObject, CommonRenderingService, IPoint } from "@Lib/graphics";
-import { MediaUtils } from "@Lib/media";
+import { killStream } from "@Lib/media";
 import { DomVideo } from "@Lib/react_lib/components";
 import { Optional } from "@Lib/ts/types";
 import { Logger, recalculateToRatio } from "@Lib/utils";
@@ -74,7 +74,7 @@ export class CanvasGraphicsSingleObjectRenderer
 
     this.log.info("Cleanup streams.");
 
-    MediaUtils.killStream(this.internalStream);
+    killStream(this.internalStream);
     this.internalStream = null;
   }
 

@@ -6,13 +6,12 @@ import { Route, Switch } from "react-router";
 import { ErrorPage } from "@Main/view/pages/ErrorPage";
 import { lazyLoadComponentFactory } from "@Main/view/utils";
 
-/* Stream routes: */
-
+// Home routes.
 const HomePage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "home@home-page" */"@Module/home/view/pages/HomePage"));
 
 export class HomeRouter extends PureComponent {
 
-  private static MODULE_PREFIX: string = "/home";
+  private readonly prefix: string = "/home";
 
   public render(): ReactNode {
 
@@ -21,10 +20,23 @@ export class HomeRouter extends PureComponent {
 
         <Switch>
 
-          <Route exact={true} path={`/`} component={HomePage}/>
-          <Route exact={true} path={`${HomeRouter.MODULE_PREFIX}`} component={HomePage}/>
+          <Route
+            exact={true}
+            path={`/`}
+            component={HomePage}
+          />
 
-          <Route exact={true} path={"*"} component={ErrorPage}/>
+          <Route
+            exact={true}
+            path={`${this.prefix}`}
+            component={HomePage}
+          />
+
+          <Route
+            exact={true}
+            path={"*"}
+            component={ErrorPage}
+          />
 
         </Switch>
 

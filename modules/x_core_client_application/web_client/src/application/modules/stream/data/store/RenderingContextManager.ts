@@ -78,8 +78,7 @@ export class RenderingContextManager extends ReactContextManager<IRenderingConte
     this.update();
   }
 
-  @Bind()
-  public onProvisionEnded(): void {
+  protected onProvisionEnded(): void {
 
     this.context.renderingState = {
       addDisabledObjects: true,

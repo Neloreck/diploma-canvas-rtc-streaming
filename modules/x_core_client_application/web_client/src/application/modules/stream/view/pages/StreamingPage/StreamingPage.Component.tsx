@@ -4,7 +4,7 @@ import * as React from "react";
 import { Fragment, PureComponent, ReactNode } from "react";
 
 // Lib.
-import { MediaUtils } from "@Lib/media";
+import { getUserMedia } from "@Lib/media";
 import { Styled } from "@Lib/react_lib/mui";
 import { log } from "@Lib/utils";
 
@@ -138,7 +138,7 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
 
     const { sourceActions: { updateInputStreamAndSources }, sourceState: { captureVideo, captureAudio, selectedDevices } } = this.props;
 
-    const stream: MediaStream = await MediaUtils.getUserMedia(
+    const stream: MediaStream = await getUserMedia(
       streamConfig.getMediaConstraints(captureVideo && (selectedDevices.videoInput || true), captureAudio && (selectedDevices.audioInput || true))
     );
 

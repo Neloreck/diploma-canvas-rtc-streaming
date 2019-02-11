@@ -339,8 +339,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
   // Utility.
 
-  @Bind()
-  public onProvisionEnded(): void {
+  protected onProvisionEnded(): void {
 
     this.context.liveState = {
       live: false,

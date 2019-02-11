@@ -15,8 +15,7 @@ import {
   sourceContextManager
 } from "@Module/stream/data/store";
 
-/* Stream routes: */
-
+// Stream routes.
 const StreamingPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@streaming-page" */"@Module/stream/view/pages/StreamingPage"));
 const StreamCreationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-creation-page" */"@Module/stream/view/pages/StreamCreationPage"));
 const StreamConfigurationPage: ComponentClass = lazyLoadComponentFactory.getComponent(() => import(/* webpackChunkName: "stream@stream-config-page" */"@Module/stream/view/pages/StreamConfigurationPage"));
@@ -25,7 +24,7 @@ const StreamStatsPage: ComponentClass = lazyLoadComponentFactory.getComponent(()
 @Provide(graphicsContextManager, liveContextManager, renderingContextManager, sourceContextManager, bookmarkContextManager)
 export class StreamRouter extends PureComponent {
 
-  private readonly modulePrefix: string = "/stream";
+  private readonly prefix: string = "/stream";
 
   public render(): ReactNode {
 
@@ -37,7 +36,7 @@ export class StreamRouter extends PureComponent {
           <PrivateRoute
             exact={true}
             redirect={true}
-            path={`${this.modulePrefix}/create`}
+            path={`${this.prefix}/create`}
             component={StreamCreationPage}
             {...{} as IPrivateRouteExternalProps}
           />
@@ -45,7 +44,7 @@ export class StreamRouter extends PureComponent {
           <PrivateRoute
             exact={true}
             redirect={true}
-            path={`${this.modulePrefix}/live/:id`}
+            path={`${this.prefix}/live/:id`}
             component={StreamingPage}
             {...{} as IPrivateRouteExternalProps}
           />
@@ -53,7 +52,7 @@ export class StreamRouter extends PureComponent {
           <PrivateRoute
             exact={true}
             redirect={true}
-            path={`${this.modulePrefix}/configure/:id`}
+            path={`${this.prefix}/configure/:id`}
             component={StreamConfigurationPage}
             {...{} as IPrivateRouteExternalProps}
           />
@@ -61,12 +60,16 @@ export class StreamRouter extends PureComponent {
           <PrivateRoute
             exact={true}
             redirect={true}
-            path={`${this.modulePrefix}/stats/:id`}
+            path={`${this.prefix}/stats/:id`}
             component={StreamStatsPage}
             {...{} as IPrivateRouteExternalProps}
           />
 
-          <Route exact={true} path={"*"} component={ErrorPage}/>
+          <Route
+            exact={true}
+            path={"*"}
+            component={ErrorPage}
+          />
 
         </Switch>
 

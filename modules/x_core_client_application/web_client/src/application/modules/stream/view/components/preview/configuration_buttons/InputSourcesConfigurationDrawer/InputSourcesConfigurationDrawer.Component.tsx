@@ -3,7 +3,14 @@ import * as React from "react";
 import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
-import { EDeviceKind, IInputDevicesBundle, IInputSourceDevices, MediaUtils } from "@Lib/media";
+import {
+  EDeviceKind,
+  getInputDevicesBundled,
+  getUserMedia,
+  IInputDevicesBundle,
+  IInputSourceDevices,
+  killStream
+} from "@Lib/media";
 import { DomVideo } from "@Lib/react_lib/components";
 import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
@@ -76,7 +83,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
     // Unmount.
     if (nextProps.show === false && this.props.show === true) {
-      MediaUtils.killStream(this.state.previewStream);
+      killStream(this.state.previewStream);
       this.setState({ previewStream: null, selectedInputSources: { audioInput: null, videoInput: null } });
     }
   }
@@ -172,7 +179,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
   @Bind()
   private async onUpdateMediaDevices(): Promise<IInputDevicesBundle> {
 
-    const inputSources: IInputDevicesBundle = await MediaUtils.getInputDevicesBundled();
+    const inputSources: IInputDevicesBundle = await getInputDevicesBundled();
     const { selectedDevices } = this.props;
     const { selectedInputSources: { videoInput, audioInput } } = this.state;
 
@@ -255,9 +262,9 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
 
   private async updatePreviewStream(videoDevice: Optional<MediaDeviceInfo>, audioDevice: Optional<MediaDeviceInfo>): Promise<void> {
 
-    const stream: MediaStream = await MediaUtils.getUserMedia(streamConfig.getMediaConstraints(videoDevice, audioDevice));
+    const stream: MediaStream = await getUserMedia(streamConfig.getMediaConstraints(videoDevice, audioDevice));
 
-    MediaUtils.killStream(this.state.previewStream);
+    killStream(this.state.previewStream);
 
     this.setState({
       previewStream: stream,

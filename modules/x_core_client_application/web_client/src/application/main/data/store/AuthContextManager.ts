@@ -37,12 +37,6 @@ export interface IAuthContext {
 
 export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
-  public static readonly MIN_USERNAME_LENGTH: number = 4;
-  public static readonly MAX_USERNAME_LENGTH: number = 64;
-  public static readonly MIN_PASSWORD_LENGTH: number = 4;
-  public static readonly MAX_PASSWORD_LENGTH: number = 64;
-  public static readonly MAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
   public context: IAuthContext = {
     authActions: {
       cleanupErrorMessage: this.cleanupErrorMessage,
@@ -59,12 +53,6 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   };
 
   protected log: Logger = new Logger("[🌋C-AUTH]", true);
-
-  public constructor() {
-    super();
-
-    this.initialize().then();
-  }
 
   // Getters.
 
@@ -235,6 +223,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected cleanupErrorMessage(): void {
+
     if (this.context.authState.errorMessage) {
       this.context.authState.errorMessage = null;
       this.update();
@@ -243,6 +232,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected saveTokenData(loginResponse: ILoginResponse): void {
+
     setLocalStorageItem("token_data", {
       accessToken: loginResponse.accessToken,
       expires: loginResponse.expires * 1000,
@@ -255,7 +245,9 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   protected hasAuthToken(): boolean {
+
     const tokenData: Optional<ITokenData> = getFromLocalStorage("token_data");
+
     return tokenData !== null && Boolean(tokenData.accessToken) && this.isTokenDataNonExpired(tokenData);
   }
 
@@ -270,6 +262,10 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   }
 
   // Lifecycle.
+
+  protected onProvisionStarted(): void {
+    this.initialize().then();
+  }
 
   @Bind()
   protected beforeUpdate(): void {

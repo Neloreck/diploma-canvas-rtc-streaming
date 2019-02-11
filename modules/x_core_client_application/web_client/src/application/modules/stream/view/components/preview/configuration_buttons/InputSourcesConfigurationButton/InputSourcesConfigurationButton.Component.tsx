@@ -4,7 +4,7 @@ import * as React from "react";
 import { Component, Fragment, ReactNode } from "react";
 
 // Lib.
-import { IInputSourceDevices, MediaUtils } from "@Lib/media";
+import { getUserMedia, IInputSourceDevices } from "@Lib/media";
 import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
@@ -68,7 +68,7 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
 
     if (captureVideo) {
 
-      const stream: MediaStream = await MediaUtils.getUserMedia(
+      const stream: MediaStream = await getUserMedia(
         streamConfig.getMediaConstraints(devices.videoInput, devices.audioInput)
       );
 

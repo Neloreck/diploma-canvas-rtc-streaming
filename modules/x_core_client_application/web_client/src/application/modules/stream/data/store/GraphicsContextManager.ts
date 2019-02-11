@@ -120,8 +120,7 @@ export class GraphicsContextManager extends ReactContextManager<IGraphicsContext
     this.update();
   }
 
-  @Bind()
-  public onProvisionEnded(): void {
+  protected onProvisionEnded(): void {
 
     const { graphicsState } = this.context;
 

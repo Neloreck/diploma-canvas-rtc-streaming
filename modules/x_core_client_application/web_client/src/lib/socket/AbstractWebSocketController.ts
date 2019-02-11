@@ -42,13 +42,17 @@ export abstract class AbstractWebSocketController {
 
   @Bind()
   public addSubscription(mapping: string, handler: messageCallbackType): StompSubscription {
+
     const subscription: StompSubscription = this.client.subscribe(`${this.receivalPrefix}.${this.sessionId}.${mapping}`, handler);
+
     this.subscriptions.push(subscription);
+
     return subscription;
   }
 
   @Bind()
   public removeSubscription(subscription: StompSubscription): void {
+
     this.client.unsubscribe(subscription.id);
     this.subscriptions = this.subscriptions.filter((it: StompSubscription): boolean => it.id !== subscription.id);
   }
@@ -59,12 +63,14 @@ export abstract class AbstractWebSocketController {
 
   @Bind()
   public connect(): void {
+
     this.client.webSocketFactory = (): any => new SockJS(`${this.socketUrl}?access_token=${this.accessToken}`);
     this.client.activate();
   }
 
   @Bind()
   public disconnect(): void {
+
     this.unsubscribe();
     this.client.deactivate();
 
@@ -86,6 +92,7 @@ export abstract class AbstractWebSocketController {
 
   @Bind()
   protected unsubscribe(): void {
+
     for (const subscription of this.subscriptions) {
       this.client.unsubscribe(subscription.id);
     }

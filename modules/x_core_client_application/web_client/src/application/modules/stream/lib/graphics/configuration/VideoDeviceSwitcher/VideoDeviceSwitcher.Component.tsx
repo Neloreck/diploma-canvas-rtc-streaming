@@ -3,7 +3,7 @@ import * as React from "react";
 import { ChangeEvent, PureComponent, ReactNode } from "react";
 
 // Lib.
-import { MediaUtils } from "@Lib/media";
+import { getVideoInputs } from "@Lib/media";
 import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
 
@@ -89,7 +89,7 @@ export class VideoDeviceSwitcher extends PureComponent<IVideoDeviceSwitcherProps
   @Bind()
   private async onUpdateMediaDevices(): Promise<void> {
 
-    const videoDevices: Array<MediaDeviceInfo> = await MediaUtils.getVideoInputs();
+    const videoDevices: Array<MediaDeviceInfo> = await getVideoInputs();
 
     this.setState({ videoInputSources: videoDevices });
   }

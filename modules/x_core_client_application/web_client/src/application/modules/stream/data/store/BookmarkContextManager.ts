@@ -139,8 +139,7 @@ export class BookmarkContextManager extends ReactContextManager<IBookmarkContext
 
   // Utility.
 
-  @Bind()
-  public onProvisionEnded(): void {
+  protected onProvisionEnded(): void {
 
     this.context.bookmarkState = {
       bookmarks: [],

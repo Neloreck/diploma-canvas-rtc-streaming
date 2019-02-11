@@ -1,7 +1,7 @@
 // Lib.
 import { AbstractBaseRectangleObject, IRectSizing } from "@Lib/graphics";
 import { ICanvasGraphicsSizingContext } from "@Lib/graphics";
-import { MediaUtils } from "@Lib/media";
+import { killStream, moveTracks } from "@Lib/media";
 
 // Data.
 
@@ -41,7 +41,7 @@ export class DesktopFrame extends AbstractBaseRectangleObject<IDesktopFrameConfi
   }
 
   public updateMediaStream(stream: MediaStream): void {
-    MediaUtils.moveTracks(this.mediaStream, stream);
+    moveTracks(this.mediaStream, stream);
   }
 
   public renderSelf(context: CanvasRenderingContext2D): void {
@@ -73,7 +73,7 @@ export class DesktopFrame extends AbstractBaseRectangleObject<IDesktopFrameConfi
 
   public dispose(): void {
 
-    MediaUtils.killStream(this.mediaStream);
+    killStream(this.mediaStream);
     // @ts-ignore dispose item.
     this.mediaStream = null;
 
