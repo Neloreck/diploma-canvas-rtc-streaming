@@ -7,9 +7,15 @@ import { applicationConfig } from "@Application/configs/Application.Config";
 @Injectable()
 export class XCoreAuthService {
 
-  private static readonly GRANT_TYPE: string = "password";
-  private static readonly CLIENT_ID: string = "X-CORE-CLIENT";
-  private static readonly CLIENT_SECRET: string = "eg2sHsu8qb765x65d";
+  private static readonly AUTH_CONFIG: {
+    CLIENT_ID: string;
+    CLIENT_SECRET: string;
+    GRANT_TYPE: string;
+  } = {
+    CLIENT_ID: "X-CORE-CLIENT",
+    CLIENT_SECRET: "eg2sHsu8qb765x65d",
+    GRANT_TYPE: "password"
+  };
 
   private readonly logger: Logger = new Logger("X-CORE-AUTH");
 
@@ -19,13 +25,13 @@ export class XCoreAuthService {
 
     const formData: URLSearchParams = new URLSearchParams();
 
-    formData.append("grant_type", XCoreAuthService.GRANT_TYPE);
+    formData.append("grant_type", XCoreAuthService.AUTH_CONFIG.GRANT_TYPE);
     formData.append("username", username);
     formData.append("password", password);
 
     const headers: Headers = new Headers();
 
-    headers.set("Authorization", `Basic ${Buffer.from(`${XCoreAuthService.CLIENT_ID}:${XCoreAuthService.CLIENT_SECRET}`).toString("base64")}`);
+    headers.set("Authorization", `Basic ${Buffer.from(`${XCoreAuthService.AUTH_CONFIG.CLIENT_ID}:${XCoreAuthService.AUTH_CONFIG.CLIENT_SECRET}`).toString("base64")}`);
     headers.set("Content-Type", "application/x-www-form-urlencoded");
 
     const rawResponse: any = await fetch(`${applicationConfig.apiServerUrl}/auth/token`, {

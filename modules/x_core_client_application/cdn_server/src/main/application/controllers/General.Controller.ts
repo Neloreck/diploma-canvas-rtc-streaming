@@ -10,9 +10,10 @@ export class GeneralController {
 
   @Get(["/", "/info"])
   public getApiInfo(): object {
+
     return {
-      info: true,
-      name: "x-core-cdn"
+      name: "x-core-cdn",
+      success: true
     };
   }
 

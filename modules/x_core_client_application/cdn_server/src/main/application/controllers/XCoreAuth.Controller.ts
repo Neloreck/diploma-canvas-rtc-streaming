@@ -14,18 +14,17 @@ export class XCoreAuthController {
 
     try {
 
-      if (!body.username || !body.password) {
-        return {
-          error: {
-            message: "Correct request body params are missing.",
-            type: "BadRequest"
-          },
-          success: false
-        };
-
-      } else {
+      if (body.username && body.password) {
         return await this.xCoreAuthService.login(body.username, body.password);
       }
+
+      return {
+        error: {
+          message: "Correct request body params are missing.",
+          type: "BadRequest"
+        },
+        success: false
+      };
 
     } catch (error) {
       return {
@@ -43,7 +42,6 @@ export class XCoreAuthController {
 
     try {
       return await this.xCoreAuthService.getHeadersAuthorizedInfo(headers as any);
-
     } catch (error) {
 
       response.status(500);
