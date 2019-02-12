@@ -19,10 +19,8 @@ export class Application {
     const app: INestApplication = await NestFactory.create(ApplicationModule);
 
     await app
-      .use(
-        staticMiddleware(path.resolve(__dirname, "../resources/public/")),
-        compression()
-      )
+      .use(staticMiddleware(path.resolve(__dirname, "../resources/public/")))
+      .use(compression())
       .listen(applicationConfig.port);
   }
 

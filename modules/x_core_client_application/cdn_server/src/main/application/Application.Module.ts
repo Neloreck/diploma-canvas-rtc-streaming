@@ -8,15 +8,16 @@ import { StatsMiddleware } from "@Application/middlewares";
 import { StatsService, XCoreAuthService } from "@Application/services";
 
 @Module({
-  controllers: [XCoreAuthController, GeneralController, InfoController],
+  controllers: [
+    XCoreAuthController,
+    GeneralController,
+    InfoController
+  ],
   imports: [],
   providers: [
     XCoreAuthService,
     StatsService,
-    {
-      provide: APP_FILTER,
-      useClass: NotFoundExceptionFilter,
-    },
+    { provide: APP_FILTER, useClass: NotFoundExceptionFilter }
   ],
 })
 export class ApplicationModule implements NestModule {
@@ -26,7 +27,6 @@ export class ApplicationModule implements NestModule {
     consumer
       .apply(StatsMiddleware)
       .forRoutes("*");
-
   }
 
 }
