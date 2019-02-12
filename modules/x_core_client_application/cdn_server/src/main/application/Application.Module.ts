@@ -18,7 +18,7 @@ import { StatsService, XCoreAuthService } from "@Application/services";
     XCoreAuthService,
     StatsService,
     { provide: APP_FILTER, useClass: NotFoundExceptionFilter }
-  ],
+  ]
 })
 export class ApplicationModule implements NestModule {
 
