@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { APP_FILTER } from "@nestjs/core";
 
 // Application.
-import { GeneralController, InfoController, XCoreAuthController } from "@Application/controllers";
+import { GeneralController, XCoreAuthController } from "@Application/controllers";
 import { NotFoundExceptionFilter } from "@Application/filters";
 import { StatsMiddleware } from "@Application/middlewares";
 import { StatsService, XCoreAuthService } from "@Application/services";
@@ -10,8 +10,7 @@ import { StatsService, XCoreAuthService } from "@Application/services";
 @Module({
   controllers: [
     XCoreAuthController,
-    GeneralController,
-    InfoController
+    GeneralController
   ],
   imports: [],
   providers: [
