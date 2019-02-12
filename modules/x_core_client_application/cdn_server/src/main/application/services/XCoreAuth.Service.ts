@@ -1,23 +1,21 @@
-import {default as fetch, Headers} from "node-fetch";
+import { Injectable, Logger } from "@nestjs/common";
+import { default as fetch, Headers } from "node-fetch";
 
-// Lib.
-import {log, Logger} from "@Lib/utils/logger";
+// Application.
+import { applicationConfig } from "@Application/configs/Application.Config";
 
-// Data.
-import {applicationConfig} from "@Application/configs/ApplicationConfig";
-
+@Injectable()
 export class XCoreAuthService {
 
   private static readonly GRANT_TYPE: string = "password";
-
   private static readonly CLIENT_ID: string = "X-CORE-CLIENT";
   private static readonly CLIENT_SECRET: string = "eg2sHsu8qb765x65d";
 
-  private readonly log: Logger = log.getPrefixed("[AUTH]");
+  private readonly logger: Logger = new Logger("X-CORE-AUTH");
 
   public async login(username: string, password: string): Promise<object> {
 
-    this.log.info("Authorizing user:", username);
+    this.logger.log(`Authorizing user: ${username}.`);
 
     const formData: URLSearchParams = new URLSearchParams();
 

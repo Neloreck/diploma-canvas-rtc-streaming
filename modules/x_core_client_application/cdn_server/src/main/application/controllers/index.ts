@@ -1,3 +1,3 @@
-export {InfoController} from "./InfoController";
-export {XCoreAuthController} from "./XCoreAuthController";
-export {GeneralController} from "./GeneralController";
+export { InfoController } from "./Info.Controller";
+export { XCoreAuthController } from "./XCoreAuth.Controller";
+export { GeneralController } from "./General.Controller";

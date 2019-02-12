@@ -8,7 +8,6 @@
   "linterOptions": {
     "exclude": [
       "target/**",
-      "**/*.Style.ts",
       "**/*.Spec.ts",
       "**/*.Test.ts"
     ]
@@ -18,18 +17,21 @@
 
   "rules": {
     "array-type": [true, "generic"],
+    "object-curly-spacing": [true, "always"],
     "comma-dangle": ["error", "never"],
     "semicolon": true,
     "max-line-length": [false],
     "no-empty-interface": false,
     "trailing-comma": false,
     "no-bitwise": false,
+    "whitespace": [true, "check-rest-spread", "check-module"],
     "object-literal-key-quotes": [
       true, "as-needed"
     ],
     "typedef": [
       true,
       "array-destructuring",
+      "arrow-call-signature",
       "arrow-parameter",
       "call-signature",
       "member-variable-declaration",
@@ -37,7 +39,6 @@
       "property-declaration"
     ]
   },
-
 
   "rulesDirectory": []
 }

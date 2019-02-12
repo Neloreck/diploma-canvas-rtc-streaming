@@ -33,7 +33,10 @@ export class HomePage extends PureComponent<IHomePageProps> {
 
             <Grid
               className={classes.content}
-              justify={"space-around"} direction={"column"} alignItems={"stretch"} container
+              justify={"space-around"}
+              direction={"column"}
+              alignItems={"stretch"}
+              container
             >
 
               <HomeLayout {...{} as IHomeLayoutExternalProps}/>

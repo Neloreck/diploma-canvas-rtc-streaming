@@ -18,19 +18,21 @@
       "es2018",
       "dom"
     ],
+    // todo: Nest 6.0 update and fix.
+    "skipLibCheck": true,
     "baseUrl": ".",
     "outDir": "../target/dist:raw",
     "paths": {
       "@Application/*": [ "./main/application/*" ],
       "@Application": [ "./main/application/index" ],
-      "@Lib/*": [ "./main/lib/*" ],
-      "@Server/*": [ "./main/server/*" ]
+      "@Lib/*": [ "./main/lib/*" ]
     }
   },
   "types": [
     "node"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }
