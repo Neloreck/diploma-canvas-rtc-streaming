@@ -1,4 +1,4 @@
-import { createStyles, Theme } from "@material-ui/core";
+import { createStyles, Theme } from "@material-ui/core/styles";
 
 export const streamConfigurationPageStyle = (theme: Theme) => createStyles({
   content: {

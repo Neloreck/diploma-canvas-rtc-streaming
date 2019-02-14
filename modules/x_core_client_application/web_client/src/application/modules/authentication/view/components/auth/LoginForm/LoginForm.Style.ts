@@ -1,4 +1,4 @@
-import { createStyles, Theme } from "@material-ui/core";
+import { createStyles, Theme } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
 export const loginFormStyle = (theme: Theme) => createStyles({

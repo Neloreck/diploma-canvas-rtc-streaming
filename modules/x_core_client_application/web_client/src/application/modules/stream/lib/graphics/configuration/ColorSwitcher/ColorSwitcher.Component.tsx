@@ -12,7 +12,6 @@ import { ChromePicker, ColorResult } from "react-color";
 import { colorSwitcherStyle } from "./ColorSwitcher.Style";
 
 // Props.
-
 export interface IColorSwitcherState {
   showModal: boolean;
 }

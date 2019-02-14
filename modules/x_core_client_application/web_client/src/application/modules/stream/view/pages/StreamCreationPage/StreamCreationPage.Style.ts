@@ -1,4 +1,4 @@
-import { createStyles, Theme } from "@material-ui/core";
+import { createStyles, Theme } from "@material-ui/core/styles";
 
 import backgroundImage from "@Module/home/view/assets/images/main-background.jpg";
 
