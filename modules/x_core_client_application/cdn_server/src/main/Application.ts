@@ -21,7 +21,7 @@ export class Application {
     await app
       .use(staticMiddleware(path.resolve(__dirname, "../resources/public/")))
       .use(compression())
-      .listen(applicationConfig.port);
+      .listen(applicationConfig.PORT);
   }
 
 }

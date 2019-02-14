@@ -5,8 +5,9 @@ import { AbstractCanvasGraphicsSerializableObject } from "./AbstractCanvasGraphi
 
 export abstract class AbstractCanvasGraphicsRenderObject<T extends object> extends AbstractCanvasGraphicsSerializableObject<T> {
 
+  public readonly id: string = "0";
+
   protected readonly createdAt: number = Date.now();
-  protected id: string = "0";
 
   protected readonly disabledColor: string = "rgba(2000, 10, 10, 0.3)";
 
@@ -17,9 +18,10 @@ export abstract class AbstractCanvasGraphicsRenderObject<T extends object> exten
   protected disabled: boolean = false;
   protected context: CanvasRenderingContext2D = null as any;
 
-  public constructor() {
+  protected constructor();
+  protected constructor(id?: string) {
     super();
-    this.id = generateUUID();
+    this.id = id || generateUUID();
   }
 
   // Identity.
@@ -142,9 +144,8 @@ export abstract class AbstractCanvasGraphicsRenderObject<T extends object> exten
 
   public getCopy(): AbstractCanvasGraphicsRenderObject<T> {
 
-    const cloned: AbstractCanvasGraphicsRenderObject<T> = new (Object.getPrototypeOf(this)).constructor();
+    const cloned: AbstractCanvasGraphicsRenderObject<T> = new (Object.getPrototypeOf(this)).constructor(generateUUID());
 
-    cloned.id = generateUUID();
     cloned.position = cloneDeep(this.position);
     cloned.config = cloneDeep(this.config);
 

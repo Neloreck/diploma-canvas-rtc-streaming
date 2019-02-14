@@ -48,8 +48,8 @@ export class CanvasGraphicsRenderer
     videoSizing: { width: undefined, height: undefined }
   };
 
-  private readonly ASPECT_RATIO: number = applicationConfig.defaultVideoScale;
-  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.defaultVideoCapturingFramerate;
+  private readonly ASPECT_RATIO: number = applicationConfig.VIDEO.DEFAULT_SCALE;
+  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE;
 
   private readonly log: Logger = new Logger("[🎸RDR]", true);
   private readonly videoContainerRef: RefObject<HTMLDivElement> = createRef();

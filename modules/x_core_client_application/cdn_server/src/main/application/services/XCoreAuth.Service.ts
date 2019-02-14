@@ -34,7 +34,7 @@ export class XCoreAuthService {
     headers.set("Authorization", `Basic ${Buffer.from(`${XCoreAuthService.AUTH_CONFIG.CLIENT_ID}:${XCoreAuthService.AUTH_CONFIG.CLIENT_SECRET}`).toString("base64")}`);
     headers.set("Content-Type", "application/x-www-form-urlencoded");
 
-    const rawResponse: any = await fetch(`${applicationConfig.apiServerUrl}/auth/token`, {
+    const rawResponse: any = await fetch(`${applicationConfig.API_SERVER_URL}/auth/token`, {
       body: formData as any,
       headers: headers as any,
       method: "POST"
@@ -53,7 +53,7 @@ export class XCoreAuthService {
 
   public async getHeadersAuthorizedInfo(headers: Headers): Promise<object> {
 
-    const rawResponse: any = await fetch(`${applicationConfig.apiServerUrl}/auth/info`, {
+    const rawResponse: any = await fetch(`${applicationConfig.API_SERVER_URL}/auth/info`, {
       headers: headers as any,
       method: "GET",
     });

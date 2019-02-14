@@ -4,10 +4,10 @@ import { Bind } from "@redux-cbd/utils";
 
 export class Logger {
 
-  private static isDev = (): boolean => process.env.NODE_ENV === "development";
+  private static IS_DEV: boolean = process.env.NODE_ENV === "development";
 
   private readonly prefix: string;
-  private enabled: boolean = true;
+  private readonly enabled: boolean = true;
 
   public constructor(prefix: string, enabled?: boolean) {
     this.prefix = prefix;
@@ -15,18 +15,6 @@ export class Logger {
     if (enabled !== undefined) {
       this.enabled = enabled;
     }
-  }
-
-  public isEnabled(): boolean {
-    return this.enabled === true;
-  }
-
-  public enable(): void {
-    this.enabled = true;
-  }
-
-  public disable(): void {
-    this.enabled = false;
   }
 
   // Functional methods.
@@ -37,14 +25,14 @@ export class Logger {
 
   @Bind()
   public debug(...args: Array<any>): void {
-    if (Logger.isDev() && this.isEnabled()) {
+    if (Logger.IS_DEV && this.enabled) {
       console.debug(`%c${this.prefix}`, "color: #bada53", "[D]", ...args);
     }
   }
 
   @Bind()
   public warn(...args: Array<any>): void {
-    if (Logger.isDev() && this.isEnabled()) {
+    if (Logger.IS_DEV && this.enabled) {
       console.warn(`%c${this.prefix}`, "color: #bada53", ...args);
     }
   }
@@ -56,7 +44,7 @@ export class Logger {
 
   @Bind()
   public info(...args: Array<any>): void {
-    if (Logger.isDev() && this.isEnabled()) {
+    if (Logger.IS_DEV && this.enabled) {
       console.info(`%c${this.prefix}`, "color: #bada53", ...args);
     }
   }

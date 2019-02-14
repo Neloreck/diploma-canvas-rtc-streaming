@@ -1,8 +1,8 @@
-import {EntryPoint} from "@redux-cbd/utils";
-import {green, red} from "colors";
-import {Compiler, default as webpack} from "webpack";
+import { EntryPoint } from "@redux-cbd/utils";
+import { green, red } from "colors";
+import { Compiler, default as webpack } from "webpack";
 
-import {PROJECT_OUTPUT_PATH, PROJECT_ROOT_PATH, WEBPACK_CONFIG} from "./config";
+import { PROJECT_OUTPUT_PATH, PROJECT_ROOT_PATH, WEBPACK_CONFIG } from "./config";
 
 @EntryPoint()
 export class BuildRunner {

@@ -1,14 +1,13 @@
 import { Consume } from "@redux-cbd/context";
 import { Bind } from "@redux-cbd/utils";
 import * as React from "react";
-import { Fragment, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
 import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
-import { renderingService } from "@Module/stream/data/services";
 import {
   bookmarkContextManager,
   graphicsContextManager,
@@ -16,6 +15,7 @@ import {
   ILiveContext,
   liveContextManager
 } from "@Module/stream/data/store";
+import { deserializeObjects, serializeObjects } from "@Module/stream/data/utils/RenderingUtils";
 
 // Api.
 import { ILiveEventLayoutBookmark } from "@Api/x-core";
@@ -56,10 +56,10 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
             ?
               <CircularProgress size={80}/>
             :
-              <Fragment>
+              <>
                 {this.renderMenu()}
                 {this.renderDetail()}
-              </Fragment>
+              </>
         }
       </Grid>
     );
@@ -83,10 +83,19 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
 
           {
             bookmarks.map((item: ILiveEventLayoutBookmark) => (
-              <Grid key={item.id}>
+              <Grid
+                key={item.id}
+              >
                 {item.id} -> {item.name}
-                <Button onClick={(): void => setObjects(renderingService.deserializeObjects(item.graphicsObjects))}>Apply</Button>
-                <Button onClick={(): Promise<void> => saveBookmarkGraphics(item.id, renderingService.serializeObjects(objects))}>Save</Button>
+
+                <Button onClick={(): void => setObjects(deserializeObjects(item.graphicsObjects))}>
+                  Apply
+                </Button>
+
+                <Button onClick={(): Promise<void> => saveBookmarkGraphics(item.id, serializeObjects(objects))}>
+                  Save
+                </Button>
+
               </Grid>
               )
             )

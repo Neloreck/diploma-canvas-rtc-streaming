@@ -1,5 +1,5 @@
-import {ChildProcess, spawn} from "child_process";
-import {green, red} from "colors";
+import { ChildProcess, spawn } from "child_process";
+import { green, red } from "colors";
 
 export class CommandRunner {
 

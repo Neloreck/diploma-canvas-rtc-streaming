@@ -1,13 +1,13 @@
-import {CheckerPlugin, TsConfigPathsPlugin} from "awesome-typescript-loader";
+import { CheckerPlugin, TsConfigPathsPlugin } from "awesome-typescript-loader";
 import * as path from "path";
-import {HotModuleReplacementPlugin, NoEmitOnErrorsPlugin, Options, Plugin} from "webpack";
+import { HotModuleReplacementPlugin, NoEmitOnErrorsPlugin, Options, Plugin } from "webpack";
 
 // tslint:disable: no-var-requires typedef
 const DotEnv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-import {ENVIRONMENT, IS_PRODUCTION, PROJECT_ROOT_PATH} from "./webpack.constants";
+import { ENVIRONMENT, IS_PRODUCTION, PROJECT_ROOT_PATH } from "./webpack.constants";
 
 export const PLUGIN_CONFIG: {
   PLUGINS: Array<Plugin>,

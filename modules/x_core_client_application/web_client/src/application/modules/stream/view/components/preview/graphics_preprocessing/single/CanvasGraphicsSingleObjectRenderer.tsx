@@ -32,11 +32,14 @@ export class CanvasGraphicsSingleObjectRenderer
   extends Component<ICanvasGraphicsSingleObjectRendererProps, ICanvasGraphicsSingleObjectRendererState> {
 
   public state: ICanvasGraphicsSingleObjectRendererState = {
-    videoSizing: { width: undefined, height: undefined }
+    videoSizing: {
+      height: undefined,
+      width: undefined
+    }
   };
 
-  private readonly ASPECT_RATIO: number = applicationConfig.defaultVideoScale;
-  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.defaultVideoCapturingFramerate;
+  private readonly ASPECT_RATIO: number = applicationConfig.VIDEO.DEFAULT_SCALE;
+  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE;
 
   private readonly log: Logger = new Logger("[🎸RDR]", true);
   private readonly videoContainerRef: RefObject<HTMLDivElement> = createRef();
@@ -55,7 +58,7 @@ export class CanvasGraphicsSingleObjectRenderer
 
   public componentWillMount(): void {
 
-    this.renderingService.setRenderObjects([this.props.object]);
+    this.renderingService.setRenderObjects([ this.props.object ]);
     this.renderingService.enableRendering();
     this.renderingService.disableInteraction();
     this.renderingService.enableContextCleanup();
@@ -93,12 +96,18 @@ export class CanvasGraphicsSingleObjectRenderer
           ref={this.videoContainerRef}
           className={"canvas-renderer-layout"}
         >
-          <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height} muted={true} autoPlay={true}/>
+          <DomVideo
+            stream={this.internalStream}
+            width={videoSizing.width}
+            height={videoSizing.height}
+            muted={true}
+            autoPlay={true}
+          />
         </div>
 
         <ReactResizeDetector
-          onResize={this.resize}
           handleHeight handleWidth
+          onResize={this.resize}
         />
 
       </Fragment>
@@ -114,10 +123,13 @@ export class CanvasGraphicsSingleObjectRenderer
 
     const clientRect: ClientRect = ((this.videoContainerRef.current as HTMLDivElement).firstChild as HTMLVideoElement).getBoundingClientRect();
 
-    const newX: number = (event.pageX - clientRect.left)  * 100 / clientRect.width;
+    const newX: number = (event.pageX - clientRect.left) * 100 / clientRect.width;
     const newY: number = (event.pageY - clientRect.top) * 100 / clientRect.height;
 
-    return { x: newX > 100 ? 100 : (newX < 0 ? 0 : newX), y: newY > 100 ? 100 : (newY < 0 ? 0 : newY) };
+    return {
+      x: newX > 100 ? 100 : (newX < 0 ? 0 : newX),
+      y: newY > 100 ? 100 : (newY < 0 ? 0 : newY)
+    };
   }
 
   /*
@@ -126,7 +138,10 @@ export class CanvasGraphicsSingleObjectRenderer
 
   @Bind()
   public resize(width: number, height: number): void {
-    this.setState({ videoSizing: recalculateToRatio(width, height, this.ASPECT_RATIO) });
+
+    this.setState({
+      videoSizing: recalculateToRatio(width, height, this.ASPECT_RATIO)
+    });
   }
 
 }

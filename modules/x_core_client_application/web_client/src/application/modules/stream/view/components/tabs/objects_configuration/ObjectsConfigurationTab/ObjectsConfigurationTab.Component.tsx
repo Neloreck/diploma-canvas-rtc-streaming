@@ -10,8 +10,8 @@ import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
-import { renderingService } from "@Module/stream/data/services";
 import { graphicsContextManager, IGraphicsContext } from "@Module/stream/data/store";
+import { getDescriptor } from "@Module/stream/data/utils/RenderingUtils";
 import { ICanvasObjectDescriptor } from "@Module/stream/lib/graphics/description";
 
 // View.
@@ -111,7 +111,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
           {
             objects.map((item: AbstractCanvasGraphicsRenderObject<any>, idx: number) => {
 
-              const descriptor: Optional<ICanvasObjectDescriptor<any>> = renderingService.getDescriptor(item);
+              const descriptor: Optional<ICanvasObjectDescriptor<any>> = getDescriptor(item);
 
               if (!descriptor) {
                 throw new Error("Descriptor for object was not found, implement it before using in list.");

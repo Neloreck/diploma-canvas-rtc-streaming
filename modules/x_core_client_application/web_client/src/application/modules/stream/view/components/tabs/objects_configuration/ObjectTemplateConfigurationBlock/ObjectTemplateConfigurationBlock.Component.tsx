@@ -11,7 +11,7 @@ import {
 import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
-import { renderingService } from "@Module/stream/data/services";
+import { getDescriptor } from "@Module/stream/data/utils/RenderingUtils";
 import { ICanvasObjectDescriptor } from "@Module/stream/lib/graphics/description";
 
 // View.
@@ -48,14 +48,15 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
   public state: IObjectTemplateConfigurationBlockState = {
     localObjectCopy: this.getLocalCopyForPreview(this.props.object),
-    objectDescriptor: renderingService.getDescriptor(this.props.object) as ICanvasObjectDescriptor<any>
+    objectDescriptor: getDescriptor(this.props.object) as ICanvasObjectDescriptor<any>
   };
 
   public componentWillReceiveProps(nextProps: IObjectTemplateConfigurationBlockProps): void {
+
     if (nextProps.object !== this.props.object) {
       this.setState({
         localObjectCopy:  this.getLocalCopyForPreview(nextProps.object),
-        objectDescriptor: renderingService.getDescriptor(nextProps.object) as ICanvasObjectDescriptor<any>
+        objectDescriptor: getDescriptor(nextProps.object) as ICanvasObjectDescriptor<any>
       });
     }
   }
@@ -75,17 +76,39 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     const { objectDescriptor } = this.state;
 
     return (
-      <Grid className={classes.root} container={true} direction={"column"} wrap={"nowrap"}>
+      <Grid
+        key={`${object.id}-${index}`}
+        className={classes.root}
+        container={true}
+        direction={"column"}
+        wrap={"nowrap"}
+      >
 
-        <Grid className={classes.objectHeading} container justify={"space-between"} wrap={"nowrap"}>
+        <Grid
+          className={classes.objectHeading}
+          container
+          justify={"space-between"}
+          wrap={"nowrap"}
+        >
 
           <Grid className={classes.objectHeadingTitle}>
-            <Typography variant={"h6"}>{objectDescriptor.name} </Typography>
-            <IconButton disabled={index === maxIndex} onClick={(): void => onObjectIndexSwap(index, index + 1)}> <ArrowUpward fontSize={"small"}/> </IconButton>
-            <IconButton disabled={index === 0} onClick={(): void => onObjectIndexSwap(index, index - 1)}> <ArrowDownward fontSize={"small"}/> </IconButton>
+
+            <Typography variant={"h6"}>
+              {objectDescriptor.name}
+              </Typography>
+
+            <IconButton disabled={index === maxIndex} onClick={(): void => onObjectIndexSwap(index, index + 1)}>
+              <ArrowUpward fontSize={"small"}/>
+            </IconButton>
+
+            <IconButton disabled={index === 0} onClick={(): void => onObjectIndexSwap(index, index - 1)}>
+              <ArrowDownward fontSize={"small"}/>
+            </IconButton>
+
           </Grid>
 
           <Grid>
+
             <Checkbox
               color={"secondary"}
               onChange={(): void => {
@@ -94,8 +117,10 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
               }}
               checked={!object.isDisabled()}
             />
+
             <Button onClick={(): void => onSelectedRemove(object)}><Delete/></Button>
             <Button onClick={onCancelSelection}><Close/></Button>
+
           </Grid>
 
         </Grid>
@@ -112,25 +137,45 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
     const { objectDescriptor, localObjectCopy } = this.state;
 
     return (
-      <Grid className={classes.templateConfigurationWrapper} direction={"row"} wrap={"nowrap"} container>
+      <Grid
+        className={classes.templateConfigurationWrapper}
+        direction={"row"}
+        wrap={"nowrap"}
+        container
+      >
 
         <Grid className={classes.objectConfiguration} container>
+
           <ObjectDescriptorConfigurationBlock
             object={localObjectCopy}
             descriptor={objectDescriptor}
             {...{} as IObjectDescriptorConfigurationBlockExternalProps}
           />
+
         </Grid>
 
-        <Grid className={classes.templatePreview} direction={"column"} justify={"space-between"} wrap={"nowrap"} container>
+        <Grid
+          className={classes.templatePreview}
+          direction={"column"}
+          justify={"space-between"}
+          wrap={"nowrap"}
+          container
+        >
 
           <Grid className={classes.templateRenderer}>
             <CanvasGraphicsSingleObjectRenderer object={localObjectCopy}/>
           </Grid>
 
           <Grid className={classes.objectEditingControlFooter} justify={"flex-end"} container>
-            <Button variant={"contained"} onClick={this.onLocalObjectReset}>Reset</Button>
-            <Button variant={"contained"} onClick={this.onLocalChangesApply}>Apply</Button>
+
+            <Button variant={"contained"} onClick={this.onLocalObjectReset}>
+              Reset
+            </Button>
+
+            <Button variant={"contained"} onClick={this.onLocalChangesApply}>
+              Apply
+            </Button>
+
           </Grid>
 
         </Grid>
@@ -141,6 +186,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
 
   @Bind()
   private onLocalObjectReset(): void {
+
     this.setState({
       localObjectCopy: this.getLocalCopyForPreview(this.props.object)
     });

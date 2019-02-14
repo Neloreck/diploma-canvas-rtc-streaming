@@ -9,6 +9,7 @@ import { Optional } from "@Lib/ts/types";
 
 // Data.
 import { authContextManager, IAuthContext } from "@Main/data/store";
+import { authenticationConfig } from "@Module/authentication/data/AuthenticationConfig";
 
 // View.
 import {
@@ -54,12 +55,6 @@ export interface ISignUpFormProps extends ISignUpFormOwnProps, ISignUpFormExtern
 @Consume(authContextManager)
 @Styled(signUpFormStyle)
 export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
-
-  public static readonly MIN_USERNAME_LENGTH: number = 4;
-  public static readonly MAX_USERNAME_LENGTH: number = 64;
-  public static readonly MIN_PASSWORD_LENGTH: number = 4;
-  public static readonly MAX_PASSWORD_LENGTH: number = 64;
-  public static readonly MAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   public state: ISignUpFormState = {
     mailInput: {
@@ -182,7 +177,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
     const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
-    if (value.length < SignUpForm.MAX_USERNAME_LENGTH) {
+    if (value.length < authenticationConfig.MAX_USERNAME_LENGTH) {
       cleanupErrorMessage();
       this.setState({ usernameInput: { value, edited: true, error: null } });
     }
@@ -194,7 +189,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
     const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
-    if (value.length < SignUpForm.MAX_USERNAME_LENGTH) {
+    if (value.length < authenticationConfig.MAX_USERNAME_LENGTH) {
       cleanupErrorMessage();
       this.setState({ mailInput: { value, edited: true, error: null } });
     }
@@ -206,7 +201,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
     const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
-    if (value.length < SignUpForm.MAX_PASSWORD_LENGTH) {
+    if (value.length < authenticationConfig.MAX_PASSWORD_LENGTH) {
       cleanupErrorMessage();
       this.setState({ passwordInput: { value, edited: true, error: null } });
     }
@@ -218,7 +213,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
     const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
-    if (value.length < SignUpForm.MAX_PASSWORD_LENGTH) {
+    if (value.length < authenticationConfig.MAX_PASSWORD_LENGTH) {
       cleanupErrorMessage();
       this.setState({ passwordConfirmationInput: { value, edited: true, error: null } });
     }
@@ -241,14 +236,14 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 
   @Bind()
   private getUsernameErrors(value: string): Optional<string> {
-    return value.length >= SignUpForm.MIN_USERNAME_LENGTH
+    return value.length >= authenticationConfig.MIN_USERNAME_LENGTH
       ? null
-      : `Password should be longer than ${SignUpForm.MIN_PASSWORD_LENGTH} characters.`;
+      : `Password should be longer than ${authenticationConfig.MIN_PASSWORD_LENGTH} characters.`;
   }
 
   @Bind()
   private getMailErrors(value: string): Optional<string> {
-    return value.length >= 4 && SignUpForm.MAIL_REGEX.test(value)
+    return value.length >= 4 && authenticationConfig.MAIL_REGEX.test(value)
       ? null
       : "Mail should have valid format";
   }
@@ -258,9 +253,9 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 
     const { passwordConfirmationInput } = nextState;
 
-    return value.length >= SignUpForm.MIN_PASSWORD_LENGTH
+    return value.length >= authenticationConfig.MIN_PASSWORD_LENGTH
       ? (passwordConfirmationInput.edited ? (value === passwordConfirmationInput.value ? null : "Passwords should match") : null)
-      : `Password should be longer than ${SignUpForm.MIN_PASSWORD_LENGTH} characters.`;
+      : `Password should be longer than ${authenticationConfig.MIN_PASSWORD_LENGTH} characters.`;
   }
 
   @Bind()
@@ -268,9 +263,9 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 
     const { passwordInput } = nextState;
 
-    return value.length >= SignUpForm.MIN_PASSWORD_LENGTH
+    return value.length >= authenticationConfig.MIN_PASSWORD_LENGTH
       ? (passwordInput.edited ? (passwordInput.value === value ? null : "Passwords should match") : null)
-      : `Password should be longer than ${SignUpForm.MIN_PASSWORD_LENGTH} characters.`;
+      : `Password should be longer than ${authenticationConfig.MIN_PASSWORD_LENGTH} characters.`;
   }
 
   /*

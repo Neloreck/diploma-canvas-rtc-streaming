@@ -1,10 +1,10 @@
-import {Configuration} from "webpack";
+import { Configuration } from "webpack";
 
-import {DEVELOPMENT_TOOL, ENVIRONMENT, STATS, TARGET} from "./webpack.constants";
-import {DEV_SERVER_CONFIG} from "./webpack.devserver.config";
-import {IO_CONFIG} from "./webpack.io.config";
-import {MODULE_CONFIG} from "./webpack.module.config";
-import {PLUGIN_CONFIG} from "./webpack.plugin.config";
+import { DEVELOPMENT_TOOL, ENVIRONMENT, STATS, TARGET } from "./webpack.constants";
+import { DEV_SERVER_CONFIG } from "./webpack.devserver.config";
+import { IO_CONFIG } from "./webpack.io.config";
+import { MODULE_CONFIG } from "./webpack.module.config";
+import { PLUGIN_CONFIG } from "./webpack.plugin.config";
 
 export const WEBPACK_CONFIG: Configuration = {
   devServer: DEV_SERVER_CONFIG,

@@ -8,7 +8,8 @@ import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
-import { AuthContextManager, authContextManager, IAuthContext, IRouterContext } from "@Main/data/store";
+import { authContextManager, IAuthContext, IRouterContext } from "@Main/data/store";
+import { authenticationConfig } from "@Module/authentication/data/AuthenticationConfig";
 
 // View.
 import {
@@ -133,10 +134,10 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
-    if (value.length < AuthContextManager.MAX_USERNAME_LENGTH) {
+    if (value.length < authenticationConfig.MAX_USERNAME_LENGTH) {
 
-      const error: Optional<string> = value.length < AuthContextManager.MIN_USERNAME_LENGTH
-        ? `Username should be longer than ${AuthContextManager.MIN_USERNAME_LENGTH} characters.`
+      const error: Optional<string> = value.length < authenticationConfig.MIN_USERNAME_LENGTH
+        ? `Username should be longer than ${authenticationConfig.MIN_USERNAME_LENGTH} characters.`
         : null;
 
       cleanupErrorMessage();
@@ -151,10 +152,10 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     const { authActions: { cleanupErrorMessage } } = this.props;
     const value: string = event.target.value;
 
-    if (value.length < AuthContextManager.MAX_PASSWORD_LENGTH) {
+    if (value.length < authenticationConfig.MAX_PASSWORD_LENGTH) {
 
-      const error: Optional<string> = value.length < AuthContextManager.MIN_PASSWORD_LENGTH
-        ? `Password should be longer than ${AuthContextManager.MIN_PASSWORD_LENGTH} characters.`
+      const error: Optional<string> = value.length < authenticationConfig.MIN_PASSWORD_LENGTH
+        ? `Password should be longer than ${authenticationConfig.MIN_PASSWORD_LENGTH} characters.`
         : null;
 
       cleanupErrorMessage();

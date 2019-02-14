@@ -1,4 +1,4 @@
-export const forSeconds = (seconds: number): Promise<void> => new Promise((resolve) => setTimeout(() => resolve(), seconds * 1000));
+export const forSeconds = (seconds: number): Promise<void> => new Promise((resolve: () => void): number => window.setTimeout(() => resolve(), seconds * 1000));
 
 /*
 

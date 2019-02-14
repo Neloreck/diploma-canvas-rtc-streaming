@@ -203,7 +203,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
     this.log.info("Starting live service, eventId:", liveEvent.id);
 
     await this.liveService.start(
-      applicationConfig.serverLiveSocketUrl,
+      applicationConfig.SERVER_LIVE_SOCKET_URL,
       liveEvent.id,
       authContextManager.getAccessToken() as string
     );
