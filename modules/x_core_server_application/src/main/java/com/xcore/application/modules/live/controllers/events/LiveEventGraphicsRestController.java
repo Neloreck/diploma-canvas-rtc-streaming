@@ -13,14 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/live/bookmarks/{bookmarkId}")
+@RequestMapping("/api/live/bookmarks")
 @Slf4j(topic = "[LIVE EVENT CONTROLLER]")
 public class LiveEventGraphicsRestController {
 
   @Autowired
   private LiveBookmarkService liveBookmarkService;
 
-  @GetMapping()
+  @GetMapping("/{bookmarkId}")
   public ApiResponse getBookmark(@PathVariable Long bookmarkId) {
 
     try {
@@ -39,7 +39,7 @@ public class LiveEventGraphicsRestController {
    * Bookmark related graphics.
    */
 
-  @GetMapping("/graphics")
+  @GetMapping("/{bookmarkId}/graphics")
   public ApiResponse getBookmarkGraphics(@PathVariable Long bookmarkId) {
 
     try {
@@ -54,7 +54,7 @@ public class LiveEventGraphicsRestController {
     }
   }
 
-  @PutMapping("/graphics")
+  @PutMapping("/{bookmarkId}/graphics")
   public ApiResponse setGraphicsObjects(@PathVariable Long bookmarkId, @RequestBody LayoutBookmarkSetGraphicsRequest request) {
 
     try {
@@ -71,7 +71,7 @@ public class LiveEventGraphicsRestController {
     }
   }
 
-  @PutMapping("/graphics}")
+  @PutMapping("/{bookmarkId}/graphics}")
   public ApiResponse addGraphicsObject(@PathVariable Long bookmarkId) {
     return new FailedApiResponse("Implementing.");
   }

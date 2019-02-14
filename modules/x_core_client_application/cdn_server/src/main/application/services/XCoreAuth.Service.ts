@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { default as fetch, Headers } from "node-fetch";
+import { default as fetch, Headers, Response } from "node-fetch";
 
 // Application.
 import { applicationConfig } from "@Application/configs/Application.Config";
@@ -51,14 +51,16 @@ export class XCoreAuthService {
     };
   }
 
-  public async getHeadersAuthorizedInfo(headers: Headers): Promise<object> {
+  public async getInfo(headers: Headers): Promise<object> {
 
-    const rawResponse: any = await fetch(`${applicationConfig.API_SERVER_URL}/auth/info`, {
+    this.logger.log(`Checking user auth info.`);
+
+    const rawResponse: Response = await fetch(`${applicationConfig.API_SERVER_URL}/auth/info`, {
       headers: headers as any,
-      method: "GET",
+      method: "GET"
     });
 
-    return (await rawResponse.json());
+    return await rawResponse.json();
   }
 
 }

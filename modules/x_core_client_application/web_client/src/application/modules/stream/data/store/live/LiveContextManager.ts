@@ -72,6 +72,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
   private liveService: LiveService = new LiveService();
 
   public constructor() {
+
     super();
 
     sourceContextManager.onInputChanged = this.onInputChanged;
@@ -211,6 +212,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
   @Bind()
   public async stop(): Promise<void> {
+
     this.log.info("Stopping live service.");
     await this.liveService.stop();
   }
@@ -333,6 +335,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
 
   @Bind()
   public async onInputChanged(stream: Optional<MediaStream>): Promise<void> {
+
     const audioTrack: Optional<MediaStreamTrack> = stream && stream.getAudioTracks()[0] || null;
     this.liveService.updateAudioTrack(audioTrack);
   }
@@ -349,10 +352,7 @@ export class LiveContextManager extends ReactContextManager<ILiveContext> {
       socketConnected: false
     };
 
-    this.liveService.stop()
-      .then();
-
-    this.log.info("Disposed live storage.");
+    this.liveService.stop().then(() => this.log.info("Disposed live storage."));
   }
 
   @Bind()

@@ -1,5 +1,7 @@
+// Lib.
 import { ISerializedGraphicsObject } from "@Lib/graphics";
 
+// Api.
 import {
   CONFIG,
   getRequest,

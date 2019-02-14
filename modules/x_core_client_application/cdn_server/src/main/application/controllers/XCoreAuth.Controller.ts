@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Headers, Post, Response } from "@nestjs/common";
-import { Response as $Response } from "express";
+import { Body, Controller, Get, Headers, Post } from "@nestjs/common";
 
 // Application.
 import { XCoreAuthService } from "@Application/services";
@@ -38,20 +37,20 @@ export class XCoreAuthController {
   }
 
   @Get("/info")
-  private async getAuthInfo(@Headers() headers: Headers, @Response() response: $Response): Promise<object> {
+  private async getAuthInfo(@Headers() headers: Headers): Promise<object> {
 
     try {
-      return await this.xCoreAuthService.getHeadersAuthorizedInfo(headers as any);
-    } catch (error) {
 
-      response.status(500);
+      return await this.xCoreAuthService.getInfo(headers as any);
+
+    } catch (error) {
 
       return {
         error: {
           message: "Server does not respond.",
           type: "InfoCheckError"
         },
-        success: false,
+        success: false
       };
     }
   }
