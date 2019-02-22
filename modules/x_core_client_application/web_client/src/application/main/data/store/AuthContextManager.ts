@@ -153,8 +153,10 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
     const response: IRegisterResponse | IXCoreFailedResponse = await register({ username, mail, password });
 
     if (response.error) {
+      this.log.error("Registering failed for:", username, response.error);
       state.errorMessage = (response as IXCoreFailedResponse).error.message;
     } else {
+      this.log.info("Registering successful:", username);
       state.errorMessage = null;
     }
 

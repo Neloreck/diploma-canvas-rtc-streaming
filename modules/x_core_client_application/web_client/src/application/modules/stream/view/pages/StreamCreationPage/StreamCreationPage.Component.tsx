@@ -33,9 +33,9 @@ import {
 import { streamCreationPageStyle } from "./StreamCreationPage.Style";
 
 // Props.
-export interface IStreamCreationPageExternalProps extends WithStyles<typeof streamCreationPageStyle> {}
+export interface IStreamCreationPageExternalProps extends WithStyles<typeof streamCreationPageStyle>, ILiveContext, IRouterContext  {}
 export interface IStreamCreationPageOwnProps {}
-export interface IStreamCreationPageProps extends IStreamCreationPageOwnProps, IStreamCreationPageExternalProps, ILiveContext, IRouterContext {}
+export interface IStreamCreationPageProps extends IStreamCreationPageOwnProps, IStreamCreationPageExternalProps {}
 
 @Consume(routerContextManager, liveContextManager)
 @Styled(streamCreationPageStyle)

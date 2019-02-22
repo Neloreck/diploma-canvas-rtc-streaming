@@ -51,6 +51,38 @@ export class XCoreAuthService {
     };
   }
 
+  public async register(username: string, mail: string, password: string): Promise<object> {
+
+    this.logger.log(`Registering user: ${username}.`);
+
+    const formData: URLSearchParams = new URLSearchParams();
+
+    formData.append("grant_type", XCoreAuthService.AUTH_CONFIG.GRANT_TYPE);
+    formData.append("username", username);
+    formData.append("password", password);
+
+    const headers: Headers = new Headers();
+
+    headers.set("Authorization", `Basic ${Buffer.from(`${XCoreAuthService.AUTH_CONFIG.CLIENT_ID}:${XCoreAuthService.AUTH_CONFIG.CLIENT_SECRET}`).toString("base64")}`);
+    headers.set("Content-Type", "application/x-www-form-urlencoded");
+
+    const rawResponse: any = await fetch(`${applicationConfig.API_SERVER_URL}/auth/register`, {
+      body: formData as any,
+      headers: headers as any,
+      method: "POST"
+    });
+
+    const jsonResponse = await rawResponse.json();
+
+    return {
+      accessToken: jsonResponse.access_token,
+      expires: jsonResponse.expires_in,
+      refreshToken: jsonResponse.refresh_token,
+      scope: jsonResponse.scope,
+      success: true,
+    };
+  }
+
   public async getInfo(headers: Headers): Promise<object> {
 
     this.logger.log(`Checking user auth info.`);
