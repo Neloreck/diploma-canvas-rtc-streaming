@@ -52,7 +52,7 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
   };
 
   private readonly setState = ContextManager.getSetter(this, "authState");
-  private readonly log: Logger = new Logger("[🌋C-AUTH]", true);
+  private readonly log: Logger = new Logger("[🌋AUTH]", true);
 
   // Getters.
 

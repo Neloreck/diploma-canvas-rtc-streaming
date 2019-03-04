@@ -44,7 +44,7 @@ export class RenderingContextManager extends ContextManager<IRenderingContext> {
   };
 
   private readonly setState = ContextManager.getSetter(this, "renderingState");
-  private readonly log: Logger = new Logger("[🏭C-RND]", true);
+  private readonly log: Logger = new Logger("[🏭RENDERING]", true);
 
   // Actions:
 

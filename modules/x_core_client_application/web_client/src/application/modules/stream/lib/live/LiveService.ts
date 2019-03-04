@@ -11,10 +11,11 @@ export class LiveService {
 
   private started: boolean = false;
 
-  private readonly log: Logger = new Logger("[🌈LIVE]");
+  private readonly log: Logger = new Logger("[🌈BRIDGE]");
   private readonly liveWebRtcController: LiveWebRtcController = new LiveWebRtcController();
   private readonly liveWebSocketController: LiveWebSocketController = new LiveWebSocketController("/app/live",  "/topic/live");
 
+  private startedAt: Date = new Date();
   private accessToken: Optional<string> = null;
   private socketUrl: Optional<string> = null;
   private sessionId: Optional<string> = null;
@@ -67,7 +68,7 @@ export class LiveService {
 
   @Bind()
   public onSessionExchangeCompleted(): void {
-    this.log.info("Session exchange finish confirmation received.");
+    this.log.info(`[X] Session exchange finish confirmation received. Took: ${Date.now() - this.startedAt.getTime()}ms.`);
   }
 
   public onOnlineStatusChange(status: boolean): void { /* INJECT */ }
@@ -83,9 +84,10 @@ export class LiveService {
   @Bind()
   public async start(socketUrl: string, sessionId: string, accessToken: string): Promise<void> {
 
-    this.log.info(`Starting live service: session: '${sessionId}', socket: '${socketUrl}'.`);
+    this.log.info(`Starting live service, session: '${sessionId}'.`);
 
     this.started = true;
+    this.startedAt = new Date();
 
     this.accessToken = accessToken;
     this.socketUrl = socketUrl;
@@ -132,13 +134,17 @@ export class LiveService {
 
   @Bind()
   public async disconnectRTC(): Promise<void> {
+
     this.log.info("Disconnection WebRTC.");
+
     await this.liveWebRtcController.stop();
   }
 
   @Bind()
   public async startStream(eventId: string): Promise<void> {
+
     this.log.info("Starting stream record.");
+
     await this.liveWebSocketController.sendMessage("record.start", {
       body: { eventId },
       type: ELiveSocketMessageType.START_RECORD
@@ -147,7 +153,9 @@ export class LiveService {
 
   @Bind()
   public async stopStream(): Promise<void> {
+
     this.log.info("Stopping stream record.");
+
     await this.liveWebSocketController.sendMessage("record.stop", { type: ELiveSocketMessageType.STOP_RECORD, body: {} });
   }
 

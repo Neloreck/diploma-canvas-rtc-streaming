@@ -49,7 +49,7 @@ export class SourceContextManager extends ContextManager<ISourceContext> {
   };
 
   private readonly setState = ContextManager.getSetter(this, "sourceState");
-  private readonly log: Logger = new Logger("[💥C-SRC]", true);
+  private readonly log: Logger = new Logger("[💥SOURCE]", true);
 
   // Getters.
 

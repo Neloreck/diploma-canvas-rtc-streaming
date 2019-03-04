@@ -67,7 +67,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
     }
   };
 
-  private readonly log: Logger = new Logger("[🌈C-LIV]", true);
+  private readonly log: Logger = new Logger("[🌈LIVE]", true);
   private readonly liveService: LiveService = new LiveService();
   private readonly setState = ContextManager.getSetter(this, "liveState");
 
@@ -166,7 +166,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
         liveEventStatus: liveEvent.finished ? ELiveEventStatus.FINISHED : ELiveEventStatus.PREVIEW
       });
 
-      this.log.info("Got event.", liveEvent);
+      this.log.info("Got event:", liveEvent.id);
 
       return liveEvent;
     } else {
@@ -194,7 +194,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
       throw new Error("Failed to start event. No event present in storage.");
     }
 
-    this.log.info("Starting live service, eventId:", liveEvent.id);
+    this.log.info(`Starting live service, eventId: '${liveEvent.id}'.`);
 
     await this.liveService.start(
       applicationConfig.SERVER_LIVE_SOCKET_URL,

@@ -14,7 +14,7 @@ import {
 
 export class LiveWebRtcController {
 
-  private readonly log: Logger = new Logger("[🌈LIVE-RTC]");
+  private readonly log: Logger = new Logger("[🌈RTC]");
 
   private webRtcPeer: Optional<RTCPeerConnection> = null;
   private webRtcConfiguration: Optional<RTCConfiguration> = null;
@@ -30,7 +30,7 @@ export class LiveWebRtcController {
 
   public async start(options: RTCConfiguration, offerOptions: RTCOfferOptions, videoTrack: MediaStreamTrack, audioTrack: Optional<MediaStreamTrack>): Promise<void> {
 
-    this.log.info("Starting RTC connection, creating RTC peer.");
+    this.log.info("[1] Starting RTC connection, creating RTC peer.");
 
     if (this.started) {
       throw new Error("RTC Already started");
@@ -87,7 +87,7 @@ export class LiveWebRtcController {
 
       this.webRtcPeer.setLocalDescription(offer).then();
 
-      this.log.info("Sending local SDP offer.");
+      this.log.info("[2] Sending local SDP offer.");
 
       // Send webSocket message.
       this.onSendMessage("session.sdpOffer", {
@@ -180,24 +180,24 @@ export class LiveWebRtcController {
 
   @Bind()
   public async onNegotiationNeeded(): Promise<void> {
-    this.log.info("Renegotiation is needed, init exchange.");
+    this.log.info("[1.X] Renegotiation is needed, init exchange.");
     await this.sendSDPOffer();
   }
 
   @Bind()
   public onIceConnectionStateChange(event: Event): any {
-    this.log.info(`ICE Connection state changed: ${(event.target as RTCPeerConnection).iceConnectionState}.`);
+    // this.log.info(`ICE Connection state changed: ${(event.target as RTCPeerConnection).iceConnectionState}.`);
   }
 
   @Bind()
   public onSignallingConnectionStateChange(event: Event): any {
-    this.log.info(`Signalling connection state changed: ${(event.target as RTCPeerConnection).signalingState}.`);
+    // this.log.info(`Signalling connection state changed: ${(event.target as RTCPeerConnection).signalingState}.`);
     this.webRtcRenegotiating = (this.webRtcPeer !== null && (this.webRtcPeer.signalingState !== "closed" && this.webRtcPeer.signalingState !== "stable"));
   }
 
   @Bind()
   public onIceCandidatesGatheringDone(): void {
-    this.log.info("ICE candidates gathering process finished.");
+    // this.log.info("ICE candidates gathering process finished.");
   }
 
   @Bind()
@@ -212,7 +212,7 @@ export class LiveWebRtcController {
   @Bind()
   public async handleSDPAnswer(message: ISdpExchangeMessage): Promise<void> {
 
-    this.log.info("Got remote SDP answer.");
+    this.log.info("[3] Got remote SDP answer.");
 
     if (!this.webRtcPeer || !this.mediaStream.getTracks().length) {
       throw new Error("Cannot handle remote SDP when webRtc peer does not exist.");
@@ -224,7 +224,7 @@ export class LiveWebRtcController {
     this.onSendMessage("session.complete", { type: ELiveSocketMessageType.CUSTOM, body: {} });
     this.trySynchronizeAccumulatedICECandidates();
 
-    this.log.info("Exchange process completed.");
+    this.log.info("[4] Exchange process completed.");
   }
 
   @Bind()

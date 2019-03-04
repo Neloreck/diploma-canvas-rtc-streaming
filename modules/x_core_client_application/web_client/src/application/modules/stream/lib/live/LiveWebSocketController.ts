@@ -17,7 +17,7 @@ export class LiveWebSocketController extends AbstractWebSocketController {
   protected readonly destinationPrefix: string;
   protected readonly receivalPrefix: string;
 
-  private readonly log: Logger = new Logger("[🌈LIVE-WS]");
+  private readonly log: Logger = new Logger("[🌈WS]");
 
   private timer: Optional<any> = null;
   private readonly statusCheckInterval: number = 2000;

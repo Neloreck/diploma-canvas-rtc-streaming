@@ -42,7 +42,7 @@ export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
   };
 
   private readonly setState = ContextManager.getSetter(this, "graphicsState");
-  private readonly log: Logger = new Logger("[🏭C-GFX]", true);
+  private readonly log: Logger = new Logger("[🏭GFX]", true);
 
   // Actions.
 

@@ -49,7 +49,7 @@ export class BookmarkContextManager extends ContextManager<IBookmarkContext> {
   };
 
   private readonly setState = ContextManager.getSetter(this, "bookmarkState");
-  private readonly log: Logger = new Logger("[🎲C-BOOKMARK]", true);
+  private readonly log: Logger = new Logger("[🎲BOOKMARKS]", true);
 
   // Actions.
 
