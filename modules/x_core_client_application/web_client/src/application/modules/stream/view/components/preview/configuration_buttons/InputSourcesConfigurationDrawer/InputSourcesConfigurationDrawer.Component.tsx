@@ -102,7 +102,7 @@ export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConf
       >
         <Grid
           className={classes.root}
-          direction={"column"}
+          direction={"row"}
           justify={"center"}
           container
         >

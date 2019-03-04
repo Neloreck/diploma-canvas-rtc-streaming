@@ -1,6 +1,7 @@
 import { Bind, ContextManager } from "dreamstate";
 
 // Lib.
+import { ISerializedGraphicsObject } from "@Lib/graphics";
 import { Optional } from "@Lib/ts/types";
 import { Logger } from "@Lib/utils";
 
@@ -12,11 +13,10 @@ import {
   ILiveEventLayoutBookmark,
   IXCoreFailedResponse, setBookmarkGraphics
 } from "@Api/x-core";
-import { ILayoutBookmarkGraphicsResponse } from "@Api/x-core/live/responses";
-import { ISerializedGraphicsObject } from "@Lib/graphics";
-import { liveContextManager } from "@Module/stream/data/store/index";
+import { ILayoutBookmarkGraphicsResponse } from "@Api/x-core/live";
 
 // Data.
+import { liveContextManager } from "@Module/stream/data/store";
 
 export interface IBookmarkContext {
   bookmarkActions: {
@@ -48,22 +48,21 @@ export class BookmarkContextManager extends ContextManager<IBookmarkContext> {
     }
   };
 
-  private log: Logger = new Logger("[🎲C-BOOKMARK]", true);
+  private readonly setState = ContextManager.getSetter(this, "bookmarkState");
+  private readonly log: Logger = new Logger("[🎲C-BOOKMARK]", true);
 
   // Actions.
 
   @Bind()
   public async loadBookmarks(eventId: string): Promise<void> {
 
-    this.updateStateRef();
-    this.context.bookmarkState.bookmarksLoading = true;
-    this.update();
+    this.setState({ bookmarksLoading: true });
 
     try {
 
       const response: IBookmarksResponse | IXCoreFailedResponse = await getLiveEventBookmarks(eventId);
 
-      this.updateStateRef();
+      this.context.bookmarkState = Object.assign({}, this.context.bookmarkState);
 
       if (response.success) {
         this.log.info("Updated bookmarks for event:", (response as IBookmarksResponse).bookmarks);
@@ -90,52 +89,47 @@ export class BookmarkContextManager extends ContextManager<IBookmarkContext> {
       throw new Error("Cannot create bookmark. No events selected.");
     }
 
-    this.updateStateRef();
-    this.context.bookmarkState.bookmarksCreating = true;
-    this.update();
+    this.setState({ bookmarksCreating: true });
 
     const response = await createLiveEventBookmark(liveEvent.id, { name: "New one." });
-
-    this.updateStateRef();
+    const { bookmarkState: state } = this.context;
 
     if (response.success) {
-      this.context.bookmarkState.bookmarks.push((response as IBookmarkResponse).bookmark);
+      state.bookmarks.push((response as IBookmarkResponse).bookmark);
     } else {
       this.log.error("Failed to create bookmark:", response.error);
     }
 
-    this.context.bookmarkState.bookmarksCreating = false;
-    this.update();
+    state.bookmarksCreating = false;
+
+    this.setState(state);
   }
 
   @Bind()
   public async saveBookmarkGraphics(bookmarkId: number, objects: Array<ISerializedGraphicsObject>): Promise<void> {
 
-    this.updateStateRef();
-    this.context.bookmarkState.bookmarksLoading = true;
-    this.update();
+    this.setState({ bookmarksLoading: true });
 
     const response: ILayoutBookmarkGraphicsResponse | IXCoreFailedResponse = await setBookmarkGraphics(
       bookmarkId, { objects }
     );
 
-    this.updateStateRef();
-    this.context.bookmarkState.bookmarksLoading = false;
+    const { bookmarkState: state } = this.context;
+
+    state.bookmarksLoading = false;
 
     if (response.success) {
+
       this.log.info(`Saved bookmark ${bookmarkId} graphics.`);
 
-      this.context.bookmarkState.bookmarks.forEach((it: ILiveEventLayoutBookmark) => {
-        if (it.id === bookmarkId) {
-          it.graphicsObjects = objects;
-        }
-      });
+      // Sync each object graphics.
+      state.bookmarks.forEach((it: ILiveEventLayoutBookmark) => it.graphicsObjects = it.id === bookmarkId ? objects : it.graphicsObjects);
 
     } else {
-      throw new Error("Failed to sync event bookmark graphics: " + response.error.message);
+      this.log.error("Failed to sync event bookmark graphics: " + response.error.message);
     }
 
-    this.update();
+    this.setState(state);
   }
 
   // Lifecycle.
@@ -151,11 +145,6 @@ export class BookmarkContextManager extends ContextManager<IBookmarkContext> {
     };
 
     this.log.info("Disposed bookmark storage.");
-  }
-
-  @Bind()
-  private updateStateRef(): void {
-    this.context.bookmarkState = Object.assign({}, this.context.bookmarkState);
   }
 
 }

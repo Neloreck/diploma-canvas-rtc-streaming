@@ -6,19 +6,19 @@ import { Logger } from "@Lib/utils";
 
 // Props.
 export interface IRenderingContext {
-  renderingState: {
-    addDisabledObjects: boolean;
-    propagateRendererEvents: boolean;
-    showGraphics: boolean;
-    showGrid: boolean;
-    showPreview: boolean;
-  };
   renderingActions: {
     setAdditionVisibility(param: boolean): void;
     setRendererEventsPropagation(param: boolean): void;
     setGridDisplay(param: boolean): void;
     setGraphicsDisplay(param: boolean): void;
     setPreviewDisplay(param: boolean): void;
+  };
+  renderingState: {
+    addDisabledObjects: boolean;
+    propagateRendererEvents: boolean;
+    showGraphics: boolean;
+    showGrid: boolean;
+    showPreview: boolean;
   };
 }
 
@@ -43,38 +43,34 @@ export class RenderingContextManager extends ContextManager<IRenderingContext> {
     }
   };
 
+  private readonly setState = ContextManager.getSetter(this, "renderingState");
   private readonly log: Logger = new Logger("[🏭C-RND]", true);
 
   // Actions:
 
   @Bind()
   public setAdditionVisibility(addDisabledObjects: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, addDisabledObjects };
-    this.update();
+    this.setState({ addDisabledObjects });
   }
 
   @Bind()
   public setGridDisplay(showGrid: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, showGrid };
-    this.update();
+    this.setState({ showGrid });
   }
 
   @Bind()
   public setGraphicsDisplay(showGraphics: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, showGraphics };
-    this.update();
+    this.setState({ showGraphics });
   }
 
   @Bind()
   public setPreviewDisplay(showPreview: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, showPreview };
-    this.update();
+    this.setState({ showPreview });
   }
 
   @Bind()
   public setRendererEventsPropagation(propagateRendererEvents: boolean): void {
-    this.context.renderingState = { ...this.context.renderingState, propagateRendererEvents };
-    this.update();
+    this.setState({ propagateRendererEvents });
   }
 
   // Lifecycle.

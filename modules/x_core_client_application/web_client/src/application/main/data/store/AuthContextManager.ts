@@ -21,10 +21,10 @@ import { routerContextManager } from "@Main/data/store";
 
 export interface IAuthContext {
   authActions: {
-    login: (login: string, password: string) => Promise<Optional<IUserAuthData>>;
-    logout: () => void;
-    cleanupErrorMessage: () => void;
-    register: (username: string, mail: string, password: string) => Promise<boolean>
+    login(login: string, password: string): Promise<Optional<IUserAuthData>>;
+    logout(): void;
+    cleanupErrorMessage(): void;
+    register(username: string, mail: string, password: string): Promise<boolean>;
   };
   authState: {
     authorizing: boolean;
@@ -51,7 +51,8 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
     }
   };
 
-  protected log: Logger = new Logger("[🌋C-AUTH]", true);
+  private readonly setState = ContextManager.getSetter(this, "authState");
+  private readonly log: Logger = new Logger("[🌋C-AUTH]", true);
 
   // Getters.
 
@@ -92,23 +93,20 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
   @Bind()
   protected async login(username: string, password: string): Promise<Optional<IUserAuthData>> {
 
-    this.log.info(`Logging in new user: '${username}'.`);
-
-    let { authState: state } = this.context;
+    const { authState: { authorizing } } = this.context;
 
     // Do not dup requests.
-    if (state.authorizing) {
+    if (authorizing) {
       throw new Error("Cannot login while already authorizing.");
     }
 
     // Set loading state.
-    state.authorizing = true;
-    this.update();
+    this.log.info(`Logging in new user: '${username}'.`);
+    this.setState({ authorizing: true });
 
     // Try to login.
     const response: ILoginResponse = await login({ username, password });
-
-    state = this.context.authState;
+    const state = Object.assign({}, this.context.authState);
 
     if (response.error) {
       state.authData = null;
@@ -128,7 +126,7 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
     state.authorized = (state.authData !== null);
     state.authorizing = false;
 
-    this.update();
+    this.setState(state);
 
     return state.authData;
   }
@@ -136,22 +134,19 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
   @Bind()
   protected async register(username: string, mail: string, password: string): Promise<boolean> {
 
-    this.log.info("Registering new user:", username, mail);
-
-    let { authState: state } = this.context;
+    const { authState: { authorizing } } = this.context;
 
     // Do not dup requests.
-    if (state.authorizing) {
+    if (authorizing) {
       throw new Error("Cannot register while already authorizing.");
     }
 
     // Set loading state.
-    state.authorizing = true;
-    this.update();
-
-    state = this.context.authState;
+    this.log.info("Registering new user:", username, mail);
+    this.setState({ authorizing: true });
 
     const response: IRegisterResponse | IXCoreFailedResponse = await register({ username, mail, password });
+    const state = Object.assign({}, this.context.authState);
 
     if (response.error) {
       this.log.error("Registering failed for:", username, response.error);
@@ -163,7 +158,7 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
 
     state.authorizing = false;
 
-    this.update();
+    this.setState(state);
 
     return response.success || false;
   }
@@ -173,22 +168,22 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
 
     // todo: Backend logout request.
 
-    this.log.info("Logging out.");
+    const { authState: { authorizing } } = this.context;
 
-    const { authState: state } = this.context;
-
-    if (state.authorizing) {
+    if (authorizing) {
       throw new Error("Cannot logout while authorizing.");
     }
 
+    this.log.info("Logging out.");
+
+    this.setState({
+      authData: null,
+      authorized: false
+    });
+
     removeLocalStorageItem("token_data");
 
-    state.authData = null;
-    state.authorized = false;
-
     routerContextManager.push("/");
-
-    this.update();
   }
 
   // Inner methods.
@@ -198,15 +193,12 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
 
     this.log.info("Updating user information.");
 
-    let { authState: state } = this.context;
-
     // Set loading state.
-    state.authorizing = true;
-    this.update();
-
-    state = this.context.authState;
+    this.setState({ authorizing: true });
 
     const response: IAuthInfoResponse = await getAuthInfo({});
+
+    const state = Object.assign({}, this.context.authState);
 
     if (response.success && response.authenticated) {
       state.authData = { username: response.username };
@@ -219,17 +211,16 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
     state.authorized = (state.authData !== null);
     state.authorizing = false;
 
-    this.log.info(`Current auth status: '${state.authorized}', '${state.errorMessage}'.`);
+    this.setState(state);
 
-    this.update();
+    this.log.info(`Current auth status: '${state.authorized}', '${state.errorMessage}'.`);
   }
 
   @Bind()
   protected cleanupErrorMessage(): void {
 
     if (this.context.authState.errorMessage) {
-      this.context.authState.errorMessage = null;
-      this.update();
+      this.setState({ errorMessage: null });
     }
   }
 
@@ -256,11 +247,6 @@ export class AuthContextManager extends ContextManager<IAuthContext> {
       }
     }
 
-  }
-
-  @Bind()
-  protected beforeUpdate(): void {
-    this.context.authState = Object.assign({}, this.context.authState);
   }
 
 }

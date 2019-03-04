@@ -10,10 +10,6 @@ import { renderingContextManager } from "./index";
 
 // Props.
 export interface IGraphicsContext {
-  graphicsState: {
-    objects: Array<AbstractCanvasGraphicsRenderObject<any>>;
-    selectedObject: Optional<AbstractCanvasGraphicsRenderObject<any>>;
-  };
   graphicsActions: {
     addObject(object: AbstractCanvasGraphicsRenderObject<any>): void,
     eraseObjects(): void,
@@ -22,11 +18,15 @@ export interface IGraphicsContext {
     setObjects(objects: Array<AbstractCanvasGraphicsRenderObject<any>>): void,
     selectObject(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void,
   };
+  graphicsState: {
+    objects: Array<AbstractCanvasGraphicsRenderObject<any>>;
+    selectedObject: Optional<AbstractCanvasGraphicsRenderObject<any>>;
+  };
 }
 
 export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
 
-  protected context: IGraphicsContext = {
+  public context: IGraphicsContext = {
     graphicsActions: {
       addObject: this.addObject,
       eraseObjects: this.eraseObjects,
@@ -41,6 +41,7 @@ export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
     }
   };
 
+  private readonly setState = ContextManager.getSetter(this, "graphicsState");
   private readonly log: Logger = new Logger("[🏭C-GFX]", true);
 
   // Actions.
@@ -54,19 +55,19 @@ export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
       object.setDisabled(true);
     }
 
-    this.context.graphicsState = { ...this.context.graphicsState, objects: this.context.graphicsState.objects.concat(object) };
-    this.update();
+    this.setState({ objects: this.context.graphicsState.objects.concat(object) });
   }
 
   @Bind()
   public setObjects(objects: Array<AbstractCanvasGraphicsRenderObject<any>>): void {
 
+    const oldObjects: Array<AbstractCanvasGraphicsRenderObject<any>> = this.context.graphicsState.objects;
+
     this.log.info(`Setting new objects: (${objects.length}).`);
+    this.setState({ objects, selectedObject: null });
 
-    this.context.graphicsState.objects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
-    this.context.graphicsState = { ...this.context.graphicsState, objects, selectedObject: null };
-
-    this.update();
+    // Dispose old objects.
+    oldObjects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
   }
 
   @Bind()
@@ -74,8 +75,8 @@ export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
 
     const oldObjects: Array<AbstractCanvasGraphicsRenderObject<any>> = this.context.graphicsState.objects;
 
-    this.context.graphicsState = { ...this.context.graphicsState, objects: [], selectedObject: null };
-    this.update();
+    this.log.info(`Erasing objects.`);
+    this.setState({ objects: [], selectedObject: null });
 
     oldObjects.forEach((object: AbstractCanvasGraphicsRenderObject<any>) => object.dispose());
   }
@@ -85,16 +86,14 @@ export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
 
     this.log.info(`Removing object: ${object.getName()}.`);
 
-    this.context.graphicsState = {
-      ...this.context.graphicsState,
-      objects: this.context.graphicsState.objects.filter((it: AbstractCanvasGraphicsRenderObject<any>): boolean => it !== object)
-    };
+    const { graphicsState: { objects, selectedObject } } = this.context;
+    const filteredObjects: Array<AbstractCanvasGraphicsRenderObject<any>> = objects.filter((it: AbstractCanvasGraphicsRenderObject<any>): boolean => it !== object);
 
-    if (object === this.context.graphicsState.selectedObject) {
-      this.context.graphicsState.selectedObject = null;
-    }
+    this.setState({
+      objects: filteredObjects,
+      selectedObject: object === selectedObject ? null : selectedObject
+    });
 
-    this.update();
     object.dispose();
   }
 
@@ -103,8 +102,7 @@ export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
 
     this.log.info(`Selected object: ${selectedObject && selectedObject.getName()}.`);
 
-    this.context.graphicsState = { ...this.context.graphicsState, selectedObject };
-    this.update();
+    this.setState({ selectedObject });
   }
 
   @Bind()
@@ -112,13 +110,13 @@ export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
 
     this.log.info(`Swapping object layout order: ${firstIndex} <-> ${secondIndex}.`);
 
-    const buffer: AbstractCanvasGraphicsRenderObject<any> = this.context.graphicsState.objects[firstIndex];
+    const newObjects: Array<AbstractCanvasGraphicsRenderObject<any>> = [...this.context.graphicsState.objects];
+    const buffer: AbstractCanvasGraphicsRenderObject<any> = newObjects[firstIndex];
 
-    this.context.graphicsState = { ...this.context.graphicsState, objects: [...this.context.graphicsState.objects] };
-    this.context.graphicsState.objects[firstIndex] = this.context.graphicsState.objects[secondIndex];
-    this.context.graphicsState.objects[secondIndex] = buffer;
+    newObjects[firstIndex] = newObjects[secondIndex];
+    newObjects[secondIndex] = buffer;
 
-    this.update();
+    this.setState({ objects: newObjects });
   }
 
   // Lifecycle.

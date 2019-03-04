@@ -48,7 +48,8 @@ export class SourceContextManager extends ContextManager<ISourceContext> {
     }
   };
 
-  private log: Logger = new Logger("[💥C-SRC]", true);
+  private readonly setState = ContextManager.getSetter(this, "sourceState");
+  private readonly log: Logger = new Logger("[💥C-SRC]", true);
 
   // Getters.
 
@@ -65,57 +66,49 @@ export class SourceContextManager extends ContextManager<ISourceContext> {
   @Bind()
   public setAudioCapturing(captureAudio: boolean): void {
 
-    if (this.context.sourceState.inputStream) {
-      setStreamAudioEnabled(this.context.sourceState.inputStream, captureAudio);
+    const { sourceState: { inputStream } } = this.context;
+
+    if (inputStream) {
+      setStreamAudioEnabled(inputStream, captureAudio);
     }
 
-    this.updateStateRef();
-    this.context.sourceState.captureAudio = captureAudio;
-    this.update();
+    this.setState({ captureAudio });
   }
 
   @Bind()
   public setVideoCapturing(captureVideo: boolean): void {
-
-    this.updateStateRef();
-    this.context.sourceState.captureVideo = captureVideo;
-    this.update();
+    this.setState({ captureVideo });
   }
 
   @Bind()
   public updateInputSources(selectedDevices: IInputSourceDevices): void {
-
-    this.updateStateRef();
-    this.context.sourceState.selectedDevices = selectedDevices;
-    this.update();
+    this.setState({ selectedDevices });
   }
 
   @Bind()
   public updateInputStreamAndSources(inputStream: MediaStream, selectedDevices: IInputSourceDevices): void {
 
-    this.updateStateRef();
-
-    const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
+    const state = Object.assign({}, this.context.sourceState);
+    const oldStream: Optional<MediaStream> = state.inputStream;
 
     if (oldStream && inputStream) {
       moveTracks(oldStream, inputStream);
     } else {
       killStream(oldStream);
-      this.context.sourceState.inputStream = inputStream;
+      state.inputStream = inputStream;
     }
 
-    this.context.sourceState.selectedDevices = selectedDevices;
+    state.selectedDevices = selectedDevices;
 
-    this.onInputChanged(this.context.sourceState.inputStream).then();
-    this.update();
+    this.setState(state);
+
+    this.onInputChanged(state.inputStream).then();
   }
 
   @Bind()
   public updateOutputStream(outputStream: Optional<MediaStream>): void {
 
-    this.updateStateRef();
-    this.context.sourceState.outputStream = outputStream;
-    this.update();
+    this.setState({ outputStream });
 
     this.onOutputChanged(this.context.sourceState.outputStream).then();
   }
@@ -123,19 +116,18 @@ export class SourceContextManager extends ContextManager<ISourceContext> {
   @Bind()
   public updateInputStream(inputStream: Optional<MediaStream>): void {
 
-    this.updateStateRef();
-
-    const oldStream: Optional<MediaStream> = this.context.sourceState.inputStream;
+    const state = Object.assign({}, this.context.sourceState);
+    const oldStream: Optional<MediaStream> = state.inputStream;
 
     if (oldStream && inputStream) {
       moveTracks(oldStream, inputStream);
     } else {
       killStream(oldStream);
-      this.context.sourceState.inputStream = inputStream;
+      state.inputStream = inputStream;
     }
 
-    this.onInputChanged(this.context.sourceState.inputStream).then();
-    this.update();
+    this.onInputChanged(state.inputStream).then();
+    this.setState(state);
   }
 
   // Lifecycle:
@@ -152,11 +144,6 @@ export class SourceContextManager extends ContextManager<ISourceContext> {
     state.outputStream = null;
 
     this.log.info("Disposed source storage.");
-  }
-
-  @Bind()
-  private updateStateRef(): void {
-    this.context.sourceState = Object.assign({}, this.context.sourceState);
   }
 
 }

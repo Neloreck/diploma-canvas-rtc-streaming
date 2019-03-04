@@ -10,8 +10,8 @@ export const graphicsContextManager: GraphicsContextManager = new GraphicsContex
 export const sourceContextManager: SourceContextManager = new SourceContextManager();
 export const liveContextManager: LiveContextManager = new LiveContextManager();
 
-export { LiveContextManager, ILiveContext } from "@Module/stream/data/store/live/LiveContextManager";
-export { RenderingContextManager, IRenderingContext } from "@Module/stream/data/store/RenderingContextManager";
-export { GraphicsContextManager, IGraphicsContext } from "@Module/stream/data/store/GraphicsContextManager";
-export { SourceContextManager, ISourceContext } from "@Module/stream/data/store/SourceContextManager";
-export { BookmarkContextManager, IBookmarkContext } from "@Module/stream/data/store/BookmarkContextManager";
+export * from "@Module/stream/data/store/live/LiveContextManager";
+export * from "@Module/stream/data/store/RenderingContextManager";
+export * from "@Module/stream/data/store/GraphicsContextManager";
+export * from "@Module/stream/data/store/SourceContextManager";
+export * from "@Module/stream/data/store/BookmarkContextManager";

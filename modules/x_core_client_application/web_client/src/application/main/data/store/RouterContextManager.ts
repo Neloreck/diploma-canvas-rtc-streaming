@@ -35,7 +35,7 @@ export class RouterContextManager extends ContextManager<IRouterContext> {
     }
   };
 
-  protected log: Logger = new Logger("[🗺️C-ROUTER]", true);
+  private readonly log: Logger = new Logger("[🗺️C-ROUTER]", true);
 
   // Getters.
 
@@ -63,24 +63,24 @@ export class RouterContextManager extends ContextManager<IRouterContext> {
   public replace(path: string): void {
 
     this.log.info(`Replace path: ${path}.`);
+
     this.context.routingState.history.replace(path);
-    this.update();
   }
 
   @Bind()
   public push(path: string): void {
 
     this.log.info(`Push path: ${path}.`);
+
     this.context.routingState.history.push(path);
-    this.update();
   }
 
   @Bind()
   public goBack(): void {
 
     this.log.info(`Go back.`);
+
     this.context.routingState.history.goBack();
-    this.update();
   }
 
 }

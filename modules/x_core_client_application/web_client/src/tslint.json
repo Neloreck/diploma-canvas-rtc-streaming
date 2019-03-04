@@ -36,7 +36,7 @@
       "arrow-call-signature",
       "arrow-parameter",
       "call-signature",
-      "member-variable-declaration",
+      // "member-variable-declaration",
       "parameter",
       "property-declaration"
     ]

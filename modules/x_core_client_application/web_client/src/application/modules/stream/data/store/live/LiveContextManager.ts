@@ -14,9 +14,9 @@ import {
   ILiveEvent,
   IXCoreFailedResponse
 } from "@Api/x-core";
+import { IGetActiveEventResponse } from "@Api/x-core/live";
 
 // Data.
-import { IGetActiveEventResponse } from "@Api/x-core/live/responses";
 import { applicationConfig } from "@Main/data/configs/ApplicationConfig";
 import { authContextManager, routerContextManager } from "@Main/data/store";
 import { sourceContextManager } from "@Module/stream/data/store";
@@ -67,8 +67,9 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
     }
   };
 
-  private log: Logger = new Logger("[🌈C-LIV]", true);
-  private liveService: LiveService = new LiveService();
+  private readonly log: Logger = new Logger("[🌈C-LIV]", true);
+  private readonly liveService: LiveService = new LiveService();
+  private readonly setState = ContextManager.getSetter(this, "liveState");
 
   public constructor() {
 
@@ -93,9 +94,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
       throw new Error("Cannot create new live event when already have one.");
     }
 
-    this.updateStateRef();
-    this.context.liveState.liveEventStatus = ELiveEventStatus.CREATING;
-    this.update();
+    this.setState({ liveEventStatus: ELiveEventStatus.CREATING });
 
     const eventResponse: IEventCreateResponse | IXCoreFailedResponse = await createLiveEvent({ name, description, secured, securedKey });
 
@@ -103,19 +102,17 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
 
       const liveEvent: ILiveEvent = (eventResponse as IEventCreateResponse).liveEvent;
 
-      this.updateStateRef();
-      this.context.liveState.liveEvent = liveEvent;
-      this.context.liveState.liveEventStatus = ELiveEventStatus.PREVIEW;
-      this.update();
+      this.setState({
+        liveEvent,
+        liveEventStatus: ELiveEventStatus.PREVIEW
+      });
 
       this.log.info("Created live event.", liveEvent);
 
       return liveEvent;
     } else {
 
-      this.updateStateRef();
-      this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
-      this.update();
+      this.setState({ liveEventStatus: ELiveEventStatus.ABSENT });
 
       throw new Error(eventResponse.error.mesage);
     }
@@ -124,13 +121,9 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
   @Bind()
   public async checkActiveEvent(): Promise<Optional<ILiveEvent>> {
 
-    this.updateStateRef();
-    this.context.liveState.liveEventStatus = ELiveEventStatus.LOADING;
-    this.update();
+    this.setState({ liveEventStatus: ELiveEventStatus.LOADING });
 
     const response: IGetActiveEventResponse | IXCoreFailedResponse = await checkActiveEvent();
-
-    this.updateStateRef();
 
     let activeLiveEvent: Optional<ILiveEvent> = null;
 
@@ -140,17 +133,19 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
 
       if (activeLiveEvent) {
         this.log.info("User already has live event created. Using it.");
-        this.context.liveState.liveEvent = activeLiveEvent;
-        this.context.liveState.liveEventStatus = activeLiveEvent.finished ? ELiveEventStatus.FINISHED : ELiveEventStatus.PREVIEW;
+
+        this.setState({
+          liveEvent: activeLiveEvent,
+          liveEventStatus: activeLiveEvent.finished ? ELiveEventStatus.FINISHED : ELiveEventStatus.PREVIEW
+        });
       } else {
-        this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
+        this.setState({ liveEventStatus: ELiveEventStatus.ABSENT });
       }
     } else {
       this.log.error("Failed to check active live event:", response.error);
-      this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
-    }
 
-    this.update();
+      this.setState({ liveEventStatus: ELiveEventStatus.ABSENT });
+    }
 
     return activeLiveEvent;
   }
@@ -158,9 +153,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
   @Bind()
   public async syncLiveEvent(eventId: string): Promise<ILiveEvent> {
 
-    this.updateStateRef();
-    this.context.liveState.liveEventStatus = ELiveEventStatus.LOADING;
-    this.update();
+    this.setState({ liveEventStatus: ELiveEventStatus.LOADING });
 
     const eventResponse: IGetEventResponse | IXCoreFailedResponse = await getLiveEvent(eventId);
 
@@ -168,22 +161,19 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
 
       const liveEvent: ILiveEvent = (eventResponse as IGetEventResponse).liveEvent;
 
-      this.updateStateRef();
-      this.context.liveState = {
-        ...this.context.liveState,
+      this.setState({
         liveEvent,
         liveEventStatus: liveEvent.finished ? ELiveEventStatus.FINISHED : ELiveEventStatus.PREVIEW
-      };
-      this.update();
+      });
 
       this.log.info("Got event.", liveEvent);
 
       return liveEvent;
     } else {
 
-      this.updateStateRef();
-      this.context.liveState.liveEventStatus = ELiveEventStatus.ABSENT;
-      this.update();
+      this.setState({
+        liveEventStatus: ELiveEventStatus.ABSENT
+      });
 
       this.log.info(`Failed to get event '${eventId}'.`);
 
@@ -198,7 +188,11 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
   @Bind()
   public async start(): Promise<void> {
 
-    const liveEvent: ILiveEvent = this.context.liveState.liveEvent as ILiveEvent;
+    const { liveEvent } = this.context.liveState;
+
+    if (!liveEvent) {
+      throw new Error("Failed to start event. No event present in storage.");
+    }
 
     this.log.info("Starting live service, eventId:", liveEvent.id);
 
@@ -213,6 +207,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
   public async stop(): Promise<void> {
 
     this.log.info("Stopping live service.");
+
     await this.liveService.stop();
   }
 
@@ -233,9 +228,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
       sourceContextManager.context.sourceState.inputStream && sourceContextManager.context.sourceState.inputStream.getAudioTracks()[0] || null
     );
 
-    this.updateStateRef();
-    this.context.liveState.rtcConnected = true;
-    this.update();
+    this.setState({ rtcConnected: true });
   }
 
   @Bind()
@@ -243,9 +236,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
 
     await this.liveService.disconnectRTC();
 
-    this.updateStateRef();
-    this.context.liveState.rtcConnected = false;
-    this.update();
+    this.setState({ rtcConnected: false });
   }
 
   /*
@@ -255,7 +246,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
   @Bind()
   public async startStreaming(): Promise<void> {
 
-    const liveEvent: ILiveEvent | null = this.context.liveState.liveEvent;
+    const { liveEvent } = this.context.liveState;
 
     if (!liveEvent) {
       throw new Error("Cannot connect, event is not provided.");
@@ -263,9 +254,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
 
     await this.liveService.startStream(liveEvent.id);
 
-    this.updateStateRef();
-    this.context.liveState.live = true;
-    this.update();
+    this.setState({ live: true });
   }
 
   @Bind()
@@ -273,9 +262,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
 
     await this.liveService.stopStream();
 
-    this.updateStateRef();
-    this.context.liveState.live = false;
-    this.update();
+    this.setState({ live: false });
   }
 
   // State observing:
@@ -283,18 +270,18 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
   @Bind()
   public onOnlineStatusUpdated(status: boolean): void {
 
+    const { rtcConnected, socketConnected: currentStatus } = this.context.liveState;
+
     // Prevent odd renders.
-    if (this.context.liveState.socketConnected === status) {
+    if (currentStatus === status) {
       return;
     }
 
-    if (status === true && !this.context.liveState.rtcConnected && sourceContextManager.context.sourceState.outputStream) {
+    if (status === true && !rtcConnected && sourceContextManager.context.sourceState.outputStream) {
       this.connectWebRTC().then();
     }
 
-    this.updateStateRef();
-    this.context.liveState.socketConnected = status;
-    this.update();
+    this.setState({ socketConnected: status });
   }
 
   @Bind()
@@ -305,18 +292,19 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
   @Bind()
   public async onRecordFinished(): Promise<void> {
 
+    const { liveState: { liveEvent } } = this.context;
+
     this.log.info("Record successfully stopped.");
 
-    if (!this.context.liveState.liveEvent) {
+    if (!liveEvent) {
       throw new Error("Got totally unexpected error. No events present while stopping record.");
     }
 
-    this.updateStateRef();
-    this.context.liveState.liveEvent.finished = true;
-    this.context.liveState.liveEventStatus = ELiveEventStatus.FINISHED;
-    this.update();
+    liveEvent.finished = true;
 
-    routerContextManager.replace(`/stream/stats/${this.context.liveState.liveEvent.id}`);
+    this.setState({ liveEvent, liveEventStatus: ELiveEventStatus.FINISHED });
+
+    routerContextManager.replace(`/stream/stats/${liveEvent.id}`);
   }
 
   // Input changes handling.
@@ -352,11 +340,6 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
     };
 
     this.liveService.stop().then(() => this.log.info("Disposed live storage."));
-  }
-
-  @Bind()
-  private updateStateRef(): void {
-    this.context.liveState = Object.assign({}, this.context.liveState);
   }
 
 }

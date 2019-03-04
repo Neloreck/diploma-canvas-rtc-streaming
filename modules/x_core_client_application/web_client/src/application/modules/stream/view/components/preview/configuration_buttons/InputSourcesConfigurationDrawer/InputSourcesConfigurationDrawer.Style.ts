@@ -13,6 +13,7 @@ export const inputSourcesConfigurationDrawerStyle = (theme: Theme) => createStyl
   root: {
     display: "flex",
     padding: theme.spacing.unit * 2,
+    overflow: "hidden",
     width: 350
   },
   selectionForm: {
