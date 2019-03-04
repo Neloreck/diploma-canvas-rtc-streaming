@@ -1,5 +1,4 @@
-import { ReactContextManager } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, ContextManager } from "dreamstate";
 import { throttle } from "lodash";
 
 // Lib.
@@ -23,7 +22,7 @@ export interface IRenderingContext {
   };
 }
 
-export class RenderingContextManager extends ReactContextManager<IRenderingContext> {
+export class RenderingContextManager extends ContextManager<IRenderingContext> {
 
   private static SENSITIVE_ACTIONS_DELAY: number = 500;
 

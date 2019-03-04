@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { Component, Fragment, MouseEvent, ReactNode } from "react";
+import { Component, MouseEvent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
@@ -29,8 +28,8 @@ export interface IHeaderBarUserMenuState {
 }
 
 export interface IHeaderBarUserMenuOwnProps {}
-export interface IHeaderBarUserMenuExternalProps extends WithStyles<typeof headerBarUserMenuStyle>, IRouterContext, IAuthContext {}
-export interface IHeaderBarUserMenuProps extends IHeaderBarUserMenuOwnProps, IHeaderBarUserMenuExternalProps {}
+export interface IHeaderBarUserMenuInjectedProps extends WithStyles<typeof headerBarUserMenuStyle>, IRouterContext, IAuthContext {}
+export interface IHeaderBarUserMenuProps extends IHeaderBarUserMenuOwnProps, IHeaderBarUserMenuInjectedProps {}
 
 @Styled(headerBarUserMenuStyle)
 @Consume(authContextManager, routerContextManager)
@@ -47,7 +46,7 @@ export class HeaderBarUserMenu extends Component<IHeaderBarUserMenuProps, IHeade
     const { menuAnchor, showContextMenu } = this.state;
 
     return (
-      <Fragment>
+      <>
 
         <IconButton
           aria-owns={showContextMenu ? "menu-app-bar" : undefined}
@@ -75,20 +74,24 @@ export class HeaderBarUserMenu extends Component<IHeaderBarUserMenuProps, IHeade
           <MenuItem onClick={this.onLogoutMenuItemClicked}>Logout</MenuItem>
         </Menu>
 
-      </Fragment>
+      </>
     );
   }
 
   @Bind()
   private onProfileMenuToggle(event: MouseEvent<HTMLDivElement>): void {
+
     const { showContextMenu, menuAnchor } = this.state;
+
     this.setState({ menuAnchor: menuAnchor ? null : event.target as HTMLDivElement, showContextMenu: !showContextMenu });
   }
 
   @Bind()
-  private onLogoutMenuItemClicked(event: MouseEvent<any>): void {
-    this.props.authActions.logout();
-    this.setState({ menuAnchor: null, showContextMenu: false });
+  private onLogoutMenuItemClicked(): void {
+
+    const { authActions } = this.props;
+
+    this.setState({ menuAnchor: null, showContextMenu: false }, authActions.logout);
   }
 
 }

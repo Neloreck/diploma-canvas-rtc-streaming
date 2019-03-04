@@ -1,5 +1,4 @@
-import { ReactContextManager } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, ContextManager } from "dreamstate";
 import { createBrowserHistory, History } from "history";
 import { parse, ParsedUrlQuery } from "querystring";
 
@@ -20,7 +19,7 @@ export interface IRouterContext {
   };
 }
 
-export class RouterContextManager extends ReactContextManager<IRouterContext> {
+export class RouterContextManager extends ContextManager<IRouterContext> {
 
   public context: IRouterContext = {
     routingActions: {

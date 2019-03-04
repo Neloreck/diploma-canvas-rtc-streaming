@@ -1,6 +1,7 @@
-import { EntryPoint } from "@redux-cbd/utils";
 // @ts-ignore
 import * as jest from "jest";
+
+import { EntryPoint } from "../_cli";
 import { JEST_CONFIG } from "./config/jest.config";
 
 @EntryPoint()

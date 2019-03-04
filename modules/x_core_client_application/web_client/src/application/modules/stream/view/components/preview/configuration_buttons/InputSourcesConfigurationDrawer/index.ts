@@ -1,1 +1,1 @@
-export { InputSourcesConfigurationDrawer, IInputSourcesConfigurationDrawerExternalProps } from "./InputSourcesConfigurationDrawer.Component";
+export { InputSourcesConfigurationDrawer, IInputSourcesConfigurationDrawerInjectedProps } from "./InputSourcesConfigurationDrawer.Component";

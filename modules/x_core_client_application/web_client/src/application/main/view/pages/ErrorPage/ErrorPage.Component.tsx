@@ -2,17 +2,17 @@ import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // View.
-import { HeaderBar, IHeaderBarExternalProps } from "@Main/view/components/heading";
+import { HeaderBar, IHeaderBarInjectedProps } from "@Main/view/components/heading";
 import { WithStyles } from "@material-ui/core";
 import { errorPageStyle } from "./ErrorPage.Style";
 
 // Props.
 export interface IErrorPageOwnProps {}
-export interface IErrorPageExternalProps extends WithStyles<typeof errorPageStyle> {}
-export interface IErrorPageProps extends IErrorPageOwnProps, IErrorPageExternalProps {}
+export interface IErrorPageInjectedProps extends WithStyles<typeof errorPageStyle> {}
+export interface IErrorPageProps extends IErrorPageOwnProps, IErrorPageInjectedProps {}
 
 @Styled(errorPageStyle)
 export class ErrorPage extends PureComponent<IErrorPageProps> {
@@ -24,7 +24,7 @@ export class ErrorPage extends PureComponent<IErrorPageProps> {
     return (
       <div className={classes.root}>
 
-        <HeaderBar {...{} as IHeaderBarExternalProps}/>
+        <HeaderBar {...{} as IHeaderBarInjectedProps}/>
 
         <div className={classes.content}>
           This is error page...

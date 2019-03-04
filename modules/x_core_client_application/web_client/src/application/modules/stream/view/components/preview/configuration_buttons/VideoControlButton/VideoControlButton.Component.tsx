@@ -1,15 +1,13 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import {
-  IRenderingContext, ISourceContext,
-  renderingContextManager, sourceContextManager
+  ISourceContext, sourceContextManager
 } from "@Module/stream/data/store";
 
 // View.
@@ -19,9 +17,9 @@ import { videoControlButtonStyle } from "./VideoControlButton.Style";
 
 // Props.
 
-export interface IVideoControlButtonExternalProps extends WithStyles<typeof videoControlButtonStyle>, ISourceContext {}
+export interface IVideoControlButtonInjectedProps extends WithStyles<typeof videoControlButtonStyle>, ISourceContext {}
 export interface IVideoControlButtonOwnProps {}
-export interface IVideoControlButtonProps extends IVideoControlButtonOwnProps, IVideoControlButtonExternalProps {}
+export interface IVideoControlButtonProps extends IVideoControlButtonOwnProps, IVideoControlButtonInjectedProps {}
 
 @Consume(sourceContextManager)
 @Styled(videoControlButtonStyle)

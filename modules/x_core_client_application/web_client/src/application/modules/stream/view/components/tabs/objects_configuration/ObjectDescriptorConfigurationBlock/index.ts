@@ -1,1 +1,1 @@
-export { ObjectDescriptorConfigurationBlock, IObjectDescriptorConfigurationBlockExternalProps } from "./ObjectDescriptorConfigurationBlock.Component";
+export { ObjectDescriptorConfigurationBlock, IObjectDescriptorConfigurationBlockInjectedProps } from "./ObjectDescriptorConfigurationBlock.Component";

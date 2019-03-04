@@ -1,5 +1,4 @@
-import { ReactContextManager } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, ContextManager } from "dreamstate";
 
 // Lib.
 import { Optional } from "@Lib/ts/types";
@@ -45,7 +44,7 @@ export interface ILiveContext {
   };
 }
 
-export class LiveContextManager extends ReactContextManager<ILiveContext> {
+export class LiveContextManager extends ContextManager<ILiveContext> {
 
   public context: ILiveContext = {
     liveActions: {

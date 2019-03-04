@@ -1,4 +1,4 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 import * as React from "react";
 import { createRef, PureComponent, ReactNode, RefObject } from "react";
 import { MouseEvent as ReactMouseEvent } from "react";

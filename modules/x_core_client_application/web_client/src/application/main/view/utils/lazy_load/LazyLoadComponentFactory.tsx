@@ -3,7 +3,7 @@ import { Component, ComponentClass, ComponentType, ReactNode } from "react";
 
 // View.
 import {
-  IMainLoadingProgressComponentExternalProps,
+  IMainLoadingProgressComponentInjectedProps,
   MainLoadingProgressComponent
 } from "@Main/view/utils/lazy_load/MainLoadingProgress.Component";
 
@@ -55,7 +55,7 @@ export class LazyLoadComponentFactory {
         const RenderItem: ComponentType = this.state.component;
         return RenderItem
           ? <RenderItem {...this.props}/>
-          : <MainLoadingProgressComponent {...{} as IMainLoadingProgressComponentExternalProps}/>;
+          : <MainLoadingProgressComponent {...{} as IMainLoadingProgressComponentInjectedProps}/>;
       }
 
     }

@@ -1,1 +1,1 @@
-export { ObjectsConfigurationTab, IObjectsConfigurationTabExternalProps } from "./ObjectsConfigurationTab.Component";
+export { ObjectsConfigurationTab, IObjectsConfigurationTabInjectedProps } from "./ObjectsConfigurationTab.Component";

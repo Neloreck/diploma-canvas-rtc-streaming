@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import { graphicsContextManager, IGraphicsContext } from "@Module/stream/data/store";
@@ -16,9 +15,9 @@ import { Add } from "@material-ui/icons";
 import { objectAdditionMenuStyle } from "./ObjectAdditionMenu.Style";
 
 // Props.
-export interface IObjectAdditionMenuExternalProps extends WithStyles<typeof objectAdditionMenuStyle>, IGraphicsContext {}
+export interface IObjectAdditionMenuInjectedProps extends WithStyles<typeof objectAdditionMenuStyle>, IGraphicsContext {}
 export interface IObjectAdditionMenuOwnProps {}
-export interface IObjectAdditionMenuProps extends IObjectAdditionMenuOwnProps, IObjectAdditionMenuExternalProps {}
+export interface IObjectAdditionMenuProps extends IObjectAdditionMenuOwnProps, IObjectAdditionMenuInjectedProps {}
 
 /*
  * Object addition button menu content list.

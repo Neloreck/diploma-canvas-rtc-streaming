@@ -1,9 +1,9 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 import * as React from "react";
 import { ChangeEvent, PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // View.
 import {
@@ -31,8 +31,8 @@ export interface IEventCreationFormOwnProps {
   onCreate(name: string, description: string, secured: boolean, securedKey: string): void;
 }
 
-export interface IEventCreationFormExternalProps extends WithStyles<typeof eventCreationFormStyle> {}
-export interface IEventCreationFormProps extends IEventCreationFormOwnProps, IEventCreationFormExternalProps {}
+export interface IEventCreationFormInjectedProps extends WithStyles<typeof eventCreationFormStyle> {}
+export interface IEventCreationFormProps extends IEventCreationFormOwnProps, IEventCreationFormInjectedProps {}
 
 @Styled(eventCreationFormStyle)
 export class EventCreationForm extends PureComponent<IEventCreationFormProps> {

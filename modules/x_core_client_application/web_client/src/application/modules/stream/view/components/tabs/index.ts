@@ -1,1 +1,1 @@
-export { MainPreviewTabs, IMainPreviewTabsExternalProps } from "./MainPreviewTabs.Component";
+export { MainPreviewTabs, IMainPreviewTabsInjectedProps } from "./MainPreviewTabs.Component";

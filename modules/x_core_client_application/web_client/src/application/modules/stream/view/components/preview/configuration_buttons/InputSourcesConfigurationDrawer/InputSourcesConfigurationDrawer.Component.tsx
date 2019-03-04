@@ -1,8 +1,9 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 import * as React from "react";
 import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
+import { Styled } from "@Lib/decorators";
 import {
   EDeviceKind,
   getInputDevicesBundled,
@@ -12,7 +13,6 @@ import {
   killStream
 } from "@Lib/media";
 import { DomVideo } from "@Lib/react_lib/components";
-import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
@@ -45,7 +45,7 @@ export interface IInputSourcesConfigurationDrawerState {
   videoInputSources: Array<MediaDeviceInfo>;
 }
 
-export interface IInputSourcesConfigurationDrawerExternalProps extends WithStyles<typeof inputSourcesConfigurationDrawerStyle> {}
+export interface IInputSourcesConfigurationDrawerInjectedProps extends WithStyles<typeof inputSourcesConfigurationDrawerStyle> {}
 
 export interface IInputSourcesConfigurationDrawerOwnProps {
   selectedDevices: IInputSourceDevices;
@@ -55,7 +55,7 @@ export interface IInputSourcesConfigurationDrawerOwnProps {
   onInputSourcesChange: (sources: IInputSourceDevices) => void;
 }
 
-export interface IInputSourcesConfigurationDrawerProps extends IInputSourcesConfigurationDrawerOwnProps, IInputSourcesConfigurationDrawerExternalProps {}
+export interface IInputSourcesConfigurationDrawerProps extends IInputSourcesConfigurationDrawerOwnProps, IInputSourcesConfigurationDrawerInjectedProps {}
 
 @Styled(inputSourcesConfigurationDrawerStyle)
 export class InputSourcesConfigurationDrawer extends Component<IInputSourcesConfigurationDrawerProps, IInputSourcesConfigurationDrawerState> {

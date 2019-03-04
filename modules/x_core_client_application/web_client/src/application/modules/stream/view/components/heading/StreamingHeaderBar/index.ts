@@ -1,1 +1,1 @@
-export { StreamingHeaderBar, IStreamingHeaderBarExternalProps } from "./StreamingHeaderBar.Component";
+export { StreamingHeaderBar, IStreamingHeaderBarInjectedProps } from "./StreamingHeaderBar.Component";

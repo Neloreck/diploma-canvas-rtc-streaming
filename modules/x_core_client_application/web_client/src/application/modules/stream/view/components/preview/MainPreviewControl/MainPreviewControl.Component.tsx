@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { Component, Fragment, ReactNode } from "react";
+import { Component, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import {
@@ -18,21 +17,21 @@ import {
 import { Fab, Grid, Tooltip, WithStyles } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import {
-  IInputSourcesConfigurationButtonExternalProps, InputSourcesConfigurationButton
+  IInputSourcesConfigurationButtonInjectedProps, InputSourcesConfigurationButton
 } from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationButton";
 import {
-  IObjectAdditionButtonExternalProps,
+  IObjectAdditionButtonInjectedProps,
   ObjectAdditionButton
 } from "@Module/stream/view/components/preview/configuration_buttons/ObjectAdditionButton";
 import {
-  ISoundControlButtonExternalProps,
+  ISoundControlButtonInjectedProps,
   SoundControlButton
 } from "@Module/stream/view/components/preview/configuration_buttons/SoundControlButton";
 import {
-  IStreamingHelpButtonExternalProps, StreamingHelpButton
+  IStreamingHelpButtonInjectedProps, StreamingHelpButton
 } from "@Module/stream/view/components/preview/configuration_buttons/StreamingHelpButton";
 import {
-  IVideoControlButtonExternalProps,
+  IVideoControlButtonInjectedProps,
   VideoControlButton
 } from "@Module/stream/view/components/preview/configuration_buttons/VideoControlButton";
 import { CanvasGraphicsPreprocessor } from "@Module/stream/view/components/preview/graphics_preprocessing";
@@ -44,9 +43,9 @@ export interface IMainPreviewControlState {
   showControls: boolean;
 }
 
-export interface IMainPreviewControlExternalProps extends WithStyles<typeof mainPreviewControlStyle>, IGraphicsContext, IRenderingContext, ISourceContext {}
+export interface IMainPreviewControlInjectedProps extends WithStyles<typeof mainPreviewControlStyle>, IGraphicsContext, IRenderingContext, ISourceContext {}
 export interface IMainPreviewControlOwnProps {}
-export interface IMainPreviewControlProps extends IMainPreviewControlOwnProps, IMainPreviewControlExternalProps {}
+export interface IMainPreviewControlProps extends IMainPreviewControlOwnProps, IMainPreviewControlInjectedProps {}
 
 @Consume(graphicsContextManager, renderingContextManager, sourceContextManager)
 @Styled(mainPreviewControlStyle)
@@ -92,7 +91,7 @@ export class MainPreviewControl extends Component<IMainPreviewControlProps> {
     const { showControls } = this.state;
 
     return (
-      <Fragment>
+      <>
 
         <Tooltip title={"Toggle controls visibility."} placement={"right"}>
           <Fab
@@ -103,22 +102,19 @@ export class MainPreviewControl extends Component<IMainPreviewControlProps> {
         </Tooltip>
 
         { showControls
-          ? (
-            <Fragment>
-              <ObjectAdditionButton {...{} as IObjectAdditionButtonExternalProps}/>
-
-              <InputSourcesConfigurationButton {...{} as IInputSourcesConfigurationButtonExternalProps}/>
-
-              <VideoControlButton {...{} as IVideoControlButtonExternalProps}/>
-              <SoundControlButton {...{} as ISoundControlButtonExternalProps}/>
-
-              <StreamingHelpButton {...{} as IStreamingHelpButtonExternalProps}/>
-            </Fragment>
-          )
-          : null
+          ?
+            <>
+              <ObjectAdditionButton {...{} as IObjectAdditionButtonInjectedProps}/>
+              <InputSourcesConfigurationButton {...{} as IInputSourcesConfigurationButtonInjectedProps}/>
+              <VideoControlButton {...{} as IVideoControlButtonInjectedProps}/>
+              <SoundControlButton {...{} as ISoundControlButtonInjectedProps}/>
+              <StreamingHelpButton {...{} as IStreamingHelpButtonInjectedProps}/>
+            </>
+          :
+            null
         }
 
-      </Fragment>
+      </>
     );
   }
 

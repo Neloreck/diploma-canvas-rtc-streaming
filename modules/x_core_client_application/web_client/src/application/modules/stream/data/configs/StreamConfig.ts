@@ -1,5 +1,3 @@
-import { TypeUtils } from "@redux-cbd/utils";
-
 // Lib.
 import { Optional } from "@Lib/ts/types";
 
@@ -28,11 +26,11 @@ export const streamConfig = {
     return {
       audio:
         audioInput
-          ? { deviceId: audioInput === true ? "default" : { exact: TypeUtils.isString(audioInput) ? audioInput as string : (audioInput as MediaDeviceInfo).deviceId } }
+          ? { deviceId: audioInput === true ? "default" : { exact: typeof audioInput === "string"  ? audioInput as string : (audioInput as MediaDeviceInfo).deviceId } }
           : false,
       video:
         videoInput
-          ? { ...this.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : { exact: TypeUtils.isString(videoInput) ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId } }
+          ? { ...this.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : { exact: typeof videoInput === "string"  ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId } }
           : false
     };
   }

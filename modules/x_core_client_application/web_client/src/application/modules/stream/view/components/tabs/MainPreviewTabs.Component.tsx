@@ -1,23 +1,23 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 import * as React from "react";
 import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
+import { Styled } from "@Lib/decorators";
 import { HorizontalDraggableVHResizer } from "@Lib/react_lib/components";
-import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 
 // View.
 import { AppBar, Grid, Tab, Tabs, WithStyles } from "@material-ui/core";
 import {
-  GeneralConfigurationTab, IGeneralConfigurationTabExternalProps
+  GeneralConfigurationTab, IGeneralConfigurationTabInjectedProps
 } from "@Module/stream/view/components/tabs/general_configuration/GeneralConfigurationTab";
-import { ILayoutConfigurationTabExternalProps, LayoutConfigurationTab } from "@Module/stream/view/components/tabs/layouts_configuration/LayoutConfigurationTab/LayoutConfigurationTab.Component";
+import { ILayoutConfigurationTabInjectedProps, LayoutConfigurationTab } from "@Module/stream/view/components/tabs/layouts_configuration/LayoutConfigurationTab";
 import {
-  IObjectsConfigurationTabExternalProps, ObjectsConfigurationTab
+  IObjectsConfigurationTabInjectedProps, ObjectsConfigurationTab
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectsConfigurationTab";
-import { IStatsTabExternalProps, StatsTab } from "@Module/stream/view/components/tabs/stats/StatsTab";
+import { IStatsTabInjectedProps, StatsTab } from "@Module/stream/view/components/tabs/stats/StatsTab";
 import { mainPreviewTabsStyle } from "./MainPreviewTabs.Style";
 
 // Props.
@@ -26,9 +26,9 @@ export interface IMainPreviewTabsState {
   tabsHeight?: number;
 }
 
-export interface IMainPreviewTabsExternalProps extends WithStyles<typeof mainPreviewTabsStyle> {}
+export interface IMainPreviewTabsInjectedProps extends WithStyles<typeof mainPreviewTabsStyle> {}
 export interface IMainPreviewTabsOwnProps {}
-export interface IMainPreviewTabsProps extends IMainPreviewTabsOwnProps, IMainPreviewTabsExternalProps {}
+export interface IMainPreviewTabsProps extends IMainPreviewTabsOwnProps, IMainPreviewTabsInjectedProps {}
 
 @Styled(mainPreviewTabsStyle)
 export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPreviewTabsState> {
@@ -47,11 +47,11 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
 
     switch (currentTab) {
       case 0:
-        tabContent = <GeneralConfigurationTab {...{} as IGeneralConfigurationTabExternalProps}/>;
+        tabContent = <GeneralConfigurationTab {...{} as IGeneralConfigurationTabInjectedProps}/>;
         break;
 
       case 1:
-        tabContent = <ObjectsConfigurationTab {...{} as IObjectsConfigurationTabExternalProps}/>;
+        tabContent = <ObjectsConfigurationTab {...{} as IObjectsConfigurationTabInjectedProps}/>;
         break;
 
       case 2:
@@ -59,7 +59,7 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
         break;
 
       case 3:
-        tabContent = <LayoutConfigurationTab {...{} as ILayoutConfigurationTabExternalProps}/>;
+        tabContent = <LayoutConfigurationTab {...{} as ILayoutConfigurationTabInjectedProps}/>;
         break;
 
       case 4:
@@ -67,7 +67,7 @@ export class MainPreviewTabs extends Component<IMainPreviewTabsProps, IMainPrevi
         break;
 
       case 5:
-        tabContent = <StatsTab {...{} as IStatsTabExternalProps}/>;
+        tabContent = <StatsTab {...{} as IStatsTabInjectedProps}/>;
         break;
 
       default:

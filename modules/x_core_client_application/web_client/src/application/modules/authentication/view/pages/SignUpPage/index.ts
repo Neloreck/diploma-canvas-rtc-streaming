@@ -1,1 +1,1 @@
-export { SignUpPage, ISignUpPageExternalProps } from "./SignUpPage.Component";
+export { SignUpPage, ISignUpPageInjectedProps } from "./SignUpPage.Component";

@@ -42,13 +42,18 @@ export class XCoreAuthService {
 
     const jsonResponse = await rawResponse.json();
 
-    return {
-      accessToken: jsonResponse.access_token,
-      expires: jsonResponse.expires_in,
-      refreshToken: jsonResponse.refresh_token,
-      scope: jsonResponse.scope,
-      success: true,
-    };
+    if (jsonResponse.error) {
+      return jsonResponse;
+    } else {
+
+      return {
+        accessToken: jsonResponse.access_token,
+        expires: jsonResponse.expires_in,
+        refreshToken: jsonResponse.refresh_token,
+        scope: jsonResponse.scope,
+        success: true
+      };
+    }
   }
 
   public async register(username: string, mail: string, password: string): Promise<object> {

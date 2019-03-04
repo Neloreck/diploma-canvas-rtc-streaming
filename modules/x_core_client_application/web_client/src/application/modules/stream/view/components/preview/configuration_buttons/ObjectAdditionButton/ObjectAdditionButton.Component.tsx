@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { Component, createRef, ReactNode, RefObject } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import { ISourceContext, sourceContextManager } from "@Module/stream/data/store";
@@ -13,7 +12,7 @@ import { ISourceContext, sourceContextManager } from "@Module/stream/data/store"
 import { Collapse, Fab, Tooltip, WithStyles } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
 import {
-  IObjectAdditionMenuExternalProps,
+  IObjectAdditionMenuInjectedProps,
   ObjectAdditionMenu
 } from "@Module/stream/view/components/preview/configuration_buttons/ObjectAdditionMenu";
 import { objectAdditionButtonStyle } from "./ObjectAdditionButton.Style";
@@ -23,9 +22,9 @@ export interface IObjectAdditionButtonState {
   showAdditionWindow: boolean;
 }
 
-export interface IObjectAdditionButtonExternalProps extends ISourceContext, WithStyles<typeof objectAdditionButtonStyle> {}
+export interface IObjectAdditionButtonInjectedProps extends ISourceContext, WithStyles<typeof objectAdditionButtonStyle> {}
 export interface IObjectAdditionButtonOwnProps {}
-export interface IObjectAdditionButtonProps extends IObjectAdditionButtonOwnProps, IObjectAdditionButtonExternalProps {}
+export interface IObjectAdditionButtonProps extends IObjectAdditionButtonOwnProps, IObjectAdditionButtonInjectedProps {}
 
 /*
  * Object addition button with menu.
@@ -64,7 +63,7 @@ export class ObjectAdditionButton extends Component<IObjectAdditionButtonProps, 
         </Tooltip>
 
         <Collapse in={showAdditionWindow}>
-          <ObjectAdditionMenu {...{} as IObjectAdditionMenuExternalProps}/>
+          <ObjectAdditionMenu {...{} as IObjectAdditionMenuInjectedProps}/>
         </Collapse>
 
       </div>

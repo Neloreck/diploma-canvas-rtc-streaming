@@ -1,5 +1,5 @@
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { Consume } from "@redux-cbd/context";
+import { Consume } from "dreamstate";
 import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
@@ -13,9 +13,12 @@ export interface IGlobalThemeProviderProps extends IThemeContext {}
 export class GlobalThemeProvider extends PureComponent<IGlobalThemeProviderProps> {
 
   public render(): ReactNode {
+
+    const { children, themeState: { options } } = this.props;
+
     return (
-      <MuiThemeProvider theme={createMuiTheme(this.props.themeState.options)}>
-        {this.props.children}
+      <MuiThemeProvider theme={createMuiTheme(options)}>
+        {children}
       </MuiThemeProvider>
     );
   }

@@ -2,20 +2,20 @@ import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // View.
 import { Grid, WithStyles } from "@material-ui/core";
 import {
-  IPreviewConfigurationBlockExternalProps, PreviewConfigurationBlock
+  IPreviewConfigurationBlockInjectedProps, PreviewConfigurationBlock
 } from "@Module/stream/view/components/tabs/general_configuration/PreviewConfigurationBlock";
 import { generalConfigurationTabStyle } from "./GeneralConfigurationTab.Style";
 
 // Props.
 
-export interface IGeneralConfigurationTabExternalProps extends WithStyles<typeof generalConfigurationTabStyle> {}
+export interface IGeneralConfigurationTabInjectedProps extends WithStyles<typeof generalConfigurationTabStyle> {}
 export interface IGeneralConfigurationTabOwnProps {}
-export interface IGeneralConfigurationTabProps extends IGeneralConfigurationTabOwnProps, IGeneralConfigurationTabExternalProps {}
+export interface IGeneralConfigurationTabProps extends IGeneralConfigurationTabOwnProps, IGeneralConfigurationTabInjectedProps {}
 
 @Styled(generalConfigurationTabStyle)
 export class GeneralConfigurationTab extends PureComponent<IGeneralConfigurationTabProps> {
@@ -27,7 +27,7 @@ export class GeneralConfigurationTab extends PureComponent<IGeneralConfiguration
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
-        <PreviewConfigurationBlock {...{} as IPreviewConfigurationBlockExternalProps}/>
+        <PreviewConfigurationBlock {...{} as IPreviewConfigurationBlockInjectedProps}/>
 
       </Grid>
     );

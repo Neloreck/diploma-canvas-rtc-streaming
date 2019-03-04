@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { ChangeEvent, Component, KeyboardEvent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
@@ -48,9 +47,9 @@ export interface ISignUpFormState {
   };
 }
 
-export interface ISignUpFormExternalProps extends WithStyles<typeof signUpFormStyle>, IAuthContext {}
+export interface ISignUpFormInjectedProps extends WithStyles<typeof signUpFormStyle>, IAuthContext {}
 export interface ISignUpFormOwnProps {}
-export interface ISignUpFormProps extends ISignUpFormOwnProps, ISignUpFormExternalProps {}
+export interface ISignUpFormProps extends ISignUpFormOwnProps, ISignUpFormInjectedProps {}
 
 @Consume(authContextManager)
 @Styled(signUpFormStyle)
@@ -80,6 +79,7 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
   };
 
   public componentWillUpdate(nextProps: ISignUpFormProps, nextState: ISignUpFormState): void {
+
     nextState.usernameInput.error = nextState.usernameInput.edited ? this.getUsernameErrors(nextState.usernameInput.value) : null;
     nextState.mailInput.error = nextState.mailInput.edited ? this.getMailErrors(nextState.mailInput.value) : null;
     nextState.passwordInput.error = nextState.passwordInput.edited ? this.getPasswordErrors(nextState.passwordInput.value, nextState) : null;
@@ -88,9 +88,9 @@ export class SignUpForm extends Component<ISignUpFormProps, ISignUpFormState> {
 
   public componentWillUnmount(): void {
 
-    const { authActions: { cleanupErrorMessage } } = this.props;
+    const { authActions } = this.props;
 
-    cleanupErrorMessage();
+    authActions.cleanupErrorMessage();
   }
 
   public render(): ReactNode {

@@ -1,1 +1,1 @@
-export { MainPreviewControl, IMainPreviewControlExternalProps } from "./MainPreviewControl.Component";
+export { MainPreviewControl, IMainPreviewControlInjectedProps } from "./MainPreviewControl.Component";

@@ -1,9 +1,9 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 import * as React from "react";
 import { ChangeEvent, PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // View.
 import { FormControlLabel, Switch, WithStyles } from "@material-ui/core";

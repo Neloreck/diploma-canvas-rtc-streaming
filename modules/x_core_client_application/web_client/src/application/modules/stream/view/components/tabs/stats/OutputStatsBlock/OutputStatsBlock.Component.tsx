@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { Component, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import { ISourceContext, sourceContextManager } from "@Module/stream/data/store";
@@ -102,7 +101,6 @@ export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputS
   private renderAudioTracksDetail(mediaTrack: MediaStreamTrack): ReactNode {
 
     const { classes } = this.props;
-
     const { sampleRate }: MediaTrackSettings = mediaTrack.getSettings();
 
     return (
@@ -117,7 +115,6 @@ export class OutputStatsBlock extends Component<IOutputStatsBlockProps, IOutputS
   private renderVideoTracksDetail(mediaTrack: MediaStreamTrack): ReactNode {
 
     const { classes } = this.props;
-
     const { frameRate, aspectRatio, width, height }: MediaTrackSettings = mediaTrack.getSettings();
 
     return (

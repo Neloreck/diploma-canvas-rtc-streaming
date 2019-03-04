@@ -1,4 +1,4 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 
 // Lib.
 import { Optional } from "@Lib/ts/types";

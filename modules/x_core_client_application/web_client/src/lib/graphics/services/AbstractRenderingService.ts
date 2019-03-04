@@ -1,4 +1,4 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 
 import { AbstractCanvasGraphicsRenderObject } from "../graphics_objects";
 import { ICanvasGraphicsSizingContext } from "../types";

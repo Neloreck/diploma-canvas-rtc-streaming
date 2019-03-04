@@ -1,1 +1,1 @@
-export { IStreamingHelpButtonExternalProps, StreamingHelpButton } from "./StreamingHelpButton.Component";
+export { IStreamingHelpButtonInjectedProps, StreamingHelpButton } from "./StreamingHelpButton.Component";

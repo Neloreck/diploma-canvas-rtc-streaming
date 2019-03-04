@@ -1,10 +1,10 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
+
 import * as React from "react";
 import { ChangeEvent, Component, KeyboardEvent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
@@ -39,9 +39,9 @@ export interface ILoginFormState {
   };
 }
 
-export interface ILoginFormExternalProps extends WithStyles<typeof loginFormStyle>, IAuthContext, IRouterContext {}
 export interface ILoginFormOwnProps {}
-export interface ILoginFormProps extends ILoginFormOwnProps, ILoginFormExternalProps {}
+export interface ILoginFormInjectedProps extends WithStyles<typeof loginFormStyle>, IAuthContext, IRouterContext {}
+export interface ILoginFormProps extends ILoginFormOwnProps, ILoginFormInjectedProps {}
 
 @Consume(authContextManager)
 @Styled(loginFormStyle)
@@ -166,6 +166,7 @@ export class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
 
   @Bind()
   private onKeyDown(event: KeyboardEvent<any>): void {
+
     if (event.key === "Enter") {
       this.onFormSubmit();
     }

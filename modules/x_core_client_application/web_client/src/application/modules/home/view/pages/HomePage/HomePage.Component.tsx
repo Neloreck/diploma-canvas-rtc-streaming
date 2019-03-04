@@ -2,20 +2,20 @@ import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // View.
-import { HeaderBar, IHeaderBarExternalProps } from "@Main/view/components/heading";
+import { HeaderBar, IHeaderBarInjectedProps } from "@Main/view/components/heading";
 import { AnimatedMount } from "@Main/view/utils";
 import { Grid, WithStyles } from "@material-ui/core";
-import { IIndexFooterExternalProps, IndexFooter } from "@Module/home/view/components/general/IndexFooter";
-import { HomeLayout, IHomeLayoutExternalProps } from "@Module/home/view/components/home/HomeLayout";
+import { IIndexFooterInjectedProps, IndexFooter } from "@Module/home/view/components/general/IndexFooter";
+import { HomeLayout, IHomeLayoutInjectedProps } from "@Module/home/view/components/home/HomeLayout";
 import { homePageStyle } from "./HomePage.Style";
 
 // Props.
 export interface IHomePageOwnProps {}
-export interface IHomePageExternalProps extends WithStyles<typeof homePageStyle> {}
-export interface IHomePageProps extends IHomePageOwnProps, IHomePageExternalProps {}
+export interface IHomePageInjectedProps extends WithStyles<typeof homePageStyle> {}
+export interface IHomePageProps extends IHomePageOwnProps, IHomePageInjectedProps {}
 
 @Styled(homePageStyle)
 export class HomePage extends PureComponent<IHomePageProps> {
@@ -25,9 +25,13 @@ export class HomePage extends PureComponent<IHomePageProps> {
     const { classes } = this.props;
 
     return (
-        <Grid className={classes.root} wrap={"nowrap"} container>
+        <Grid
+          className={classes.root}
+          wrap={"nowrap"}
+          container
+        >
 
-          <HeaderBar {...{} as IHeaderBarExternalProps}/>
+          <HeaderBar {...{} as IHeaderBarInjectedProps}/>
 
           <AnimatedMount>
 
@@ -39,9 +43,9 @@ export class HomePage extends PureComponent<IHomePageProps> {
               container
             >
 
-              <HomeLayout {...{} as IHomeLayoutExternalProps}/>
+              <HomeLayout {...{} as IHomeLayoutInjectedProps}/>
 
-              <IndexFooter {...{} as IIndexFooterExternalProps}/>
+              <IndexFooter {...{} as IIndexFooterInjectedProps}/>
 
             </Grid>
 

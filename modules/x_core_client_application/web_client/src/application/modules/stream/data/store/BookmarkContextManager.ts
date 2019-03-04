@@ -1,5 +1,4 @@
-import { ReactContextManager } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, ContextManager } from "dreamstate";
 
 // Lib.
 import { Optional } from "@Lib/ts/types";
@@ -33,7 +32,7 @@ export interface IBookmarkContext {
   };
 }
 
-export class BookmarkContextManager extends ReactContextManager<IBookmarkContext> {
+export class BookmarkContextManager extends ContextManager<IBookmarkContext> {
 
   protected context: IBookmarkContext = {
     bookmarkActions: {

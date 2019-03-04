@@ -1,10 +1,10 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 import * as React from "react";
 import { ChangeEvent, PureComponent, ReactNode } from "react";
 
 // Lib.
+import { Styled } from "@Lib/decorators";
 import { getVideoInputs } from "@Lib/media";
-import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
@@ -56,6 +56,7 @@ export class VideoDeviceSwitcher extends PureComponent<IVideoDeviceSwitcherProps
       <Grid className={classes.root} container>
 
         <Grid item xs={10}>
+
           <FormControl className={classes.select}>
             <InputLabel htmlFor="select-multiple">{label}</InputLabel>
             <Select
@@ -74,12 +75,15 @@ export class VideoDeviceSwitcher extends PureComponent<IVideoDeviceSwitcherProps
               ))}
             </Select>
           </FormControl>
+
         </Grid>
 
         <Grid item xs={2}>
+
           <Button className={classes.button} onClick={this.onUpdateMediaDevices} variant={"outlined"}>
             <Refresh color="primary" style={{ fontSize: "1.2rem" }}/>
           </Button>
+
         </Grid>
 
       </Grid>

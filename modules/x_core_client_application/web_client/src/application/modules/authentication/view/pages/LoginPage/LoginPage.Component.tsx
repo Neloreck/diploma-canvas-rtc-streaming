@@ -2,12 +2,12 @@ import * as React from "react";
 import { Component, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // View.
-import { HeaderBar, IHeaderBarExternalProps } from "@Main/view/components/heading";
+import { HeaderBar, IHeaderBarInjectedProps } from "@Main/view/components/heading";
 import { Grid, Grow, WithStyles } from "@material-ui/core";
-import { ILoginFormExternalProps, LoginForm } from "@Module/authentication/view/components/auth/LoginForm";
+import { ILoginFormInjectedProps, LoginForm } from "@Module/authentication/view/components/LoginForm";
 import { loginPageStyle } from "./LoginPage.Style";
 
 // Props.
@@ -15,9 +15,9 @@ export interface ILoginPageState {
   mounted: boolean;
 }
 
-export interface ILoginPageExternalProps extends WithStyles<typeof loginPageStyle> {}
 export interface ILoginPageOwnProps {}
-export interface ILoginPageProps extends ILoginPageOwnProps, ILoginPageExternalProps {}
+export interface ILoginPageInjectedProps extends WithStyles<typeof loginPageStyle> {}
+export interface ILoginPageProps extends ILoginPageOwnProps, ILoginPageInjectedProps {}
 
 @Styled(loginPageStyle)
 export class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
@@ -40,13 +40,21 @@ export class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
     const { mounted } = this.state;
 
     return (
-      <Grid className={classes.root} container>
+      <Grid
+        className={classes.root}
+        container
+      >
 
-        <HeaderBar {...{} as IHeaderBarExternalProps}/>
+        <HeaderBar {...{} as IHeaderBarInjectedProps}/>
 
         <Grow in={mounted}>
-          <Grid className={classes.content} container justify={"center"} alignItems={"center"}>
-            <LoginForm {...{} as ILoginFormExternalProps}/>
+          <Grid
+            className={classes.content}
+            container
+            justify={"center"}
+            alignItems={"center"}
+          >
+            <LoginForm {...{} as ILoginFormInjectedProps}/>
           </Grid>
         </Grow>
 

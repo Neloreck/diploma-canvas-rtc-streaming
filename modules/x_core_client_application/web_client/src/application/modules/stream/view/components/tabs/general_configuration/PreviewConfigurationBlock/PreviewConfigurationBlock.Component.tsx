@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import {
@@ -23,9 +22,9 @@ export interface IPreviewConfigurationBlockState {
   showPreviewConfiguration: boolean;
 }
 
-export interface IPreviewConfigurationBlockExternalProps extends WithStyles<typeof previewConfigurationBlockStyle>, IRenderingContext, ISourceContext {}
+export interface IPreviewConfigurationBlockInjectedProps extends WithStyles<typeof previewConfigurationBlockStyle>, IRenderingContext, ISourceContext {}
 export interface IPreviewConfigurationBlockOwnProps {}
-export interface IPreviewConfigurationBlockProps extends IPreviewConfigurationBlockOwnProps, IPreviewConfigurationBlockExternalProps {}
+export interface IPreviewConfigurationBlockProps extends IPreviewConfigurationBlockOwnProps, IPreviewConfigurationBlockInjectedProps {}
 
 @Consume(sourceContextManager, renderingContextManager)
 @Styled(previewConfigurationBlockStyle)
@@ -113,28 +112,28 @@ export class PreviewConfigurationBlock extends Component<IPreviewConfigurationBl
   }
 
   @Bind()
-  private onRenderEventsPropagationToggle(event: ChangeEvent): void {
-    this.props.renderingActions.setRendererEventsPropagation((event.target as any).checked);
+  private onRenderEventsPropagationToggle(event: ChangeEvent<HTMLInputElement>): void {
+    this.props.renderingActions.setRendererEventsPropagation(event.target.checked);
   }
 
   @Bind()
-  private onAdditionObjectsVisibilityToggle(event: ChangeEvent): void {
-    this.props.renderingActions.setAdditionVisibility((event.target as any).checked);
+  private onAdditionObjectsVisibilityToggle(event: ChangeEvent<HTMLInputElement>): void {
+    this.props.renderingActions.setAdditionVisibility(event.target.checked);
   }
 
   @Bind()
-  private onPreviewToggle(event: ChangeEvent): void {
-    this.props.renderingActions.setPreviewDisplay((event.target as any).checked);
+  private onPreviewToggle(event: ChangeEvent<HTMLInputElement>): void {
+    this.props.renderingActions.setPreviewDisplay(event.target.checked);
   }
 
   @Bind()
-  private onGraphicsToggle(event: ChangeEvent): void {
-    this.props.renderingActions.setGraphicsDisplay((event.target as any).checked);
+  private onGraphicsToggle(event: ChangeEvent<HTMLInputElement>): void {
+    this.props.renderingActions.setGraphicsDisplay(event.target.checked);
   }
 
   @Bind()
-  private onGridToggle(event: ChangeEvent): void {
-    this.props.renderingActions.setGridDisplay((event.target as any).checked);
+  private onGridToggle(event: ChangeEvent<HTMLInputElement>): void {
+    this.props.renderingActions.setGridDisplay(event.target.checked);
   }
 
 }

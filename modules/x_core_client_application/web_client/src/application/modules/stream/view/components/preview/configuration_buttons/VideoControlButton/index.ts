@@ -1,1 +1,1 @@
-export { VideoControlButton, IVideoControlButtonExternalProps } from "./VideoControlButton.Component";
+export { VideoControlButton, IVideoControlButtonInjectedProps } from "./VideoControlButton.Component";

@@ -1,11 +1,10 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { Fragment, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
+import { Styled } from "@Lib/decorators";
 import { getUserMedia } from "@Lib/media";
-import { Styled } from "@Lib/react_lib/mui";
 import { log } from "@Lib/utils";
 
 // Api.
@@ -26,23 +25,23 @@ import {
 import { AnimatedMount } from "@Main/view/utils/animations/AnimatedMount";
 import { CircularProgress, Grid, WithStyles } from "@material-ui/core";
 import {
-  IStreamingHeaderBarExternalProps,
+  IStreamingHeaderBarInjectedProps,
   StreamingHeaderBar
 } from "@Module/stream/view/components/heading/StreamingHeaderBar";
 import {
-  IMainPreviewControlExternalProps,
+  IMainPreviewControlInjectedProps,
   MainPreviewControl
 } from "@Module/stream/view/components/preview/MainPreviewControl";
 import {
-  IMainPreviewTabsExternalProps,
+  IMainPreviewTabsInjectedProps,
   MainPreviewTabs
 } from "@Module/stream/view/components/tabs";
 import { streamingPageStyle } from "./StreamingPage.Style";
 
 // Props.
-export interface IStreamingPageExternalProps extends ISourceContext, IRenderingContext, ILiveContext, IRouterContext, WithStyles<typeof streamingPageStyle> {}
+export interface IStreamingPageInjectedProps extends ISourceContext, IRenderingContext, ILiveContext, IRouterContext, WithStyles<typeof streamingPageStyle> {}
 export interface IStreamingPageOwnProps {}
-export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageExternalProps {}
+export interface IStreamingPageProps extends IStreamingPageOwnProps, IStreamingPageInjectedProps {}
 
 @Consume(liveContextManager, routerContextManager, sourceContextManager)
 @Styled(streamingPageStyle)
@@ -105,7 +104,7 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
     return (
       <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
 
-        <StreamingHeaderBar {...{} as IStreamingHeaderBarExternalProps}/>
+        <StreamingHeaderBar {...{} as IStreamingHeaderBarInjectedProps}/>
 
         <AnimatedMount>
 
@@ -114,13 +113,13 @@ export class StreamingPage extends PureComponent<IStreamingPageProps> {
             {
               liveEvent !== null
                 ?
-                <Fragment>
+                <>
                   <Grid className={classes.streamingVideoSection} direction={"row"} container>
-                    <MainPreviewControl {...{} as IMainPreviewControlExternalProps}/>
+                    <MainPreviewControl {...{} as IMainPreviewControlInjectedProps}/>
                   </Grid>
 
-                  <MainPreviewTabs {...{} as IMainPreviewTabsExternalProps}/>
-                </Fragment>
+                  <MainPreviewTabs {...{} as IMainPreviewTabsInjectedProps}/>
+                </>
                 :
                 <CircularProgress size={50}/>
             }

@@ -1,1 +1,1 @@
-export { EventCreationForm, IEventCreationFormExternalProps } from "./EventCreationForm.Component";
+export { EventCreationForm, IEventCreationFormInjectedProps } from "./EventCreationForm.Component";

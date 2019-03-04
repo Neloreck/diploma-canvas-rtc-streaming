@@ -1,5 +1,5 @@
-import { Bind } from "@redux-cbd/utils";
 import { IMessage } from "@stomp/stompjs/esm5/i-message";
+import { Bind } from "dreamstate";
 
 // Lib.
 import { AbstractWebSocketController } from "@Lib/socket/AbstractWebSocketController";

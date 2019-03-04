@@ -1,5 +1,4 @@
-import { ReactContextManager } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, ContextManager } from "dreamstate";
 
 // Lib.
 import { Optional } from "@Lib/ts/types";
@@ -35,7 +34,7 @@ export interface IAuthContext {
   };
 }
 
-export class AuthContextManager extends ReactContextManager<IAuthContext> {
+export class AuthContextManager extends ContextManager<IAuthContext> {
 
   public context: IAuthContext = {
     authActions: {
@@ -63,7 +62,9 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   public getAccessToken(): Optional<string> {
+
     const tokenData: Optional<ITokenData> = getFromLocalStorage("token_data");
+
     return tokenData && (this.isTokenDataNonExpired(tokenData)) ? tokenData.accessToken : null;
   }
 
@@ -246,6 +247,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
       await this.updateUserInfo();
 
     } else {
+
       if (Boolean(getFromLocalStorage("token_data"))) {
         this.log.info("Have valid refresh token, trying to refresh current tokens.");
         await this.refresh();

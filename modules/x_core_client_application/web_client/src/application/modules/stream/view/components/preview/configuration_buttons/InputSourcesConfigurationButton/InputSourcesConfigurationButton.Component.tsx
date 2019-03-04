@@ -1,11 +1,10 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { Component, Fragment, ReactNode } from "react";
 
 // Lib.
+import { Styled } from "@Lib/decorators";
 import { getUserMedia, IInputSourceDevices } from "@Lib/media";
-import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
@@ -14,7 +13,7 @@ import { ISourceContext, sourceContextManager } from "@Module/stream/data/store"
 // View.
 import { Fab, Tooltip, WithStyles } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
-import { IInputSourcesConfigurationDrawerExternalProps, InputSourcesConfigurationDrawer } from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationDrawer/InputSourcesConfigurationDrawer.Component";
+import { IInputSourcesConfigurationDrawerInjectedProps, InputSourcesConfigurationDrawer } from "@Module/stream/view/components/preview/configuration_buttons/InputSourcesConfigurationDrawer";
 import { inputSourcesConfigurationButtonStyle } from "./InputSourcesConfigurationButton.Style";
 
 // Props.
@@ -22,9 +21,9 @@ export interface IInputSourcesConfigurationButtonState {
   showDrawer: boolean;
 }
 
-export interface IInputSourcesConfigurationButtonExternalProps extends WithStyles<typeof inputSourcesConfigurationButtonStyle>, ISourceContext {}
+export interface IInputSourcesConfigurationButtonInjectedProps extends WithStyles<typeof inputSourcesConfigurationButtonStyle>, ISourceContext {}
 export interface IInputSourcesConfigurationButtonOwnProps {}
-export interface IInputSourcesConfigurationButtonProps extends IInputSourcesConfigurationButtonOwnProps, IInputSourcesConfigurationButtonExternalProps {}
+export interface IInputSourcesConfigurationButtonProps extends IInputSourcesConfigurationButtonOwnProps, IInputSourcesConfigurationButtonInjectedProps {}
 
 @Consume(sourceContextManager)
 @Styled(inputSourcesConfigurationButtonStyle)
@@ -54,7 +53,7 @@ export class InputSourcesConfigurationButton extends Component<IInputSourcesConf
           onHide={this.onHideModal}
           onShow={this.onShowModal}
           onInputSourcesChange={this.onSourcesUpdate}
-          {...{} as IInputSourcesConfigurationDrawerExternalProps}
+          {...{} as IInputSourcesConfigurationDrawerInjectedProps}
         />
 
       </Fragment>

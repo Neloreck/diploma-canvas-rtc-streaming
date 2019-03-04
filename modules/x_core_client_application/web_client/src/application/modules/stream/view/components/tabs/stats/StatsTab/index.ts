@@ -1,1 +1,1 @@
-export { StatsTab, IStatsTabExternalProps } from "./StatsTab.Component";
+export { StatsTab, IStatsTabInjectedProps } from "./StatsTab.Component";

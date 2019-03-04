@@ -1,1 +1,1 @@
-export { SignUpForm, ISignUpFormExternalProps } from "./SignUpForm.Component";
+export { SignUpForm, ISignUpFormInjectedProps } from "./SignUpForm.Component";

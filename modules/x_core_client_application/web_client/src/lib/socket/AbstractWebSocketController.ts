@@ -1,5 +1,5 @@
-import { Bind } from "@redux-cbd/utils";
 import { Client, IFrame, messageCallbackType, StompSubscription } from "@stomp/stompjs";
+import { Bind } from "dreamstate";
 import * as SockJS from "sockjs-client";
 
 import { IAbstractWebSocketMessage } from "./IAbstractWebSocketMessage";

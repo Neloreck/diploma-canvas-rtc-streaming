@@ -1,10 +1,10 @@
-import { Provide } from "@redux-cbd/context";
+import { Provide} from "dreamstate";
 import * as React from "react";
 import { ComponentClass, Fragment, PureComponent, ReactNode } from "react";
 import { Route, Switch } from "react-router";
 
 // View.
-import { IPrivateRouteExternalProps, PrivateRoute } from "@Main/view/layouts/PrivateRoute";
+import { IPrivateRouteInjectedProps, PrivateRoute } from "@Main/view/layouts/PrivateRoute";
 import { ErrorPage } from "@Main/view/pages/ErrorPage";
 import { lazyLoadComponentFactory } from "@Main/view/utils";
 import {
@@ -38,7 +38,7 @@ export class StreamRouter extends PureComponent {
             redirect={true}
             path={`${this.prefix}/create`}
             component={StreamCreationPage}
-            {...{} as IPrivateRouteExternalProps}
+            {...{} as IPrivateRouteInjectedProps}
           />
 
           <PrivateRoute
@@ -46,7 +46,7 @@ export class StreamRouter extends PureComponent {
             redirect={true}
             path={`${this.prefix}/live/:id`}
             component={StreamingPage}
-            {...{} as IPrivateRouteExternalProps}
+            {...{} as IPrivateRouteInjectedProps}
           />
 
           <PrivateRoute
@@ -54,7 +54,7 @@ export class StreamRouter extends PureComponent {
             redirect={true}
             path={`${this.prefix}/configure/:id`}
             component={StreamConfigurationPage}
-            {...{} as IPrivateRouteExternalProps}
+            {...{} as IPrivateRouteInjectedProps}
           />
 
           <PrivateRoute
@@ -62,7 +62,7 @@ export class StreamRouter extends PureComponent {
             redirect={true}
             path={`${this.prefix}/stats/:id`}
             component={StreamStatsPage}
-            {...{} as IPrivateRouteExternalProps}
+            {...{} as IPrivateRouteInjectedProps}
           />
 
           <Route

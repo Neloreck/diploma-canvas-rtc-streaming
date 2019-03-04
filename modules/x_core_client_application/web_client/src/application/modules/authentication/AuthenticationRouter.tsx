@@ -4,7 +4,7 @@ import { Route } from "react-router";
 import { Switch } from "react-router-dom";
 
 // View.
-import { IPrivateRouteExternalProps, PrivateRoute } from "@Main/view/layouts/PrivateRoute";
+import { IPrivateRouteInjectedProps, PrivateRoute } from "@Main/view/layouts/PrivateRoute";
 import { lazyLoadComponentFactory } from "@Main/view/utils";
 
 // Auth routes.
@@ -25,7 +25,7 @@ export class AuthenticationRouter extends PureComponent {
           path={`${this.prefix}/login`}
           redirect={"/home"}
           component={LoginPage}
-          reversed {...{} as IPrivateRouteExternalProps}
+          reversed {...{} as IPrivateRouteInjectedProps}
         />
 
         <PrivateRoute
@@ -34,7 +34,7 @@ export class AuthenticationRouter extends PureComponent {
           redirect={"/home"}
           component={SignUpPage}
           reversed
-          {...{} as IPrivateRouteExternalProps}
+          {...{} as IPrivateRouteInjectedProps}
         />
 
         <Route

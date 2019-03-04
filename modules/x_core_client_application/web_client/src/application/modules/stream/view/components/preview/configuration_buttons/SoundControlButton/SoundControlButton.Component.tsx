@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import {
@@ -18,10 +17,9 @@ import { MusicNote, MusicOff } from "@material-ui/icons";
 import { soundControlButtonStyle } from "./SoundControlButton.Style";
 
 // Props.
-
-export interface ISoundControlButtonExternalProps extends WithStyles<typeof soundControlButtonStyle>, ISourceContext {}
+export interface ISoundControlButtonInjectedProps extends WithStyles<typeof soundControlButtonStyle>, ISourceContext {}
 export interface ISoundControlButtonOwnProps {}
-export interface ISoundControlButtonProps extends ISoundControlButtonOwnProps, ISoundControlButtonExternalProps {}
+export interface ISoundControlButtonProps extends ISoundControlButtonOwnProps, ISoundControlButtonInjectedProps {}
 
 @Consume(sourceContextManager)
 @Styled(soundControlButtonStyle)

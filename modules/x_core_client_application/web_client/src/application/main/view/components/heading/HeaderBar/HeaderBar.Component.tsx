@@ -1,22 +1,21 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { Fragment, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import { authContextManager, IAuthContext, IRouterContext, routerContextManager } from "@Main/data/store";
 
 // View.
 import {
-  HeaderBarAuthNavigation, IHeaderBarAuthNavigationExternalProps
+  HeaderBarAuthNavigation, IHeaderBarAuthNavigationInjectedProps
 } from "@Main/view/components/heading/HeaderBarAuthNavigation";
 import {
-  HeaderBarLogoNavigation, IHeaderBarLogoNavigationExternalProps
+  HeaderBarLogoNavigation, IHeaderBarLogoNavigationInjectedProps
 } from "@Main/view/components/heading/HeaderBarLogoNavigation";
-import { HeaderBarUserMenu, IHeaderBarUserMenuExternalProps } from "@Main/view/components/heading/HeaderBarUserMenu";
+import { HeaderBarUserMenu, IHeaderBarUserMenuInjectedProps } from "@Main/view/components/heading/HeaderBarUserMenu";
 import {
   AppBar, Button, Grid, Toolbar, WithStyles,
 } from "@material-ui/core";
@@ -24,13 +23,12 @@ import { LiveTv } from "@material-ui/icons";
 import { headerBarStyle } from "./HeaderBar.Style";
 
 // Props.
-
 export interface IHeaderBarOwnProps {}
-export interface IHeaderBarExternalProps extends WithStyles<typeof headerBarStyle>, IRouterContext, IAuthContext {}
-export interface IHeaderBarProps extends IHeaderBarOwnProps, IHeaderBarExternalProps {}
+export interface IHeaderBarInjectedProps extends WithStyles<typeof headerBarStyle>, IRouterContext, IAuthContext {}
+export interface IHeaderBarProps extends IHeaderBarOwnProps, IHeaderBarInjectedProps {}
 
-@Styled(headerBarStyle)
 @Consume(authContextManager, routerContextManager)
+@Styled(headerBarStyle)
 export class HeaderBar extends PureComponent<IHeaderBarProps> {
 
   public render(): ReactNode {
@@ -38,26 +36,38 @@ export class HeaderBar extends PureComponent<IHeaderBarProps> {
     const { classes, authState: { authorized } } = this.props;
 
     return (
-      <AppBar className={classes.root} position={"static"}>
+      <AppBar
+        className={classes.root}
+        position={"static"}
+      >
 
         <Toolbar>
 
-          <HeaderBarLogoNavigation {...{} as IHeaderBarLogoNavigationExternalProps}/>
+          <HeaderBarLogoNavigation {...{} as IHeaderBarLogoNavigationInjectedProps}/>
 
-          <Grid container className={classes.rightBar} alignItems={"center"} justify={"flex-end"}>
+          <Grid
+            className={classes.rightBar}
+            alignItems={"center"}
+            justify={"flex-end"}
+            container
+          >
             {
               authorized
               ?
-                <Fragment>
+                <>
 
-                  <Button variant={"outlined"} size={"small"} onClick={this.onGoLive}>
+                  <Button
+                    variant={"outlined"}
+                    size={"small"}
+                    onClick={this.onGoLive}
+                  >
                     Go Live <LiveTv className={classes.liveIcon} fontSize={"small"}/>
                   </Button>
 
-                  <HeaderBarUserMenu {...{} as IHeaderBarUserMenuExternalProps}/>
+                  <HeaderBarUserMenu {...{} as IHeaderBarUserMenuInjectedProps}/>
 
-                </Fragment>
-              : <HeaderBarAuthNavigation {...{} as IHeaderBarAuthNavigationExternalProps}/>
+                </>
+              : <HeaderBarAuthNavigation {...{} as IHeaderBarAuthNavigationInjectedProps}/>
             }
           </Grid>
 

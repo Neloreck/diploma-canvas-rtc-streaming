@@ -1,1 +1,1 @@
-export { HeaderBarAuthNavigation, IHeaderBarAuthNavigationExternalProps } from "./HeaderBarAuthNavigation.Component";
+export { HeaderBarAuthNavigation, IHeaderBarAuthNavigationInjectedProps } from "./HeaderBarAuthNavigation.Component";

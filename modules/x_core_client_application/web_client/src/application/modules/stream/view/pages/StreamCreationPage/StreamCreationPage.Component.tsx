@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { Fragment, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
@@ -18,24 +17,24 @@ import { ILiveEvent } from "@Api/x-core/live/models";
 // View.
 import { AnimatedMount } from "@Main/view/utils/animations/AnimatedMount";
 import {
-  IMainLoadingProgressComponentExternalProps,
+  IMainLoadingProgressComponentInjectedProps,
   MainLoadingProgressComponent
 } from "@Main/view/utils/lazy_load/MainLoadingProgress.Component";
 import { Grid, WithStyles } from "@material-ui/core";
 import {
   EventCreationForm,
-  IEventCreationFormExternalProps
+  IEventCreationFormInjectedProps
 } from "@Module/stream/view/components/creation/EventCreationForm/EventCreationForm.Component";
 import {
-  IStreamingHeaderBarExternalProps,
+  IStreamingHeaderBarInjectedProps,
   StreamingHeaderBar
 } from "@Module/stream/view/components/heading/StreamingHeaderBar";
 import { streamCreationPageStyle } from "./StreamCreationPage.Style";
 
 // Props.
-export interface IStreamCreationPageExternalProps extends WithStyles<typeof streamCreationPageStyle>, ILiveContext, IRouterContext  {}
+export interface IStreamCreationPageInjectedProps extends WithStyles<typeof streamCreationPageStyle>, ILiveContext, IRouterContext  {}
 export interface IStreamCreationPageOwnProps {}
-export interface IStreamCreationPageProps extends IStreamCreationPageOwnProps, IStreamCreationPageExternalProps {}
+export interface IStreamCreationPageProps extends IStreamCreationPageOwnProps, IStreamCreationPageInjectedProps {}
 
 @Consume(routerContextManager, liveContextManager)
 @Styled(streamCreationPageStyle)
@@ -62,7 +61,12 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
     const { classes } = this.props;
 
     return (
-      <Grid className={classes.root} direction={"column"} wrap={"nowrap"} container>
+      <Grid
+        className={classes.root}
+        direction={"column"}
+        wrap={"nowrap"}
+        container
+      >
         {this.renderContent()}
       </Grid>
     );
@@ -73,13 +77,13 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
     const { classes, liveState: { liveEventStatus } } = this.props;
 
     if (liveEventStatus === ELiveEventStatus.LOADING) {
-      return  <MainLoadingProgressComponent {...{} as IMainLoadingProgressComponentExternalProps}/>;
+      return  <MainLoadingProgressComponent {...{} as IMainLoadingProgressComponentInjectedProps}/>;
     }
 
     return (
-      <Fragment>
+      <>
 
-        <StreamingHeaderBar {...{} as IStreamingHeaderBarExternalProps}/>
+        <StreamingHeaderBar {...{} as IStreamingHeaderBarInjectedProps}/>
 
         <AnimatedMount>
 
@@ -89,14 +93,14 @@ export class StreamCreationPage extends PureComponent<IStreamCreationPageProps> 
                loading={liveEventStatus === ELiveEventStatus.CREATING}
                onBack={this.onCancelCreation}
                onCreate={this.onCreateLiveEvent}
-               {...{} as IEventCreationFormExternalProps}
+               {...{} as IEventCreationFormInjectedProps}
              />
 
           </Grid>
 
         </AnimatedMount>
 
-      </Fragment>
+      </>
     );
   }
 

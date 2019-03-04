@@ -1,1 +1,1 @@
-export { StreamConfigurationPage, IStreamConfigurationPageExternalProps } from "./StreamConfigurationPage.Component";
+export { StreamConfigurationPage, IStreamConfigurationPageInjectedProps } from "./StreamConfigurationPage.Component";

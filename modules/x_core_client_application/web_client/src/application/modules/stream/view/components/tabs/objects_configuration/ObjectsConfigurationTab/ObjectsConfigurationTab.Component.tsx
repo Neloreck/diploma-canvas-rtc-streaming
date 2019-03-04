@@ -1,12 +1,11 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { ChangeEvent, Component, Fragment, ReactNode } from "react";
+import { ChangeEvent, Component, ReactNode } from "react";
 
 // Lib.
+import { Styled } from "@Lib/decorators";
 import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
 import { VerticalDraggableVHResizer } from "@Lib/react_lib/components";
-import { Styled } from "@Lib/react_lib/mui";
 import { Optional } from "@Lib/ts/types";
 
 // Data.
@@ -22,7 +21,7 @@ import {
 } from "@material-ui/core";
 import { ArrowDownward, ArrowUpward, Delete, FileCopy } from "@material-ui/icons";
 import {
-  IObjectTemplateConfigurationBlockExternalProps,
+  IObjectTemplateConfigurationBlockInjectedProps,
   ObjectTemplateConfigurationBlock
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectTemplateConfigurationBlock";
 import { objectsConfigurationTabStyle } from "./ObjectsConfigurationTab.Style";
@@ -33,9 +32,9 @@ export interface IObjectsConfigurationTabState {
   listWidth?: number;
 }
 
-export interface IObjectsConfigurationTabExternalProps extends WithStyles<typeof objectsConfigurationTabStyle>, IGraphicsContext {}
+export interface IObjectsConfigurationTabInjectedProps extends WithStyles<typeof objectsConfigurationTabStyle>, IGraphicsContext {}
 export interface IObjectsConfigurationTabOwnProps {}
-export interface IObjectsConfigurationTabProps extends IObjectsConfigurationTabOwnProps, IObjectsConfigurationTabExternalProps {}
+export interface IObjectsConfigurationTabProps extends IObjectsConfigurationTabOwnProps, IObjectsConfigurationTabInjectedProps {}
 
 @Consume(graphicsContextManager)
 @Styled(objectsConfigurationTabStyle)
@@ -66,10 +65,10 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
         {
           selectedObject !== null
             ?
-            <Fragment>
+            <>
               <VerticalDraggableVHResizer className={classes.resizer} onHeightResize={this.onListResized}/>
               <Grid className={classes.objectsConfigurationBlock}> {this.renderSelectedObjectConfigBlock()} </Grid>
-            </Fragment>
+            </>
             : null
         }
 
@@ -121,7 +120,8 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
                 <ListItem
                   key={item.getId()}
                   className={(item === selectedObject ? classes.objectListItemSelected : classes.objectListItem)}
-                  onClick={(): void => this.onConfigurableObjectSelected(item)}>
+                  onClick={(): void => this.onConfigurableObjectSelected(item)}
+                >
 
                   <ListItemText primary={descriptor.name}/>
 
@@ -168,7 +168,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
     );
   }
 
-  private renderSelectedObjectConfigBlock(): Optional<ReactNode> {
+  private renderSelectedObjectConfigBlock(): ReactNode {
 
     const { graphicsState: { objects, selectedObject }, graphicsActions: { swapObjectsByIndex } } = this.props;
 
@@ -185,7 +185,7 @@ export class ObjectsConfigurationTab extends Component<IObjectsConfigurationTabP
         onCancelSelection={this.onSelectionCanceled}
         onChangesApply={this.onObjectChangesApply}
         onSelectedRemove={this.onGraphicsItemRemoveClicked}
-        {...{} as IObjectTemplateConfigurationBlockExternalProps}
+        {...{} as IObjectTemplateConfigurationBlockInjectedProps}
       />
     );
   }

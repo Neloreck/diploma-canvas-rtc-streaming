@@ -2,7 +2,7 @@ import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // View.
 import { Grid, WithStyles } from "@material-ui/core";
@@ -11,10 +11,9 @@ import { IOutputStatsBlockProps } from "@Module/stream/view/components/tabs/stat
 import { statsTabStyle } from "./StatsTab.Style";
 
 // Props.
-
-export interface IStatsTabExternalProps extends WithStyles<typeof statsTabStyle> {}
+export interface IStatsTabInjectedProps extends WithStyles<typeof statsTabStyle> {}
 export interface IStatsTabOwnProps {}
-export interface IStatsTabProps extends IStatsTabOwnProps, IStatsTabExternalProps {}
+export interface IStatsTabProps extends IStatsTabOwnProps, IStatsTabInjectedProps {}
 
 @Styled(statsTabStyle)
 export class StatsTab extends PureComponent<IStatsTabProps> {

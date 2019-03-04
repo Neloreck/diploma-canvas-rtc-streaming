@@ -1,5 +1,4 @@
-import { ReactContextManager } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, ContextManager } from "dreamstate";
 
 // Lib.
 import { AbstractCanvasGraphicsRenderObject } from "@Lib/graphics";
@@ -25,7 +24,7 @@ export interface IGraphicsContext {
   };
 }
 
-export class GraphicsContextManager extends ReactContextManager<IGraphicsContext> {
+export class GraphicsContextManager extends ContextManager<IGraphicsContext> {
 
   protected context: IGraphicsContext = {
     graphicsActions: {

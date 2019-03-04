@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { Fragment, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import { IRouterContext, routerContextManager } from "@Main/data/store";
@@ -20,8 +19,8 @@ import { headerBarLogoNavigationStyle } from "./HeaderBarLogoNavigation.Style";
 
 // Props.
 export interface IHeaderBarLogoNavigationOwnProps {}
-export interface IHeaderBarLogoNavigationExternalProps extends WithStyles<typeof headerBarLogoNavigationStyle>, IRouterContext {}
-export interface IHeaderBarLogoNavigationProps extends IHeaderBarLogoNavigationOwnProps, IHeaderBarLogoNavigationExternalProps {}
+export interface IHeaderBarLogoNavigationInjectedProps extends WithStyles<typeof headerBarLogoNavigationStyle>, IRouterContext {}
+export interface IHeaderBarLogoNavigationProps extends IHeaderBarLogoNavigationOwnProps, IHeaderBarLogoNavigationInjectedProps {}
 
 @Consume(routerContextManager)
 @Styled(headerBarLogoNavigationStyle)
@@ -32,22 +31,26 @@ export class HeaderBarLogoNavigation extends PureComponent<IHeaderBarLogoNavigat
     const { classes } = this.props;
 
     return (
-      <Fragment>
+      <>
 
-        <IconButton className={classes.homeButton} onClick={this.redirectToIndexPage}>
+        <IconButton
+          className={classes.homeButton}
+          onClick={this.redirectToIndexPage}
+        >
           <Home fontSize={"small"}/>
         </IconButton>
 
         <Typography
           className={classes.logo}
-          variant={"h5"} color={"inherit"}
+          variant={"h5"}
+          color={"inherit"}
           noWrap
           onClick={this.redirectToIndexPage}
         >
           X-CORE
         </Typography>
 
-      </Fragment>
+      </>
     );
   }
 

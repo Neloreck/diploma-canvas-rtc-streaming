@@ -1,22 +1,22 @@
-import { Consume } from "@redux-cbd/context";
+import { Consume } from "dreamstate";
 import * as React from "react";
-import { Fragment, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import { IRouterContext, routerContextManager } from "@Main/data/store";
 import { ILiveContext, liveContextManager } from "@Module/stream/data/store";
 
 // Api.
+import { ILiveEvent } from "@Api/x-core";
 
 // View.
-import { ILiveEvent } from "@Api/x-core";
 import { AnimatedMount } from "@Main/view/utils/animations/AnimatedMount";
 import { Grid, WithStyles } from "@material-ui/core";
 import {
-  IStreamingHeaderBarExternalProps,
+  IStreamingHeaderBarInjectedProps,
   StreamingHeaderBar
 } from "@Module/stream/view/components/heading/StreamingHeaderBar";
 import { streamStatsPageStyle } from "./StreamStatsPage.Style";
@@ -36,14 +36,14 @@ export class StreamStatsPage extends PureComponent<IStreamStatsPageProps> {
 
   public async mountComponent(): Promise<void> {
 
-    const { liveState: { liveEvent }, liveActions: { syncLiveEvent }, routingActions: { getLastPart, replace } } = this.props;
+    const { liveState: { liveEvent }, liveActions: { syncLiveEvent }, routingActions } = this.props;
 
-    const currentEvent: ILiveEvent = liveEvent || await syncLiveEvent(getLastPart());
+    const currentEvent: ILiveEvent = liveEvent || await syncLiveEvent(routingActions.getLastPart());
 
     if (!currentEvent) {
-      replace("/stream/create");
+      routingActions.replace("/stream/create");
     } else if (!currentEvent.finished) {
-      replace("/stream/live");
+      routingActions.replace("/stream/live");
     }
   }
 
@@ -63,21 +63,26 @@ export class StreamStatsPage extends PureComponent<IStreamStatsPageProps> {
     const { classes } = this.props;
 
     return (
-      <Fragment>
+      <>
 
-        <StreamingHeaderBar {...{} as IStreamingHeaderBarExternalProps}/>
+        <StreamingHeaderBar {...{} as IStreamingHeaderBarInjectedProps}/>
 
         <AnimatedMount>
 
-          <Grid className={classes.content} direction={"column"} wrap={"nowrap"} alignItems={"center"} justify={"center"} container>
-
+          <Grid
+            className={classes.content}
+            direction={"column"}
+            wrap={"nowrap"}
+            alignItems={"center"}
+            justify={"center"}
+            container
+          >
             Stream Stats.
-
           </Grid>
 
         </AnimatedMount>
 
-      </Fragment>
+      </>
     );
   }
 

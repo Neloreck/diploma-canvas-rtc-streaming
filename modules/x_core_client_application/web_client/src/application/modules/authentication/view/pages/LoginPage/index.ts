@@ -1,1 +1,1 @@
-export { LoginPage, ILoginPageExternalProps } from "./LoginPage.Component";
+export { LoginPage, ILoginPageInjectedProps } from "./LoginPage.Component";

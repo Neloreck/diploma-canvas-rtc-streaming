@@ -1,11 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
-import { Optional } from "@Lib/ts/types";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import {
@@ -25,10 +23,9 @@ import { Button, CircularProgress, Grid, WithStyles } from "@material-ui/core";
 import { layoutConfigurationTabStyle } from "./LayoutConfigurationTab.Style";
 
 // Props.
-
-export interface ILayoutConfigurationTabExternalProps extends WithStyles<typeof layoutConfigurationTabStyle>, IBookmarkContext, IGraphicsContext, ILiveContext {}
+export interface ILayoutConfigurationTabInjectedProps extends WithStyles<typeof layoutConfigurationTabStyle>, IBookmarkContext, IGraphicsContext, ILiveContext {}
 export interface ILayoutConfigurationTabOwnProps {}
-export interface ILayoutConfigurationTabProps extends ILayoutConfigurationTabOwnProps, ILayoutConfigurationTabExternalProps {}
+export interface ILayoutConfigurationTabProps extends ILayoutConfigurationTabOwnProps, ILayoutConfigurationTabInjectedProps {}
 
 @Consume(bookmarkContextManager, graphicsContextManager, liveContextManager)
 @Styled(layoutConfigurationTabStyle)
@@ -107,7 +104,7 @@ export class LayoutConfigurationTab extends PureComponent<ILayoutConfigurationTa
     );
   }
 
-  private renderDetail(): Optional<ReactNode> {
+  private renderDetail(): ReactNode {
 
     const { classes, bookmarkState: { bookmarks, selectedBookmark } } = this.props;
 

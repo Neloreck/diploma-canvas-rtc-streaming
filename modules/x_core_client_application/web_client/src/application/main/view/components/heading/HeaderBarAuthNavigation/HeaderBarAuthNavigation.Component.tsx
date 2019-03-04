@@ -1,10 +1,9 @@
-import { Consume } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, Consume } from "dreamstate";
 import * as React from "react";
-import { Fragment, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
 // Lib.
-import { Styled } from "@Lib/react_lib/mui";
+import { Styled } from "@Lib/decorators";
 
 // Data.
 import { authContextManager, IAuthContext, IRouterContext, routerContextManager } from "@Main/data/store";
@@ -18,8 +17,8 @@ import { headerBarAuthNavigationStyle } from "./HeaderBarAuthNavigation.Style";
 
 // Props.
 export interface IHeaderBarAuthNavigationOwnProps {}
-export interface IHeaderBarAuthNavigationExternalProps extends WithStyles<typeof headerBarAuthNavigationStyle>, IRouterContext, IAuthContext {}
-export interface IHeaderBarAuthNavigationProps extends IHeaderBarAuthNavigationOwnProps, IHeaderBarAuthNavigationExternalProps {}
+export interface IHeaderBarAuthNavigationInjectedProps extends WithStyles<typeof headerBarAuthNavigationStyle>, IRouterContext, IAuthContext {}
+export interface IHeaderBarAuthNavigationProps extends IHeaderBarAuthNavigationOwnProps, IHeaderBarAuthNavigationInjectedProps {}
 
 @Styled(headerBarAuthNavigationStyle)
 @Consume(authContextManager, routerContextManager)
@@ -34,20 +33,34 @@ export class HeaderBarAuthNavigation extends PureComponent<IHeaderBarAuthNavigat
     const isSignUpPage: boolean = (currentLocation === "/authentication/register");
 
     return (
-      <Fragment>
+      <>
 
         <Zoom in={!isLoginPage}>
-          <Button disabled={authorizing} variant={"contained"} color={"default"} onClick={this.redirectToLoginPage}>Login</Button>
+          <Button
+            disabled={authorizing}
+            variant={"contained"}
+            color={"default"}
+            onClick={this.redirectToLoginPage}
+          >
+            Login
+          </Button>
         </Zoom>
 
         {
           !isSignUpPage &&
           <Zoom in={!isSignUpPage}>
-            <Button disabled={authorizing} variant={"contained"} color={"default"} onClick={this.redirectToSignUpPage}>SignUp</Button>
+            <Button
+              disabled={authorizing}
+              variant={"contained"}
+              color={"default"}
+              onClick={this.redirectToSignUpPage}
+            >
+              SignUp
+            </Button>
           </Zoom>
         }
 
-      </Fragment>
+      </>
     );
   }
 

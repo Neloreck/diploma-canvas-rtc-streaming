@@ -1,14 +1,14 @@
-import { Bind } from "@redux-cbd/utils";
+import { Bind } from "dreamstate";
 import * as React from "react";
 import { Component, ReactNode } from "react";
 
 // Lib.
+import { Styled } from "@Lib/decorators";
 import {
   AbstractBaseCircleObject,
   AbstractBaseRectangleObject,
   AbstractCanvasGraphicsRenderObject
 } from "@Lib/graphics";
-import { Styled } from "@Lib/react_lib/mui";
 
 // Data.
 import { getDescriptor } from "@Module/stream/data/utils/RenderingUtils";
@@ -19,7 +19,7 @@ import { Button, Checkbox, Grid, IconButton, Typography, WithStyles } from "@mat
 import { ArrowDownward, ArrowUpward, Close, Delete } from "@material-ui/icons";
 import { CanvasGraphicsSingleObjectRenderer } from "@Module/stream/view/components/preview/graphics_preprocessing/single/CanvasGraphicsSingleObjectRenderer";
 import {
-  IObjectDescriptorConfigurationBlockExternalProps, ObjectDescriptorConfigurationBlock
+  IObjectDescriptorConfigurationBlockInjectedProps, ObjectDescriptorConfigurationBlock
 } from "@Module/stream/view/components/tabs/objects_configuration/ObjectDescriptorConfigurationBlock";
 import { objectTemplateConfigurationBlockStyle } from "./ObjectTemplateConfigurationBlock.Style";
 
@@ -29,7 +29,7 @@ export interface IObjectTemplateConfigurationBlockState {
   objectDescriptor: ICanvasObjectDescriptor<any>;
 }
 
-export interface IObjectTemplateConfigurationBlockExternalProps extends WithStyles<typeof objectTemplateConfigurationBlockStyle> {}
+export interface IObjectTemplateConfigurationBlockInjectedProps extends WithStyles<typeof objectTemplateConfigurationBlockStyle> {}
 
 export interface IObjectTemplateConfigurationBlockOwnProps {
   index: number;
@@ -41,7 +41,7 @@ export interface IObjectTemplateConfigurationBlockOwnProps {
   onSelectedRemove: (object: AbstractCanvasGraphicsRenderObject<any>) => void;
 }
 
-export interface IObjectTemplateConfigurationBlockProps extends IObjectTemplateConfigurationBlockOwnProps, IObjectTemplateConfigurationBlockExternalProps {}
+export interface IObjectTemplateConfigurationBlockProps extends IObjectTemplateConfigurationBlockOwnProps, IObjectTemplateConfigurationBlockInjectedProps {}
 
 @Styled(objectTemplateConfigurationBlockStyle)
 export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateConfigurationBlockProps, IObjectTemplateConfigurationBlockState> {
@@ -149,7 +149,7 @@ export class ObjectTemplateConfigurationBlock extends Component<IObjectTemplateC
           <ObjectDescriptorConfigurationBlock
             object={localObjectCopy}
             descriptor={objectDescriptor}
-            {...{} as IObjectDescriptorConfigurationBlockExternalProps}
+            {...{} as IObjectDescriptorConfigurationBlockInjectedProps}
           />
 
         </Grid>

@@ -1,5 +1,4 @@
-import { ReactContextManager } from "@redux-cbd/context";
-import { Bind } from "@redux-cbd/utils";
+import { Bind, ContextManager } from "dreamstate";
 
 // Lib.
 import { IInputSourceDevices, killStream, moveTracks, setStreamAudioEnabled } from "@Lib/media";
@@ -26,7 +25,7 @@ export interface ISourceContext {
   };
 }
 
-export class SourceContextManager extends ReactContextManager<ISourceContext> {
+export class SourceContextManager extends ContextManager<ISourceContext> {
 
   public context: ISourceContext = {
     sourceActions: {
