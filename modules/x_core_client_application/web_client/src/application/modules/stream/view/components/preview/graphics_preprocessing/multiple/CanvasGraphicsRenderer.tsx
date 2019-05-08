@@ -1,7 +1,7 @@
 import { Bind, Consume } from "dreamstate";
 import * as React from "react";
 import { Component, createRef, Fragment, MouseEvent, ReactNode, RefObject } from "react";
-import ReactResizeDetector from "react-resize-detector";
+import { default as ReactResizeDetector } from "react-resize-detector";
 
 // Lib.
 import {

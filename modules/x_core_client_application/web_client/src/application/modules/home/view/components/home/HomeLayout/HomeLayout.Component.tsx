@@ -21,39 +21,15 @@ export class HomeLayout extends PureComponent<IHomeLayoutProps> {
     const { classes } = this.props;
 
     return (
-      <Grid className={classes.root} container>
+      <Grid className={classes.root} justify={"center"} alignItems={"center"} container>
 
-        <Grid container>
-
-          <Grid sm={8} item>
-            <Card>
-              <CardContent>
-                <Typography color={"textSecondary"} gutterBottom>
-                  Welcome to X-Core streaming platform.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid sm={4} item>
-            <Card>
-              <CardContent>
-                <Typography color={"textSecondary"} gutterBottom>
-                  Welcome to X-Core streaming platform.
-                </Typography>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent>
-                <Typography color={"textSecondary"} gutterBottom>
-                  Welcome to X-Core streaming platform.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-
-        </Grid>
+        <Card>
+          <CardContent>
+            <Typography color={"textSecondary"} gutterBottom>
+              Welcome to X-Core streaming platform.
+            </Typography>
+          </CardContent>
+        </Card>
 
       </Grid>
     );

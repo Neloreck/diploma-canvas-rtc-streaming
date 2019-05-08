@@ -43,10 +43,6 @@ export class HomePage extends PureComponent<IHomePageProps> {
               container
             >
 
-              <HomeLayout {...{} as IHomeLayoutInjectedProps}/>
-
-              <IndexFooter {...{} as IIndexFooterInjectedProps}/>
-
             </Grid>
 
           </AnimatedMount>

@@ -92,6 +92,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
       log.error(s"Failed to [${request.getMethod}] resource on [${request.getRequestURI}]. Authentication required.");
 
       val mapper: ObjectMapper = new ObjectMapper();
+
       val responseMsg = mapper.writeValueAsString(new FailedApiResponse("Full authentication is required to access this resource"));
 
       response.setStatus(403);
@@ -107,6 +108,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
       val mapper: ObjectMapper = new ObjectMapper();
       val responseMsg = mapper.writeValueAsString(new FailedApiResponse("Full authentication is required to access this resource"));
 
+      response.setStatus(403);
       response.getWriter.write(responseMsg);
     }
 

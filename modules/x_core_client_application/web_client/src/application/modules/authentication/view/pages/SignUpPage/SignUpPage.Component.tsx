@@ -6,13 +6,11 @@ import { Styled } from "@Lib/decorators";
 
 // View.
 import { HeaderBar, IHeaderBarInjectedProps } from "@Main/view/components/heading";
-import { AnimatedMount } from "@Main/view/utils";
 import { Grid, WithStyles } from "@material-ui/core";
 import { ISignUpFormInjectedProps, SignUpForm } from "@Module/authentication/view/components/SignUpForm";
 import { signUpPageStyle } from "./SignUpPage.Style";
 
 // Props.
-
 export interface ISignUpPageOwnProps {}
 export interface ISignUpPageInjectedProps extends WithStyles<typeof signUpPageStyle> {}
 export interface ISignUpPageProps extends ISignUpPageOwnProps, ISignUpPageInjectedProps {}
@@ -32,18 +30,16 @@ export class SignUpPage extends Component<ISignUpPageProps> {
 
         <HeaderBar {...{} as IHeaderBarInjectedProps}/>
 
-        <AnimatedMount>
-
           <Grid
             className={classes.content}
             justify={"center"}
             alignItems={"center"}
             container
           >
-            <SignUpForm {...{} as ISignUpFormInjectedProps}/>
-          </Grid>
 
-        </AnimatedMount>
+            <SignUpForm {...{} as ISignUpFormInjectedProps}/>
+
+          </Grid>
 
       </Grid>
     );

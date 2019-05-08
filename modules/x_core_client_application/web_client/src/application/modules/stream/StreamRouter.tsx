@@ -1,6 +1,6 @@
-import { Provide} from "dreamstate";
+import { Provide } from "dreamstate";
 import * as React from "react";
-import { ComponentClass, Fragment, PureComponent, ReactNode } from "react";
+import { ComponentClass, PureComponent, ReactNode } from "react";
 import { Route, Switch } from "react-router";
 
 // View.
@@ -29,51 +29,47 @@ export class StreamRouter extends PureComponent {
   public render(): ReactNode {
 
     return (
-      <Fragment>
+      <Switch>
 
-        <Switch>
+        <PrivateRoute
+          exact={true}
+          redirect={true}
+          path={`${this.prefix}/create`}
+          component={StreamCreationPage}
+          {...{} as IPrivateRouteInjectedProps}
+        />
 
-          <PrivateRoute
-            exact={true}
-            redirect={true}
-            path={`${this.prefix}/create`}
-            component={StreamCreationPage}
-            {...{} as IPrivateRouteInjectedProps}
-          />
+        <PrivateRoute
+          exact={true}
+          redirect={true}
+          path={`${this.prefix}/live/:id`}
+          component={StreamingPage}
+          {...{} as IPrivateRouteInjectedProps}
+        />
 
-          <PrivateRoute
-            exact={true}
-            redirect={true}
-            path={`${this.prefix}/live/:id`}
-            component={StreamingPage}
-            {...{} as IPrivateRouteInjectedProps}
-          />
+        <PrivateRoute
+          exact={true}
+          redirect={true}
+          path={`${this.prefix}/configure/:id`}
+          component={StreamConfigurationPage}
+          {...{} as IPrivateRouteInjectedProps}
+        />
 
-          <PrivateRoute
-            exact={true}
-            redirect={true}
-            path={`${this.prefix}/configure/:id`}
-            component={StreamConfigurationPage}
-            {...{} as IPrivateRouteInjectedProps}
-          />
+        <PrivateRoute
+          exact={true}
+          redirect={true}
+          path={`${this.prefix}/stats/:id`}
+          component={StreamStatsPage}
+          {...{} as IPrivateRouteInjectedProps}
+        />
 
-          <PrivateRoute
-            exact={true}
-            redirect={true}
-            path={`${this.prefix}/stats/:id`}
-            component={StreamStatsPage}
-            {...{} as IPrivateRouteInjectedProps}
-          />
+        <Route
+          exact={true}
+          path={"*"}
+          component={ErrorPage}
+        />
 
-          <Route
-            exact={true}
-            path={"*"}
-            component={ErrorPage}
-          />
-
-        </Switch>
-
-      </Fragment>
+      </Switch>
     );
   }
 

@@ -12,10 +12,12 @@ export class LiveService {
   private started: boolean = false;
 
   private readonly log: Logger = new Logger("[🌈BRIDGE]");
+
   private readonly liveWebRtcController: LiveWebRtcController = new LiveWebRtcController();
   private readonly liveWebSocketController: LiveWebSocketController = new LiveWebSocketController("/app/live",  "/topic/live");
 
   private startedAt: Date = new Date();
+
   private accessToken: Optional<string> = null;
   private socketUrl: Optional<string> = null;
   private sessionId: Optional<string> = null;
@@ -101,7 +103,7 @@ export class LiveService {
   @Bind()
   public async stop(): Promise<void> {
 
-    this.log.info(`Stopping service.`);
+    this.log.info("Stopping service.");
 
     this.started = false;
 
