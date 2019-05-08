@@ -13,7 +13,7 @@ import { Optional } from "@Lib/ts/types";
 import { Logger, recalculateToRatio } from "@Lib/utils";
 
 // Data.
-import { applicationConfig } from "@Main/data/configs/ApplicationConfig";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 import {
   graphicsContextManager,
   IGraphicsContext,
@@ -23,7 +23,6 @@ import {
 
 // View.
 import "../canvasStyling.scss";
-import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 
 // Props.
 export interface ICanvasGraphicsRendererState {
@@ -44,13 +43,7 @@ export interface ICanvasGraphicsRendererProps extends ICanvasGraphicsRendererOwn
 export class CanvasGraphicsRenderer
   extends Component<ICanvasGraphicsRendererProps, ICanvasGraphicsRendererState> implements IGraphicsRendererReactComponent {
 
-  public state: ICanvasGraphicsRendererState = {
-    videoSizing: { width: undefined, height: undefined }
-  };
-
-  private readonly ASPECT_RATIO: number = applicationConfig.VIDEO.DEFAULT_SCALE;
-  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE;
-
+  public readonly state: ICanvasGraphicsRendererState = { videoSizing: { width: undefined, height: undefined } };
   private readonly log: Logger = new Logger("[🎸RDR]", true);
   private readonly videoContainerRef: RefObject<HTMLDivElement> = createRef();
 
@@ -72,8 +65,8 @@ export class CanvasGraphicsRenderer
     this.attachServiceHandlers();
 
     // Configuration.
-    this.internalRenderingService.setFPS(streamConfig.DEFAULT_STREAM_CAPTURING_FPS);
-    this.externalRenderingService.setFPS(streamConfig.DEFAULT_STREAM_CAPTURING_FPS);
+    this.internalRenderingService.setFPS(streamConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE);
+    this.externalRenderingService.setFPS(streamConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE);
   }
 
   /*
@@ -103,8 +96,8 @@ export class CanvasGraphicsRenderer
     this.externalRenderingService.render();
 
     // Expose streams:
-    this.props.onOutputStreamReady(this.externalRenderingService.getMediaStream(this.OUTPUT_FRAME_RATE));
-    this.internalStream = this.internalRenderingService.getMediaStream(this.OUTPUT_FRAME_RATE);
+    this.props.onOutputStreamReady(this.externalRenderingService.getMediaStream(streamConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE));
+    this.internalStream = this.internalRenderingService.getMediaStream(streamConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE);
   }
 
   public componentWillReceiveProps(nextProps: ICanvasGraphicsRendererProps): void {
@@ -122,14 +115,16 @@ export class CanvasGraphicsRenderer
 
   public componentDidUpdate(): void {
 
-    if (this.props.previewMode) {
+    const { previewMode, internalRenderingItems, externalRenderingItems } = this.props;
+
+    if (previewMode) {
       this.internalRenderingService.disableInteraction();
     } else {
       this.internalRenderingService.enableInteraction();
     }
 
-    this.internalRenderingService.setRenderObjects(this.props.internalRenderingItems);
-    this.externalRenderingService.setRenderObjects(this.props.externalRenderingItems);
+    this.internalRenderingService.setRenderObjects(internalRenderingItems);
+    this.externalRenderingService.setRenderObjects(externalRenderingItems);
   }
 
   public componentWillUnmount(): void {
@@ -153,7 +148,7 @@ export class CanvasGraphicsRenderer
     const { videoSizing } = this.state;
 
     return (
-      <Fragment>
+      <>
 
         <div
           ref={this.videoContainerRef}
@@ -165,16 +160,21 @@ export class CanvasGraphicsRenderer
           onMouseUp={this.handleLayoutMouseUp}
           onContextMenu={this.handleContextDown}
         >
-          {this.props.children}
-          <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height} muted={true} autoPlay={true}/>
+
+          <DomVideo stream={this.internalStream} width={videoSizing.width} height={videoSizing.height} autoPlay muted/>
+
+          { this.props.children }
+
         </div>
 
         <ReactResizeDetector
-          onResize={this.resize}
+          refreshMode={"throttle"}
+          refreshRate={100}
           handleHeight handleWidth
+          onResize={this.resize}
         />
 
-      </Fragment>
+      </>
     );
   }
 
@@ -230,7 +230,7 @@ export class CanvasGraphicsRenderer
 
   @Bind()
   public resize(width: number, height: number): void {
-    this.setState({ videoSizing: recalculateToRatio(width, height, this.ASPECT_RATIO) });
+    this.setState({ videoSizing: recalculateToRatio(width, height, streamConfig.VIDEO.DEFAULT_SCALE) });
   }
 
   /*
@@ -240,24 +240,24 @@ export class CanvasGraphicsRenderer
   @Bind()
   public onRenderingObjectSelected(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
-    const { renderingState: { propagateRendererEvents }, graphicsActions: { selectObject } } = this.props;
+    const { renderingState: { propagateRendererEvents }, graphicsActions } = this.props;
 
     if (propagateRendererEvents) {
-      selectObject(object);
+      graphicsActions.selectObject(object);
     }
   }
 
   @Bind()
   public onRenderingObjectRemove(object: Optional<AbstractCanvasGraphicsRenderObject<any>>): void {
 
-    const { renderingState: { propagateRendererEvents }, graphicsActions: { removeObject } } = this.props;
+    const { renderingState: { propagateRendererEvents }, graphicsActions } = this.props;
 
     if (!object) {
       throw new Error("Unexpected object removal. Got null.");
     }
 
     if (propagateRendererEvents) {
-      removeObject(object);
+      graphicsActions.removeObject(object);
     }
   }
 

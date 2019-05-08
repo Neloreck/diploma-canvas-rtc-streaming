@@ -18,7 +18,13 @@ export const streamConfig = {
     video: {}
   },
 
-  DEFAULT_STREAM_CAPTURING_FPS: 30,
+  SERVER_LIVE_SOCKET_URL: (process.env.X_CORE__API_SERVER_URL as string) + "/websocket/live",
+
+  VIDEO: {
+    DEFAULT_CAPTURING_FRAMERATE: 60,
+    DEFAULT_RENDERING_RESOLUTION: { width: 1280, height: 720 },
+    DEFAULT_SCALE: 16 / 9
+  },
 
   getMediaConstraints(
     videoInput: Optional<MediaDeviceInfo> | string | boolean,
@@ -28,12 +34,25 @@ export const streamConfig = {
     return {
       audio:
         audioInput
-          ? { deviceId: audioInput === true ? "default" : { exact: typeof audioInput === "string"  ? audioInput as string : (audioInput as MediaDeviceInfo).deviceId } }
-          : false,
+          ?
+            {
+              deviceId: audioInput === true
+                ? "default"
+                : { exact: typeof audioInput === "string" ? audioInput as string : (audioInput as MediaDeviceInfo).deviceId }
+            }
+          :
+            false,
       video:
         videoInput
-          ? { ...this.DEFAULT_VIDEO_CONSTRAINTS, deviceId: videoInput === true ? "default" : { exact: typeof videoInput === "string"  ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId } }
-          : false
+          ?
+            {
+              ...this.DEFAULT_VIDEO_CONSTRAINTS,
+              deviceId: videoInput === true
+                ? "default"
+                : { exact: typeof videoInput === "string"  ? videoInput as string : (videoInput as MediaDeviceInfo).deviceId }
+            }
+          :
+            false
     };
   }
 

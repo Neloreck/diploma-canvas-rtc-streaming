@@ -11,7 +11,7 @@ import { Optional } from "@Lib/ts/types";
 import { Logger, recalculateToRatio } from "@Lib/utils";
 
 // Data.
-import { applicationConfig } from "@Main/data/configs/ApplicationConfig";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 
 // View.
 import "../canvasStyling.scss";
@@ -38,8 +38,8 @@ export class CanvasGraphicsSingleObjectRenderer
     }
   };
 
-  private readonly ASPECT_RATIO: number = applicationConfig.VIDEO.DEFAULT_SCALE;
-  private readonly OUTPUT_FRAME_RATE: number = applicationConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE;
+  private readonly ASPECT_RATIO: number = streamConfig.VIDEO.DEFAULT_SCALE;
+  private readonly OUTPUT_FRAME_RATE: number = streamConfig.VIDEO.DEFAULT_CAPTURING_FRAMERATE;
 
   private readonly log: Logger = new Logger("[🎸RDR]", true);
   private readonly videoContainerRef: RefObject<HTMLDivElement> = createRef();
@@ -90,7 +90,7 @@ export class CanvasGraphicsSingleObjectRenderer
     const { videoSizing } = this.state;
 
     return (
-      <Fragment>
+      <>
 
         <div
           ref={this.videoContainerRef}
@@ -106,11 +106,13 @@ export class CanvasGraphicsSingleObjectRenderer
         </div>
 
         <ReactResizeDetector
+          refreshMode={"throttle"}
+          refreshRate={100}
           handleHeight handleWidth
           onResize={this.resize}
         />
 
-      </Fragment>
+      </>
     );
   }
 
@@ -138,10 +140,7 @@ export class CanvasGraphicsSingleObjectRenderer
 
   @Bind()
   public resize(width: number, height: number): void {
-
-    this.setState({
-      videoSizing: recalculateToRatio(width, height, this.ASPECT_RATIO)
-    });
+    this.setState({ videoSizing: recalculateToRatio(width, height, this.ASPECT_RATIO) });
   }
 
 }

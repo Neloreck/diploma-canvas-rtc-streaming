@@ -17,8 +17,8 @@ import {
 import { IGetActiveEventResponse } from "@Api/x-core/live";
 
 // Data.
-import { applicationConfig } from "@Main/data/configs/ApplicationConfig";
 import { authContextManager, routerContextManager } from "@Main/data/store";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 import { sourceContextManager } from "@Module/stream/data/store";
 import { ELiveEventStatus } from "@Module/stream/data/store/live/types";
 import { LiveService } from "@Module/stream/lib/live/LiveService";
@@ -197,7 +197,7 @@ export class LiveContextManager extends ContextManager<ILiveContext> {
     this.log.info(`Starting live service, eventId: '${liveEvent.id}'.`);
 
     await this.liveService.start(
-      applicationConfig.SERVER_LIVE_SOCKET_URL,
+      streamConfig.SERVER_LIVE_SOCKET_URL,
       liveEvent.id,
       authContextManager.getAccessToken() as string
     );
