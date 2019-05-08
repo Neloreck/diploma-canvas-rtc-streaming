@@ -23,6 +23,7 @@ import {
 
 // View.
 import "../canvasStyling.scss";
+import { streamConfig } from "@Module/stream/data/configs/StreamConfig";
 
 // Props.
 export interface ICanvasGraphicsRendererState {
@@ -69,6 +70,10 @@ export class CanvasGraphicsRenderer
 
     // Handlers for outside emitting.
     this.attachServiceHandlers();
+
+    // Configuration.
+    this.internalRenderingService.setFPS(streamConfig.DEFAULT_STREAM_CAPTURING_FPS);
+    this.externalRenderingService.setFPS(streamConfig.DEFAULT_STREAM_CAPTURING_FPS);
   }
 
   /*

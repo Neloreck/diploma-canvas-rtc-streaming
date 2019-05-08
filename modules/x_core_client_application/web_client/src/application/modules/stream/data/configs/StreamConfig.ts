@@ -18,6 +18,8 @@ export const streamConfig = {
     video: {}
   },
 
+  DEFAULT_STREAM_CAPTURING_FPS: 30,
+
   getMediaConstraints(
     videoInput: Optional<MediaDeviceInfo> | string | boolean,
     audioInput: Optional<MediaDeviceInfo> | string | boolean

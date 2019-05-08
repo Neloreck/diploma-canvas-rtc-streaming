@@ -28,6 +28,10 @@ export abstract class AbstractRenderingService {
     return this.internalWebGLRenderer.captureStream(frameRate);
   }
 
+  public setFPS(fps: number): void {
+    this.renderingFps = fps;
+  }
+
   // Context.
 
   public getRendererContext(): CanvasRenderingContext2D {
