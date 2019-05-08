@@ -15,10 +15,10 @@ export interface IImageBlockConfig {
 export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
 
   public readonly config: IImageBlockConfig = {
-    height: 720,
+    height: 360,
     image: new Image(1280, 720) ,
     imageSrc: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-    width: 1280,
+    width: 640,
   };
 
   private loaded: boolean = false;
@@ -26,23 +26,11 @@ export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
   public constructor(source?: string) {
     super();
 
-    this.config.imageSrc = source || this.config.imageSrc;
-
-    this.config.image.addEventListener("load", () => this.loaded = true);
-
-    loadImage(this.config.imageSrc)
-      .then((reader: Optional<FileReader>) => reader ? this.config.image.src = reader.result as string : null)
-      .catch(() => this.loaded = false);
+    this.setNewUrl(source || this.config.imageSrc);
   }
 
   public getCopy(): ImageBlock {
-
-    const cloned: ImageBlock = new ImageBlock(this.config.imageSrc);
-
-    cloned.config.width = this.config.width;
-    cloned.config.height = this.config.height;
-
-    return cloned;
+    return new ImageBlock(this.config.imageSrc);
   }
 
   public applySerialized(serialized: ISerializedGraphicsObject): void {
@@ -50,9 +38,9 @@ export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
     this.setNewUrl(this.config.imageSrc);
   }
 
-  public applyConfiguration(configuration: typeof ImageBlock.prototype.config): void {
-    this.loaded = false;
-    super.applyConfiguration(configuration);
+  public applyConfiguration(src: typeof ImageBlock.prototype.config | ImageBlock): void {
+    super.applyConfiguration(src);
+    this.setNewUrl((src as typeof ImageBlock.prototype.config).imageSrc || (src as ImageBlock).config.imageSrc);
   }
 
   public async setNewUrl(src: string): Promise<void> {
@@ -91,12 +79,6 @@ export class ImageBlock extends AbstractBaseRectangleObject<IImageBlockConfig> {
       context.fillRect(pWidth * this.position.left, pHeight * this.position.top, pWidth * this.position.width, pHeight * this.position.height);
       context.closePath();
     }
-  }
-
-  public dispose(): void {
-    this.loaded = false;
-    delete this.config.image;
-    super.dispose();
   }
 
 }

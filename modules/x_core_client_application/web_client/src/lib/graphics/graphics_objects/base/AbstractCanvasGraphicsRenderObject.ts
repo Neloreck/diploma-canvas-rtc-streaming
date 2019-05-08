@@ -137,7 +137,7 @@ export abstract class AbstractCanvasGraphicsRenderObject<T extends object> exten
   }
 
   public dispose(): void {
-    // Remove refs.
+    this.config = null as any;
     this.context = null as any;
     this.sizing = null as any;
   }
